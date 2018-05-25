@@ -95,7 +95,7 @@ function processValidationError(res: express.Response, err: any): ValidationErro
 /**
  * @apiDefine OtherErrors
  *
- * @apiSuccessExample {json} 400 Bad Request
+ * @apiSuccessExample {json} 404 Not Found
  *     HTTP/1.1 404 Not Found
  *     HTTP/1.1 Header X-Status-Reason: {Message}
  *     {

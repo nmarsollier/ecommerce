@@ -20,7 +20,7 @@
     },
     "apidoc": {
         "title": "Microservicio de Seguridad",
-        "url": "https://localhot:3000"
+        "url": ""
     },
     "dependencies": {
         "body-parser": "^1.18.2",

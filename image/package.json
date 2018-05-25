@@ -20,7 +20,7 @@
     },
     "apidoc": {
         "title": "Microservicio de Imagenes",
-        "url": "https://localhot:3001"
+        "url": ""
     },
     "dependencies": {
         "body-parser": "^1.18.2",
