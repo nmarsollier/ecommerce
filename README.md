@@ -25,7 +25,9 @@ Recomiendo seguir las guias de instalacion de mongo desde el sitio oficial https
 
 Crear una carpeta donde se guardara la db de mongo : C:\data por ejemplo
 
+```
 Ejecucion : "C:\Program Files\MongoDB\Server\3.6\bin\mongod.exe" --dbpath C:\data
+```
 
 Sugiero instalar Mongodb Compass para poder navegar la base de datos en forma visual https://www.mongodb.com/products/compass
 
@@ -35,6 +37,7 @@ Instalar Redis
 
 Seguir los pasos de instalacion desde la pagina oficial https://redis.io/download
 Para windows conviene un ejecutable : https://sourceforge.net/projects/redis/
-	Ejecutar redis-server-exe (windows)
-
+```
+    Ejecutar redis-server-exe (windows)
+```
 Recomiendo instalar FastoRedis para navegar la base de datos https://fastoredis.com/

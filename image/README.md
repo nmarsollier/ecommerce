@@ -13,8 +13,9 @@ Ejecucion
 =========
 Pasos para ejecutar el proyecto :
 	Abrir el folder node del proyecto mascotas y ejecutar :
+	```
 		npm install
 		npm start
-
+	```
 		Deberia abrir el servidor de backend en el puerto 3001
 

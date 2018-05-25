@@ -17,9 +17,9 @@ Ejecucion
 =========
 Pasos para ejecutar el proyecto :
 	Parase en la carpeta auth (o sea la raiz de este microservicio), y ejecutar :
-
+```
 		npm install
 		npm start
-
+```
 	Deberia abrir el servidor en el puerto 3000
 
