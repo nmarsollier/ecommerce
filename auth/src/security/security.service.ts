@@ -8,8 +8,10 @@ import * as express from "express";
 import * as errorHandler from "../utils/error.handler";
 import * as passport from "./passport";
 import * as escape from "escape-html";
+import * as rabbit from "../rabbit/rabbit.service";
 
 import * as appConfig from "../utils/environment";
+import * as chalk from "chalk";
 const conf = appConfig.getConfig(process.env);
 
 
@@ -195,6 +197,16 @@ export function signout(req: IUserSessionRequest, res: express.Response) {
       if (err) return errorHandler.handleError(res, err);
 
       passport.invalidateSessionToken(req.user);
+
+      rabbit.sendLogout(req.header("Authorization")).then(
+        (onFullFill) => {
+          console.log(chalk.default.green("Logout encolado en Rabbit"));
+        }
+      ).catch(
+        (error) => {
+          console.log(chalk.default.red("Fallo al encolar logout"));
+        }
+      );
 
       return res.send();
     });

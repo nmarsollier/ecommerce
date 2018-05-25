@@ -6,6 +6,7 @@ import * as errorHandler from "../utils/error.handler";
 import * as express from "express";
 import * as appConfig from "../utils/environment";
 import { RestClient } from "typed-rest-client/RestClient";
+import * as chalk from "chalk";
 
 
 // Este cache de sesiones en memoria va a evitar que tenga que ir a la base de datos
@@ -78,5 +79,12 @@ export function validateSesssionToken(req: IUserSessionRequest, res: express.Res
           return errorHandler.sendError(res, errorHandler.ERROR_UNATORIZED, "Unautorized");
         }
       );
+  }
+}
+
+export function invalidateSessionToken(token: string) {
+  if (sessionCache.get(token)) {
+    sessionCache.del(token);
+    console.log(chalk.default.green("RabbitMQ session invalidada " + token));
   }
 }

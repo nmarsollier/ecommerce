@@ -28,6 +28,8 @@ Seguir las guias de instalacion de mongo desde el sitio oficial
 
 https://www.mongodb.com/download-center#community
 
+No se requiere ninguna configuracion adicional, solo levantarlo luego de instalarlo.
+
 Crear una carpeta donde se guardara la db de mongo : C:\data por ejemplo
 
 Ejecucion (Windows)
@@ -48,6 +50,8 @@ Seguir los pasos de instalacion desde la pagina oficial
 
 https://redis.io/download
 
+No se requiere ninguna configuracion adicional, solo levantarlo luego de instalarlo.
+
 Para windows se puede descargar en modo standalone : https://sourceforge.net/projects/redis/
 
 Ejecucion (Windows)
@@ -56,3 +60,12 @@ redis-server.exe
 ```
 
 Recomiendo instalar FastoRedis para navegar la base de datos https://fastoredis.com/
+
+Instalar RabbitMQ
+-
+
+Seguir los pasos de instalacion en la pagina oficial
+
+https://www.rabbitmq.com/
+
+No se requiere ninguna configuracion adicional, solo levantarlo luego de instalarlo.
