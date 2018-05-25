@@ -30,12 +30,12 @@ https://www.mongodb.com/download-center#community
 
 No se requiere ninguna configuracion adicional, solo levantarlo luego de instalarlo.
 
-Crear una carpeta donde se guardara la db de mongo : C:\data por ejemplo
+Crear una carpeta donde se guardara la db de mongo : bin/data por ejemplo
 
-Ejecucion (Windows)
+Ejecucion manual
 
 ```
-"C:\Program Files\MongoDB\Server\3.6\bin\mongod.exe" --dbpath C:\data
+bin/mongod --dbpath ./data
 ```
 
 Sugiero instalar Mongodb Compass para poder navegar la base de datos en forma visual
@@ -54,9 +54,9 @@ No se requiere ninguna configuracion adicional, solo levantarlo luego de instala
 
 Para windows se puede descargar en modo standalone : https://sourceforge.net/projects/redis/
 
-Ejecucion (Windows)
+Ejecucion manual
 ```
-redis-server.exe
+redis-server
 ```
 
 Recomiendo instalar FastoRedis para navegar la base de datos https://fastoredis.com/
@@ -69,3 +69,8 @@ Seguir los pasos de instalacion en la pagina oficial
 https://www.rabbitmq.com/
 
 No se requiere ninguna configuracion adicional, solo levantarlo luego de instalarlo.
+
+Ejecucion manual
+```
+sbin/rabbitmq-server
+```
