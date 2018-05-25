@@ -36,3 +36,5 @@ dist/**/*
 
 .history
 npm-debug.log*
+
+package-lock
