@@ -6,9 +6,6 @@ import { pbkdf2Sync } from "crypto";
 import * as appConfig from "../utils/environment";
 const conf = appConfig.getConfig(process.env);
 
-/*
-  Por definicion es el usuario que permite el login.
-*/
 
 export interface IUser extends Document {
   name: string;

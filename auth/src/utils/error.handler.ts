@@ -91,7 +91,21 @@ export function sendError(res: express.Response, code: number, err: string) {
   return res.send({ error: err });
 }
 
-
+/**
+ * @apiDefine ParamValidation
+ *
+ * @apiSuccessExample {json} 400 Bad Request
+ *     HTTP/1.1 400 Bad Request
+ *     {
+ *        "messages" : [
+ *          {
+ *            "path" : "propertyName",
+ *            "message" : "Error Text"
+ *          },
+ *          ...
+ *       ]
+ *     }
+ */
 export function handleExpressValidationError(res: express.Response, err: Result): express.Response {
   res.header("X-Status-Reason: Validation failed");
   res.status(ERROR_BAD_REQUEST);

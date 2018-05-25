@@ -10,13 +10,17 @@
     "license": "MIT",
     "scripts": {
         "start": "npm run build && npm run watch",
-        "build": "npm run build-ts && npm run tslint && npm run copy-static-assets",
+        "build": "npm run build-ts && npm run tslint && npm run apidoc",
         "serve": "node dist/server.js",
         "watch": "concurrently -k -p \"[{name}]\" -n \"TypeScript,Node\" -c \"yellow.bold,cyan.bold,green.bold\"  \"npm run watch-ts\" \"nodemon dist/server.js\"",
         "build-ts": "tsc",
         "watch-ts": "tsc -w",
         "tslint": "tslint -c tslint.json -p tsconfig.json",
-        "copy-static-assets": "node copyStaticAssets.js"
+        "apidoc": "./node_modules/.bin/apidoc -i src -o ./dist/public"
+    },
+    "apidoc": {
+        "title": "Microservicio de Seguridad",
+        "url": "https://localhot:3000"
     },
     "dependencies": {
         "body-parser": "^1.18.2",
@@ -58,8 +62,8 @@
         "@types/compression": "^0.0.35",
         "@types/jsonwebtoken": "^7.2.5",
         "@types/winston": "^2.3.8",
+        "apidoc": "0.17.6",
         "concurrently": "^3.5.1",
-        "shelljs": "^0.8.1",
         "tslint": "^5.9.1",
         "nodemon": "^1.15.1",
         "typescript": "^2.7.2",

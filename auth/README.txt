@@ -1,3 +1,10 @@
+Microservicio de Seguridad
+
+Se encarga de registrar y autenticar usuarios en el sistema
+
+La documentacion de las api se pueden consultar desde el home del microservicio
+que una vez levantado el servidor se puede navegar en http://localhost:3000/
+
 
 Instalar MongoDB
 ================
@@ -26,9 +33,10 @@ Levantar mongodb manualmente
 Ejecucion
 =========
 Pasos para ejecutar el proyecto :
-	Abrir el folder node del proyecto mascotas y ejecutar :
+	Parase en la carpeta auth (o sea la raiz de este microservicio), y ejecutar :
+
 		npm install
 		npm start
 
-		Deberia abrir el servidor de backend en el puerto 3000
+	Deberia abrir el servidor en el puerto 3000
 

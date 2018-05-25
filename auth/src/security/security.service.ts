@@ -12,6 +12,7 @@ import * as escape from "escape-html";
 import * as appConfig from "../utils/environment";
 const conf = appConfig.getConfig(process.env);
 
+
 export interface IUserSession {
   token_id: string;
   user_id: String;
@@ -49,6 +50,25 @@ export function validateSignUp(req: express.Request, res: express.Response, next
     next();
   });
 }
+
+/**
+ * @api {post} /auth/signup SignUp
+ * @apiName SignUp
+ * @apiGroup Security
+ *
+ * @apiDescription Register new user in the system.
+ *
+ * @apiParamExample {json} Body
+ *    {
+ *      "name": "UserName",
+ *      "login":"admin2",
+ *      "password":"pass123"
+ *    }
+ *
+ * @apiUse TokenResponse
+ *
+ * @apiUse ParamValidation
+ */
 export function signup(req: express.Request, res: express.Response) {
   const user = <IUser>new User();
   user.name = req.body.name;
@@ -64,9 +84,6 @@ export function signup(req: express.Request, res: express.Response) {
   });
 }
 
-/**
- * Signin
- */
 export function validateSignIn(req: express.Request, res: express.Response, next: NextFunction) {
   req.check("password", "No puede quedar vac&iacute;o.").notEmpty();
   req.check("password", "S&oacute;lo letras y n&uacute;meros.").isAlphanumeric();
@@ -84,6 +101,24 @@ export function validateSignIn(req: express.Request, res: express.Response, next
     next();
   });
 }
+
+/**
+ * @api {post} /auth/signin SignIn
+ * @apiName SignIn
+ * @apiGroup Security
+ *
+ * @apiDescription Login to the system.
+ *
+ * @apiParamExample {json} Body
+ *    {
+ *      "login":"admin2",
+ *      "password":"pass123"
+ *    }
+ *
+ * @apiUse TokenResponse
+ *
+ * @apiUse ParamValidation
+ */
 export function signin(req: express.Request, res: express.Response, next: NextFunction) {
   User.findOne({
     login: escape(req.body.login),
@@ -106,6 +141,15 @@ export function signin(req: express.Request, res: express.Response, next: NextFu
 }
 
 /**
+ * @apiDefine TokenResponse
+ *
+ * @apiSuccessExample {json} Response
+ *     HTTP/1.1 200 OK
+ *     {
+ *       "token": "tokenData"
+ *     }
+ */
+/**
  * Crea un token de sesion, lo guarda en la base de Tokens, luego inicializa passport
  * con el token, para que se ingrese en el cache y se encripte correctamente
  */
@@ -122,7 +166,18 @@ function createToken(res: express.Response, user: IUser) {
 }
 
 /**
- * Signout, limpia la sesion, e invalida el token.
+ * @api {get} /auth/signout SignOut
+ * @apiName SignOut
+ * @apiGroup Security
+ *
+ * @apiDescription Log out the user and invalidate the token.
+ *
+ * @apiUse AuthHeader
+ *
+ * @apiSuccessExample {json} Response
+ *     HTTP/1.1 200 OK
+ *
+ * @apiUse Unautorized
  */
 export function signout(req: IUserSessionRequest, res: express.Response) {
   Token.findById(req.user.token_id, function (err: any, token: IToken) {
@@ -137,15 +192,33 @@ export function signout(req: IUserSessionRequest, res: express.Response) {
       if (err) return errorHandler.handleError(res, err);
 
       passport.invalidateSessionToken(req.user);
-      return res.json({
-        result: "Logged out"
-      });
+
+      return res.send();
     });
   });
 }
 
 /**
- * Get current user
+ * @api {get} /auth/currentUser CurrentUser
+ * @apiName CurrentUser
+ * @apiGroup Security
+ *
+ * @apiDescription Get current logged in user information
+ *
+ * @apiUse AuthHeader
+ *
+ * @apiSuccessExample {json} Response
+ *     HTTP/1.1 200 OK
+ *     {
+ *        "id": "5b077a500cbe1704de99e2ed",
+ *        "name": "Administrador",
+ *        "login": "admin2",
+ *        "roles": [
+ *            "user"
+ *        ]
+ *     }
+ *
+ * @apiUse Unautorized
  */
 export function currentUser(req: IUserSessionRequest, res: express.Response, next: NextFunction) {
   User.findOne({
@@ -226,15 +299,35 @@ export function validateCambiarPassword(req: ICambiarPasswordRequest, res: expre
       });
   });
 }
+
+/**
+ * @api {post} /auth/password ChangePassword
+ * @apiName ChangePassword
+ * @apiGroup Security
+ *
+ * @apiDescription Register new user in the system.
+ *
+ * @apiUse AuthHeader
+ *
+ * @apiParamExample {json} Body
+ *    {
+ *      "currentPassword" : "currPass",
+ *      "newPassword" : "newPass",
+ *      "verifyPassword" : "newPass"
+ *    }
+ *
+ * @apiSuccessExample {json} Response
+ *     HTTP/1.1 200 OK
+ *
+ * @apiUse ParamValidation
+ */
 export function changePassword(req: ICambiarPasswordRequest, res: express.Response) {
   req.usuario.password = req.body.newPassword;
 
   req.usuario.save(function (err: any) {
     if (err) return errorHandler.handleError(res, err);
 
-    return res.send({
-      message: "Contraseña cambiada"
-    });
+    return res.send();
   });
 }
 

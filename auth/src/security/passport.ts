@@ -16,6 +16,19 @@ import * as jwt from "jsonwebtoken";
 const sessionCache = new nodeCache({ stdTTL: 3600, checkperiod: 60 });
 const conf = appConfig.getConfig(process.env);
 
+/**
+ * @apiDefine AuthHeader
+ *
+ * @apiParamExample {String} Header
+ *    Authorization=bearer {token}
+ */
+
+/**
+ * @apiDefine Unautorized
+ *
+ * @apiSuccessExample 401 Unautorized
+ *     HTTP/1.1 401 Unautorized
+ */
 export function init() {
     const params = {
         secretOrKey: conf.jwtSecret,

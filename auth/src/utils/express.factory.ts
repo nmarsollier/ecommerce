@@ -15,8 +15,7 @@ import * as passport from "passport";
 import * as expressValidator from "express-validator";
 
 // Modulos de la aplicacion
-import * as indexModule from "../index/module";
-import * as seguridadModule from "../security/module";
+import * as securityModule from "../security/module";
 import * as errorHandler from "../utils/error.handler";
 import * as pasportHanlder from "../security/passport";
 
@@ -62,14 +61,14 @@ export function init(appConfig: Config): express.Express {
   app.use(
     express.static(path.join(__dirname, "../public"), { maxAge: 31557600000 })
   );
+  app.get("/", (req, res, next) => { res.redirect("index.html"); });
 
   // Inicializamos nuestros modulos
   pasportHanlder.init();
 
   // Inicializamos las rutas del directorio
   // mas sobre rutas http://expressjs.com/es/guide/routing.html
-  indexModule.init(app);
-  seguridadModule.init(app);
+  securityModule.init(app);
 
   // Para el manejo de errores, para que los loguee en la consola
   app.use(errorHandler.logErrors);
