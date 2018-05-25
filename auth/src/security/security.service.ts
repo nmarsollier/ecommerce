@@ -67,7 +67,8 @@ export function validateSignUp(req: express.Request, res: express.Response, next
  *
  * @apiUse TokenResponse
  *
- * @apiUse ParamValidation
+ * @apiUse ParamValidationErrors
+ * @apiUse OtherErrors
  */
 export function signup(req: express.Request, res: express.Response) {
   const user = <IUser>new User();
@@ -117,7 +118,8 @@ export function validateSignIn(req: express.Request, res: express.Response, next
  *
  * @apiUse TokenResponse
  *
- * @apiUse ParamValidation
+ * @apiUse ParamValidationErrors
+ * @apiUse OtherErrors
  */
 export function signin(req: express.Request, res: express.Response, next: NextFunction) {
   User.findOne({
@@ -177,6 +179,7 @@ function createToken(res: express.Response, user: IUser) {
  * @apiSuccessExample {json} Response
  *     HTTP/1.1 200 OK
  *
+ * @apiUse OtherErrors
  * @apiUse Unautorized
  */
 export function signout(req: IUserSessionRequest, res: express.Response) {
@@ -218,6 +221,7 @@ export function signout(req: IUserSessionRequest, res: express.Response) {
  *        ]
  *     }
  *
+ * @apiUse OtherErrors
  * @apiUse Unautorized
  */
 export function currentUser(req: IUserSessionRequest, res: express.Response, next: NextFunction) {
@@ -319,7 +323,9 @@ export function validateCambiarPassword(req: ICambiarPasswordRequest, res: expre
  * @apiSuccessExample {json} Response
  *     HTTP/1.1 200 OK
  *
- * @apiUse ParamValidation
+ * @apiUse ParamValidationErrors
+ * @apiUse OtherErrors
+ * @apiUse Unautorized
  */
 export function changePassword(req: ICambiarPasswordRequest, res: express.Response) {
   req.usuario.password = req.body.newPassword;
