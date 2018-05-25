@@ -1,23 +1,13 @@
 Este microservicio almacena las imagnes en una base de datos clave-valor (redis)
 
-Instalar Redis
-==============
-	sudo apt-get install redis
-	sudo apt-get install php-redis
+La documentacion de las api se pueden consultar desde el home del microservicio
+que una vez levantado el servidor se puede navegar en http://localhost:3001/
 
-	vim /etc/redis/redis.conf
-	maxmemory 128mb
+Dependencias
+============
+Ver tutorial de instalacion en README.md o en github
 
-	redis-cli para probar si esta funcionando
-
-	Para navegar los documentos conviene instalar FastoRedis
-
-Levantar redis manualmente
-===================================
-	en src de redis
-	redis-server
-
-
+Redis
 
 Ejecucion
 =========
