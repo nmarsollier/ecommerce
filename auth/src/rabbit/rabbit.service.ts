@@ -65,6 +65,7 @@ function init(): Promise<amqp.Channel> {
 function sendMessage(message: IRabbitMessage): Promise<IRabbitMessage> {
     return new Promise<IRabbitMessage>((resolve, reject) => {
         if (channel) {
+            channel.assertExchange(QUEUE, "fanout", { durable: false });
             channel.assertQueue(QUEUE, { durable: false });
 
             if (channel.sendToQueue(QUEUE, new Buffer(JSON.stringify(message)))) {
