@@ -1,7 +1,6 @@
 "use strict";
 
 import { NextFunction } from "express-serve-static-core";
-import { IImage } from "./image.schema";
 
 import * as errorHandler from "../utils/error.handler";
 import * as express from "express";
@@ -17,6 +16,11 @@ const redisClient = new redis(conf.redisPort, conf.redisHost);
 redisClient.on("connect", function () {
   console.log("connected");
 });
+
+export interface IImage {
+  id: string;
+  image: string;
+}
 
 
 /**
@@ -131,9 +135,8 @@ export function findByID(req: IFindByIdRequest, res: express.Response, next: Nex
   });
 }
 
-export function findAndResize(req: IFindByIdRequest, res: express.Response, next: NextFunction, id: string) {
+function findAndResize(req: IFindByIdRequest, res: express.Response, next: NextFunction, id: string) {
   const size = req.header("size");
-  const imageId = escape(id) + "_" + size;
 
   redisClient.get(escape(id), function (err, reply) {
     if (err) return errorHandler.handleError(res, err);
