@@ -33,7 +33,7 @@ export interface IUserSessionRequest extends express.Request {
 /**
  * @apiDefine AuthHeader
  *
- * @apiParamExample {String} Header
+ * @apiParamExample {String} Authorization Header
  *    Authorization=bearer {token}
  */
 

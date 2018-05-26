@@ -19,7 +19,7 @@ const conf = appConfig.getConfig(process.env);
 /**
  * @apiDefine AuthHeader
  *
- * @apiParamExample {String} Header
+ * @apiParamExample {String} Authorization Header
  *    Authorization=bearer {token}
  */
 
