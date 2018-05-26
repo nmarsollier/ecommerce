@@ -6,7 +6,7 @@ import { NextFunction } from "express-serve-static-core";
 
 import * as express from "express";
 import * as error from "../utils/error";
-import * as passport from "./passport";
+import * as passport from "./passport.service";
 import * as escape from "escape-html";
 import * as rabbit from "../rabbit/rabbit.service";
 

@@ -15,7 +15,7 @@ import * as expressValidator from "express-validator";
 // Modulos de la aplicacion
 import * as securityModule from "../security/module";
 import * as error from "../utils/error";
-import * as pasportConf from "../security/passport";
+import * as pasportConf from "../security/passport.service";
 
 export function init(appConfig: Config): express.Express {
   // Notas de configuracion de express http://expressjs.com/es/guide/using-middleware.html#middleware.application
