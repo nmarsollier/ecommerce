@@ -2,16 +2,17 @@
 
 import { Express } from "express";
 import { Config } from "./utils/environment";
-import * as expressApp from "./utils/express.factory";
-import * as appConfig from "./utils/environment";
+
+import * as express from "./utils/express";
+import * as env from "./utils/environment";
 import * as chalk from "chalk";
 import * as rabbbit from "./rabbit/rabbit.service";
 
 // Variables de entorno
-const conf: Config = appConfig.getConfig(process.env);
+const conf: Config = env.getConfig(process.env);
 
 // Se configura e inicializa express
-const app = expressApp.init(conf);
+const app = express.init(conf);
 
 rabbbit.init();
 

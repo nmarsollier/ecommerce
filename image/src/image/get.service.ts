@@ -1,92 +1,18 @@
 "use strict";
 
 import { NextFunction } from "express-serve-static-core";
+import { Express } from "express";
+import { IImage } from "./types";
 
-import * as errorHandler from "../utils/error.handler";
+import * as error from "../utils/error";
 import * as express from "express";
 import * as escape from "escape-html";
-import * as uuid from "uuid/v1";
-import * as redis from "ioredis";
-import * as appConfig from "../utils/environment";
 import * as jimp from "jimp";
 import * as chalk from "chalk";
-
-const conf = appConfig.getConfig(process.env);
-const redisClient = new redis(conf.redisPort, conf.redisHost);
-redisClient.on("connect", function () {
-  console.log("connected");
-});
-
-export interface IImage {
-  id: string;
-  image: string;
-}
-
+import * as redis from "../utils/redis";
 
 /**
- * Busca una imagen
- */
-export interface IReadRequest extends express.Request {
-  image: IImage;
-}
-export function read(req: IReadRequest, res: express.Response) {
-  res.json(req.image);
-}
-
-/**
- * @api {post} /image Create Image
- * @apiName CreateImage
- * @apiGroup Image
- *
- * @apiDescription Add new image to the server
- *
- * @apiUse AuthHeader
- *
- * @apiParamExample {json} Body
- *    {
- *      "image" : "Base 64 Image Text"
- *    }
- *
- * @apiSuccessExample {json} Response
- *     HTTP/1.1 200 OK
- *     {
- *       "id": "5e813570-6026-11e8-a038-f19c597ba92a"
- *     }
- *
- * @apiUse ParamValidationErrors
- * @apiUse OtherErrors
- * @apiUse Unautorized
- */
-export function validateCreate(req: express.Request, res: express.Response, next: NextFunction) {
-  if (req.body.image) {
-    req.check("image", "Debe especificar la imagen.").isLength({ min: 1 });
-    req.check("image", "Imagen invalida").contains("data:image/");
-  }
-
-  req.getValidationResult().then(function (result) {
-    if (!result.isEmpty()) {
-      return errorHandler.handleExpressValidationError(res, result);
-    }
-    next();
-  });
-}
-export function create(req: express.Request, res: express.Response) {
-  const image: IImage = {
-    id: uuid(),
-    image: req.body.image
-  };
-
-  redisClient.set(image.id, image.image, function (err: any, reply: any) {
-    if (err) {
-      return errorHandler.handleError(res, err);
-    }
-
-    res.json({ id: image.id });
-  });
-}
-
-/**
- * @api {post} /image/:id Get Image
+ * @api {get} /image/:id Get Image
  * @apiName GetImage
  * @apiGroup Image
  *
@@ -105,27 +31,32 @@ export function create(req: express.Request, res: express.Response) {
  * @apiUse OtherErrors
  * @apiUse Unautorized
  */
-export interface IFindByIdRequest extends express.Request {
+export interface IReadRequest extends express.Request {
   image: IImage;
 }
-export function findByID(req: IFindByIdRequest, res: express.Response, next: NextFunction, id: string) {
+export function read(req: IReadRequest, res: express.Response) {
+  res.json(req.image);
+}
+
+export function findByID(req: IReadRequest, res: express.Response, next: NextFunction, id: string) {
   // Buscamos la imagen de acuerdo a lo solicitado en el header, si no se encuentra y se
   // esta pidiendo un tamaño en particular que no se tiene, se reajusta el tamaño
-  const size = escape(req.header("size"));
+
+  const size = escape(req.header("Size"));
   const newSize = getSize(size);
   let imageId = escape(id);
   if (newSize > 0) {
     imageId = imageId + "_" + size;
   }
 
-  redisClient.get(imageId, function (err, reply) {
-    if (err) return errorHandler.handleError(res, err);
+  redis.getClient().get(imageId, function (err, reply) {
+    if (err) return error.handleError(res, err);
 
     if (!reply) {
       if (newSize > 0) {
         return findAndResize(req, res, next, id);
       } else {
-        return errorHandler.sendError(res, errorHandler.ERROR_NOT_FOUND, "No se pudo cargar la imagen " + id);
+        return error.sendError(res, error.ERROR_NOT_FOUND, id + " not found");
       }
     }
 
@@ -141,14 +72,14 @@ export function findByID(req: IFindByIdRequest, res: express.Response, next: Nex
 * Solo llamamos a esta funcion si estamos seguros de que hay que ajustarle el tamaño,
 * o sea que el header size contiene un valor adecuado y que no lo temenos ya generado en redis
 */
-function findAndResize(req: IFindByIdRequest, res: express.Response, next: NextFunction, id: string) {
-  const size = escape(req.header("size"));
+function findAndResize(req: IReadRequest, res: express.Response, next: NextFunction, id: string) {
+  const size = escape(req.header("Size"));
 
-  redisClient.get(escape(id), function (err, reply) {
-    if (err) return errorHandler.handleError(res, err);
+  redis.getClient().get(escape(id), function (err, reply) {
+    if (err) return error.handleError(res, err);
 
     if (!reply) {
-      return errorHandler.sendError(res, errorHandler.ERROR_NOT_FOUND, "No se pudo cargar la imagen " + id);
+      return error.sendError(res, error.ERROR_NOT_FOUND, id + " not found");
     }
 
     const image: IImage = {
@@ -158,13 +89,11 @@ function findAndResize(req: IFindByIdRequest, res: express.Response, next: NextF
 
     resizeImage(image, size).then(
       (result) => {
-        redisClient.set(result.id, result.image, function (err: any, reply: any) {
+        redis.getClient().set(result.id, result.image, function (err: any, reply: any) {
           if (err) {
             req.image = image;
             next();
           }
-          console.log(chalk.default.green("Tamaño de imagen " + size + " generado."));
-
           req.image = result;
           next();
         });
@@ -183,7 +112,7 @@ function findAndResize(req: IFindByIdRequest, res: express.Response, next: NextF
  * @apiDefine SizeHeader
  *
  * @apiParamExample {String} Size Header
- *    size=[thumb|medium|large|original]
+ *    Size=[thumb|medium|large|original]
  */
 function resizeImage(image: IImage, size: string): Promise<IImage> {
   const newSize = getSize(size);
@@ -217,6 +146,10 @@ function resizeImage(image: IImage, size: string): Promise<IImage> {
   });
 }
 
+/*
+ * A partir del header size obtiene el tamaño de imagen adecuado
+ * 0 == original
+ */
 function getSize(sizeHeader: string): number {
   switch (sizeHeader) {
     case "thumb": {

@@ -1,18 +1,18 @@
 "use strict";
 
 import { NextFunction } from "express-serve-static-core";
-import * as nodeCache from "node-cache";
-import * as errorHandler from "../utils/error.handler";
-import * as express from "express";
-import * as appConfig from "../utils/environment";
 import { RestClient } from "typed-rest-client/RestClient";
-import * as chalk from "chalk";
 
+import * as nodeCache from "node-cache";
+import * as error from "../utils/error";
+import * as express from "express";
+import * as env from "../utils/environment";
+import * as chalk from "chalk";
 
 // Este cache de sesiones en memoria va a evitar que tenga que ir a la base de datos
 // para verificar que la sesion sea valida. 1 hora de cache en memoria. Luego se vuelve a leer de la db
 const sessionCache = new nodeCache({ stdTTL: 3600, checkperiod: 60 });
-const conf = appConfig.getConfig(process.env);
+const conf = env.getConfig(process.env);
 
 export interface IUser {
   id: string;
@@ -47,7 +47,7 @@ export interface IUserSessionRequest extends express.Request {
 export function validateSesssionToken(req: IUserSessionRequest, res: express.Response, next: NextFunction) {
   const auth = req.header("Authorization");
   if (!auth) {
-    return errorHandler.sendError(res, errorHandler.ERROR_UNATORIZED, "Unautorized");
+    return error.sendError(res, error.ERROR_UNATORIZED, "Unautorized");
   }
 
   /*
@@ -76,7 +76,7 @@ export function validateSesssionToken(req: IUserSessionRequest, res: express.Res
         }
       ).catch(
         (error) => {
-          return errorHandler.sendError(res, errorHandler.ERROR_UNATORIZED, "Unautorized");
+          return error.sendError(res, error.ERROR_UNATORIZED, "Unautorized");
         }
       );
   }

@@ -13,7 +13,7 @@ import * as compression from "compression";
 import * as expressValidator from "express-validator";
 
 // Modulos de la aplicacion
-import * as errorHandler from "../utils/error.handler";
+import * as error from "../utils/error";
 import * as imageModule from "../image/module";
 
 export function init(appConfig: Config): express.Express {
@@ -61,11 +61,11 @@ export function init(appConfig: Config): express.Express {
   imageModule.init(app);
 
   // Para el manejo de errores, para que los loguee en la consola
-  app.use(errorHandler.logErrors);
+  app.use(error.logErrors);
 
   // Responder con JSON cuando hay un error 404, sino responde con un html
   // Esto tiene que ir al final porque sino nos sobreescribe las otras rutas
-  app.use(errorHandler.handle404);
+  app.use(error.handle404);
 
   return app;
 }

@@ -1,17 +1,18 @@
 "use strict";
 
 import { Express } from "express";
-import * as image from "./image.service";
-import * as securityService from "../security/security.service";
+import * as createService from "./create.service";
+import * as getService from "./get.service";
+import * as security from "../utils/security";
 
 export function init(app: Express) {
   app
     .route("/image")
-    .post(securityService.validateSesssionToken, image.validateCreate, image.create);
+    .post(security.validateSesssionToken, createService.validateCreate, createService.create);
 
   app
     .route("/image/:imageId")
-    .get(securityService.validateSesssionToken, image.read);
+    .get(security.validateSesssionToken, getService.read);
 
-  app.param("imageId", image.findByID);
+  app.param("imageId", getService.findByID);
 }
