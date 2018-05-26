@@ -3,17 +3,16 @@
 import { User, IUser } from "./user.schema";
 import { Token, IToken } from "./token.schema";
 import { NextFunction } from "express-serve-static-core";
-import * as mongoose from "mongoose";
+
 import * as express from "express";
-import * as errorHandler from "../utils/error.handler";
+import * as error from "../utils/error";
 import * as passport from "./passport";
 import * as escape from "escape-html";
 import * as rabbit from "../rabbit/rabbit.service";
-
-import * as appConfig from "../utils/environment";
 import * as chalk from "chalk";
-const conf = appConfig.getConfig(process.env);
 
+import * as env from "../utils/environment";
+const conf = env.getConfig(process.env);
 
 export interface IUserSession {
   token_id: string;
@@ -27,7 +26,6 @@ export interface IUserSessionRequest extends express.Request {
 /**
  * Signup
  */
-
 export function validateSignUp(req: express.Request, res: express.Response, next: NextFunction) {
   req.check("name", "No puede quedar vac&iacute;o.").notEmpty();
   req.check("name", "Hasta 1024 caracteres solamente.").isLength({ max: 1024 });
@@ -47,7 +45,7 @@ export function validateSignUp(req: express.Request, res: express.Response, next
 
   req.getValidationResult().then(function (result) {
     if (!result.isEmpty()) {
-      return errorHandler.handleExpressValidationError(res, result);
+      return error.handleExpressValidationError(res, result);
     }
     next();
   });
@@ -81,7 +79,7 @@ export function signup(req: express.Request, res: express.Response) {
 
   // Then save the user
   user.save(function (err: any) {
-    if (err) return errorHandler.handleError(res, err);
+    if (err) return error.handleError(res, err);
 
     createToken(res, user);
   });
@@ -99,7 +97,7 @@ export function validateSignIn(req: express.Request, res: express.Response, next
 
   req.getValidationResult().then(function (result) {
     if (!result.isEmpty()) {
-      return errorHandler.handleExpressValidationError(res, result);
+      return error.handleExpressValidationError(res, result);
     }
     next();
   });
@@ -129,14 +127,14 @@ export function signin(req: express.Request, res: express.Response, next: NextFu
     enabled: true
   },
     function (err: any, user: IUser) {
-      if (err) return errorHandler.handleError(res, err);
+      if (err) return error.handleError(res, err);
 
       if (!user) {
-        return errorHandler.sendError(res, errorHandler.ERROR_NOT_FOUND, "Usuario no encontrado.");
+        return error.sendError(res, error.ERROR_NOT_FOUND, "Usuario no encontrado.");
       }
 
       if (!user.authenticate(req.body.password)) {
-        return errorHandler.sendError(res, errorHandler.ERROR_BAD_REQUEST, "Password incorrecto.");
+        return error.sendError(res, error.ERROR_BAD_REQUEST, "Password incorrecto.");
       }
 
       createToken(res, user);
@@ -163,7 +161,7 @@ function createToken(res: express.Response, user: IUser) {
   sessionToken.valid = true;
 
   sessionToken.save(function (err: any) {
-    if (err) return errorHandler.handleError(res, err);
+    if (err) return error.handleError(res, err);
 
     res.json({ token: passport.createToken(user, sessionToken) });
   });
@@ -186,27 +184,24 @@ function createToken(res: express.Response, user: IUser) {
  */
 export function signout(req: IUserSessionRequest, res: express.Response) {
   Token.findById(req.user.token_id, function (err: any, token: IToken) {
-    if (err) return errorHandler.handleError(res, err);
+    if (err) return error.handleError(res, err);
 
     if (!token) {
-      return errorHandler.sendError(res, errorHandler.ERROR_NOT_FOUND, "Token invalido.");
+      return error.sendError(res, error.ERROR_NOT_FOUND, "Token invalido.");
     }
 
     token.valid = false;
     token.save(function (err: any) {
-      if (err) return errorHandler.handleError(res, err);
+      if (err) return error.handleError(res, err);
 
       passport.invalidateSessionToken(req.user);
 
-      rabbit.sendLogout(req.header("Authorization")).then(
-        (onFullFill) => {
-          console.log(chalk.default.green("Logout encolado en Rabbit"));
-        }
-      ).catch(
-        (error) => {
-          console.log(chalk.default.red("Fallo al encolar logout"));
-        }
-      );
+      rabbit.sendLogout(req.header("Authorization"))
+        .catch(
+          (error) => {
+            console.error("signout " + error);
+          }
+        );
 
       return res.send();
     });
@@ -242,10 +237,10 @@ export function currentUser(req: IUserSessionRequest, res: express.Response, nex
     enabled: true
   },
     function (err: any, user: IUser) {
-      if (err) return errorHandler.handleError(res, err);
+      if (err) return error.handleError(res, err);
 
       if (!user) {
-        return errorHandler.sendError(res, errorHandler.ERROR_NOT_FOUND, "El usuario no se encuentra");
+        return error.sendError(res, error.ERROR_NOT_FOUND, "El usuario no se encuentra");
       }
       return res.json({
         id: user.id,
@@ -285,7 +280,7 @@ export function validateCambiarPassword(req: ICambiarPasswordRequest, res: expre
 
   req.getValidationResult().then(function (result) {
     if (!result.isEmpty()) {
-      return errorHandler.handleExpressValidationError(res, result);
+      return error.handleExpressValidationError(res, result);
     }
 
 
@@ -295,18 +290,18 @@ export function validateCambiarPassword(req: ICambiarPasswordRequest, res: expre
         enabled: true
       },
       function (err: any, user: IUser) {
-        if (err) return errorHandler.handleError(res, err);
+        if (err) return error.handleError(res, err);
 
         if (!user) {
-          return errorHandler.sendError(res, errorHandler.ERROR_NOT_FOUND, "El usuario no se encuentra.");
+          return error.sendError(res, error.ERROR_NOT_FOUND, "El usuario no se encuentra.");
         }
 
         if (req.body.newPassword !== req.body.verifyPassword) {
-          return errorHandler.sendError(res, errorHandler.ERROR_BAD_REQUEST, "Las contraseñas no coinciden.");
+          return error.sendError(res, error.ERROR_BAD_REQUEST, "Las contraseñas no coinciden.");
         }
 
         if (!user.authenticate(req.body.currentPassword)) {
-          return errorHandler.sendError(res, errorHandler.ERROR_BAD_REQUEST, "El password actual es incorrecto.");
+          return error.sendError(res, error.ERROR_BAD_REQUEST, "El password actual es incorrecto.");
         }
 
         req.usuario = user;
@@ -343,12 +338,11 @@ export function changePassword(req: ICambiarPasswordRequest, res: express.Respon
   req.usuario.password = req.body.newPassword;
 
   req.usuario.save(function (err: any) {
-    if (err) return errorHandler.handleError(res, err);
+    if (err) return error.handleError(res, err);
 
     return res.send();
   });
 }
-
 
 export function validateAdminRole(req: IUserSessionRequest, res: express.Response, next: NextFunction) {
   User.findOne(
@@ -357,14 +351,14 @@ export function validateAdminRole(req: IUserSessionRequest, res: express.Respons
       enabled: true
     },
     function (err: any, user: IUser) {
-      if (err) return errorHandler.handleError(res, err);
+      if (err) return error.handleError(res, err);
 
       if (!user) {
-        return errorHandler.sendError(res, errorHandler.ERROR_NOT_FOUND, "El usuario no se encuentra.");
+        return error.sendError(res, error.ERROR_NOT_FOUND, "El usuario no se encuentra.");
       }
 
       if (!(user.roles.indexOf("admin") >= 0)) {
-        return errorHandler.sendError(res, errorHandler.ERROR_UNATORIZED, "No autorizado.");
+        return error.sendError(res, error.ERROR_UNATORIZED, "No autorizado.");
       }
 
       next();

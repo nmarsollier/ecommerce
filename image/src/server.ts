@@ -17,7 +17,7 @@ const app = express.init(conf);
 rabbbit.init();
 
 app.listen(conf.port, () => {
-  console.log(chalk.default.green(`Image Server escuchando en puerto ${conf.port}`));
+  console.log(`Image Server escuchando en puerto ${conf.port}`);
 });
 
 module.exports = app;

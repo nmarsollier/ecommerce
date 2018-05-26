@@ -1,14 +1,12 @@
 "use strict";
 
 import { Config } from "./environment";
-import { NextFunction } from "express-serve-static-core";
 
 import * as express from "express";
 import * as bodyParser from "body-parser";
 import * as morgan from "morgan";
 import * as path from "path";
 import * as helmet from "helmet";
-import * as mongo from "connect-mongo";
 import * as cors from "cors";
 import * as compression from "compression";
 import * as passport from "passport";
@@ -16,8 +14,8 @@ import * as expressValidator from "express-validator";
 
 // Modulos de la aplicacion
 import * as securityModule from "../security/module";
-import * as errorHandler from "../utils/error.handler";
-import * as pasportHanlder from "../security/passport";
+import * as error from "../utils/error";
+import * as pasportConf from "../security/passport";
 
 export function init(appConfig: Config): express.Express {
   // Notas de configuracion de express http://expressjs.com/es/guide/using-middleware.html#middleware.application
@@ -64,18 +62,18 @@ export function init(appConfig: Config): express.Express {
   app.get("/", (req, res, next) => { res.redirect("index.html"); });
 
   // Inicializamos nuestros modulos
-  pasportHanlder.init();
+  pasportConf.init();
 
   // Inicializamos las rutas del directorio
   // mas sobre rutas http://expressjs.com/es/guide/routing.html
   securityModule.init(app);
 
   // Para el manejo de errores, para que los loguee en la consola
-  app.use(errorHandler.logErrors);
+  app.use(error.logErrors);
 
   // Responder con JSON cuando hay un error 404, sino responde con un html
   // Esto tiene que ir al final porque sino nos sobreescribe las otras rutas
-  app.use(errorHandler.handle404);
+  app.use(error.handle404);
 
   return app;
 }

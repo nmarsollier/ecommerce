@@ -99,7 +99,7 @@ function findAndResize(req: IReadRequest, res: express.Response, next: NextFunct
         });
       },
       (error) => {
-        console.log(chalk.default.red("Error al reajustar tamaño de imagen"));
+        console.error("Error al reajustar tamaño de imagen");
 
         req.image = image;
         next();

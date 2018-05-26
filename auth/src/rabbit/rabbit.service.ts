@@ -30,66 +30,57 @@ export function sendLogout(token: string): Promise<IRabbitMessage> {
     });
 }
 
-function init(): Promise<amqp.Channel> {
+function sendMessage(message: IRabbitMessage): Promise<IRabbitMessage> {
+    return new Promise<IRabbitMessage>((resolve, reject) => {
+        getChannel().then(
+            (channel) => {
+                channel.assertQueue(QUEUE, { durable: false });
+                if (channel.sendToQueue(QUEUE, new Buffer(JSON.stringify(message)))) {
+                    resolve(message);
+                } else {
+                    reject();
+                }
+            },
+            (error) => {
+                return new Promise<IRabbitMessage>((resolve, reject) => {
+                    console.log("RabbitMQ " + error);
+                    reject();
+                });
+            });
+    });
+}
+
+function getChannel(): Promise<amqp.Channel> {
     return new Promise((resolve, reject) => {
+        if (channel) {
+            return resolve(channel);
+        }
+
         amqp.connect("amqp://localhost").then(
             (conn) => {
-                console.log(chalk.default.green("RabbitMQ conectado"));
-
                 conn.createChannel().then(
                     (chn) => {
-                        console.log(chalk.default.green("RabbitMQ Canal creado"));
+                        console.log("RabbitMQ conectado");
 
                         channel = chn;
                         channel.on("close", function () {
-                            console.log(chalk.default.red("RabbitMQ Conexion cerrada"));
+                            console.error("RabbitMQ Conexion cerrada");
                             channel = undefined;
                         });
                         resolve(channel);
                     },
                     (onReject) => {
-                        console.log(chalk.default.red("RabbitMQ Fallo al crear channel"));
+                        console.error("RabbitMQ " + onReject.message);
                         channel = undefined;
                         reject();
                     }
                 );
             },
             (onReject) => {
-                console.log(chalk.default.red("RabbitMQ Fallo al conectar"));
+                console.error("RabbitMQ " + onReject.message);
                 channel = undefined;
                 reject();
             });
     });
 }
 
-function sendMessage(message: IRabbitMessage): Promise<IRabbitMessage> {
-    return new Promise<IRabbitMessage>((resolve, reject) => {
-        if (channel) {
-            channel.assertExchange(QUEUE, "fanout", { durable: false });
-            channel.assertQueue(QUEUE, { durable: false });
-
-            if (channel.sendToQueue(QUEUE, new Buffer(JSON.stringify(message)))) {
-                resolve(message);
-            } else {
-                reject();
-            }
-        } else {
-            init().then(
-                (channel) => {
-                    channel.assertQueue(QUEUE, { durable: false });
-
-                    if (channel.sendToQueue(QUEUE, new Buffer(JSON.stringify(message)))) {
-                        resolve(message);
-                    } else {
-                        reject();
-                    }
-                },
-                (error) => {
-                    return new Promise<IRabbitMessage>((resolve, reject) => {
-                        reject();
-                    });
-                });
-        }
-
-    });
-}

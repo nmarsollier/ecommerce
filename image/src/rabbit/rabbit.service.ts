@@ -17,11 +17,11 @@ export function init() {
             conn.createChannel().then(
                 (channel) => {
                     channel.on("close", function () {
-                        console.log(chalk.default.red("RabbitMQ conexion cerrada"));
+                        console.error("RabbitMQ conexion cerrada");
                         setTimeout(() => init(), 10000);
                     });
 
-                    console.log(chalk.default.green("RabbitMQ conectado"));
+                    console.log("RabbitMQ conectado");
 
                     channel.assertQueue(AUTH_QUEUE, { durable: false });
                     channel.consume(AUTH_QUEUE,
@@ -34,13 +34,13 @@ export function init() {
                         }, { noAck: true });
                 },
                 (onReject) => {
-                    console.log(chalk.default.red("RabbitMQ error connectar con el channel"));
+                    console.error("RabbitMQ " + onReject.message);
                     setTimeout(() => init(), 10000);
                 }
             );
         },
         (onReject) => {
-            console.log(chalk.default.red("RabbitMQ error al conectar"));
+            console.error("RabbitMQ " + onReject.message);
             setTimeout(() => init(), 10000);
         });
 }

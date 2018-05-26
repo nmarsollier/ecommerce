@@ -10,11 +10,11 @@ export function getClient() {
     if (!redisClient) {
         redisClient = new redis(conf.redisPort, conf.redisHost);
         redisClient.on("connect", function () {
-            console.log(chalk.default.green("Redis conectado"));
+            console.log("Redis conectado");
         });
         redisClient.on("end", function () {
             redisClient = undefined;
-            console.log(chalk.default.red("Redis desconectado"));
+            console.error("Redis desconectado");
         });
     }
     return redisClient;

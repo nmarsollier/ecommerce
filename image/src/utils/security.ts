@@ -85,6 +85,6 @@ export function validateSesssionToken(req: IUserSessionRequest, res: express.Res
 export function invalidateSessionToken(token: string) {
   if (sessionCache.get(token)) {
     sessionCache.del(token);
-    console.log(chalk.default.green("RabbitMQ session invalidada " + token));
+    console.log("RabbitMQ session invalidada " + token);
   }
 }

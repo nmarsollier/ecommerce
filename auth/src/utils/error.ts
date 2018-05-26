@@ -1,7 +1,6 @@
 "use strict";
 
 import * as express from "express";
-import * as expressValidator from "express-validator";
 import { NextFunction } from "express-serve-static-core";
 import { Result } from "express-validator/check";
 
@@ -23,7 +22,7 @@ export interface ValidationErrorMessage {
 // Error desconocido
 function processUnknownError(res: express.Response, err: any): ValidationErrorMessage {
   res.status(ERROR_INTERNAL_ERROR);
-  res.header("X-Status-Reason: Unknown error");
+  res.setHeader("X-Status-Reason", "Unknown error");
   return { error: err };
 }
 
@@ -35,7 +34,7 @@ function processMongooseErrorCode(res: express.Response, err: any): ValidationEr
     switch (err.code) {
       case 11000:
       case 11001:
-        res.header("X-Status-Reason: Unique constraint");
+        res.setHeader("X-Status-Reason", "Unique constraint");
 
         const fieldName = err.errmsg.substring(
           err.errmsg.lastIndexOf("index:") + 7,
@@ -49,19 +48,19 @@ function processMongooseErrorCode(res: express.Response, err: any): ValidationEr
         };
       default:
         res.status(ERROR_BAD_REQUEST);
-        res.header("X-Status-Reason: Unknown database error code:" + err.code);
+        res.setHeader("X-Status-Reason", "Unknown database error code:" + err.code);
         return { error: err };
     }
   } catch (ex) {
     res.status(ERROR_INTERNAL_ERROR);
-    res.header("X-Status-Reason: Unknown database error");
+    res.setHeader("X-Status-Reason", "Unknown database error");
     return { error: err };
   }
 }
 
 // Error de validacion de datos
 function processValidationError(res: express.Response, err: any): ValidationErrorMessage {
-  res.header("X-Status-Reason: Validation failed");
+  res.setHeader("X-Status-Reason", "Validation failed");
   res.status(ERROR_BAD_REQUEST);
   const messages: ValidationErrorItem[] = [];
   for (const key in err.errors) {
@@ -129,12 +128,12 @@ export function handleError(res: express.Response, err: any): express.Response {
 
 export function sendError(res: express.Response, code: number, err: string) {
   res.status(code);
-  res.header("X-Status-Reason: " + err);
+  res.setHeader("X-Status-Reason", err);
   return res.send({ error: err });
 }
 
 export function handleExpressValidationError(res: express.Response, err: Result): express.Response {
-  res.header("X-Status-Reason: Validation failed");
+  res.setHeader("X-Status-Reason", "Validation failed");
   res.status(ERROR_BAD_REQUEST);
   const messages: ValidationErrorItem[] = [];
   for (const error of err.array({ onlyFirstError: true })) {

@@ -3,9 +3,8 @@
 import { Document, Schema, Model, model } from "mongoose";
 import { pbkdf2Sync } from "crypto";
 
-import * as appConfig from "../utils/environment";
-const conf = appConfig.getConfig(process.env);
-
+import * as env from "../utils/environment";
+const conf = env.getConfig(process.env);
 
 export interface IUser extends Document {
   name: string;
