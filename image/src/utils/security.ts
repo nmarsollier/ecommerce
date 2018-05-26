@@ -7,7 +7,6 @@ import * as nodeCache from "node-cache";
 import * as error from "../utils/error";
 import * as express from "express";
 import * as env from "../utils/environment";
-import * as chalk from "chalk";
 
 // Este cache de sesiones en memoria va a evitar que tenga que ir a la base de datos
 // para verificar que la sesion sea valida. 1 hora de cache en memoria. Luego se vuelve a leer de la db

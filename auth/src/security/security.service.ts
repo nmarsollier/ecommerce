@@ -9,7 +9,6 @@ import * as error from "../utils/error";
 import * as passport from "./passport";
 import * as escape from "escape-html";
 import * as rabbit from "../rabbit/rabbit.service";
-import * as chalk from "chalk";
 
 import * as env from "../utils/environment";
 const conf = env.getConfig(process.env);

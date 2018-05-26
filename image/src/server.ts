@@ -5,7 +5,6 @@ import { Config } from "./utils/environment";
 
 import * as express from "./utils/express";
 import * as env from "./utils/environment";
-import * as chalk from "chalk";
 import * as rabbbit from "./rabbit/rabbit.service";
 
 // Variables de entorno

@@ -1,7 +1,6 @@
 "use strict";
 
 import amqp = require("amqplib");
-import * as chalk from "chalk";
 import { IUserSession } from "../security/security.service";
 
 export interface IRabbitMessage {

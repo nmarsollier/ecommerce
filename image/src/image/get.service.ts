@@ -8,7 +8,6 @@ import * as error from "../utils/error";
 import * as express from "express";
 import * as escape from "escape-html";
 import * as jimp from "jimp";
-import * as chalk from "chalk";
 import * as redis from "../utils/redis";
 
 /**

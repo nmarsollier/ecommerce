@@ -7,7 +7,6 @@ import { MongoError } from "mongodb";
 import * as express from "./utils/express";
 import * as env from "./utils/environment";
 import * as mongoose from "mongoose";
-import * as chalk from "chalk";
 
 // Variables de entorno
 const conf: Config = env.getConfig(process.env);

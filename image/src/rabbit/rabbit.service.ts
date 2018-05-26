@@ -1,7 +1,6 @@
 "use strict";
 
 import amqp = require("amqplib");
-import * as chalk from "chalk";
 import * as security from "../utils/security";
 
 const AUTH_QUEUE = "auth";

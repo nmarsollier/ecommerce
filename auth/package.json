@@ -38,7 +38,6 @@
         "passport-jwt": "4.0.0",
         "jsonwebtoken": "8.2.1",
         "helmet": "3.12.1",
-        "chalk": "2.4.1",
         "cors": "2.8.4",
         "amqplib": "0.5.2"
     },
