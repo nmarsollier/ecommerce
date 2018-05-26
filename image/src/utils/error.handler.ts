@@ -2,8 +2,8 @@
 
 import * as express from "express";
 import * as expressValidator from "express-validator";
-import { Result } from "express-validator/shared-typings";
 import { NextFunction } from "express-serve-static-core";
+import { Result } from "express-validator/check";
 
 export const ERROR_UNATORIZED = 401;
 export const ERROR_NOT_FOUND = 404;
