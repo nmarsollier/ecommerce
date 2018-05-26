@@ -109,6 +109,8 @@ export interface IFindByIdRequest extends express.Request {
   image: IImage;
 }
 export function findByID(req: IFindByIdRequest, res: express.Response, next: NextFunction, id: string) {
+  // Buscamos la imagen de acuerdo a lo solicitado en el header, si no se encuentra y se
+  // esta pidiendo un tamaño en particular que no se tiene, se reajusta el tamaño
   const size = escape(req.header("size"));
   const newSize = getSize(size);
   let imageId = escape(id);
@@ -120,7 +122,7 @@ export function findByID(req: IFindByIdRequest, res: express.Response, next: Nex
     if (err) return errorHandler.handleError(res, err);
 
     if (!reply) {
-      if (size) {
+      if (newSize > 0) {
         return findAndResize(req, res, next, id);
       } else {
         return errorHandler.sendError(res, errorHandler.ERROR_NOT_FOUND, "No se pudo cargar la imagen " + id);
@@ -135,8 +137,12 @@ export function findByID(req: IFindByIdRequest, res: express.Response, next: Nex
   });
 }
 
+/*
+* Solo llamamos a esta funcion si estamos seguros de que hay que ajustarle el tamaño,
+* o sea que el header size contiene un valor adecuado y que no lo temenos ya generado en redis
+*/
 function findAndResize(req: IFindByIdRequest, res: express.Response, next: NextFunction, id: string) {
-  const size = req.header("size");
+  const size = escape(req.header("size"));
 
   redisClient.get(escape(id), function (err, reply) {
     if (err) return errorHandler.handleError(res, err);
