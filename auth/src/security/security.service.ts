@@ -315,7 +315,7 @@ export function validateCambiarPassword(req: ICambiarPasswordRequest, res: expre
  * @apiName ChangePassword
  * @apiGroup Security
  *
- * @apiDescription Register new user in the system.
+ * @apiDescription Change current user passoword.
  *
  * @apiUse AuthHeader
  *
