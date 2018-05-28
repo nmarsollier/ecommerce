@@ -11,15 +11,15 @@ const QUEUE = "auth";
 let channel: amqp.Channel;
 
 /**
- * @api {sendToQueue} auth InvalidatedToken
+ * @api {broadcast} auth/fanout Invalidar Token
  * @apiGroup RabbitMQ
  *
- * @apiDescription Security service notifies to all subscribbers that a session token has been invalidated, consumers should also invalidate the token.
+ * @apiDescription AuthService envia un broadcast a todos los usuarios cuando un token ha sido invalidado. Los clientes deben eliminar de sus caches las sesiones invalidadas.
  *
- * @apiSuccessExample {json} Message
+ * @apiSuccessExample {json} Mensaje
  *     {
  *        "type": "logout",
- *        "message": "{token}"
+ *        "message": "{Token revocado}"
  *     }
  */
 export function sendLogout(token: string): Promise<IRabbitMessage> {
@@ -34,6 +34,7 @@ function sendMessage(message: IRabbitMessage): Promise<IRabbitMessage> {
         getChannel().then(
             (channel) => {
                 channel.assertQueue(QUEUE, { durable: false });
+                channel.assertExchange(QUEUE, "fanout", { durable: false });
                 if (channel.sendToQueue(QUEUE, new Buffer(JSON.stringify(message)))) {
                     resolve(message);
                 } else {

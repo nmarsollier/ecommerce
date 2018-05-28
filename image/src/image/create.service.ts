@@ -10,28 +10,27 @@ import * as uuid from "uuid/v1";
 import * as redis from "../utils/redis";
 
 /**
- * @api {post} /image Create Image
+ * @api {post} /image Crear Imagen
  * @apiName CreateImage
- * @apiGroup Image
+ * @apiGroup Imagen
  *
- * @apiDescription Add new image to the server
+ * @apiDescription Agrega una nueva imagen al servidor.
  *
- * @apiUse AuthHeader
  *
  * @apiParamExample {json} Body
  *    {
- *      "image" : "Base 64 Image Text"
+ *      "image" : "{Imagen en formato Base 64}"
  *    }
  *
- * @apiSuccessExample {json} Response
+ * @apiSuccessExample {json} Respuesta
  *     HTTP/1.1 200 OK
  *     {
- *       "id": "5e813570-6026-11e8-a038-f19c597ba92a"
+ *       "id": "{Id de imagen}"
  *     }
  *
+ * @apiUse AuthHeader
  * @apiUse ParamValidationErrors
  * @apiUse OtherErrors
- * @apiUse Unautorized
  */
 export function validateCreate(req: express.Request, res: express.Response, next: NextFunction) {
   if (req.body.image) {

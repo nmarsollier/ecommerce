@@ -11,24 +11,23 @@ import * as jimp from "jimp";
 import * as redis from "../utils/redis";
 
 /**
- * @api {get} /image/:id Get Image
+ * @api {get} /image/:id Obtener Image
  * @apiName GetImage
- * @apiGroup Image
+ * @apiGroup Imagen
  *
- * @apiDescription Get Image
+ * @apiDescription Obtiene una imagen del servidor
  *
- * @apiUse AuthHeader
  * @apiUse SizeHeader
  *
- * @apiSuccessExample {json} Response
+ * @apiSuccessExample {json} Respuesta
  *    {
- *      "id": "5e813570-6026-11e8-a038-f19c597ba92a",
- *      "image" : "Base 64 Image Text"
+ *      "id": "{Id de imagen}",
+ *      "image" : "{Imagen en formato Base 64}"
  *    }
  *
+ * @apiUse AuthHeader
  * @apiUse ParamValidationErrors
  * @apiUse OtherErrors
- * @apiUse Unautorized
  */
 export interface IReadRequest extends express.Request {
   image: IImage;
@@ -37,7 +36,9 @@ export function read(req: IReadRequest, res: express.Response) {
   res.json(req.image);
 }
 
-export function findByID(req: IReadRequest, res: express.Response, next: NextFunction, id: string) {
+export function findById(req: IReadRequest, res: express.Response, next: NextFunction) {
+  const id = escape(req.params.imageId);
+
   // Buscamos la imagen de acuerdo a lo solicitado en el header, si no se encuentra y se
   // esta pidiendo un tamaño en particular que no se tiene, se reajusta el tamaño
 
@@ -50,7 +51,6 @@ export function findByID(req: IReadRequest, res: express.Response, next: NextFun
 
   redis.getClient().get(imageId, function (err, reply) {
     if (err) return error.handleError(res, err);
-
     if (!reply) {
       if (newSize > 0) {
         return findAndResize(req, res, next, id);
@@ -58,11 +58,11 @@ export function findByID(req: IReadRequest, res: express.Response, next: NextFun
         return error.sendError(res, error.ERROR_NOT_FOUND, id + " not found");
       }
     }
-
     req.image = {
       id: escape(id),
       image: reply
     };
+
     next();
   });
 }
@@ -110,8 +110,8 @@ function findAndResize(req: IReadRequest, res: express.Response, next: NextFunct
 /**
  * @apiDefine SizeHeader
  *
- * @apiParamExample {String} Size Header
- *    Size=[thumb|medium|large|original]
+ * @apiParamExample {String} Header Size
+ *    Size=[160|320|640|800|1024|1200]
  */
 function resizeImage(image: IImage, size: string): Promise<IImage> {
   const newSize = getSize(size);
@@ -151,14 +151,23 @@ function resizeImage(image: IImage, size: string): Promise<IImage> {
  */
 function getSize(sizeHeader: string): number {
   switch (sizeHeader) {
-    case "thumb": {
+    case "160": {
+      return 160;
+    }
+    case "320": {
       return 320;
     }
-    case "medium": {
+    case "640": {
+      return 640;
+    }
+    case "800": {
       return 800;
     }
-    case "large": {
+    case "1024": {
       return 1024;
+    }
+    case "1200": {
+      return 1200;
     }
   }
   return 0;

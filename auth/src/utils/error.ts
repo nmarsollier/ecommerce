@@ -83,8 +83,8 @@ function processValidationError(res: express.Response, err: any): ValidationErro
  *     {
  *        "messages" : [
  *          {
- *            "path" : "propertyName",
- *            "message" : "Error Text"
+ *            "path" : "{Nombre de la propiedad}",
+ *            "message" : "{Motivo del error}"
  *          },
  *          ...
  *       ]
@@ -98,7 +98,7 @@ function processValidationError(res: express.Response, err: any): ValidationErro
  *     HTTP/1.1 404 Not Found
  *     HTTP/1.1 Header X-Status-Reason: {Message}
  *     {
- *        "url" : "http://...",
+ *        "url" : "{Url no encontrada}",
  *        "error" : "Not Found"
  *     }
  *

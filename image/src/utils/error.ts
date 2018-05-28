@@ -47,12 +47,12 @@ function processValidationError(res: express.Response, err: any): ValidationErro
  *
  * @apiSuccessExample {json} 400 Bad Request
  *     HTTP/1.1 400 Bad Request
- *     HTTP/1.1 Header X-Status-Reason: {Message}
+ *     HTTP/1.1 Header X-Status-Reason: {Mensaje}
  *     {
  *        "messages" : [
  *          {
- *            "path" : "propertyName",
- *            "message" : "Error Text"
+ *            "path" : "{Propiedad con errores}",
+ *            "message" : "{Mensaje con el error}"
  *          },
  *          ...
  *       ]
@@ -64,22 +64,22 @@ function processValidationError(res: express.Response, err: any): ValidationErro
  *
  * @apiSuccessExample {json} 404 Not Found
  *     HTTP/1.1 404 Not Found
- *     HTTP/1.1 Header X-Status-Reason: {Message}
+ *     HTTP/1.1 Header X-Status-Reason: {Mensaje}
  *     {
- *        "url" : "http://...",
+ *        "url" : "{Url no encontrada}",
  *        "error" : "Not Found"
  *     }
  *
  * @apiSuccessExample {json} 500 Server Error
  *     HTTP/1.1 500 Internal Server Error
- *     HTTP/1.1 Header X-Status-Reason: {Message}
+ *     HTTP/1.1 Header X-Status-Reason: {Mensaje}
  *     {
  *        "error" : "Not Found"
  *     }
  *
  * @apiSuccessExample {json} 405 Unautorized
  *     HTTP/1.1 405 Unautorized Method
- *     HTTP/1.1 Header X-Status-Reason: {Message}
+ *     HTTP/1.1 Header X-Status-Reason: {Mensaje}
  *     {
  *        "error" : "Not Found"
  *     }

@@ -11,6 +11,11 @@ import * as mongoose from "mongoose";
 // Variables de entorno
 const conf: Config = env.getConfig(process.env);
 
+// Mejoramos el log de las promesas
+process.on("unhandledRejection", (reason, p) => {
+  console.error("Unhandled Rejection at: Promise", p, "reason:", reason);
+});
+
 // Establecemos conexion con MongoDD
 mongoose.connect(conf.mongoDb, {}, function (err: MongoError) {
   if (err) {

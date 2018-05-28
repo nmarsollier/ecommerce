@@ -19,16 +19,13 @@ const conf = appConfig.getConfig(process.env);
 /**
  * @apiDefine AuthHeader
  *
- * @apiParamExample {String} Authorization Header
+ * @apiParamExample {String} Header Autorización
  *    Authorization=bearer {token}
- */
-
-/**
- * @apiDefine Unautorized
  *
  * @apiSuccessExample 401 Unautorized
- *     HTTP/1.1 401 Unautorized
+ *    HTTP/1.1 401 Unautorized
  */
+
 export function init() {
     const params = {
         secretOrKey: conf.jwtSecret,

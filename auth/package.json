@@ -1,5 +1,5 @@
 {
-    "name": "microservicios-auth",
+    "name": "auth-service",
     "version": "0.1.0",
     "description": "Server de Autenticacion",
     "repository": {
@@ -17,10 +17,6 @@
         "watch-ts": "tsc -w",
         "tslint": "tslint -c tslint.json -p tsconfig.json",
         "apidoc": "./node_modules/.bin/apidoc -i src -o ./dist/public"
-    },
-    "apidoc": {
-        "title": "Microservicio de Seguridad",
-        "url": ""
     },
     "dependencies": {
         "body-parser": "1.18.3",

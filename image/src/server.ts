@@ -10,6 +10,11 @@ import * as rabbbit from "./rabbit/rabbit.service";
 // Variables de entorno
 const conf: Config = env.getConfig(process.env);
 
+// Mejoramos el log de las promesas
+process.on("unhandledRejection", (reason, p) => {
+  console.error("Unhandled Rejection at: Promise", p, "reason:", reason);
+});
+
 // Se configura e inicializa express
 const app = express.init(conf);
 

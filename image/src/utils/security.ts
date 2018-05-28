@@ -32,17 +32,12 @@ export interface IUserSessionRequest extends express.Request {
 /**
  * @apiDefine AuthHeader
  *
- * @apiParamExample {String} Authorization Header
+ * @apiParamExample {String} Header Autorización
  *    Authorization=bearer {token}
- */
-
-/**
- * @apiDefine Unautorized
  *
  * @apiSuccessExample 401 Unautorized
- *     HTTP/1.1 401 Unautorized
+ *    HTTP/1.1 401 Unautorized
  */
-
 export function validateSesssionToken(req: IUserSessionRequest, res: express.Response, next: NextFunction) {
   const auth = req.header("Authorization");
   if (!auth) {
@@ -74,7 +69,7 @@ export function validateSesssionToken(req: IUserSessionRequest, res: express.Res
           return next();
         }
       ).catch(
-        (error) => {
+        (exception) => {
           return error.sendError(res, error.ERROR_UNATORIZED, "Unautorized");
         }
       );
