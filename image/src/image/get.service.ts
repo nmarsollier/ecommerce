@@ -11,11 +11,11 @@ import * as jimp from "jimp";
 import * as redis from "../utils/redis";
 
 /**
- * @api {get} /image/:id Obtener Image
- * @apiName GetImage
+ * @api {get} /image/:id Obtener Imagen
+ * @apiName Obtener Imagen
  * @apiGroup Imagen
  *
- * @apiDescription Obtiene una imagen del servidor
+ * @apiDescription Obtiene una imagen del servidor en formato base64
  *
  * @apiUse SizeHeader
  *
@@ -35,6 +35,49 @@ export interface IReadRequest extends express.Request {
 export function read(req: IReadRequest, res: express.Response) {
   res.json(req.image);
 }
+
+/**
+ * @api {get} /image/:id/jpeg Obtener Imagen Jpeg
+ * @apiName Obtener Imagen Jpeg
+ * @apiGroup Imagen
+ *
+ * @apiDescription Obtiene una imagen del servidor en formato jpeg.
+ *
+ * @apiUse SizeHeader
+ *
+ * @apiSuccessExample Respuesta
+ *    Imagen en formato jpeg
+ *
+ * @apiUse AuthHeader
+ * @apiUse ParamValidationErrors
+ * @apiUse OtherErrors
+ */
+export function readJpeg(req: IReadRequest, res: express.Response) {
+  jimp.read(
+    Buffer.from(req.image.image.substring(req.image.image.indexOf(",") + 1), "base64")
+  ).then(
+    (loadedImage) => {
+      let contentType = req.image.image.substring(0, req.image.image.indexOf(";"));
+      contentType = contentType.substring(req.image.image.indexOf(":") + 1);
+
+      loadedImage.quality(60);
+
+      loadedImage.getBuffer("image/jpeg", (err, buffer) => {
+        if (err) {
+          return error.sendError(res, error.ERROR_INTERNAL_ERROR, "Cannot load image.");
+        }
+
+        res.contentType(contentType);
+        res.send(buffer);
+      });
+    }
+  ).catch(
+    (exception) => {
+      return error.sendError(res, error.ERROR_INTERNAL_ERROR, "Cannot load image.");
+    }
+  );
+}
+
 
 export function findById(req: IReadRequest, res: express.Response, next: NextFunction) {
   const id = escape(req.params.imageId);
@@ -122,9 +165,9 @@ function resizeImage(image: IImage, size: string): Promise<IImage> {
     ).then(
       (loadedImage) => {
         if (loadedImage.bitmap.width > newSize || loadedImage.bitmap.height > newSize) {
-          loadedImage.scaleToFit(newSize, newSize)
-            .quality(60);
+          loadedImage.scaleToFit(newSize, newSize);
         }
+        loadedImage.quality(60);
 
         loadedImage.getBuffer(jimp.MIME_JPEG, (err, buffer) => {
           if (err) {

@@ -14,4 +14,7 @@ export function init(app: Express) {
     .route("/image/:imageId")
     .get(security.validateSesssionToken, getService.findById, getService.read);
 
+    app
+    .route("/image/:imageId/jpeg")
+    .get(security.validateSesssionToken, getService.findById, getService.readJpeg);
 }
