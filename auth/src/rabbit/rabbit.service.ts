@@ -7,7 +7,7 @@ export interface IRabbitMessage {
     type: string;
     message: any;
 }
-const QUEUE = "auth";
+const EXCHANGE = "auth";
 let channel: amqp.Channel;
 
 /**
@@ -33,20 +33,19 @@ function sendMessage(message: IRabbitMessage): Promise<IRabbitMessage> {
     return new Promise<IRabbitMessage>((resolve, reject) => {
         getChannel().then(
             (channel) => {
-                channel.assertQueue(QUEUE, { durable: false });
-                channel.assertExchange(QUEUE, "fanout", { durable: false });
-                if (channel.sendToQueue(QUEUE, new Buffer(JSON.stringify(message)))) {
+                channel.assertExchange(EXCHANGE, "fanout", { durable: false });
+                if (channel.publish(EXCHANGE, "", new Buffer(JSON.stringify(message)))) {
                     resolve(message);
                 } else {
                     reject();
                 }
-            },
-            (error) => {
-                return new Promise<IRabbitMessage>((resolve, reject) => {
-                    console.log("RabbitMQ " + error);
-                    reject();
+            }).catch(
+                (err) => {
+                    return new Promise<IRabbitMessage>((resolve, reject) => {
+                        console.log("RabbitMQ " + err);
+                        reject();
+                    });
                 });
-            });
     });
 }
 

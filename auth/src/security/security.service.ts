@@ -195,8 +195,8 @@ export function signout(req: IUserSessionRequest, res: express.Response) {
 
       rabbit.sendLogout(req.header("Authorization"))
         .catch(
-          (error) => {
-            console.error("signout " + error);
+          (err) => {
+            console.error("signout " + err);
           }
         );
 

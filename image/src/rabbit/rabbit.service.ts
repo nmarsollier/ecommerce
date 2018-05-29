@@ -3,7 +3,7 @@
 import amqp = require("amqplib");
 import * as security from "../utils/security";
 
-const AUTH_QUEUE = "auth";
+const EXCHANGE = "auth";
 
 export interface IRabbitMessage {
     type: string;
@@ -22,24 +22,35 @@ export function init() {
 
                     console.log("RabbitMQ conectado");
 
-                    channel.assertQueue(AUTH_QUEUE, { durable: false });
-                    channel.consume(AUTH_QUEUE,
-                        (message) => {
-                            const rabbitMessage: IRabbitMessage = JSON.parse(message.content.toString());
-                            switch (rabbitMessage.type) {
-                                case "logout":
-                                    security.invalidateSessionToken(rabbitMessage.message);
+                    channel.assertExchange(EXCHANGE, "fanout", { durable: false });
+                    channel.assertQueue("", { exclusive: true }).then(
+                        (queue) => {
+                            channel.bindQueue(queue.queue, EXCHANGE, "");
+
+                            channel.consume(queue.queue,
+                                (message) => {
+                                    const rabbitMessage: IRabbitMessage = JSON.parse(message.content.toString());
+                                    switch (rabbitMessage.type) {
+                                        case "logout":
+                                            console.log("RabbitMQ logout " + rabbitMessage.message);
+                                            security.invalidateSessionToken(rabbitMessage.message);
+                                    }
+                                }, { noAck: true });
+                        }).catch(
+                            (err) => {
+                                console.error("RabbitMQ " + err.message);
+                                setTimeout(() => init(), 10000);
                             }
-                        }, { noAck: true });
+                        );
                 },
-                (onReject) => {
-                    console.error("RabbitMQ " + onReject.message);
+                (err) => {
+                    console.error("RabbitMQ " + err.message);
                     setTimeout(() => init(), 10000);
                 }
             );
         },
-        (onReject) => {
-            console.error("RabbitMQ " + onReject.message);
+        (err) => {
+            console.error("RabbitMQ " + err.message);
             setTimeout(() => init(), 10000);
         });
 }

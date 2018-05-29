@@ -140,7 +140,7 @@ function findAndResize(req: IReadRequest, res: express.Response, next: NextFunct
           next();
         });
       },
-      (error) => {
+      (err) => {
         console.error("Error al reajustar tamaño de imagen");
 
         req.image = image;
@@ -181,9 +181,7 @@ function resizeImage(image: IImage, size: string): Promise<IImage> {
           resolve(result);
         });
       },
-      (error) => {
-        reject();
-      }
+      (err) => reject()
     );
   });
 }
