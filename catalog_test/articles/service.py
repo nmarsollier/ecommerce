@@ -3,10 +3,12 @@ import utils.errors as error
 import bson.objectid as bson
 import re
 import datetime
+import numbers
 
 
 def validateArticleParams(params):
-    if ("_id" in params):
+    isNew = "_id" not in params
+    if (not isNew):
         objId = params["_id"]
         if (type(objId) != str):
             raise error.InvalidArgument("_id", "Invalid")
@@ -19,7 +21,7 @@ def validateArticleParams(params):
             raise error.InvalidArgument("name", "Invalid")
         if (len(name) < 1 or len(name) > 60):
             raise error.InvalidArgument("name", "Invalid size")
-    else:
+    elif (isNew):
         raise error.InvalidArgument("name", "Required")
 
     if ("description" in params):
@@ -36,6 +38,20 @@ def validateArticleParams(params):
         if (len(image) < 1 or len(image) > 50):
             raise error.InvalidArgument("image", "Invalid size")
 
+    if ("price" in params):
+        price = params["price"]
+        if (not isinstance(price, numbers.Real)):
+            raise error.InvalidArgument("price", "Invalid")
+        if (price < 0):
+            raise error.InvalidArgument("price", "Invalid value")
+
+    if ("stock" in params):
+        stock = params["stock"]
+        if (not isinstance(stock, numbers.Integral)):
+            raise error.InvalidArgument("stock", "Invalid")
+        if (price < 0):
+            raise error.InvalidArgument("stock", "Invalid value")
+
 
 def getArticle(docId):
     try:
@@ -50,8 +66,10 @@ def getArticle(docId):
 def addArticle(params):
     validateArticleParams(params)
 
+    isNew = True
     article = {}
     if ("_id" in params):
+        isNew = False
         article = getArticle(params["_id"])
 
     if ("name" in params):
@@ -59,11 +77,25 @@ def addArticle(params):
 
     if ("description" in params):
         article["description"] = params["description"]
+    elif (isNew):
+        article["description"] = ""
 
     if ("image" in params):
         article["image"] = params["image"]
+    elif (isNew):
+        article["image"] = ""
 
-    if ("_id" in article and article["_id"]):
+    if ("stock" in params):
+        article["stock"] = int(params["stock"])
+    elif (isNew):
+        article["stock"] = 0
+
+    if ("price" in params):
+        article["price"] = float(params["price"])
+    elif (isNew):
+        article["price"] = 0.0
+
+    if (not isNew):
         article["updated"] = datetime.datetime.utcnow()
         db.articles.save(article)
     else:
