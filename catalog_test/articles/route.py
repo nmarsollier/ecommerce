@@ -1,37 +1,46 @@
 import flask
-import articles.service as articleService
+import crud_service as crud
+import find_service as find
 import utils.json_serializer as json
 import utils.errors as errors
 
 
 def init(app):
-
-    @app.route('/catalog', methods=['POST'])
+    @app.route('/articles', methods=['POST'])
     def addArticle():
         try:
-            result = articleService.addArticle(json.body_to_dic(flask.request.data))
+            result = crud.addArticle(json.body_to_dic(flask.request.data))
             return json.dic_to_json(result)
         except Exception as err:
             return errors.handleError(err)
 
-    @app.route('/catalog/<catalogId>', methods=['GET'])
-    def getArticle(catalogId):
+    @app.route('/articles/<articleId>', methods=['POST'])
+    def updateArticle(articleId):
         try:
-            return json.dic_to_json(articleService.getArticle(catalogId))
+            result = crud.updateArticle(articleId,
+                                        json.body_to_dic(flask.request.data))
+            return json.dic_to_json(result)
         except Exception as err:
             return errors.handleError(err)
 
-    @app.route('/catalog/<catalogId>', methods=['DELETE'])
-    def delArticle(catalogId):
+    @app.route('/articles/<articleId>', methods=['GET'])
+    def getArticle(articleId):
         try:
-            articleService.delArticle(catalogId)
+            return json.dic_to_json(crud.getArticle(articleId))
+        except Exception as err:
+            return errors.handleError(err)
+
+    @app.route('/articles/<articleId>', methods=['DELETE'])
+    def delArticle(articleId):
+        try:
+            crud.delArticle(articleId)
             return ""
         except Exception as err:
             return errors.handleError(err)
 
-    @app.route('/catalog/search/<criteria>', methods=['GET'])
+    @app.route('/articles/search/<criteria>', methods=['GET'])
     def searchArticles(criteria):
         try:
-            return json.dic_to_json(articleService.searchArticles(criteria))
+            return json.dic_to_json(find.searchArticles(criteria))
         except Exception as err:
             return errors.handleError(err)

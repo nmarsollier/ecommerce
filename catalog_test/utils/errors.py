@@ -29,8 +29,32 @@ def handleError(err):
         return handleUnknown(err)
 
 
+"""
+@apiDefine Errors
+
+@apiSuccessExample {json} 400 Bad Request
+    HTTP/1.1 400 Bad Request
+    {
+        "path" : "{Nombre de la propiedad}",
+        "message" : "{Motivo del error}"
+    }
+
+@apiSuccessExample {json} 400 Bad Request
+    HTTP/1.1 400 Bad Request
+    {
+        "error" : "{Motivo del error}"
+    }
+
+@apiSuccessExample {json} 500 Server Error
+    HTTP/1.1 500 Server Error
+    {
+        "error" : "{Motivo del error}"
+    }
+"""
+
+
 def handleInvalidArgument(err):
-    return json.dic_to_json({"path": err.path, "error": err.error}), 400
+    return json.dic_to_json({"path": err.path, "message": err.error}), 400
 
 
 def handleInvalidRequest(err):
@@ -38,4 +62,4 @@ def handleInvalidRequest(err):
 
 
 def handleUnknown(err):
-    return "Unknown error", 500
+    return json.dic_to_json({"error": "Unknown error"}), 500
