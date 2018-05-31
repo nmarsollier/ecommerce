@@ -2,7 +2,7 @@ import utils.mongo as db
 import utils.errors as error
 import bson.objectid as bson
 import datetime
-import validation_service as validator
+import articles.validation_service as validator
 
 
 """
@@ -74,7 +74,7 @@ def getArticle(docId):
 
 def addArticle(params):
     validator.validateAddArticleParams(params)
-    addOrUpdateArticle(params)
+    return addOrUpdateArticle(params)
 
 
 """
@@ -112,8 +112,8 @@ def addArticle(params):
 
 def updateArticle(articleId, params):
     params["_id"] = articleId
-    validator.validateAddArticleParams(params)
-    addOrUpdateArticle(params)
+    validator.validateEditArticleParams(params)
+    return addOrUpdateArticle(params)
 
 
 def addOrUpdateArticle(params):

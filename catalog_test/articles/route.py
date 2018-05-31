@@ -1,6 +1,6 @@
 import flask
-import crud_service as crud
-import find_service as find
+import articles.crud_service as crud
+import articles.find_service as find
 import utils.json_serializer as json
 import utils.errors as errors
 
