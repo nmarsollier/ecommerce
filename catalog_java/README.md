@@ -5,10 +5,15 @@ Requisitos
 -
 
 Java 8
-Maven
+Gradle 4.7
+
+
 
 Ejecucion
 _
 
-mvn install
-mvn compile exec:java
+gradle build
+gradle run
+
+
+los servicios son expuestos en el puerto 3002

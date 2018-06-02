@@ -10,6 +10,10 @@ import com.catalog.errors.MultipleArgumentsException;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 
+import org.apache.log4j.BasicConfigurator;
+import org.apache.log4j.Level;
+import org.apache.log4j.Logger;
+
 import spark.Spark;
 
 public class Main {
@@ -17,6 +21,24 @@ public class Main {
 
     public static void main(String[] args) {
         Spark.port(PORT);
+        Spark.staticFiles.location("/public");
+
+        initLog4j();
+
+        // Spark
+        initError();
+        new ArticleController().init();
+
+        System.out.println("Catalog escuchando en el puerto " + PORT);
+    }
+
+    private static void initLog4j() {
+        BasicConfigurator.configure();
+        Logger.getRootLogger().setLevel(Level.INFO);
+    }
+
+    static void initError() {
+
         Spark.exception(Exception.class, (exception, request, response) -> {
             exception.printStackTrace();
             response.type("application/json");
@@ -63,9 +85,5 @@ public class Main {
 
             response.body(result.toString());
         });
-
-        new ArticleController().init();
-
-        System.out.println("Catalog escuchando en el puerto " + PORT);
     }
 }

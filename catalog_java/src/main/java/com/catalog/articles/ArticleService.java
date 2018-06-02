@@ -4,9 +4,9 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-import com.catalog.database.Mongo;
 import com.catalog.errors.InvalidBodyException;
 import com.catalog.errors.MultipleArgumentsException;
+import com.catalog.utils.Mongo;
 
 import org.apache.commons.lang3.StringUtils;
 import org.bson.types.ObjectId;

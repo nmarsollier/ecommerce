@@ -1,2 +1,9 @@
 .settings
 target
+.classpath
+build
+bin
+.gradle
+gradle
+gradlew
+gradlew.bat
