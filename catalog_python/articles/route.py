@@ -6,6 +6,11 @@ import utils.errors as errors
 
 
 def init(app):
+    """
+    Define las rutas para article\n
+    app: Flask
+    """
+
     @app.route('/articles', methods=['POST'])
     def addArticle():
         try:

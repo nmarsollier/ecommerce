@@ -6,4 +6,4 @@ app = flask.Flask(__name__)
 articlesRoutes.init(app)
 
 if __name__ == "__main__":
-    app.run()
+    app.run(port=3002)
