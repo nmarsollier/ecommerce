@@ -3,6 +3,7 @@ import socket
 import utils.json_serializer as json
 import utils.errors as errors
 import memoize
+import utils.config as config
 
 memoKeys = {}
 
@@ -21,7 +22,7 @@ def isValidToken(authKey):
 
     headers = {"Authorization".encode("utf-8"): authKey.encode("utf-8")}
 
-    conn = http.client.HTTPConnection(socket.gethostbyname("localhost"), 3000)
+    conn = http.client.HTTPConnection(socket.gethostbyname(config.getSecurityServerUrl(), config.getSecurityServerPort()))
 
     conn.request("GET", "/auth/currentUser", {}, headers)
     response = conn.getresponse()

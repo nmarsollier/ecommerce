@@ -2,6 +2,7 @@ import pika
 import utils.security as security
 import threading
 import utils.json_serializer as json
+import utils.config as config
 
 EXCHANGE = "auth"
 
@@ -17,7 +18,7 @@ def init():
 def listen():
     try:
         connection = pika.BlockingConnection(
-            pika.ConnectionParameters(host='localhost'))
+            pika.ConnectionParameters(host=config.getRabbitServerUrl()))
         channel = connection.channel()
 
         channel.exchange_declare(exchange=EXCHANGE, exchange_type='fanout')

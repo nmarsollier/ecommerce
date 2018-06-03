@@ -1,6 +1,7 @@
 import pymongo
+import utils.config as config
 
-client = pymongo.MongoClient('localhost', 27017)
+client = pymongo.MongoClient(config.getDatabaseServerUrl(), config.getDatabaseServerPort())
 
 db = client['catalog']
 
