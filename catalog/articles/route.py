@@ -25,8 +25,7 @@ def init(app):
     def updateArticle(articleId):
         try:
             security.validateAdminRole(flask.request.headers.get("Authorization"))
-            result = crud.updateArticle(articleId,
-                                        json.body_to_dic(flask.request.data))
+            result = crud.updateArticle(articleId, json.body_to_dic(flask.request.data))
             return json.dic_to_json(result)
         except Exception as err:
             return errors.handleError(err)

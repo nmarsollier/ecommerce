@@ -50,14 +50,14 @@ pyenv global 2.7.6
 Python 3.6.5
 -
 
-A partir de ahora todo lo que ejecutamos, va a ser dentro de la carpeta catalog_python
+A partir de ahora todo lo que ejecutamos, va a ser dentro de la carpeta catalog
 
 ```bash
 pyenv install 3.6.5
 python --version
 ```
 
-Ahora vamos a instalar las librerias de nuestro proyecto. Parados en el directorio catalog_python ejecutamos
+Ahora vamos a instalar las librerias de nuestro proyecto. Parados en el directorio catalog ejecutamos
 
 ```bash
 pip install -U -r requirements.txt

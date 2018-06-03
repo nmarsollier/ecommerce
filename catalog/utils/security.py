@@ -22,7 +22,8 @@ def isValidToken(authKey):
 
     headers = {"Authorization".encode("utf-8"): authKey.encode("utf-8")}
 
-    conn = http.client.HTTPConnection(socket.gethostbyname(config.getSecurityServerUrl()), config.getSecurityServerPort())
+    conn = http.client.HTTPConnection(socket.gethostbyname(
+        config.getSecurityServerUrl()), config.getSecurityServerPort())
 
     conn.request("GET", "/auth/currentUser", {}, headers)
     response = conn.getresponse()
