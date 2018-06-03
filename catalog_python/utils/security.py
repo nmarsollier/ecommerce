@@ -4,11 +4,13 @@ import utils.json_serializer as json
 import utils.errors as errors
 import memoize
 
-memo = memoize.Memoizer({})
+memoKeys = {}
+
+memo = memoize.Memoizer(memoKeys)
 
 
 @memo(max_age=3600)
-def isAutorized(authKey):
+def isValidToken(authKey):
     """
     Obtiene el currentUser desde el servicio de authenticacion
     authKey: string El header Authorization enviado por el cliente
@@ -31,4 +33,27 @@ def isAutorized(authKey):
     if (len(result) == 0):
         raise errors.InvalidAuth()
 
+    print(result)
     return result
+
+
+def validateAdminRole(token):
+    """
+    Valida si el usuario actual tiene rol de admin.\n
+    token: string Header Auth Token
+    """
+    profile = isValidToken(token)
+    print(profile)
+    print(profile["roles"])
+    if ("roles" not in profile or "admin" not in profile["roles"]):
+        raise errors.InvalidAuth()
+
+
+def invalidateSession(token):
+    """
+    Invalida un token del cache.\n
+    token: string Header Auth Token
+    """
+    if (isinstance(token, str) and isValidToken.exists((token, ))):
+        print("Key eliminada %r" % token)
+        isValidToken.delete((token, ))

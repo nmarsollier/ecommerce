@@ -15,7 +15,7 @@ def init(app):
     @app.route('/articles', methods=['POST'])
     def addArticle():
         try:
-            security.isAutorized(flask.request.headers.get("Authorization"))
+            security.validateAdminRole(flask.request.headers.get("Authorization"))
             result = crud.addArticle(json.body_to_dic(flask.request.data))
             return json.dic_to_json(result)
         except Exception as err:
@@ -24,7 +24,7 @@ def init(app):
     @app.route('/articles/<articleId>', methods=['POST'])
     def updateArticle(articleId):
         try:
-            security.isAutorized(flask.request.headers.get("Authorization"))
+            security.validateAdminRole(flask.request.headers.get("Authorization"))
             result = crud.updateArticle(articleId,
                                         json.body_to_dic(flask.request.data))
             return json.dic_to_json(result)
@@ -41,7 +41,7 @@ def init(app):
     @app.route('/articles/<articleId>', methods=['DELETE'])
     def delArticle(articleId):
         try:
-            security.isAutorized(flask.request.headers.get("Authorization"))
+            security.validateAdminRole(flask.request.headers.get("Authorization"))
             crud.delArticle(articleId)
             return ""
         except Exception as err:

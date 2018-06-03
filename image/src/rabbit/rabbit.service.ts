@@ -16,7 +16,7 @@ export function init() {
             conn.createChannel().then(
                 (channel) => {
                     channel.on("close", function () {
-                        console.error("RabbitMQ conexion cerrada");
+                        console.error("RabbitMQ conexion cerrada, intentado reconectar en 10'");
                         setTimeout(() => init(), 10000);
                     });
 

@@ -9,6 +9,8 @@ pip
 
 pip install -U pymongo
 pip install -U flask
+pip install -U pika
+pip install -U PyMemoize
 
 Recomiendo usar pyenv si se tienen varias versiones de python
 pyenv
