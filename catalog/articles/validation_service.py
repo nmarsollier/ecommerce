@@ -67,7 +67,8 @@ def validateArticleParams(params):
 
 def validateSchema(article):
     """
-    Valida el esquema de db, este se debe ejecutar antes de insertar o agregar a la db.\n
+    Valida el esquema de db, este se debe ejecutar antes de insertar o agregar
+    a la db.\n
     params: dict<propiedad, valor> Article
     """
 

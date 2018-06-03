@@ -9,9 +9,17 @@ que una vez levantado el servidor se puede navegar en http://localhost:3001/
 Dependencias
 -
 
-Ver tutorial de instalacion en [README.md](../README.md) en la raiz.
+Instalar Node 8
+-
+
+Seguir los pasos de instalacion del sitio oficial
+
+<https://nodejs.org/en/>
 
 Redis
+-
+
+Ver tutorial de instalacion en [README.md](../README.md) en la raiz.
 
 Ejecucion
 -

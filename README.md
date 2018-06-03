@@ -7,21 +7,19 @@ Este proyecto es un ejemplo de como armar una arquitectura de microservicios, po
 Al ser una arquitectura de microservicios cada directorio dentro de la raiz del proyecto es un microservicio, leer los pasos documentados en cada proyecto en los archivos README.txt
 
 [Seguridad](auth/README.md)\
-[Imagenes](image/README.md)
+[Imagenes](image/README.md)\
+[Catalogo](catalog/README.md)
 
 Guia de Instalacion General
 -
 
-Este proyecto utiliza varias tecnologias, las siguientes dependencias son necesarias antes de comenzar a compilar y ejecutar aplicaciones.
+Este proyecto utiliza varias tecnologias, las siguientes dependencias son necesarias antes de comenzar a compilar y ejecutar aplicaciones. Es necesario seguir los tutoriales en cada uno de los microservicios. En general hay 2 entornos, uno Node y uno Python, habiendo configurado estos dos entornos, se podra ejecutar todo el proyecto.
 
-Instalar Node 8
--
+Dependencias globales
+=
+Estas son dependencias compartidas, cada microservicio tiene su propia base de datos, pero para simplificar la configuracion, en estos ejemplos vamos a compartir instancias de db. Pero en un entorno real cada servicio debe configurar su entorno.
 
-Seguir los pasos de instalacion del sitio oficial
-
-<https://nodejs.org/en/>
-
-Instalar MongoDB
+MongoDB
 -
 
 Seguir las guias de instalacion de mongo desde el sitio oficial
@@ -42,7 +40,7 @@ Sugiero instalar Mongodb Compass para poder navegar la base de datos en forma vi
 
 <https://www.mongodb.com/products/compass>
 
-Instalar Redis
+Redis
 -
 
 Seguir los pasos de instalacion desde la pagina oficial
@@ -61,7 +59,7 @@ redis-server
 
 Recomiendo instalar FastoRedis para navegar la base de datos <https://fastoredis.com/>
 
-Instalar RabbitMQ
+RabbitMQ
 -
 
 Seguir los pasos de instalacion en la pagina oficial
