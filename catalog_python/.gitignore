@@ -1,5 +1,3 @@
 .vscode
-
 *.pyc
-
-docs
+public
