@@ -22,7 +22,7 @@ def isValidToken(authKey):
 
     headers = {"Authorization".encode("utf-8"): authKey.encode("utf-8")}
 
-    conn = http.client.HTTPConnection(socket.gethostbyname(config.getSecurityServerUrl(), config.getSecurityServerPort()))
+    conn = http.client.HTTPConnection(socket.gethostbyname(config.getSecurityServerUrl()), config.getSecurityServerPort())
 
     conn.request("GET", "/auth/currentUser", {}, headers)
     response = conn.getresponse()
@@ -47,7 +47,7 @@ def validateAdminRole(token):
     print(profile)
     print(profile["roles"])
     if ("roles" not in profile or "admin" not in profile["roles"]):
-        raise errors.InvalidAuth()
+        raise errors.InvalidAccessLevel()
 
 
 def invalidateSession(token):

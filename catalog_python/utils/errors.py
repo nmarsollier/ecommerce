@@ -20,8 +20,8 @@
         "error" : "{Motivo del error}"
     }
 """
-import utils.json_serializer as json
 import traceback
+import utils.json_serializer as json
 
 
 class InvalidRequest(Exception):
@@ -46,10 +46,14 @@ class MultipleArgumenException(Exception):
         self.errors = error
 
     def __str__(self):
-        return repr(self.path)
+        return repr(self.errors)
 
 
 class InvalidAuth(Exception):
+    pass
+
+
+class InvalidAccessLevel(Exception):
     pass
 
 
@@ -59,7 +63,6 @@ def handleError(err):
     err: Exception
     result json error a enviar al cliente
     """
-    traceback.print_exc()
     if isinstance(err, InvalidArgument):
         return handleInvalidArgument(err)
     elif isinstance(err, InvalidRequest):
@@ -68,7 +71,10 @@ def handleError(err):
         return handleMultipleArgumenException(err)
     elif isinstance(err, InvalidAuth):
         return handleUnatorized(err)
+    elif isinstance(err, InvalidAccessLevel):
+        return handleInvalidAccessLevel(err)
     else:
+        traceback.print_exc()
         return handleUnknown(err)
 
 
@@ -110,8 +116,17 @@ def handleUnknown(err):
 
 def handleUnatorized(err):
     """
-    Argumento con errores.
+    Usuario no autorizado.
     err: InvalidAuth
     result json error a enviar al cliente
     """
     return json.dic_to_json({"error": "Unautorized"}), 401
+
+
+def handleInvalidAccessLevel(err):
+    """
+    Usuario no autorizado.
+    err: InvalidAuth
+    result json error a enviar al cliente
+    """
+    return json.dic_to_json({"error": "Insuficient access level"}), 401
