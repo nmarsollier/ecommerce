@@ -49,6 +49,10 @@ class MultipleArgumenException(Exception):
         return repr(self.path)
 
 
+class InvalidAuth(Exception):
+    pass
+
+
 def handleError(err):
     """
     Controla cualquier error que se de en el proceso, da como resultado un string json con informacion del error.
@@ -62,6 +66,8 @@ def handleError(err):
         return handleInvalidRequest(err)
     elif isinstance(err, MultipleArgumenException):
         return handleMultipleArgumenException(err)
+    elif isinstance(err, InvalidAuth):
+        return handleUnatorized(err)
     else:
         return handleUnknown(err)
 
@@ -100,3 +106,12 @@ def handleUnknown(err):
     result json error a enviar al cliente
     """
     return json.dic_to_json({"error": "Unknown error"}), 500
+
+
+def handleUnatorized(err):
+    """
+    Argumento con errores.
+    err: InvalidAuth
+    result json error a enviar al cliente
+    """
+    return json.dic_to_json({"error": "Unautorized"}), 401
