@@ -20,6 +20,8 @@ def reserveStock(articleId, quantity):
             "$and": [{
                 '_id': bson.ObjectId(articleId)
             }, {
+                'valid': True
+            }, {
                 'stock': {
                     "$gte": quantity
                 }
@@ -48,7 +50,11 @@ def increaseStock(articleId, quantity):
 
     result = db.articles.find_one_and_update(
         {
-            '_id': bson.ObjectId(articleId)
+            "$and": [{
+                '_id': bson.ObjectId(articleId)
+            }, {
+                'valid': True
+            }]
         }, {'$inc': {
             'stock': quantity
         }},
