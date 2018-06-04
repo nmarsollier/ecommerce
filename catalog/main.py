@@ -11,7 +11,7 @@ articlesRoutes.init(app)
 
 
 # Servidor de archivos estaticos de apidoc
-# Por el momento se genera con ../auth/node_modules/.bin/apidoc -i ./ -o public
+# Por el momento se genera con ../auth/node_modules/.bin/apidoc -i ./ -o public
 @app.route('/<path:path>')
 def sendPublic(path):
     return flask.send_from_directory('public', path)
