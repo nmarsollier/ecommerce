@@ -2,7 +2,6 @@ import utils.mongo as db
 import utils.errors as error
 import bson.objectid as bson
 import datetime
-import articles.validation_service as validator
 import articles.article_schema as schema
 
 
@@ -80,9 +79,7 @@ def addArticle(params):
     @apiUse Errors
 
     """
-    validator.validateAddArticleParams(params)
-
-    return addOrUpdateArticle(params)
+    return _addOrUpdateArticle(params)
 
 
 def updateArticle(articleId, params):
@@ -124,40 +121,7 @@ def updateArticle(articleId, params):
 
     """
     params["_id"] = articleId
-    validator.validateEditArticleParams(params)
-    return addOrUpdateArticle(params)
-
-
-def addOrUpdateArticle(params):
-    """
-    Agrega o actualiza un articulo. \n
-    params: dict<property, value>) Articulo\n
-    return dict<propiedad, valor> Articulo
-    """
-    isNew = True
-
-    article = schema.newArticle()
-
-    if ("_id" in params):
-        isNew = False
-        article = getArticle(params["_id"])
-
-    # Actualizamos los valores validos a actualizar
-    article.update(
-        dict((k, v.strip() if isinstance(v, str) else v)
-             for (k, v) in params.items() if k in schema.ARTICLE_SCHEMA.keys()
-             and isinstance(v, schema.ARTICLE_SCHEMA[k][0])))
-
-    article["updated"] = datetime.datetime.utcnow()
-
-    validator.validateSchema(article)
-
-    if (not isNew):
-        db.articles.save(article)
-    else:
-        article["_id"] = db.articles.insert_one(article).inserted_id
-
-    return article
+    return _addOrUpdateArticle(params)
 
 
 def delArticle(articleId):
@@ -182,3 +146,35 @@ def delArticle(articleId):
     article["updated"] = datetime.datetime.utcnow()
     article["valid"] = False
     db.articles.save(article)
+
+
+def _addOrUpdateArticle(params):
+    """
+    Agrega o actualiza un articulo. \n
+    params: dict<property, value>) Articulo\n
+    return dict<propiedad, valor> Articulo
+    """
+    isNew = True
+
+    article = schema.newArticle()
+
+    if ("_id" in params):
+        isNew = False
+        article = getArticle(params["_id"])
+
+    # Actualizamos los valores validos a actualizar
+    article.update(
+        dict((k, v.strip() if isinstance(v, str) else v)
+             for (k, v) in params.items() if k in schema.ARTICLE_SCHEMA.keys()
+             and isinstance(v, schema.ARTICLE_SCHEMA[k][0])))
+
+    article["updated"] = datetime.datetime.utcnow()
+
+    schema.validateSchema(article)
+
+    if (not isNew):
+        db.articles.save(article)
+    else:
+        article["_id"] = db.articles.insert_one(article).inserted_id
+
+    return article

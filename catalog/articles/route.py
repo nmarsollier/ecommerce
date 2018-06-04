@@ -4,11 +4,12 @@ import articles.find_service as find
 import utils.json_serializer as json
 import utils.errors as errors
 import utils.security as security
+import articles.rest_validations as restValidator
 
 
 def init(app):
     """
-    Define las rutas para article\n
+    Inicializa las rutas para Articulos\n
     app: Flask
     """
 
@@ -16,7 +17,13 @@ def init(app):
     def addArticle():
         try:
             security.validateAdminRole(flask.request.headers.get("Authorization"))
-            result = crud.addArticle(json.body_to_dic(flask.request.data))
+
+            params = json.body_to_dic(flask.request.data)
+
+            restValidator.validateAddArticleParams(params)
+
+            result = crud.addArticle(params)
+
             return json.dic_to_json(result)
         except Exception as err:
             return errors.handleError(err)
@@ -25,7 +32,13 @@ def init(app):
     def updateArticle(articleId):
         try:
             security.validateAdminRole(flask.request.headers.get("Authorization"))
-            result = crud.updateArticle(articleId, json.body_to_dic(flask.request.data))
+
+            params = json.body_to_dic(flask.request.data)
+
+            restValidator.validateEditArticleParams(articleId, params)
+
+            result = crud.updateArticle(articleId, params)
+
             return json.dic_to_json(result)
         except Exception as err:
             return errors.handleError(err)
