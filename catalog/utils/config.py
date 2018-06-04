@@ -4,6 +4,10 @@ config = configparser.ConfigParser()
 config.read("config.ini")
 
 
+def getServerPort():
+    return int(getProperty("ServerPort", 3002))
+
+
 def getSecurityServerUrl():
     return getProperty("SecurityServerUrl", "localhost")
 
