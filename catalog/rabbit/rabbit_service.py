@@ -1,3 +1,5 @@
+# coding=utf_8
+
 import pika
 import utils.security as security
 import threading

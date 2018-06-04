@@ -1,3 +1,5 @@
+# coding=utf_8
+
 import flask
 import articles.crud_service as crud
 import articles.find_service as find

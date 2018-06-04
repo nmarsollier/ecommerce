@@ -1,3 +1,5 @@
+# coding=utf_8
+
 import pymongo
 import utils.config as config
 

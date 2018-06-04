@@ -1,3 +1,5 @@
+# coding=utf_8
+
 import utils.mongo as db
 import bson.objectid as bson
 import pymongo.collection as pymongo

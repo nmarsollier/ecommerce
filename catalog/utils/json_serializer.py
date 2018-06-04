@@ -1,3 +1,5 @@
+# coding=utf_8
+
 import json
 import datetime
 import bson.objectid as bson

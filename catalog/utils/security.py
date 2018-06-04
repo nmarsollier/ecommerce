@@ -1,3 +1,5 @@
+# coding=utf_8
+
 import http.client
 import socket
 import utils.json_serializer as json

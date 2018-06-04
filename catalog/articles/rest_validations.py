@@ -1,4 +1,6 @@
-# Son las validaciones de los servicios rest, se validan los parametros obtenidos desde las llamadas externas rest
+# coding=utf_8
+# Son las validaciones de los servicios rest, se validan los parametros obtenidos desde las llamadas externas rest
+
 import utils.errors as error
 import numbers
 import articles.article_schema as schema

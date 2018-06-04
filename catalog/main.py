@@ -1,3 +1,5 @@
+# coding=utf_8
+
 import flask
 import articles.route as articlesRoutes
 import rabbit.rabbit_service as rabbitService

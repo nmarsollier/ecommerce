@@ -1,3 +1,5 @@
+# coding=utf_8
+
 import utils.mongo as db
 import utils.errors as error
 import re

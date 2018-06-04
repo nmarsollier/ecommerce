@@ -1,3 +1,5 @@
+# coding=utf_8
+
 import configparser
 
 config = configparser.ConfigParser()
