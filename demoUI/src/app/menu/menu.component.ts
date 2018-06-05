@@ -6,7 +6,8 @@ import * as errorHanlder from '../tools/error-handler';
 
 @Component({
   selector: 'app-menu',
-  templateUrl: './menu.component.html'
+  templateUrl: './menu.component.html',
+  styleUrls: ['./menu.component.css']
 })
 export class MenuComponent implements errorHanlder.IErrorController, OnInit {
   errorMessage: string;

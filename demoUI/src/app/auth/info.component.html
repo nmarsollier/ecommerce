@@ -1,42 +1,23 @@
-<h1>Perfil</h1>
+<h2>Perfil</h2>
 
-<form novalidate>
-    <div class="form-group">
-        <label>Id:</label>
+<form class="example-form">
+    <mat-form-field class="full-width">
+        <input matInput placeholder="Id" [value]="usuarioLogueado.id" readonly>
+    </mat-form-field>
 
-        <div style='padding: 3px; width: 70%; word-break: break-all; word-wrap: break-word;'>
-            {{usuarioLogueado.id}}
-        </div>
-    </div>
-    <div class="form-group">
-        <label>Nombre:</label>
+    <mat-form-field class="full-width">
+        <input matInput placeholder="Nombre" [value]="usuarioLogueado.name" readonly>
+    </mat-form-field>
 
-        <div style='padding: 3px; width: 70%; word-break: break-all; word-wrap: break-word;'>
-            {{usuarioLogueado.name}}
-        </div>
-    </div>
-    <div class="form-group">
-        <label>Login:</label>
+    <mat-form-field class="full-width">
+        <input matInput placeholder="Login" [value]="usuarioLogueado.login" readonly>
+    </mat-form-field>
 
-        <div style='padding: 3px; width: 70%; word-break: break-all; word-wrap: break-word;'>
-            {{usuarioLogueado.login}}
-        </div>
-    </div>
-    <div class="form-group">
-        <label>Roles:</label>
+    <mat-form-field class="full-width">
+        <input matInput placeholder="Roles" [value]="usuarioLogueado.roles" readonly>
+    </mat-form-field>
 
-        <div style='padding: 3px; width: 70%; word-break: break-all; word-wrap: break-word;'>
-            {{usuarioLogueado.roles}}
-        </div>
-    </div>
-
-    <div class="form-group">
-        <label>Token:</label>
-
-        <div style='padding: 3px; width: 70%; word-break: break-all; word-wrap: break-word;'>
-            {{token}}
-        </div>
-    </div>
-
-    <button class="btn btn-default" [routerLink]="['/']">Cerrar</button>
+    <mat-form-field class="full-width">
+        <textarea matInput placeholder="Token" [value]="token" rows="6" readonly></textarea>
+    </mat-form-field>
 </form>

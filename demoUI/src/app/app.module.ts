@@ -13,6 +13,14 @@ import { WelcomeComponent } from './welcome/welcome.component';
 import { InfoComponent } from './auth/info.component';
 import { NewUserComponent } from './auth/new.user.component';
 
+import { MatMenuModule } from '@angular/material/menu';
+import { MatSidenavModule } from '@angular/material/sidenav';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { NoopAnimationsModule } from '@angular/platform-browser/animations';
+import { MatListModule } from '@angular/material/list';
+import { MatInputModule } from '@angular/material/input';
+
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -27,6 +35,12 @@ import { NewUserComponent } from './auth/new.user.component';
     BrowserModule,
     FormsModule,
     HttpModule,
+    MatInputModule,
+    MatMenuModule,
+    BrowserAnimationsModule,
+    NoopAnimationsModule,
+    MatSidenavModule,
+    MatListModule,
     routing
   ],
   providers: [AuthService, LoggedIn],

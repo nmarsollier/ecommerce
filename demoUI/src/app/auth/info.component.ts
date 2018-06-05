@@ -7,7 +7,8 @@ import * as errorHanlder from '../tools/error-handler';
 
 @Component({
     selector: 'app-auth-info',
-    templateUrl: './info.component.html'
+    templateUrl: './info.component.html',
+    styleUrls:  ['./info.component.css']
 })
 export class InfoComponent implements OnInit {
     token: string;

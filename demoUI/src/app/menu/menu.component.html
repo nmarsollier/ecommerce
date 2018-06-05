@@ -1,13 +1,9 @@
-<div class="container" *ngIf="!usuarioLogueado">
-	<B>Sesion</B><BR>
-	<a [routerLink]="['/login']">Login</a><BR>
-	<a [routerLink]="['/registrarse']">Registrarse</a><BR>
-</div>
+<mat-list role="list">
+	<mat-list-item role="listitem" *ngIf="!usuarioLogueado">Sesion</mat-list-item>
+	<mat-list-item role="listitem" *ngIf="!usuarioLogueado"><a [routerLink]="['/login']">Login</a></mat-list-item>
+	<mat-list-item role="listitem" *ngIf="!usuarioLogueado"><a [routerLink]="['/registrarse']">Registrarse</a></mat-list-item>
 
-
-<div class="container" *ngIf="usuarioLogueado">
-	<B>Sesion</B><BR>
-	{{usuarioLogueado.name}}<BR>
-	<a [routerLink]="['/info']">Info</a><BR>
-	<a [routerLink]="" (click)="logout()">Logout</a><BR>
-</div>
+	<mat-list-item role="listitem" *ngIf="usuarioLogueado">{{usuarioLogueado.name}}</mat-list-item>
+	<mat-list-item role="listitem" *ngIf="usuarioLogueado"><a [routerLink]="['/info']">Info</a></mat-list-item>
+	<mat-list-item role="listitem" *ngIf="usuarioLogueado"><a [routerLink]="" (click)="logout()">Logout</a></mat-list-item>
+</mat-list>
