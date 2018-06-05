@@ -1,11 +1,11 @@
-<mat-drawer-container class="container" autosize>
-  <mat-drawer #drawer mode="side" opened="true">
-    <app-menu></app-menu>
-  </mat-drawer>
-  <mat-drawer-content class="content">
-    <button type="button" mat-button (click)="drawer.toggle()" class="close-button">&gt;</button>
-    <div class="content-div">
+<table>
+  <tr>
+    <td style="vertical-align: top">
+      <app-menu></app-menu>
+    </td>
+    <td class="content-div">
       <router-outlet></router-outlet>
-    </div>
-  </mat-drawer-content>
-</mat-drawer-container>
+    </td>
+  </tr>
+
+</table>

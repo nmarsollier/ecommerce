@@ -1,51 +1,37 @@
-<h1>Perfil</h1>
+<h2>Registrar Usuario</h2>
 
-<form #f="ngForm" novalidate>
-    <div class="form-group">
-        <label>Login:</label>
+<form [formGroup]="form">
+    <mat-form-field class="full-width">
+        <input matInput placeholder="Login" formControlName="login" />
 
-        <input name="login" [(ngModel)]="user.login" type="text" placeholder="Login" size="60" required />
+        <mat-error *ngIf="form.get('login')?.invalid">
+            {{ errors.get('login') ? errors.get('login') : "Valor no v&aacute;lido." }}
+        </mat-error>
+    </mat-form-field>
 
-        <div *ngIf="f.controls.login?.invalid && f.controls.login?.touched" class="error">
-            Valor no v&aacute;lido.
-        </div>
+    <mat-form-field class="full-width">
+        <input matInput placeholder="Nombre" formControlName="name" />
 
-        <div *ngIf="errors.login" class="error">
-            {{errors.login}}
-        </div>
+        <mat-error *ngIf="form.get('name')?.invalid">
+            {{ errors.get('name') ? errors.get('name') : "Valor no v&aacute;lido." }}
+        </mat-error>
+    </mat-form-field>
+
+
+    <mat-form-field class="full-width">
+        <input matInput placeholder="Password" formControlName="password" type="password" />
+
+        <mat-error *ngIf="form.get('password')?.invalid">
+            {{ errors.get('password') ? errors.get('password') : "Valor no v&aacute;lido." }}
+        </mat-error>
+
+        <mat-error *ngIf="errors.get('password')">{{errors.password}}</mat-error>
+    </mat-form-field>
+
+    <div class="full-width">
+
+        <div *ngIf="errorMessage">{{errorMessage}}</div>
+        <button mat-button color="primary" (click)="submitForm()" [disabled]="form.invalid">Registrar</button>
+        <button mat-button color="disabled" [routerLink]="['/']">Cancelar</button>
     </div>
-
-    <div class="form-group">
-        <label>Nombre:</label>
-
-        <input name="name" [(ngModel)]="user.name" type="text" placeholder="Nombre" size="60" required />
-
-        <div *ngIf="f.controls.name?.invalid && f.controls.name?.touched" class="error">
-            Valor no v&aacute;lido.
-        </div>
-
-        <div *ngIf="errors.name" class="error">
-            {{errors.login}}
-        </div>
-    </div>
-
-
-    <div class="form-group">
-        <label>Password:</label>
-
-        <input name="password" [(ngModel)]="user.password" type="password" placeholder="Password" size="60" required />
-
-        <div *ngIf="f.controls.password?.invalid && f.controls.password?.touched" class="error">
-            Valor no v&aacute;lido.
-        </div>
-
-        <div *ngIf="errors.password" class="error">
-            {{errors.password}}
-        </div>
-    </div>
-    <div *ngIf="errorMessage" class="error">
-        {{errorMessage}}
-    </div>
-    <button class="btn btn-success" (click)="submitForm()" [disabled]="f.invalid">Login</button>
-    <button class="btn btn-default" [routerLink]="['/']">Cancelar</button>
 </form>

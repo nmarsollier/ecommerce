@@ -11,7 +11,7 @@ import * as errorHanlder from '../tools/error-handler';
 })
 export class MenuComponent implements errorHanlder.IErrorController, OnInit {
   errorMessage: string;
-  errors: string[] = [];
+  errors = new Map();
 
   ngOnInit(): void {
     if (localStorage.getItem('auth_token')) {

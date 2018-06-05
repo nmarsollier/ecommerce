@@ -129,11 +129,11 @@ export function signin(req: express.Request, res: express.Response, next: NextFu
       if (err) return error.handleError(res, err);
 
       if (!user) {
-        return error.sendError(res, error.ERROR_NOT_FOUND, "Usuario no encontrado.");
+        return error.sendArgumentError(res, "login", "Usuario no encontrado.");
       }
 
       if (!user.authenticate(req.body.password)) {
-        return error.sendError(res, error.ERROR_BAD_REQUEST, "Password incorrecto.");
+        return error.sendArgumentError(res, "password", "Password incorrecto.");
       }
 
       createToken(res, user);

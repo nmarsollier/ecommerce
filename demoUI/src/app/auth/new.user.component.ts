@@ -4,20 +4,22 @@ import { JsonPipe } from '@angular/common';
 import { AuthService, Usuario, RegistrarUsuario } from '../auth/auth.service';
 import { IErrorController } from '../tools/error-handler';
 import * as errorHanlder from '../tools/error-handler';
+import { FormGroup, FormControl, Validators } from '@angular/forms';
 
 @Component({
     selector: 'app-auth-new-user',
-    templateUrl: './new.user.component.html'
+    templateUrl: './new.user.component.html',
+    styleUrls: ['./new.user.component.css']
 })
-export class NewUserComponent implements IErrorController {
-    user: RegistrarUsuario = {
-        name: '',
-        login: '',
-        password: ''
-    };
-
+export class NewUserComponent implements errorHanlder.IFormGroupErrorController {
     errorMessage: string;
-    errors: string[] = [];
+    errors = new Map();
+
+    form = new FormGroup({
+        login: new FormControl('', [Validators.required]),
+        name: new FormControl('', [Validators.required]),
+        password: new FormControl('', [Validators.required]),
+    });
 
     constructor(private authService: AuthService, private router: Router) { }
 
@@ -25,10 +27,13 @@ export class NewUserComponent implements IErrorController {
         errorHanlder.cleanRestValidations(this);
 
         this.authService
-            .registrarUsuario(this.user)
-            .then(principal => {
+            .registrarUsuario({
+                name: this.form.get('name').value,
+                login: this.form.get('login').value,
+                password: this.form.get('password').value
+            }).then(principal => {
                 this.router.navigate(['/']);
             })
-            .catch(error => errorHanlder.procesarValidacionesRest(this, error));
+            .catch(error => errorHanlder.procesarValidacionesRestFormGroup(this, error));
     }
 }

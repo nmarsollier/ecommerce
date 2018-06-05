@@ -74,6 +74,17 @@ function processValidationError(res: express.Response, err: any): ValidationErro
   };
 }
 
+export function sendArgumentError(res: express.Response, argument: string, err: string) {
+  res.setHeader("X-Status-Reason", "Validation failed");
+  res.status(ERROR_BAD_REQUEST);
+  return res.send({
+    message: [{
+      path: argument,
+      message: err
+    }]
+  });
+}
+
 /**
  * @apiDefine ParamValidationErrors
  *
