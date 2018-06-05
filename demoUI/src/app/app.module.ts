@@ -20,7 +20,11 @@ import { MatListModule } from '@angular/material/list';
 import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
 import { MAT_LABEL_GLOBAL_OPTIONS } from '@angular/material/core';
-import {FormsModule, ReactiveFormsModule} from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { MatToolbarModule } from '@angular/material/toolbar';
+import { NavBarModule } from './navbar/navbar';
+import { MatIconModule } from '@angular/material';
+
 
 
 @NgModule({
@@ -40,7 +44,10 @@ import {FormsModule, ReactiveFormsModule} from '@angular/forms';
     HttpModule,
     MatInputModule,
     MatMenuModule,
+    MatIconModule,
+    NavBarModule,
     MatButtonModule,
+    MatToolbarModule,
     BrowserAnimationsModule,
     NoopAnimationsModule,
     MatSidenavModule,

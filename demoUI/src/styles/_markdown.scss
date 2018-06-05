@@ -1,0 +1,86 @@
+// Styles for overview and guide docs generated via `marked` from the material2 repo.
+
+.docs-markdown {
+  max-width: 100%;
+}
+
+.docs-markdown-h1 {
+  display: inline-block;
+  font-size: 34px;
+  font-weight: 400;
+  padding: 5px;
+}
+
+.docs-markdown-h2 {
+  font-size: 24px;
+}
+
+.docs-markdown-h3 {
+  font-size: 20px;
+}
+
+.docs-markdown-h2,
+.docs-markdown-h4 {
+  margin-top: 40px;
+}
+
+.docs-markdown-h5 {
+  font-size: 18px;
+}
+
+.docs-markdown-p,
+.docs-markdown-ul,
+.docs-markdown-ol {
+  font-size: 16px;
+  line-height: 28px;
+}
+
+.docs-markdown-a {
+  text-decoration: none;
+}
+
+.docs-markdown-td code {
+  font-size: 14px;
+}
+
+.docs-markdown-pre {
+  border-radius: 5px;
+  display: block;
+  margin: 16px auto;
+  overflow-x: auto;
+  padding: 20px;
+
+  .docs-markdown-code {
+    padding: 0;
+  }
+}
+
+.docs-markdown-code {
+  padding: 3px;
+}
+
+code, pre {
+  font-family: 'Roboto Mono', monospace;
+}
+
+pre {
+  font-size: 14px;
+}
+
+.docs-header-link {
+  a {
+    text-decoration: none;
+    // deduct -30px so the anchor icon will be positioned outside the content
+    margin-left: -30px;
+    display: inline-block;
+    vertical-align: middle;
+  }
+
+  .material-icons {
+    visibility: hidden;
+  }
+
+  &:hover .material-icons {
+    visibility: visible;
+  }
+}
