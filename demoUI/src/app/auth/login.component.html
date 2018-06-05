@@ -1,0 +1,36 @@
+<h1>Perfil</h1>
+
+<form #f="ngForm" novalidate>
+    <div class="form-group">
+        <label>Usuario:</label>
+
+        <input name="username" [(ngModel)]="username" type="text" placeholder="Usuario" size="60" required />
+
+        <div *ngIf="f.controls.username?.invalid && f.controls.username?.touched" class="error">
+            Valor no v&aacute;lido.
+        </div>
+
+        <div *ngIf="errors.username" class="error">
+            {{errors.username}}
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label>Password:</label>
+
+        <input name="password" [(ngModel)]="password" type="password" placeholder="Password" size="60" required />
+
+        <div *ngIf="f.controls.password?.invalid && f.controls.password?.touched" class="error">
+            Valor no v&aacute;lido.
+        </div>
+
+        <div *ngIf="errors.password" class="error">
+            {{errors.password}}
+        </div>
+    </div>
+    <div *ngIf="errorMessage" class="error">
+        {{errorMessage}}
+    </div>
+    <button class="btn btn-success" (click)="submitForm()" [disabled]="f.invalid">Login</button>
+    <button class="btn btn-default" [routerLink]="['/']">Cancelar</button>
+</form>

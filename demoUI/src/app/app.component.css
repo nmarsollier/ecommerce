@@ -1,0 +1,17 @@
+html, body {
+    height: 100%;
+    margin: 0;
+    font-size: 20px;
+}
+#menu {
+    width: 150px;
+    height: 100%;
+    position: fixed;
+    background: #F5F5FA;
+}
+#content {
+    width: auto;
+    height: auto;
+    left: 160px;
+    position: fixed;
+}

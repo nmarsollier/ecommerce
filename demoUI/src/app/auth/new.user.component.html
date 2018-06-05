@@ -1,0 +1,51 @@
+<h1>Perfil</h1>
+
+<form #f="ngForm" novalidate>
+    <div class="form-group">
+        <label>Login:</label>
+
+        <input name="login" [(ngModel)]="user.login" type="text" placeholder="Login" size="60" required />
+
+        <div *ngIf="f.controls.login?.invalid && f.controls.login?.touched" class="error">
+            Valor no v&aacute;lido.
+        </div>
+
+        <div *ngIf="errors.login" class="error">
+            {{errors.login}}
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label>Nombre:</label>
+
+        <input name="name" [(ngModel)]="user.name" type="text" placeholder="Nombre" size="60" required />
+
+        <div *ngIf="f.controls.name?.invalid && f.controls.name?.touched" class="error">
+            Valor no v&aacute;lido.
+        </div>
+
+        <div *ngIf="errors.name" class="error">
+            {{errors.login}}
+        </div>
+    </div>
+
+
+    <div class="form-group">
+        <label>Password:</label>
+
+        <input name="password" [(ngModel)]="user.password" type="password" placeholder="Password" size="60" required />
+
+        <div *ngIf="f.controls.password?.invalid && f.controls.password?.touched" class="error">
+            Valor no v&aacute;lido.
+        </div>
+
+        <div *ngIf="errors.password" class="error">
+            {{errors.password}}
+        </div>
+    </div>
+    <div *ngIf="errorMessage" class="error">
+        {{errorMessage}}
+    </div>
+    <button class="btn btn-success" (click)="submitForm()" [disabled]="f.invalid">Login</button>
+    <button class="btn btn-default" [routerLink]="['/']">Cancelar</button>
+</form>
