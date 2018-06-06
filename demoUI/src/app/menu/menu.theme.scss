@@ -1,0 +1,18 @@
+
+@mixin app-menu($theme) {
+    $primary: map-get($theme, primary);
+
+    app-menu {
+      .mat-list .mat-list-item, .mat-list .mat-list-option {
+        color: mat-color($primary, default-contrast);
+        height: 28px;
+      }
+
+      a:link, a:visited, a:hover, a:active {
+        color: mat-color($primary, default-contrast);
+        text-decoration: none;
+        width: 100%;
+        text-align: left;
+      }
+    }
+  }

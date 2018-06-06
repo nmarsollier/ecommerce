@@ -8,8 +8,7 @@ import { FormControl, Validators, FormGroup } from '@angular/forms';
 
 @Component({
     selector: 'app-auth-login',
-    templateUrl: './login.component.html',
-    styleUrls: ['./login.component.css']
+    templateUrl: './login.component.html'
 })
 export class LoginComponent implements errorHanlder.IFormGroupErrorController {
     form = new FormGroup({

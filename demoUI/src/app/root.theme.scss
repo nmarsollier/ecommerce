@@ -1,0 +1,22 @@
+
+@mixin app-root ($theme) {
+    $primary: map-get($theme, primary);
+
+    app-root {
+      .container {
+        position: absolute;
+        top: 0;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        margin-top: 50px;
+      }
+      .content {
+        padding-left: 30px;
+      }
+      .docs-navbar-header {
+        align-items: top;
+        background: mat-color($primary);
+      }
+    }
+  }

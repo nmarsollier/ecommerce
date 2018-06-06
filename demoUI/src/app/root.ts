@@ -2,9 +2,8 @@ import { Component } from '@angular/core';
 
 @Component({
   selector: 'app-root',
-  templateUrl: './app.component.html',
-  styleUrls: ['./app.component.css']
+  templateUrl: './root.html'
 })
 export class AppComponent {
-  title = 'Client Microservicios!';
+  title = 'Microservicios';
 }

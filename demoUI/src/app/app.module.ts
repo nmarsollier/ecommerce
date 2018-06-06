@@ -4,8 +4,8 @@ import { HttpModule } from '@angular/http';
 import { routing, LoggedIn } from './app.routes';
 import { CommonModule } from '@angular/common';
 
-import { AppComponent } from './app.component';
-import { MenuComponent } from './menu/menu.component';
+import { AppComponent } from './root';
+import { MenuComponent } from './menu/menu';
 import { AuthService } from './auth/auth.service';
 import { LoginComponent } from './auth/login.component';
 import { WelcomeComponent } from './welcome/welcome.component';
@@ -22,15 +22,14 @@ import { MatButtonModule } from '@angular/material/button';
 import { MAT_LABEL_GLOBAL_OPTIONS } from '@angular/material/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatToolbarModule } from '@angular/material/toolbar';
-import { NavBarModule } from './navbar/navbar';
 import { MatIconModule } from '@angular/material';
-
-
+import { ToolbarComponent } from './toolbar/toolbar';
 
 @NgModule({
   declarations: [
     AppComponent,
     MenuComponent,
+    ToolbarComponent,
     LoginComponent,
     NewUserComponent,
     WelcomeComponent,
@@ -45,7 +44,6 @@ import { MatIconModule } from '@angular/material';
     MatInputModule,
     MatMenuModule,
     MatIconModule,
-    NavBarModule,
     MatButtonModule,
     MatToolbarModule,
     BrowserAnimationsModule,

@@ -8,8 +8,7 @@ import { FormGroup, FormControl, Validators } from '@angular/forms';
 
 @Component({
     selector: 'app-auth-new-user',
-    templateUrl: './new.user.component.html',
-    styleUrls: ['./new.user.component.css']
+    templateUrl: './new.user.component.html'
 })
 export class NewUserComponent implements errorHanlder.IFormGroupErrorController {
     errorMessage: string;

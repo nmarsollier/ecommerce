@@ -1,7 +1,7 @@
 <h2>Registrar Usuario</h2>
 
 <form [formGroup]="form">
-    <mat-form-field class="full-width">
+    <mat-form-field>
         <input matInput placeholder="Login" formControlName="login" />
 
         <mat-error *ngIf="form.get('login')?.invalid">
@@ -9,7 +9,7 @@
         </mat-error>
     </mat-form-field>
 
-    <mat-form-field class="full-width">
+    <mat-form-field>
         <input matInput placeholder="Nombre" formControlName="name" />
 
         <mat-error *ngIf="form.get('name')?.invalid">
@@ -18,7 +18,7 @@
     </mat-form-field>
 
 
-    <mat-form-field class="full-width">
+    <mat-form-field>
         <input matInput placeholder="Password" formControlName="password" type="password" />
 
         <mat-error *ngIf="form.get('password')?.invalid">
@@ -28,8 +28,7 @@
         <mat-error *ngIf="errors.get('password')">{{errors.password}}</mat-error>
     </mat-form-field>
 
-    <div class="full-width">
-
+    <div>
         <div *ngIf="errorMessage">{{errorMessage}}</div>
         <button mat-button color="primary" (click)="submitForm()" [disabled]="form.invalid">Registrar</button>
         <button mat-button color="disabled" [routerLink]="['/']">Cancelar</button>

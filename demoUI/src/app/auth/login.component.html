@@ -2,7 +2,7 @@
 
 <form [formGroup]="form">
 
-    <mat-form-field class="full-width">
+    <mat-form-field>
         <input matInput placeholder="Usuario" formControlName="login" />
 
         <mat-error *ngIf="form.get('login')?.invalid">
@@ -10,7 +10,7 @@
         </mat-error>
     </mat-form-field>
 
-    <mat-form-field class="full-width">
+    <mat-form-field>
         <input matInput placeholder="Password" formControlName="password" type="password" />
 
         <mat-error *ngIf="form.get('password')?.invalid">
@@ -18,7 +18,7 @@
         </mat-error>
     </mat-form-field>
 
-    <div class="full-width">
+    <div>
         <mat-error *ngIf="errorMessage">
             {{errorMessage}}
         </mat-error>
