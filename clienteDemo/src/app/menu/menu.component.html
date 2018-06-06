@@ -12,4 +12,8 @@
 	<mat-list-item role="listitem" *ngIf="usuarioLogueado"><a mat-button [routerLink]="['/new_image']">Nueva</a></mat-list-item>
 	<mat-list-item role="listitem" *ngIf="usuarioLogueado"><a mat-button [routerLink]="['/load_image']">Buscar</a></mat-list-item>
 
+	<mat-list-item role="listitem" *ngIf="usuarioLogueado">Articulos</mat-list-item>
+	<mat-list-item role="listitem" *ngIf="usuarioLogueado"><a mat-button [routerLink]="['/new_article']">Nuevo</a></mat-list-item>
+	<mat-list-item role="listitem" *ngIf="usuarioLogueado"><a mat-button [routerLink]="['/list_articles']">Listado</a></mat-list-item>
+
 </mat-list>

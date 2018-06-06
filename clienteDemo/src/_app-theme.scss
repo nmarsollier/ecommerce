@@ -38,6 +38,14 @@
     width: 80%;
   }
 
+  mat-table, table {
+    width: 90%;
+  }
+
+  mat-cell, td.mat-footer-cell, th.mat-header-cell {
+    padding-left: 20px;
+  }
+
   @include app-toolbar($theme);
   @include app-menu($theme);
   @include app-root($theme);

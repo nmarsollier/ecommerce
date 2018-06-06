@@ -1,0 +1,50 @@
+<h2>Nuevo Articulo</h2>
+
+<form [formGroup]="form">
+
+    <mat-form-field>
+        <input matInput placeholder="Nombre" formControlName="name" />
+
+        <mat-error *ngIf="form.get('name')?.invalid">
+            {{ errors.get('name') ? errors.get('name') : "Valor no v&aacute;lido." }}
+        </mat-error>
+    </mat-form-field>
+
+    <mat-form-field>
+        <input matInput placeholder="Descripci&oacute;n" formControlName="description" />
+
+        <mat-error *ngIf="form.get('description')?.invalid">
+            {{ errors.get('description') ? errors.get('description') : "Valor no v&aacute;lido." }}
+        </mat-error>
+    </mat-form-field>
+
+    <mat-form-field>
+        <input matInput placeholder="Imagen" formControlName="image" />
+
+        <mat-error *ngIf="form.get('image')?.invalid">
+            {{ errors.get('image') ? errors.get('image') : "Valor no v&aacute;lido." }}
+        </mat-error>
+    </mat-form-field>
+
+    <mat-form-field>
+        <input matInput placeholder="Precio" formControlName="price" />
+
+        <mat-error *ngIf="form.get('price')?.invalid">
+            {{ errors.get('price') ? errors.get('price') : "Valor no v&aacute;lido." }}
+        </mat-error>
+    </mat-form-field>
+
+    <mat-form-field>
+        <input matInput placeholder="Stock" formControlName="stock" />
+
+        <mat-error *ngIf="form.get('stock')?.invalid">
+            {{ errors.get('stock') ? errors.get('stock') : "Valor no v&aacute;lido." }}
+        </mat-error>
+    </mat-form-field>
+
+    <div>
+        <div *ngIf="errorMessage">{{errorMessage}}</div>
+        <button mat-button color="primary" (click)="submitForm()" [disabled]="form.invalid">Guardar</button>
+        <button mat-button color="disabled" [routerLink]="['/']">Cancelar</button>
+    </div>
+</form>

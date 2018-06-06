@@ -7,6 +7,8 @@ import { NewUserComponent } from './auth/new.user.component';
 import { AuthService } from './auth/auth.service';
 import { AddImageComponent } from './image/new.image.component';
 import { LoadImageComponent } from './image/load.image.component';
+import { NewArticleComponent } from './catalog/new.article.component';
+import { SearchArticleaComponent } from './catalog/search.articles.component';
 
 
 @Injectable()
@@ -32,8 +34,10 @@ export const routes: Routes = [
     { path: 'login', component: LoginComponent },
     { path: 'info', component: InfoComponent, canActivate: [LoggedIn] },
     { path: 'registrarse', component: NewUserComponent },
-    { path: 'new_image', component: AddImageComponent },
-    { path: 'load_image', component: LoadImageComponent },
+    { path: 'new_image', component: AddImageComponent, canActivate: [LoggedIn] },
+    { path: 'load_image', component: LoadImageComponent, canActivate: [LoggedIn] },
+    { path: 'new_article', component: NewArticleComponent, canActivate: [LoggedIn] },
+    { path: 'list_articles', component: SearchArticleaComponent, canActivate: [LoggedIn] },
 ];
 
 export const routing: ModuleWithProviders = RouterModule.forRoot(routes);

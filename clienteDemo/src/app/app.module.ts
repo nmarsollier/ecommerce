@@ -13,6 +13,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatIconModule } from '@angular/material';
+import {MatTableModule} from '@angular/material/table';
 
 import { AppComponent } from './root.component';
 import { MenuComponent } from './menu/menu.component';
@@ -26,6 +27,9 @@ import { ToolbarComponent } from './toolbar/toolbar.component';
 import { AddImageComponent } from './image/new.image.component';
 import { ImageService } from './image/image.service';
 import { LoadImageComponent } from './image/load.image.component';
+import { NewArticleComponent } from './catalog/new.article.component';
+import { CatalogService } from './catalog/catalog.service';
+import { SearchArticleaComponent } from './catalog/search.articles.component';
 
 
 @NgModule({
@@ -39,7 +43,9 @@ import { LoadImageComponent } from './image/load.image.component';
     AddImageComponent,
     FileUploadComponent,
     LoadImageComponent,
-    InfoComponent
+    InfoComponent,
+    NewArticleComponent,
+    SearchArticleaComponent
   ],
   imports: [
     CommonModule,
@@ -48,6 +54,7 @@ import { LoadImageComponent } from './image/load.image.component';
     ReactiveFormsModule,
     HttpModule,
     MatInputModule,
+    MatTableModule,
     MatMenuModule,
     MatIconModule,
     MatButtonModule,
@@ -58,7 +65,7 @@ import { LoadImageComponent } from './image/load.image.component';
     MatListModule,
     routing
   ],
-  providers: [AuthService, ImageService, LoggedIn],
+  providers: [AuthService, ImageService, LoggedIn, CatalogService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

@@ -2,3 +2,4 @@ pymongo==3.6.1
 flask==1.0.2
 pika==0.11.2
 PyMemoize==1.0.2
+flask-cors==3.0.4

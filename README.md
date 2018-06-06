@@ -8,15 +8,26 @@ Al ser una arquitectura de microservicios cada directorio dentro de la raiz del 
 
 [Seguridad](auth/README.md)\
 [Imagenes](image/README.md)\
-[Catalogo](catalog/README.md)
+[Catalogo](catalog/README.md)\
+[Cart](cart/README.md)
 
 Guia de Instalacion General
 -
 
 Este proyecto utiliza varias tecnologias, las siguientes dependencias son necesarias antes de comenzar a compilar y ejecutar aplicaciones. Es necesario seguir los tutoriales en cada uno de los microservicios. En general hay 2 entornos, uno Node y uno Python, habiendo configurado estos dos entornos, se podra ejecutar todo el proyecto.
 
+Cliente Demo
+-
+
+Existe un proyecto en Angular6, que nos proporciona un cliente demo para la plataforma, permitiendonos probar como interactuan los diferentes microservicios.
+
+Ver la documentacion del proyecto en :
+
+[ClienteDemo](clienteDemo/README.md)
+
 Dependencias globales
-=
+-
+
 Estas son dependencias compartidas, cada microservicio tiene su propia base de datos, pero para simplificar la configuracion, en estos ejemplos vamos a compartir instancias de db. Pero en un entorno real cada servicio debe configurar su entorno.
 
 MongoDB

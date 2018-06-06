@@ -5,8 +5,10 @@ import articles.route as articlesRoutes
 import rabbit.rabbit_service as rabbitService
 import utils.config as config
 import os.path
+from flask_cors import CORS
 
 app = flask.Flask(__name__)
+CORS(app, supports_credentials=True)
 
 rabbitService.init()
 
