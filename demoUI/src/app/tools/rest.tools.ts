@@ -6,7 +6,10 @@ export class RestBaseService {
 
   protected handleError(error: Response | any) {
     let errMsg: string;
-    if (error instanceof Response && error.status > 0) {
+    if (error instanceof Response) {
+      if (error.status === 0) {
+        return Promise.reject({ error: 'No se puede conectar con el servidor.' });
+      }
       const body = error.json() || '';
       return Promise.reject(body);
     } else {

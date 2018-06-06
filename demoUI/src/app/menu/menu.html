@@ -7,4 +7,8 @@
 	<mat-list-item role="listitem" *ngIf="usuarioLogueado">{{usuarioLogueado.name}}</mat-list-item>
 	<mat-list-item role="listitem" *ngIf="usuarioLogueado"><a mat-button [routerLink]="['/info']">Info</a></mat-list-item>
 	<mat-list-item role="listitem" *ngIf="usuarioLogueado"><a mat-button [routerLink]="" (click)="logout()">Logout</a></mat-list-item>
+
+	<mat-list-item role="listitem" *ngIf="usuarioLogueado">Imagenes</mat-list-item>
+	<mat-list-item role="listitem" *ngIf="usuarioLogueado"><a mat-button [routerLink]="['/new_image']">Nueva</a></mat-list-item>
+
 </mat-list>

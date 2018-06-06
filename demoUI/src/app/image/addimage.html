@@ -1,0 +1,17 @@
+<h2>Agregar Imagen</h2>
+
+<form #f="ngForm" novalidate>
+    <div>
+        <file-upload name="image" allowedTypes="image/*" uploadButtonText="Upload File" [ngModel]="showing" (ngModelChange)="actualizarImagen($event)">
+        </file-upload>
+    </div>
+    <div>{{imagen.id}}</div>
+
+    <div>
+        <mat-error *ngIf="errorMessage">
+            {{errorMessage}}<BR>
+        </mat-error>
+        <button mat-button color="primary" (click)="submitForm()">Guardar</button>
+        <button mat-button color="disabled" [routerLink]="['/']">Cerrar</button>
+    </div>
+</form>
