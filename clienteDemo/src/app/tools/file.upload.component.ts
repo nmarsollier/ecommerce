@@ -2,7 +2,7 @@ import { NgModule, Component, Input, ViewChildren, Output, ElementRef, forwardRe
 import { FormsModule, NgModel, ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 
 @Component({
-    selector: 'file-upload',
+    selector: 'app-file-upload',
     template: `
         <img [src]="image" height="100" (click)="click()" />
         <input type="file" #fileInput class="upload" accept="*" (change)="changeListener($event)" style="display:none;" />
@@ -47,7 +47,7 @@ export class FileUploadComponent implements ControlValueAccessor {
             this.image = myReader.result;
             this.propagateChange(myReader.result);
             this.selectedFileName = file.name;
-        }
+        };
         myReader.readAsDataURL(file);
     }
 }

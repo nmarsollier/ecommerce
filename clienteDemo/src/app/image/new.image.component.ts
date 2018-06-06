@@ -2,14 +2,14 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { JsonPipe } from '@angular/common';
 import { AuthService, Usuario } from '../auth/auth.service';
-import { IErrorController } from '../tools/error-handler';
-import * as errorHanlder from '../tools/error-handler';
+import { IErrorController } from '../tools/error.handler';
+import * as errorHanlder from '../tools/error.handler';
 import { FormControl, Validators, FormGroup } from '@angular/forms';
 import { Image, ImageService } from './image.service';
 
 @Component({
-    selector: 'app-add-image',
-    templateUrl: './addimage.html'
+    selector: 'app-new-image',
+    templateUrl: './new.image.component.html'
 })
 export class AddImageComponent implements errorHanlder.IErrorController {
     errorMessage: string;
@@ -34,7 +34,7 @@ export class AddImageComponent implements errorHanlder.IErrorController {
                     this.imagen = image;
                 })
                 .catch(error => {
-                    errorHanlder.procesarValidacionesRest(this, error)
+                    errorHanlder.procesarValidacionesRest(this, error);
                 });
         }
     }

@@ -2,8 +2,8 @@
 
 <form #f="ngForm" novalidate>
     <div>
-        <file-upload name="image" allowedTypes="image/*" uploadButtonText="Upload File" [ngModel]="showing" (ngModelChange)="actualizarImagen($event)">
-        </file-upload>
+        <app-file-upload name="image" allowedTypes="image/*" uploadButtonText="Upload File" [ngModel]="showing" (ngModelChange)="actualizarImagen($event)">
+        </app-file-upload>
     </div>
     <div>{{imagen.id}}</div>
 

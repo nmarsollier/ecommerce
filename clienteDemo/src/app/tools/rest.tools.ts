@@ -18,11 +18,18 @@ export class RestBaseService {
     }
   }
 
-  protected getRestHeader(): RequestOptions {
-    const headers = new Headers({
+  protected getRestHeader(moreHeaders?: any): RequestOptions {
+    const params = {
       'Content-Type': 'application/json',
       'Authorization': 'bearer ' + localStorage.getItem('auth_token')
-    });
+    };
+
+    if (moreHeaders) {
+      Object.assign(params, moreHeaders);
+    }
+
+    const headers = new Headers(params);
+
     const options = new RequestOptions({ headers: headers, withCredentials: true });
     return options;
   }

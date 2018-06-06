@@ -2,8 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { JsonPipe } from '@angular/common';
 import { AuthService, Usuario } from '../auth/auth.service';
-import { IErrorController } from '../tools/error-handler';
-import * as errorHanlder from '../tools/error-handler';
+import { IErrorController } from '../tools/error.handler';
+import * as errorHanlder from '../tools/error.handler';
 
 @Component({
     selector: 'app-auth-info',

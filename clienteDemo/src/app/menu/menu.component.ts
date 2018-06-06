@@ -2,11 +2,11 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { JsonPipe } from '@angular/common';
 import { AuthService, Usuario } from '../auth/auth.service';
-import * as errorHanlder from '../tools/error-handler';
+import * as errorHanlder from '../tools/error.handler';
 
 @Component({
   selector: 'app-menu',
-  templateUrl: './menu.html'
+  templateUrl: './menu.component.html'
 })
 export class MenuComponent implements errorHanlder.IErrorController, OnInit {
   errorMessage: string;

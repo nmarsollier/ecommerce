@@ -1,0 +1,72 @@
+<h2>Buscar Imagen</h2>
+
+<form #f="ngForm" novalidate>
+    <mat-form-field>
+        <input matInput placeholder="Imagen Id" [formControl]="imagenId" />
+
+        <mat-error *ngIf="imagenId?.invalid">
+            {{ errors.get('_id') ? errors.get('_id') : "Valor no v&aacute;lido." }}
+        </mat-error>
+    </mat-form-field>
+    <div>
+        <mat-error *ngIf="errorMessage">
+            {{errorMessage}}
+            <BR>
+        </mat-error>
+        <button mat-button color="primary" (click)="submitForm()">Buscar</button>
+        <button mat-button color="disabled" [routerLink]="['/']">Cerrar</button>
+    </div>
+    <BR>
+
+    <div class="container" *ngIf="imagen160?.image">
+        <img [src]="imagen160.image">
+        <div class="text-block">
+            <B>x160</B>
+        </div>
+    </div>
+
+    <div class="container" *ngIf="imagen320?.image">
+        <img [src]="imagen320.image">
+        <div class="text-block">
+            <B>x320</B>
+        </div>
+    </div>
+
+    <div class="container" *ngIf="imagen640?.image">
+        <img [src]="imagen640.image">
+        <div class="text-block">
+            <B>x640</B>
+        </div>
+    </div>
+
+    <div class="container" *ngIf="imagen800?.image">
+        <img [src]="imagen800.image">
+        <div class="text-block">
+            <B>x800</B>
+        </div>
+    </div>
+
+    <div class="container" *ngIf="imagen1024?.image">
+        <img [src]="imagen1024.image">
+        <div class="text-block">
+            <B>x1024</B>
+        </div>
+    </div>
+
+    <div class="container" *ngIf="imagen1200?.image">
+        <img [src]="imagen1200.image">
+        <div class="text-block">
+            <B>x1200</B>
+        </div>
+    </div>
+
+    <div class="container" *ngIf="imagenOriginal?.image">
+        <img [src]="imagenOriginal.image">
+        <div class="text-block">
+            <B>Original</B>
+        </div>
+    </div>
+
+
+
+</form>

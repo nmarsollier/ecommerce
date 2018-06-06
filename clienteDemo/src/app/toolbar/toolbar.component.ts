@@ -6,7 +6,7 @@ import {RouterModule} from '@angular/router';
 
 @Component({
   selector: 'app-toolbar',
-  templateUrl: './toolbar.html'
+  templateUrl: './toolbar.component.html'
 })
 export class ToolbarComponent {
 

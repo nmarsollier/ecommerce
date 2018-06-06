@@ -3,15 +3,6 @@ import { NgModule } from '@angular/core';
 import { HttpModule } from '@angular/http';
 import { routing, LoggedIn } from './app.routes';
 import { CommonModule } from '@angular/common';
-
-import { AppComponent } from './root';
-import { MenuComponent } from './menu/menu';
-import { AuthService } from './auth/auth.service';
-import { LoginComponent } from './auth/login.component';
-import { WelcomeComponent } from './welcome/welcome.component';
-import { InfoComponent } from './auth/info.component';
-import { NewUserComponent } from './auth/new.user.component';
-
 import { MatMenuModule } from '@angular/material/menu';
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
@@ -19,14 +10,23 @@ import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { MatListModule } from '@angular/material/list';
 import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
-import { MAT_LABEL_GLOBAL_OPTIONS } from '@angular/material/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatIconModule } from '@angular/material';
-import { ToolbarComponent } from './toolbar/toolbar';
-import { AddImageComponent } from './image/addimage';
+
+import { AppComponent } from './root.component';
+import { MenuComponent } from './menu/menu.component';
+import { AuthService } from './auth/auth.service';
+import { LoginComponent } from './auth/login.component';
+import { WelcomeComponent } from './welcome/welcome.component';
+import { InfoComponent } from './auth/info.component';
+import { NewUserComponent } from './auth/new.user.component';
+import { FileUploadComponent } from './tools/file.upload.component';
+import { ToolbarComponent } from './toolbar/toolbar.component';
+import { AddImageComponent } from './image/new.image.component';
 import { ImageService } from './image/image.service';
-import { FileUploadComponent } from './tools/image.base64';
+import { LoadImageComponent } from './image/load.image.component';
+
 
 @NgModule({
   declarations: [
@@ -38,6 +38,7 @@ import { FileUploadComponent } from './tools/image.base64';
     WelcomeComponent,
     AddImageComponent,
     FileUploadComponent,
+    LoadImageComponent,
     InfoComponent
   ],
   imports: [

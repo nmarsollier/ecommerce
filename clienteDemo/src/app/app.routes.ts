@@ -5,7 +5,8 @@ import { WelcomeComponent } from './welcome/welcome.component';
 import { InfoComponent } from './auth/info.component';
 import { NewUserComponent } from './auth/new.user.component';
 import { AuthService } from './auth/auth.service';
-import { AddImageComponent } from './image/addimage';
+import { AddImageComponent } from './image/new.image.component';
+import { LoadImageComponent } from './image/load.image.component';
 
 
 @Injectable()
@@ -32,6 +33,7 @@ export const routes: Routes = [
     { path: 'info', component: InfoComponent, canActivate: [LoggedIn] },
     { path: 'registrarse', component: NewUserComponent },
     { path: 'new_image', component: AddImageComponent },
+    { path: 'load_image', component: LoadImageComponent },
 ];
 
 export const routing: ModuleWithProviders = RouterModule.forRoot(routes);

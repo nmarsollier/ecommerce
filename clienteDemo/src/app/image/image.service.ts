@@ -3,15 +3,26 @@ import { Http, Headers, Response, URLSearchParams } from '@angular/http';
 import { RestBaseService } from '../tools/rest.tools';
 import { environment } from '../../environments/environment';
 
+export enum Calidad {
+    Q160 = '160',
+    Q320 = '320',
+    Q640 = '640',
+    Q800 = '800',
+    Q1024 = '1024',
+    Q1200 = '1200',
+}
+
 @Injectable()
 export class ImageService extends RestBaseService {
     constructor(private http: Http) {
         super();
     }
 
-    buscarImagen(id: string): Promise<Image> {
+    buscarImagen(id: string, calidad?: Calidad): Promise<Image> {
+        const headers = (calidad) ? this.getRestHeader({ 'Size': calidad }) : this.getRestHeader();
+
         return this.http
-            .get(environment.imageServerUrl + 'image/' + id, this.getRestHeader())
+            .get(environment.imageServerUrl + 'image/' + id, headers)
             .toPromise()
             .then(response => {
                 return response.json() as Image;
