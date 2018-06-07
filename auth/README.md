@@ -9,14 +9,14 @@ que una vez levantado el servidor se puede navegar en http://localhost:3000/
 Dependencias
 -
 
-Instalar Node 8
+Node 8
 -
 
 Seguir los pasos de instalacion del sitio oficial
 
 <https://nodejs.org/en/>
 
-MondoDb
+MongoDb
 -
 
 Ver tutorial de instalacion en [README.md](../README.md) en la raiz.
@@ -30,5 +30,3 @@ Abrir ventana de comandos en la carpeta del microservicio y ejecutar :
 npm install
 npm start
 ```
-
-Deberia abrir el servidor en el puerto 3000

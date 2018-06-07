@@ -1,6 +1,10 @@
 Microservicio de Catalogo de Productos
 =
 
+Es un microservicio que permite manejar el catalogo de articulos, precios y stock,
+
+Una vez iniciado el servidor, la documentacion puede obtenerse desde <http://localhost:3002/>
+
 Configuration inicial
 -
 
@@ -12,7 +16,7 @@ Pip es un gestor de paquetes que nos va a permitir instalar las dependencias de 
 Ubuntu
 
 ```bash
-sudo apt-get install python-pip 
+sudo apt-get install python-pip
 ```
 
 Pyenv
@@ -69,15 +73,16 @@ Ahora deberiamos ser capaces de ejecutar el proyecto
 python main.py
 ```
 
-Apidoc
+ACLARACION : Apidoc
 -
 
-Este proyecto utiliza apidoc para documentar los servicios rest. 
+Este proyecto utiliza apidoc para documentar los servicios rest.
 
 Desafortunadamente apidoc no funciona bien cuando tenemos los ejecutables de apidoc de node y python juntos,  podemos usar el apidoc de algun proyecto node para generar los docs de este proyecto. Cuando queramos generar las apidoc, ejecutamos:
+
+La ejecucion del proyecto main genera la documentacion, pero usando el ejecutable de auth.
 
 ```bash
 ../auth/node_modules/.bin/apidoc -i ./ -o public
 ```
 
-Una vez iniciado el servidor, la documentacion puede obtenerse desde <http://localhost:3002/>

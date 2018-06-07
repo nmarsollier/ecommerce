@@ -9,7 +9,7 @@ que una vez levantado el servidor se puede navegar en http://localhost:3001/
 Dependencias
 -
 
-Instalar Node 8
+Node 8
 -
 
 Seguir los pasos de instalacion del sitio oficial
@@ -30,5 +30,3 @@ Abrir ventana de comandos en la carpeta del microservicio y ejecutar :
 npm install
 npm start
 ```
-
-Deberia abrir el servidor de backend en el puerto 3001

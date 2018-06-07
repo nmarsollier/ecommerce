@@ -9,7 +9,7 @@ Al ser una arquitectura de microservicios cada directorio dentro de la raiz del 
 [Seguridad](auth/README.md)\
 [Imagenes](image/README.md)\
 [Catalogo](catalog/README.md)\
-[Cart](cart/README.md)
+[Carrito](cart/README.md)
 
 Guia de Instalacion General
 -
@@ -23,7 +23,7 @@ Existe un proyecto en Angular6, que nos proporciona un cliente demo para la plat
 
 Ver la documentacion del proyecto en :
 
-[ClienteDemo](clienteDemo/README.md)
+[Cliente Demo](clienteDemo/README.md)
 
 Dependencias globales
 -
@@ -41,12 +41,6 @@ No se requiere ninguna configuracion adicional, solo levantarlo luego de instala
 
 Crear una carpeta donde se guardara la db de mongo : bin/data por ejemplo
 
-Ejecucion manual
-
-```bash
-bin/mongod --dbpath ./data
-```
-
 Sugiero instalar Mongodb Compass para poder navegar la base de datos en forma visual
 
 <https://www.mongodb.com/products/compass>
@@ -62,12 +56,6 @@ No se requiere ninguna configuracion adicional, solo levantarlo luego de instala
 
 Para windows se puede descargar en modo standalone : <https://sourceforge.net/projects/redis/>
 
-Ejecucion manual
-
-```bash
-redis-server
-```
-
 Recomiendo instalar FastoRedis para navegar la base de datos <https://fastoredis.com/>
 
 RabbitMQ
@@ -78,9 +66,3 @@ Seguir los pasos de instalacion en la pagina oficial
 <https://www.rabbitmq.com/>
 
 No se requiere ninguna configuracion adicional, solo levantarlo luego de instalarlo.
-
-Ejecucion manual
-
-```bash
-sbin/rabbitmq-server
-```
