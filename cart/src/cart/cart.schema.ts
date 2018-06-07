@@ -9,6 +9,7 @@ const conf = env.getConfig(process.env);
 export interface ICartArticle {
   articleId: string;
   quantity: number;
+  validated?: Boolean;
 }
 
 export interface ICart extends Document {
@@ -47,6 +48,10 @@ export let CartSchema = new Schema({
     },
     quantity: {
       type: Number
+    },
+    validated: {
+      type: Boolean,
+      default: false
     }
   }],
   updated: {

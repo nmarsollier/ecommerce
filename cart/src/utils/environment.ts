@@ -19,7 +19,8 @@ export function getConfig(environment: any): Config {
       port: process.env.SERVER_PORT || "3003",
       logLevel: process.env.LOG_LEVEL || "debug",
       mongoDb: process.env.MONGODB || "mongodb://localhost/cart",
-      securityServer: process.env.SECURITY_SERVER || "http://localhost:3000"
+      securityServer: process.env.SECURITY_SERVER || "http://localhost:3000",
+      catalogServer: process.env.SECURITY_SERVER || "http://localhost:3002"
     };
   }
   return config;
@@ -30,4 +31,5 @@ export interface Config {
   logLevel: string; // 'debug' | 'verbose' | 'info' | 'warn' | 'error';
   mongoDb: string;
   securityServer: string;
+  catalogServer: string;
 }

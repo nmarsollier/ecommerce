@@ -19,6 +19,8 @@ export function init(app: Express) {
 
   app.route("/cart/article/:articleId/decrement").post(security.validateSesssionToken, cart.findCurrentCart, cart.validateAddArticle, cart.decrementArticle);
 
+  app.route("/cart/validate").get(security.validateSesssionToken, cart.findCurrentCart, cart.validateOrder, cart.validateToCheckout);
+
   app.route("/cart/checkout").post(security.validateSesssionToken, cart.findCurrentCart, cart.validateOrder, cart.postOrder);
 
 }

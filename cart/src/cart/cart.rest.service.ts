@@ -6,9 +6,29 @@ import * as express from "express";
 import * as error from "../utils/error";
 import { IUserSessionRequest } from "../utils/security";
 import { ICart, Cart, ICartArticle } from "./cart.schema";
+import * as async from "async";
+import { RestClient } from "typed-rest-client/RestClient";
+import * as env from "../utils/environment";
+import * as rabbit from "../rabbit/rabbit.post.service";
+
+const conf = env.getConfig(process.env);
+
 
 export interface ICartRequest extends IUserSessionRequest {
     cart: ICart;
+}
+
+export interface IValidationResult extends ICartRequest {
+    validation: ICartValidation;
+}
+
+export interface CartValidationItem {
+    articleId: string;
+    message: string;
+}
+export interface ICartValidation {
+    erros: CartValidationItem[];
+    warnings: CartValidationItem[];
 }
 
 export function findCurrentCart(req: ICartRequest, res: express.Response, next: NextFunction) {
@@ -27,6 +47,13 @@ export function findCurrentCart(req: ICartRequest, res: express.Response, next: 
                 next();
             });
         } else {
+
+            req.cart.articles.forEach(article => {
+                if (!article.validated)  {
+                    rabbit.sendArticleValidation(this._id, article.articleId).then();
+                }
+            });
+
             next();
         }
     });
@@ -239,8 +266,81 @@ export function deleteArticle(req: ICartRequest, res: express.Response) {
     });
 }
 
-export function validateOrder(req: ICartRequest, res: express.Response, next: NextFunction) {
-    next();
+/**
+ * @api {post} /cart/validate ValidateCart
+ * @apiName Validate Cart
+ * @apiGroup Carrito
+ *
+ * @apiDescription Realiza una validacion completa del cart, para realizar el checkout.
+ *
+ * @apiSuccessExample {string} Body
+ *    HTTP/1.1 200 Ok
+ *
+ * @apiUse ParamValidationErrors
+ * @apiUse OtherErrors
+ */
+export function validateToCheckout(req: IValidationResult, res: express.Response) {
+    res.json(req.validation);
+}
+
+interface Article {
+    "_id": string;
+    "name": string;
+    "price": number;
+    "stock": number;
+    "enabled": boolean;
+}
+/**
+ * Esta validacion es muy cara porque checkea todo contra otros servicios en forma sincrona.
+ */
+export function validateOrder(req: IValidationResult, res: express.Response, next: NextFunction) {
+    async.map(req.cart.articles,
+        function (article: ICartArticle, callback) {
+            const restc: RestClient = new RestClient("GetArticle", conf.catalogServer);
+            restc.get<any>("/articles/" + article.articleId,
+                { additionalHeaders: { "Authorization": req.user.token } }).then(
+                    (data) => {
+                        callback(undefined, data.result as Article);
+                    }
+                ).catch(
+                    (exception) => {
+                        callback(undefined, { "_id": undefined });
+                    }
+                );
+        }, function (err, results: Article[]) {
+            req.validation = {
+                erros: [],
+                warnings: []
+            };
+
+            req.cart.articles.map((article) => {
+                return {
+                    article: article,
+                    result: results.find(element => element._id == article.articleId)
+                };
+            }).forEach(element => {
+                if (!element.result) {
+                    req.validation.erros.push({
+                        articleId: element.article.articleId,
+                        message: "Not found"
+                    });
+                } else if (!element.result.enabled) {
+                    req.validation.erros.push({
+                        articleId: element.article.articleId,
+                        message: "Invalid"
+                    });
+                } else {
+                    if (element.result.stock < element.article.quantity) {
+                        req.validation.warnings.push({
+                            articleId: element.article.articleId,
+                            message: "Insuficient stock"
+                        });
+                    }
+                }
+            });
+
+            next();
+        });
 }
 
 /**

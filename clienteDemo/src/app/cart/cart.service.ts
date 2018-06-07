@@ -3,6 +3,15 @@ import { Http, Headers, Response, URLSearchParams } from '@angular/http';
 import { RestBaseService } from '../tools/rest.tools';
 import { environment } from '../../environments/environment';
 
+export interface CartValidationItem {
+    articleId: string;
+    message: string;
+  }
+export interface ICartValidation {
+    erros: CartValidationItem[];
+    warnings: CartValidationItem[];
+}
+
 @Injectable()
 export class CartService extends RestBaseService {
     constructor(private http: Http) {
@@ -15,6 +24,16 @@ export class CartService extends RestBaseService {
             .toPromise()
             .then(response => {
                 return response.json() as Cart;
+            })
+            .catch(this.handleError);
+    }
+
+    validate(): Promise<ICartValidation> {
+        return this.http
+            .get(environment.cartServerUrl + 'cart/validate', this.getRestHeader())
+            .toPromise()
+            .then(response => {
+                return response.json() as ICartValidation;
             })
             .catch(this.handleError);
     }

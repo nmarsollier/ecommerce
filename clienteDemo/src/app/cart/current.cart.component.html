@@ -28,10 +28,13 @@
     <BR>
     <div>
         <div *ngIf="errorMessage">{{errorMessage}}</div>
+        <button mat-button color="primary" (click)="validate()">Validar</button>
         <button mat-button color="primary" (click)="checkout()">Checkout</button>
         <button mat-button color="primary" (click)="refresh()">Refresh</button>
         <button mat-button color="disabled" [routerLink]="['/']">Cancelar</button>
     </div>
 </form>
+
+{{validation | json}}
 
 <div *ngIf="errorMessage">{{errorMessage}}</div>

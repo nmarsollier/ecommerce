@@ -4,7 +4,7 @@ import { JsonPipe } from '@angular/common';
 import { AuthService, Usuario } from '../auth/auth.service';
 import { IErrorController } from '../tools/error.handler';
 import * as errorHanlder from '../tools/error.handler';
-import { Cart, CartService } from './cart.service';
+import { Cart, CartService, ICartArticleValidation } from './cart.service';
 
 @Component({
     selector: 'app-current-cart',
@@ -13,6 +13,8 @@ import { Cart, CartService } from './cart.service';
 export class CurrentCartComponent implements errorHanlder.IErrorController, OnInit {
     errorMessage: string;
     errors: Map<string, string>;
+
+    validation: ICartArticleValidation;
 
     @Input()
     currentCart: Cart;
@@ -28,9 +30,17 @@ export class CurrentCartComponent implements errorHanlder.IErrorController, OnIn
             .then(result => this.currentCart = result)
             .catch(error => errorHanlder.procesarValidacionesRest(this, error));
     }
+
     checkout() {
         this.cartService.checkout()
             .then(_ => this.refresh())
             .catch(error => errorHanlder.procesarValidacionesRest(this, error));
     }
+
+    validate() {
+        this.cartService.validate()
+            .then(validation => this.validation = validation)
+            .catch(error => errorHanlder.procesarValidacionesRest(this, error));
+    }
+
 }
