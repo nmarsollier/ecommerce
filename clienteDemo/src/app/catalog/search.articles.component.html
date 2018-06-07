@@ -39,7 +39,9 @@
 
     <ng-container matColumnDef="image">
         <th mat-header-cell *matHeaderCellDef> Imagen </th>
-        <td mat-cell *matCellDef="let element"> {{element.image}} </td>
+        <td mat-cell *matCellDef="let element"> {{element.image}}
+            <a *ngIf="element.image" [routerLink]="['/load_image/'+element.image]">Ver</a>
+        </td>
     </ng-container>
 
     <ng-container matColumnDef="stock">
@@ -52,7 +54,16 @@
         <td mat-cell *matCellDef="let element"> {{element.price}} </td>
     </ng-container>
 
-    <tr mat-header-row *matHeaderRowDef="['id', 'name', 'description', 'image', 'stock', 'price']"></tr>
-    <tr mat-row *matRowDef="let row; columns: ['id', 'name', 'description', 'image', 'stock', 'price'];"></tr>
+    <ng-container matColumnDef="options">
+        <th mat-header-cell *matHeaderCellDef> </th>
+        <td mat-cell *matCellDef="let element">
+            <a [routerLink]="['/edit_article/'+element._id]">Edit</a>
+        </td>
+    </ng-container>
+
+
+
+    <tr mat-header-row *matHeaderRowDef="['id', 'name', 'description', 'image', 'stock', 'price', 'options']"></tr>
+    <tr mat-row *matRowDef="let row; columns: ['id', 'name', 'description', 'image', 'stock', 'price', 'options'];"></tr>
 </table>
 <BR>

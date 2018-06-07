@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
+import { Router, ActivatedRoute } from '@angular/router';
 import { JsonPipe } from '@angular/common';
 import { AuthService, Usuario } from '../auth/auth.service';
 import { IErrorController } from '../tools/error.handler';
@@ -12,17 +12,24 @@ import { Image, ImageService, Calidad } from './image.service';
     templateUrl: './load.image.component.html',
     styleUrls: ['./load.image.component.css']
 })
-export class LoadImageComponent implements errorHanlder.IErrorController {
+export class LoadImageComponent implements errorHanlder.IErrorController, OnInit {
     errorMessage: string;
     errors = new Map();
     imagenId = new FormControl('45e25880-6997-11e8-b116-85b2a1414267', [Validators.required]);
 
     imagenBuscada: string;
 
-    constructor(private imageService: ImageService, private router: Router) { }
+    constructor(private imageService: ImageService, private router: Router, private route: ActivatedRoute) { }
 
     submitForm() {
         this.imagenBuscada = this.imagenId.value;
+    }
+
+    ngOnInit() {
+        this.route.params.subscribe(params => {
+            this.imagenId.setValue(params['id']);
+            this.submitForm();
+        });
     }
 }
 

@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
+import { Router, ActivatedRoute } from '@angular/router';
 import { JsonPipe } from '@angular/common';
 import { AuthService, Usuario, RegistrarUsuario } from '../auth/auth.service';
 import { IErrorController } from '../tools/error.handler';
@@ -12,7 +12,7 @@ import { ImageService, Calidad } from '../image/image.service';
     selector: 'app-catalog-edit-article',
     templateUrl: './edit.article.component.html'
 })
-export class EditArticleComponent implements errorHanlder.IFormGroupErrorController {
+export class EditArticleComponent implements errorHanlder.IFormGroupErrorController, OnInit {
     errorMessage: string;
     errors = new Map();
 
@@ -28,7 +28,8 @@ export class EditArticleComponent implements errorHanlder.IFormGroupErrorControl
         stock: new FormControl('0'),
     });
 
-    constructor(private catalogService: CatalogService, private imageService: ImageService, private router: Router) { }
+    constructor(private catalogService: CatalogService, private imageService: ImageService,
+        private router: Router, private route: ActivatedRoute) { }
 
     buscar() {
         errorHanlder.cleanRestValidations(this);
@@ -106,5 +107,13 @@ export class EditArticleComponent implements errorHanlder.IFormGroupErrorControl
                 this.router.navigate(['/']);
             })
             .catch(error => errorHanlder.procesarValidacionesRestFormGroup(this, error));
+    }
+
+
+    ngOnInit() {
+        this.route.params.subscribe(params => {
+            this.articleId.setValue(params['id']);
+            this.buscar();
+        });
     }
 }

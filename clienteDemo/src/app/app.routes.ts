@@ -36,10 +36,10 @@ export const routes: Routes = [
     { path: 'info', component: InfoComponent, canActivate: [LoggedIn] },
     { path: 'registrarse', component: NewUserComponent },
     { path: 'new_image', component: AddImageComponent, canActivate: [LoggedIn] },
-    { path: 'load_image', component: LoadImageComponent, canActivate: [LoggedIn] },
+    { path: 'load_image/:id', component: LoadImageComponent, canActivate: [LoggedIn] },
     { path: 'new_article', component: NewArticleComponent, canActivate: [LoggedIn] },
     { path: 'list_articles', component: SearchArticleaComponent, canActivate: [LoggedIn] },
-    { path: 'edit_article', component: EditArticleComponent, canActivate: [LoggedIn] }
+    { path: 'edit_article/:id', component: EditArticleComponent, canActivate: [LoggedIn] }
 ];
 
 export const routing: ModuleWithProviders = RouterModule.forRoot(routes);
