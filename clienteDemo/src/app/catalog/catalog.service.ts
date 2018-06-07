@@ -10,6 +10,19 @@ export class CatalogService extends RestBaseService {
         super();
     }
 
+    buscarArticulo(id: string): Promise<Articulo> {
+        return this.http
+            .get(
+                environment.catalogServerUrl + 'articles/' + id,
+                this.getRestHeader()
+            )
+            .toPromise()
+            .then(response => {
+                return response.json() as Articulo;
+            })
+            .catch(this.handleError);
+    }
+
     buscarArticulos(text: string): Promise<Articulo[]> {
         return this.http
             .get(
@@ -33,6 +46,35 @@ export class CatalogService extends RestBaseService {
             .toPromise()
             .then(response => {
                 return response.json() as Articulo;
+            })
+            .catch(this.handleError);
+    }
+
+
+    actualizarArticulo(articleId: string, value: Articulo): Promise<Articulo> {
+        return this.http
+            .post(
+                environment.catalogServerUrl + 'articles/' + articleId,
+                JSON.stringify(value),
+                this.getRestHeader()
+            )
+            .toPromise()
+            .then(response => {
+                return response.json() as Articulo;
+            })
+            .catch(this.handleError);
+    }
+
+
+    eliminarArticulo(articleId: string): Promise<string> {
+        return this.http
+            .delete(
+                environment.catalogServerUrl + 'articles/' + articleId,
+                this.getRestHeader()
+            )
+            .toPromise()
+            .then(response => {
+                return '';
             })
             .catch(this.handleError);
     }

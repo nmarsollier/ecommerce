@@ -9,6 +9,7 @@ import { AddImageComponent } from './image/new.image.component';
 import { LoadImageComponent } from './image/load.image.component';
 import { NewArticleComponent } from './catalog/new.article.component';
 import { SearchArticleaComponent } from './catalog/search.articles.component';
+import { EditArticleComponent } from './catalog/edit.article.component';
 
 
 @Injectable()
@@ -38,6 +39,7 @@ export const routes: Routes = [
     { path: 'load_image', component: LoadImageComponent, canActivate: [LoggedIn] },
     { path: 'new_article', component: NewArticleComponent, canActivate: [LoggedIn] },
     { path: 'list_articles', component: SearchArticleaComponent, canActivate: [LoggedIn] },
+    { path: 'edit_article', component: EditArticleComponent, canActivate: [LoggedIn] }
 ];
 
 export const routing: ModuleWithProviders = RouterModule.forRoot(routes);

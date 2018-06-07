@@ -1,0 +1,17 @@
+
+/* Container holding the image and the text */
+.container {
+    position: relative;
+    margin-top: 0%;
+}
+
+/* Bottom right text */
+.text-block {
+    position: absolute;
+    bottom: 5px;
+    left: 5px;
+    background-color: #000000AA;
+    color: white;
+    padding-left: 20px;
+    padding-right: 20px;
+}

@@ -1,6 +1,22 @@
-<h2>Nuevo Articulo</h2>
+<h2>Editar Articulo</h2>
 
-<form [formGroup]="form">
+<form>
+    <mat-form-field>
+        <input matInput placeholder="Id" [formControl]="articleId" />
+
+        <mat-error *ngIf="articleId.invalid">
+            {{ errors.get('name') ? errors.get('name') : "Valor no v&aacute;lido." }}
+        </mat-error>
+    </mat-form-field>
+    <div>
+        <div *ngIf="errorMessage">{{errorMessage}}</div>
+        <button mat-button color="primary" (click)="buscar()">Buscar</button>
+        <button mat-button color="disabled" [routerLink]="['/']">Cancelar</button>
+    </div>
+</form>
+<BR>
+
+<form [formGroup]="form" *ngIf="articulo">
 
     <mat-form-field>
         <input matInput placeholder="Nombre" formControlName="name" />
@@ -47,6 +63,7 @@
     <div>
         <div *ngIf="errorMessage">{{errorMessage}}</div>
         <button mat-button color="primary" (click)="submitForm()" [disabled]="form.invalid">Guardar</button>
+        <button mat-button color="warn" (click)="eliminar()">Eliminar</button>
         <button mat-button color="disabled" [routerLink]="['/']">Cancelar</button>
     </div>
 </form>

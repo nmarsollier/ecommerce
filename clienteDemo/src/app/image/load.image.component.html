@@ -18,55 +18,12 @@
     </div>
     <BR>
 
-    <div class="container" *ngIf="imagen160?.image">
-        <img [src]="imagen160.image">
-        <div class="text-block">
-            <B>x160</B>
-        </div>
-    </div>
-
-    <div class="container" *ngIf="imagen320?.image">
-        <img [src]="imagen320.image">
-        <div class="text-block">
-            <B>x320</B>
-        </div>
-    </div>
-
-    <div class="container" *ngIf="imagen640?.image">
-        <img [src]="imagen640.image">
-        <div class="text-block">
-            <B>x640</B>
-        </div>
-    </div>
-
-    <div class="container" *ngIf="imagen800?.image">
-        <img [src]="imagen800.image">
-        <div class="text-block">
-            <B>x800</B>
-        </div>
-    </div>
-
-    <div class="container" *ngIf="imagen1024?.image">
-        <img [src]="imagen1024.image">
-        <div class="text-block">
-            <B>x1024</B>
-        </div>
-    </div>
-
-    <div class="container" *ngIf="imagen1200?.image">
-        <img [src]="imagen1200.image">
-        <div class="text-block">
-            <B>x1200</B>
-        </div>
-    </div>
-
-    <div class="container" *ngIf="imagenOriginal?.image">
-        <img [src]="imagenOriginal.image">
-        <div class="text-block">
-            <B>Original</B>
-        </div>
-    </div>
-
-
+    <app-show-image *ngIf="imagenBuscada" [imagenId]='imagenBuscada' [calidad]="160"></app-show-image>
+    <app-show-image *ngIf="imagenBuscada" [imagenId]='imagenBuscada' [calidad]="320"></app-show-image>
+    <app-show-image *ngIf="imagenBuscada" [imagenId]='imagenBuscada' [calidad]="640"></app-show-image>
+    <app-show-image *ngIf="imagenBuscada" [imagenId]='imagenBuscada' [calidad]="800"></app-show-image>
+    <app-show-image *ngIf="imagenBuscada" [imagenId]='imagenBuscada' [calidad]="1024"></app-show-image>
+    <app-show-image *ngIf="imagenBuscada" [imagenId]='imagenBuscada' [calidad]="1200"></app-show-image>
+    <app-show-image *ngIf="imagenBuscada" [imagenId]='imagenBuscada'></app-show-image>
 
 </form>

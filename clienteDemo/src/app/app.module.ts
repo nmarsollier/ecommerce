@@ -13,7 +13,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatIconModule } from '@angular/material';
-import {MatTableModule} from '@angular/material/table';
+import { MatTableModule } from '@angular/material/table';
 
 import { AppComponent } from './root.component';
 import { MenuComponent } from './menu/menu.component';
@@ -30,6 +30,9 @@ import { LoadImageComponent } from './image/load.image.component';
 import { NewArticleComponent } from './catalog/new.article.component';
 import { CatalogService } from './catalog/catalog.service';
 import { SearchArticleaComponent } from './catalog/search.articles.component';
+import { ShowImageComponent } from './image/display.image.component';
+import { EditArticleComponent } from './catalog/edit.article.component';
+import { MatFileUploadComponent } from './tools/mat.file.upload.component';
 
 
 @NgModule({
@@ -45,7 +48,10 @@ import { SearchArticleaComponent } from './catalog/search.articles.component';
     LoadImageComponent,
     InfoComponent,
     NewArticleComponent,
-    SearchArticleaComponent
+    SearchArticleaComponent,
+    ShowImageComponent,
+    EditArticleComponent,
+    MatFileUploadComponent
   ],
   imports: [
     CommonModule,

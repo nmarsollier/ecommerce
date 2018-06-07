@@ -33,10 +33,8 @@ import * as redis from "../utils/redis";
  * @apiUse OtherErrors
  */
 export function validateCreate(req: express.Request, res: express.Response, next: NextFunction) {
-  if (req.body.image) {
-    req.check("image", "Debe especificar la imagen.").isLength({ min: 1 });
-    req.check("image", "Imagen invalida").contains("data:image/");
-  }
+  req.check("image", "Debe especificar la imagen.").isLength({ min: 1 });
+  req.check("image", "Imagen invalida").contains("data:image/");
 
   req.getValidationResult().then(function (result) {
     if (!result.isEmpty()) {
