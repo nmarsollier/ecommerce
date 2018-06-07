@@ -243,6 +243,19 @@ export function validateOrder(req: ICartRequest, res: express.Response, next: Ne
     next();
 }
 
+/**
+ * @api {post} /cart/checkout CheckoutCart
+ * @apiName Checkout Cart
+ * @apiGroup Carrito
+ *
+ * @apiDescription Realiza el checkout del carrito.
+ *
+ * @apiSuccessExample {string} Body
+ *    HTTP/1.1 200 Ok
+ *
+ * @apiUse ParamValidationErrors
+ * @apiUse OtherErrors
+ */
 export function postOrder(req: ICartRequest, res: express.Response) {
     const cart = req.cart;
 
