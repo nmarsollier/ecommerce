@@ -5,19 +5,39 @@ import utils.security as security
 import threading
 import utils.json_serializer as json
 import utils.config as config
-
-EXCHANGE = "auth"
+import articles.rest_validations as articleValidation
 
 
 def init():
     """
+    Inicializa los servicios Rabbit
+    """
+    initAuth()
+    initCatalog()
+
+
+def initAuth():
+    """
     Inicializa RabbitMQ para escuchar eventos logout.
     """
-    consumer = threading.Thread(target=listen)
-    consumer.start()
+    authConsumer = threading.Thread(target=listenAuth)
+    authConsumer.start()
 
 
-def listen():
+def initCatalog():
+    """
+    Inicializa RabbitMQ para escuchar eventos de catalog especificos.
+    """
+    catalogConsumer = threading.Thread(target=listenCatalog)
+    catalogConsumer.start()
+
+
+def listenAuth():
+    """
+    Basicamente eventos de logout enviados por auth.
+    """
+    EXCHANGE = "auth"
+
     try:
         connection = pika.BlockingConnection(
             pika.ConnectionParameters(host=config.getRabbitServerUrl()))
@@ -36,11 +56,86 @@ def listen():
                     and event["type"] == "logout"):
                 security.invalidateSession(event["message"])
 
-        print("RabbitMQ conectado")
+        print("RabbitMQ Auth conectado")
 
         channel.basic_consume(callback, queue=queue_name, no_ack=True)
 
         channel.start_consuming()
     except Exception:
-        print("RabbitMQ desconectado, intentando reconectar en 10'")
-        threading.Timer(10.0, init).start()
+        print("RabbitMQ Auth desconectado, intentando reconectar en 10'")
+        threading.Timer(10.0, initAuth).start()
+
+
+def listenCatalog():
+    """
+    article-exist : Es una validacion solicitada por Cart para validar si el articulo puede incluirse en el cart
+    """
+    EXCHANGE = "catalog"
+    QUEUE = "catalog"
+
+    try:
+        connection = pika.BlockingConnection(
+            pika.ConnectionParameters(host=config.getRabbitServerUrl()))
+        channel = connection.channel()
+
+        channel.exchange_declare(exchange=EXCHANGE, exchange_type='direct')
+
+        channel.queue_declare(queue=QUEUE)
+
+        channel.queue_bind(queue=QUEUE, exchange=EXCHANGE, routing_key=QUEUE)
+
+        def callback(ch, method, properties, body):
+            event = json.body_to_dic(body.decode('utf-8'))
+            if ("type" in event and "message" in event and event["type"] == "article-exist"):
+                cartId = event["message"]["cartId"]
+                articleId = event["message"]["articleId"]
+
+                print("RabbitMQ Catalog GET article-exist catalogId:%r , articleId:%r", cartId, articleId)
+
+                try:
+                    articleValidation.validateArticleExist(articleId)
+                    sendArticleValidToCart(cartId, articleId, True)
+                except Exception:
+                    sendArticleValidToCart(cartId, articleId, False)
+
+        print("RabbitMQ Catalog conectado")
+
+        channel.basic_consume(callback, queue=QUEUE, consumer_tag=QUEUE, no_ack=True)
+
+        channel.start_consuming()
+    except Exception:
+        print("RabbitMQ Catalog desconectado, intentando reconectar en 10'")
+        threading.Timer(10.0, initCatalog).start()
+
+
+def sendArticleValidToCart(cartId, articleId, valid):
+    """
+    Envia eventos al Cart
+
+    article-exist : Es una validacion solicitada por Cart para validar si el articulo puede incluirse en el cart
+    """
+    EXCHANGE = "cart"
+    QUEUE = "cart"
+
+    connection = pika.BlockingConnection(
+        pika.ConnectionParameters(host=config.getRabbitServerUrl()))
+    channel = connection.channel()
+
+    channel.exchange_declare(exchange=EXCHANGE, exchange_type='direct')
+
+    channel.queue_declare(queue=QUEUE)
+
+    message = {
+        "type": "article-exist",
+        "message": {
+            "cartId": cartId,
+            "articleId": articleId,
+            "valid": valid
+        }
+    }
+
+    channel.basic_publish(exchange=EXCHANGE, routing_key=QUEUE, body=json.dic_to_json(message))
+
+    connection.close()
+
+    print("RabbitMQ Cart POST article-exist catalogId:%r , articleId:%r , valid:%r", cartId, articleId, valid)

@@ -1,7 +1,7 @@
 "use strict";
 
 import { Document, Schema, Model, model } from "mongoose";
-import { pbkdf2Sync } from "crypto";
+import * as rabbit from "../rabbit/rabbit.post.service";
 
 import * as env from "../utils/environment";
 const conf = env.getConfig(process.env);
@@ -79,6 +79,7 @@ CartSchema.methods.addArticle = function (article: ICartArticle) {
   }
 
   this.articles.push(article);
+  rabbit.sendArticleValidation(this._id, article.articleId).then();
   return;
 };
 
@@ -86,12 +87,12 @@ CartSchema.methods.addArticle = function (article: ICartArticle) {
 /**
  * Elimina un articulo del carrito
  */
-CartSchema.methods.removeArticle = function (article: ICartArticle, index: number) {
+CartSchema.methods.removeArticle = function (article: ICartArticle) {
   for (let _i = 0; _i < this.articles.length; _i++) {
     const element: ICartArticle = this.articles[_i];
 
-    if (element.articleId == article.articleId) {
-      this.articles.splice(index, 1);
+    if (element.articleId === article.articleId) {
+      this.articles.splice(_i, 1);
       return;
     }
   }
@@ -100,13 +101,13 @@ CartSchema.methods.removeArticle = function (article: ICartArticle, index: numbe
 /**
  * Decrementa o Elimina un articulo del cartito
  */
-CartSchema.methods.decrementArticle = function (article: ICartArticle, index: number) {
+CartSchema.methods.decrementArticle = function (article: ICartArticle) {
   for (let _i = 0; _i < this.articles.length; _i++) {
     const element: ICartArticle = this.articles[_i];
     if (element.articleId == article.articleId) {
       element.quantity--;
       if (element.quantity <= 0) {
-        this.articles.splice(index, 1);
+        this.articles.splice(_i, 1);
       }
       return;
     }

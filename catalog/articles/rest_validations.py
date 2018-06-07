@@ -4,6 +4,7 @@
 import utils.errors as error
 import numbers
 import articles.article_schema as schema
+import articles.crud_service as crud
 
 
 def validateAddArticleParams(params):
@@ -64,3 +65,8 @@ def validateArticleParams(params):
     if (len(errors) > 0):
         raise error.MultipleArgumenException(errors)
 
+
+def validateArticleExist(articleId):
+    article = crud.getArticle(articleId)
+    if("enabled" not in article or not article["enabled"]):
+        raise error.InvalidArgument("_id", "Invalid object id")

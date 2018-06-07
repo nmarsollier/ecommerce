@@ -1,7 +1,7 @@
 "use strict";
 
 import { Express } from "express";
-import * as cart from "./cart.service";
+import * as cart from "./cart.rest.service";
 import * as security from "../utils/security";
 
 /**

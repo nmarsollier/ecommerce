@@ -1,7 +1,5 @@
 "use strict";
 
-import { ConnectionOptions } from "mongoose";
-
 import * as dotenv from "dotenv";
 
 let config: Config;

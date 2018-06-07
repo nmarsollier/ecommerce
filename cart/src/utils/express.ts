@@ -1,7 +1,6 @@
 "use strict";
 
 import { Config } from "./environment";
-import { NextFunction } from "express-serve-static-core";
 
 import * as express from "express";
 import * as bodyParser from "body-parser";

@@ -22,7 +22,7 @@ def reserveStock(articleId, quantity):
             "$and": [{
                 '_id': bson.ObjectId(articleId)
             }, {
-                'valid': True
+                'enabled': True
             }, {
                 'stock': {
                     "$gte": quantity
@@ -55,7 +55,7 @@ def increaseStock(articleId, quantity):
             "$and": [{
                 '_id': bson.ObjectId(articleId)
             }, {
-                'valid': True
+                'enabled': True
             }]
         }, {'$inc': {
             'stock': quantity

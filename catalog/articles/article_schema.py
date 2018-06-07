@@ -27,7 +27,7 @@ def newArticle():
         "stock": 0,
         "updated": datetime.datetime.utcnow(),
         "created": datetime.datetime.utcnow(),
-        "valid": True
+        "enabled": True
     }
 
 
@@ -42,7 +42,7 @@ def validateSchema(article):
 
     # Errores de tipos de datos invalidos en parametros
     errors.update(
-        dict((k, "Invlid") for (k, v) in article.items()
+        dict((k, "Invalid") for (k, v) in article.items()
              if k in ARTICLE_SCHEMA.keys()
              and not isinstance(v, ARTICLE_SCHEMA[k][0])))
 

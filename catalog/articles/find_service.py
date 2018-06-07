@@ -28,7 +28,7 @@ def searchArticles(text):
                 "stock": {stock actual}
                 "updated": {fecha ultima actualizacion}
                 "created": {fecha creacion}
-                "valid": {activo}
+                "enabled": {activo}
             },
             ...
         ]
@@ -41,7 +41,7 @@ def searchArticles(text):
 
         cursor = db.articles.find({
             "$and": [{
-                "valid": True
+                "enabled": True
             }, {
                 "$or": [{
                     "name": regx

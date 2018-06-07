@@ -29,7 +29,7 @@ def getArticle(articleId):
             "stock": {stock actual}
             "updated": {fecha ultima actualizacion}
             "created": {fecha creacion}
-            "valid": {activo}
+            "enabled": {activo}
         }
 
     @apiUse Errors
@@ -75,7 +75,7 @@ def addArticle(params):
             "stock": {stock actual}
             "updated": {fecha ultima actualizacion}
             "created": {fecha creacion}
-            "valid": {si esta activo}
+            "enabled": {si esta activo}
         }
 
     @apiUse Errors
@@ -116,7 +116,7 @@ def updateArticle(articleId, params):
             "stock": {stock actual}
             "updated": {fecha ultima actualizacion}
             "created": {fecha creacion}
-            "valid": {si esta activo}
+            "enabled": {si esta activo}
         }
 
     @apiUse Errors
@@ -146,7 +146,7 @@ def delArticle(articleId):
     """
     article = getArticle(articleId)
     article["updated"] = datetime.datetime.utcnow()
-    article["valid"] = False
+    article["enabled"] = False
     db.articles.save(article)
 
 
