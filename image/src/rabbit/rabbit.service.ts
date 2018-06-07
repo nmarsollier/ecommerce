@@ -10,6 +10,19 @@ export interface IRabbitMessage {
     message: any;
 }
 
+/**
+ * @api {fanout} auth/logout Logout de Usuarios
+ * @apiGroup RabbitMQ GET
+ *
+ * @apiDescription Escucha de mensajes logout desde auth.
+ *
+ * @apiSuccessExample {json} Mensaje
+ *     {
+ *        "type": "logout",
+ *        "message": "{tokenId}"
+ *     }
+ */
+
 export function init() {
     amqp.connect("amqp://localhost").then(
         (conn) => {

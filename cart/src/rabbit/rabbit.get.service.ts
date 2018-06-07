@@ -26,6 +26,19 @@ export function init() {
 }
 
 /**
+ * @api {fanout} auth/logout Logout de Usuarios
+ * @apiGroup RabbitMQ GET
+ *
+ * @apiDescription Escucha de mensajes logout desde auth.
+ *
+ * @apiSuccessExample {json} Mensaje
+ *     {
+ *        "type": "logout",
+ *        "message": "{tokenId}"
+ *     }
+ */
+
+/**
  * Escucha el evento logout del exchange auth
  */
 function initAuth() {
@@ -74,6 +87,24 @@ function initAuth() {
             setTimeout(() => initAuth(), 10000);
         });
 }
+
+
+/**
+ * @api {direct} cart/article-exist Validacion de Articulos
+ * @apiGroup RabbitMQ GET
+ *
+ * @apiDescription Escucha de mensajes article-exist desde cart. Valida articulos
+ *
+ * @apiSuccessExample {json} Mensaje
+ *     {
+ *        "type": "article-exist",
+ *        "message": {
+ *             "cartId": "{cartId}",
+ *             "articleId": "{articleId}",
+ *             "valid": true|false
+ *        }
+ *     }
+ */
 
 /**
  * Escucha eventos especificos de cart.

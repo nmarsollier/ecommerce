@@ -35,6 +35,18 @@ def initCatalog():
 def listenAuth():
     """
     Basicamente eventos de logout enviados por auth.
+
+    @api {fanout} auth/logout Logout de usuarios
+
+    @apiGroup RabbitMQ GET
+
+    @apiDescription Escucha de mensajes logout desde auth. Invalida sesiones en cache.
+
+    @apiParamExample {json} Mensaje
+      {
+        "type": "article-exist",
+        "message" : "tokenId"
+      }
     """
     EXCHANGE = "auth"
 
@@ -69,7 +81,22 @@ def listenAuth():
 def listenCatalog():
     """
     article-exist : Es una validacion solicitada por Cart para validar si el articulo puede incluirse en el cart
+
+    @api {direct} cart/article-exist Validacion de Articulos
+
+    @apiGroup RabbitMQ GET
+
+    @apiDescription Escucha de mensajes article-exist desde cart. Valida articulos
+
+    @apiParamExample {json} Mensaje
+      {
+        "type": "article-exist",
+        "message" : {
+            "cartId": "{cartId}",
+            "articleId": "{articleId}",
+        }
     """
+
     EXCHANGE = "catalog"
     QUEUE = "catalog"
 
@@ -113,6 +140,23 @@ def sendArticleValidToCart(cartId, articleId, valid):
     Envia eventos al Cart
 
     article-exist : Es una validacion solicitada por Cart para validar si el articulo puede incluirse en el cart
+
+
+    @api {direct} cart/article-exist Validacion de Articulos
+
+    @apiGroup RabbitMQ POST
+
+    @apiDescription Envia de mensajes article-exist desde cart. Valida articulos
+
+    @apiSuccessExample {json} Mensaje
+      {
+        "type": "article-exist",
+        "message" : {
+            "cartId": "{cartId}",
+            "articleId": "{articleId}",
+            "valid": True|False
+        }
+      }
     """
     EXCHANGE = "cart"
     QUEUE = "cart"

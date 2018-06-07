@@ -11,8 +11,8 @@ const EXCHANGE = "auth";
 let channel: amqp.Channel;
 
 /**
- * @api {broadcast} auth/fanout Invalidar Token
- * @apiGroup RabbitMQ
+ * @api {fanout} auth/fanout Invalidar Token
+ * @apiGroup RabbitMQ POST
  *
  * @apiDescription AuthService envia un broadcast a todos los usuarios cuando un token ha sido invalidado. Los clientes deben eliminar de sus caches las sesiones invalidadas.
  *

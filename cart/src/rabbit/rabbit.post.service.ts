@@ -19,25 +19,20 @@ export interface IArticleExistMessage {
 let channel: amqp.Channel;
 
 /**
- * @api {broadcast} cart/catalog Comprobar Articulo
- * @apiGroup RabbitMQ
+ * @api {direct} cart/catalog Comprobar Articulo
+ * @apiGroup RabbitMQ POST
  *
  * @apiDescription Cart envia un mensaje a Catalog para comprobar la validez de un articulo.
  *
  * @apiParamsExample {json} Mensaje
  *     {
  *        "type": "article-exist",
- *        "cartId": "{cartId}",
- *        "articleId": "{articleId}",
+ *         "message": {
+ *             "cartId": "{cartId}",
+ *             "articleId": "{articleId}"
+ *        }
  *     }
  *
- * @apiSuccessExample {json} Mensaje
- *     {
- *        "type": "article-exist",
- *        "cartId": "{cartId}",
- *        "articleId": "{articleId}",
- *        "valid": true|false
- *     }
  */
 /**
  * Envia una peticion a catalog para validar si un articulo puede incluirse en el cart.
