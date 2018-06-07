@@ -33,6 +33,9 @@ import { SearchArticleaComponent } from './catalog/search.articles.component';
 import { ShowImageComponent } from './image/display.image.component';
 import { EditArticleComponent } from './catalog/edit.article.component';
 import { MatFileUploadComponent } from './tools/mat.file.upload.component';
+import { CurrentCartComponent } from './cart/current.cart.component';
+import { CartService } from './cart/cart.service';
+import { AddArticleCartComponent } from './cart/add.article.cart.component';
 
 
 @NgModule({
@@ -51,7 +54,9 @@ import { MatFileUploadComponent } from './tools/mat.file.upload.component';
     SearchArticleaComponent,
     ShowImageComponent,
     EditArticleComponent,
-    MatFileUploadComponent
+    MatFileUploadComponent,
+    CurrentCartComponent,
+    AddArticleCartComponent
   ],
   imports: [
     CommonModule,
@@ -71,7 +76,7 @@ import { MatFileUploadComponent } from './tools/mat.file.upload.component';
     MatListModule,
     routing
   ],
-  providers: [AuthService, ImageService, LoggedIn, CatalogService],
+  providers: [AuthService, ImageService, LoggedIn, CatalogService, CartService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

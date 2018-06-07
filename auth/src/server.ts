@@ -22,6 +22,8 @@ mongoose.connect(conf.mongoDb, {}, function (err: MongoError) {
     console.error("No se pudo conectar a MongoDB!");
     console.error(err.message);
     process.exit();
+  } else {
+    console.log("MongoDB conectado.");
   }
 });
 

@@ -115,6 +115,7 @@ export function handleExpressValidationError(res: express.Response, err: Result)
 export function logErrors(err: any, req: express.Request, res: express.Response, next: NextFunction) {
   if (!err) return next();
 
+  console.error(err);
   console.error(err.message);
 
   res.status(err.status || ERROR_INTERNAL_ERROR);

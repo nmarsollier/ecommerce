@@ -39,20 +39,16 @@ export let CartSchema = new Schema({
     unique: "El login ya existe",
     trim: true
   },
-  articles: {
-    type: [
-      {
-        type: {
-          articleId: {
-            type: String
-          },
-          quantity: {
-            type: Number
-          }
-        }
-      }
-    ]
-  },
+  articles: [{
+    articleId: {
+      type: String,
+      required: "El articlelId agregado al cart",
+      trim: true
+    },
+    quantity: {
+      type: Number
+    }
+  }],
   updated: {
     type: Date,
     default: Date.now
@@ -67,17 +63,20 @@ export let CartSchema = new Schema({
   }
 }, { collection: "cart" });
 
+CartSchema.index({ userId: 1, enabled: -1 });
+CartSchema.index({ orderId: 1 });
 
 /**
- * Agrega un articulo a la coleccion
+ * Agrega un articulo al carrito
  */
 CartSchema.methods.addArticle = function (article: ICartArticle) {
-  this.articles.array.forEach(function (element: ICartArticle) {
+  for (let _i = 0; _i < this.articles.length; _i++) {
+    const element: ICartArticle = this.articles[_i];
     if (element.articleId == article.articleId) {
-      element.quantity += article.quantity;
+      element.quantity = Number(element.quantity) + Number(article.quantity);
       return;
     }
-  });
+  }
 
   this.articles.push(article);
   return;
@@ -85,48 +84,37 @@ CartSchema.methods.addArticle = function (article: ICartArticle) {
 
 
 /**
- * Elimina un articulo de la coleccion
+ * Elimina un articulo del carrito
  */
 CartSchema.methods.removeArticle = function (article: ICartArticle, index: number) {
-  this.articles.array.forEach(function (element: ICartArticle) {
+  for (let _i = 0; _i < this.articles.length; _i++) {
+    const element: ICartArticle = this.articles[_i];
+
     if (element.articleId == article.articleId) {
       this.articles.splice(index, 1);
       return;
     }
-  });
+  }
 };
 
 /**
- * Elimina un articulo de la coleccion
- */
-CartSchema.methods.incrementArticle = function (article: ICartArticle, index: number) {
-  this.articles.array.forEach(function (element: ICartArticle) {
-    if (element.articleId == article.articleId) {
-      element.quantity += article.quantity;
-      return;
-    }
-  });
-  this.articles.push(article);
-  return;
-};
-
-/**
- * Elimina un articulo de la coleccion
+ * Decrementa o Elimina un articulo del cartito
  */
 CartSchema.methods.decrementArticle = function (article: ICartArticle, index: number) {
-  this.articles.array.forEach(function (element: ICartArticle) {
+  for (let _i = 0; _i < this.articles.length; _i++) {
+    const element: ICartArticle = this.articles[_i];
     if (element.articleId == article.articleId) {
       element.quantity--;
-      if (element.quantity == 0) {
+      if (element.quantity <= 0) {
         this.articles.splice(index, 1);
       }
       return;
     }
-  });
+  }
 };
 
 /**
- * Trigger antes de guardar, si el password se mofico hay que encriptarlo
+ * Trigger antes de guardar
  */
 CartSchema.pre("save", next => {
   this.updated = Date.now;
@@ -134,4 +122,4 @@ CartSchema.pre("save", next => {
   next();
 });
 
-export let Cart = model<ICart>("User", CartSchema);
+export let Cart = model<ICart>("Cart", CartSchema);

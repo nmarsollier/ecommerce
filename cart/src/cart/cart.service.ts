@@ -20,10 +20,15 @@ export function findCurrentCart(req: ICartRequest, res: express.Response, next: 
 
         req.cart = cart;
         if (!req.cart) {
-            req.cart = <ICart>new Cart();
+            req.cart = new Cart();
             req.cart.userId = req.user.user.id;
+            req.cart.save(function (err: any) {
+                if (err) return error.handleError(res, err);
+                next();
+            });
+        } else {
+            next();
         }
-        next();
     });
 }
 
@@ -39,6 +44,33 @@ export function validateAddArticle(req: ICartRequest, res: express.Response, nex
     });
 }
 
+
+/**
+ * @api {post} /cart/article AddArticle
+ * @apiName Add Article
+ * @apiGroup Carrito
+ *
+ * @apiDescription Agregar articulos al carrito.
+ *
+ * @apiParamasExample {json} Body
+ *    {
+ *      "articleId": "{Article Id}",
+ *      "quantity": {Quantity to add}
+ *    }
+ *
+ * @apiSuccessExample {json} Body
+ *    {
+ *      "userId": "{User Id}",
+ *      "enabled": true|false,
+ *      "_id": "{Id de carrito}",
+ *      "articles": [{Articulos}],
+ *      "updated": "{Fecha ultima actualizacion}",
+ *      "created": "{Fecha creado}"
+ *    }
+ *
+ * @apiUse ParamValidationErrors
+ * @apiUse OtherErrors
+ */
 export function addArticle(req: ICartRequest, res: express.Response) {
     const cart = req.cart;
 
@@ -57,31 +89,38 @@ export function addArticle(req: ICartRequest, res: express.Response) {
     });
 }
 
-
-export function incrementArticle(req: ICartRequest, res: express.Response) {
-    const cart = req.cart;
-
-    const article: ICartArticle = {
-        articleId: req.body.articleId,
-        quantity: req.body.quantity
-    };
-
-    cart.incrementArticle(article);
-
-    // Save the Cart
-    cart.save(function (err: any) {
-        if (err) return error.handleError(res, err);
-
-        res.json(cart);
-    });
-}
-
-
+/**
+ * @api {post} /cart/article/:articleId/decrement DecrementArticleCart
+ * @apiName Decrement Article Cart
+ * @apiGroup Carrito
+ *
+ * @apiDescription Decrementa la cantidad de articulos en el cart.
+ *
+ * @apiSuccessExample {json} Body
+ *    {
+ *      "articleId": "{Article Id}",
+ *      "quantity": {articles to decrement}
+ *    }
+ *
+ * @apiSuccessExample {json} Body
+ *    {
+ *      "userId": "{User Id}",
+ *      "enabled": true|false,
+ *      "_id": "{Id de carrito}",
+ *      "articles": [{Articulos}],
+ *      "updated": "{Fecha ultima actualizacion}",
+ *      "created": "{Fecha creado}"
+ *    }
+ *
+ * @apiUse ParamValidationErrors
+ * @apiUse OtherErrors
+ */
 export function decrementArticle(req: ICartRequest, res: express.Response) {
     const cart = req.cart;
+    const articleId = escape(req.params.articleId);
 
     const article: ICartArticle = {
-        articleId: req.body.articleId,
+        articleId: articleId,
         quantity: req.body.quantity
     };
 
@@ -95,6 +134,71 @@ export function decrementArticle(req: ICartRequest, res: express.Response) {
     });
 }
 
+/**
+ * @api {post} /cart/article/:articleId/increment IncrementArticleCart
+ * @apiName Increment Article Cart
+ * @apiGroup Carrito
+ *
+ * @apiDescription Incrementa la cantidad de articulos en el cart.
+ *
+ * @apiSuccessExample {json} Body
+ *    {
+ *      "articleId": "{Article Id}",
+ *      "quantity": {articles to increment}
+ *    }
+ *
+ * @apiSuccessExample {json} Body
+ *    {
+ *      "userId": "{User Id}",
+ *      "enabled": true|false,
+ *      "_id": "{Id de carrito}",
+ *      "articles": [{Articulos}],
+ *      "updated": "{Fecha ultima actualizacion}",
+ *      "created": "{Fecha creado}"
+ *    }
+ *
+ * @apiUse ParamValidationErrors
+ * @apiUse OtherErrors
+ */
+export function incrementArticle(req: ICartRequest, res: express.Response) {
+    const cart = req.cart;
+    const articleId = escape(req.params.articleId);
+
+    const article: ICartArticle = {
+        articleId: articleId,
+        quantity: req.body.quantity
+    };
+
+    cart.addArticle(article);
+
+    // Save the Cart
+    cart.save(function (err: any) {
+        if (err) return error.handleError(res, err);
+
+        res.json(cart);
+    });
+}
+
+/**
+ * @api {get} /cart GetCart
+ * @apiName Get Cart
+ * @apiGroup Carrito
+ *
+ * @apiDescription Devuelve el carrito activo.
+ *
+ * @apiSuccessExample {json} Body
+ *    {
+ *      "userId": "{User Id}",
+ *      "enabled": true|false,
+ *      "_id": "{Id de carrito}",
+ *      "articles": [{Articulos}],
+ *      "updated": "{Fecha ultima actualizacion}",
+ *      "created": "{Fecha creado}"
+ *    }
+ *
+ * @apiUse ParamValidationErrors
+ * @apiUse OtherErrors
+ */
 export function getCurrentCart(req: ICartRequest, res: express.Response) {
     res.json(req.cart);
 }
@@ -103,11 +207,25 @@ export function validateDelete(req: ICartRequest, res: express.Response, next: N
     next();
 }
 
+/**
+ * @api {delete} /cart/article/:articleId DeleteCartArticle
+ * @apiName Delete Cart
+ * @apiGroup Carrito
+ *
+ * @apiDescription Eliminar un articulo del carrito.
+ *
+ * @apiSuccessExample {string} Body
+ *    HTTP/1.1 200 Ok
+ *
+ * @apiUse ParamValidationErrors
+ * @apiUse OtherErrors
+ */
 export function deleteArticle(req: ICartRequest, res: express.Response) {
     const cart = req.cart;
+    const articleId = escape(req.params.articleId);
 
     const article: ICartArticle = {
-        articleId: req.body.articleId,
+        articleId: articleId,
         quantity: 0
     };
 

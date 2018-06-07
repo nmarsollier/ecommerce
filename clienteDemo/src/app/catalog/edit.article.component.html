@@ -5,7 +5,7 @@
         <input matInput placeholder="Id" [formControl]="articleId" />
 
         <mat-error *ngIf="articleId.invalid">
-            {{ errors.get('name') ? errors.get('name') : "Valor no v&aacute;lido." }}
+            {{ errors.get('articleId') ? errors.get('articleId') : "Valor no v&aacute;lido." }}
         </mat-error>
     </mat-form-field>
     <div>

@@ -61,10 +61,10 @@ export function validateSesssionToken(req: IUserSessionRequest, res: express.Res
     restc.get<any>("/auth/currentUser",
       { additionalHeaders: { "Authorization": auth } }).then(
         (data) => {
-          sessionCache.set(auth, data);
+          sessionCache.set(auth, data.result);
           req.user = {
             token: auth,
-            user: cachedSession as IUser
+            user: data.result as IUser
           };
           return next();
         }

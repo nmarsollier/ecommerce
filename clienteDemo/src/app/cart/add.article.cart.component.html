@@ -1,0 +1,31 @@
+<h2>Articulo</h2>
+
+<form [formGroup]="form">
+    <mat-form-field>
+        <input matInput placeholder="Id" formControlName="articleId" />
+
+        <mat-error *ngIf="form.get('articleId').invalid">
+            {{ errors.get('articleId') ? errors.get('articleId') : "Valor no v&aacute;lido." }}
+        </mat-error>
+    </mat-form-field>
+
+    <mat-form-field>
+        <input matInput placeholder="Cantidad" formControlName="quantity" />
+
+        <mat-error *ngIf="form.get('quantity').invalid">
+            {{ errors.get('quantity') ? errors.get('quantity') : "Valor no v&aacute;lido." }}
+        </mat-error>
+    </mat-form-field>
+
+    <div>
+        <div *ngIf="errorMessage">{{errorMessage}}</div>
+        <button mat-button color="primary" (click)="agregar()">Agregar</button>
+        <button mat-button color="primary" (click)="incrementar()">Incrementar</button>
+        <button mat-button color="primary" (click)="decrementar()">Decrementar</button>
+        <button mat-button color="warn" (click)="eliminar()">Eliminar</button>
+        <button mat-button color="disabled" [routerLink]="['/']">Cancelar</button>
+    </div>
+</form>
+<BR>
+
+<app-current-cart [currentCart]="currentCart"></app-current-cart><BR>

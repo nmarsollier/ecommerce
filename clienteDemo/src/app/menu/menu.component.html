@@ -17,4 +17,9 @@
 	<mat-list-item role="listitem" *ngIf="usuarioLogueado"><a mat-button [routerLink]="['/list_articles']">Listado</a></mat-list-item>
 	<mat-list-item role="listitem" *ngIf="usuarioLogueado"><a mat-button [routerLink]="['/edit_article']">Editar</a></mat-list-item>
 
+	<mat-list-item role="listitem" *ngIf="usuarioLogueado">Carrito</mat-list-item>
+	<mat-list-item role="listitem" *ngIf="usuarioLogueado"><a mat-button [routerLink]="['/current_cart']">Carrito Actual</a></mat-list-item>
+	<mat-list-item role="listitem" *ngIf="usuarioLogueado"><a mat-button [routerLink]="['/add_article_cart']">Editar Carrito</a></mat-list-item>
+
+
 </mat-list>
