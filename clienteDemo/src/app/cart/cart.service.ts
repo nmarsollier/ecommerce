@@ -116,4 +116,5 @@ export interface Cart {
 export interface Article {
     articleId: string;
     quantity: number;
+    validated?: boolean;
 }

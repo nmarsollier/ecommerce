@@ -91,6 +91,8 @@ def listenCatalog():
     @apiParamExample {json} Mensaje
       {
         "type": "article-exist",
+        "exchange" : "{Exchange name to reply}"
+        "queue" : "{Queue name to reply}"
         "message" : {
             "cartId": "{cartId}",
             "articleId": "{articleId}",
@@ -113,17 +115,19 @@ def listenCatalog():
 
         def callback(ch, method, properties, body):
             event = json.body_to_dic(body.decode('utf-8'))
-            if ("type" in event and "message" in event and event["type"] == "article-exist"):
+            if ("type" in event and event["type"] == "article-exist"):
                 cartId = event["message"]["cartId"]
+                exchange = event["exchange"]
+                queue = event["queue"]
                 articleId = event["message"]["articleId"]
 
                 print("RabbitMQ Catalog GET article-exist catalogId:%r , articleId:%r", cartId, articleId)
 
                 try:
                     articleValidation.validateArticleExist(articleId)
-                    sendArticleValidToCart(cartId, articleId, True)
+                    sendArticleValidToCart(exchange, queue, cartId, articleId, True)
                 except Exception:
-                    sendArticleValidToCart(cartId, articleId, False)
+                    sendArticleValidToCart(exchange, queue, cartId, articleId, False)
 
         print("RabbitMQ Catalog conectado")
 
@@ -135,7 +139,7 @@ def listenCatalog():
         threading.Timer(10.0, initCatalog).start()
 
 
-def sendArticleValidToCart(cartId, articleId, valid):
+def sendArticleValidToCart(exchange, queue, cartId, articleId, valid):
     """
     Envía eventos al Cart
 
@@ -158,16 +162,12 @@ def sendArticleValidToCart(cartId, articleId, valid):
         }
       }
     """
-    EXCHANGE = "cart"
-    QUEUE = "cart"
-
-    connection = pika.BlockingConnection(
-        pika.ConnectionParameters(host=config.getRabbitServerUrl()))
+    connection = pika.BlockingConnection(pika.ConnectionParameters(host=config.getRabbitServerUrl()))
     channel = connection.channel()
 
-    channel.exchange_declare(exchange=EXCHANGE, exchange_type='direct')
+    channel.exchange_declare(exchange=exchange, exchange_type='direct')
 
-    channel.queue_declare(queue=QUEUE)
+    channel.queue_declare(queue=queue)
 
     message = {
         "type": "article-exist",
@@ -178,7 +178,7 @@ def sendArticleValidToCart(cartId, articleId, valid):
         }
     }
 
-    channel.basic_publish(exchange=EXCHANGE, routing_key=QUEUE, body=json.dic_to_json(message))
+    channel.basic_publish(exchange=exchange, routing_key=queue, body=json.dic_to_json(message))
 
     connection.close()
 

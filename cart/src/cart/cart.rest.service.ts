@@ -50,7 +50,7 @@ export function findCurrentCart(req: ICartRequest, res: express.Response, next: 
 
             req.cart.articles.forEach(article => {
                 if (!article.validated)  {
-                    rabbit.sendArticleValidation(this._id, article.articleId).then();
+                    rabbit.sendArticleValidation(cart._id, article.articleId).then();
                 }
             });
 
@@ -337,7 +337,7 @@ export function validateOrder(req: IValidationResult, res: express.Response, nex
                 } else if (!element.result.enabled) {
                     req.validation.errors.push({
                         articleId: element.article.articleId,
-                        message: "Articulo invalido"
+                        message: "Articulo inválido"
                     });
                 } else {
                     if (element.result.stock < element.article.quantity) {

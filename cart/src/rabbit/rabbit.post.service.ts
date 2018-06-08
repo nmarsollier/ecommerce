@@ -10,12 +10,11 @@ export interface IRabbitMessage {
     message: any;
 }
 
-
-export interface IArticleExistMessage {
-    type: string;
-    cartId: string;
-    articleId: string;
+export interface IRabbitCallbackMessage extends IRabbitMessage {
+    exchange: string;
+    queue: string;
 }
+
 let channel: amqp.Channel;
 
 /**
@@ -37,9 +36,11 @@ let channel: amqp.Channel;
 /**
  * Enviá una petición a catalog para validar si un articulo puede incluirse en el cart.
  */
-export function sendArticleValidation(cartId: string, articleId: string): Promise<IRabbitMessage> {
-    const message: IRabbitMessage = {
+export function sendArticleValidation(cartId: string, articleId: string): Promise<IRabbitCallbackMessage> {
+    const message: IRabbitCallbackMessage = {
         type: "article-exist",
+        exchange: "cart",
+        queue: "cart",
         message: {
             cartId: cartId,
             articleId: articleId
@@ -49,7 +50,7 @@ export function sendArticleValidation(cartId: string, articleId: string): Promis
     const EXCHANGE = "catalog";
     const QUEUE = "catalog";
 
-    return new Promise<IRabbitMessage>((resolve, reject) => {
+    return new Promise<IRabbitCallbackMessage>((resolve, reject) => {
         getChannel().then(
             (channel) => {
                 channel.assertExchange(EXCHANGE, "direct", { durable: false });
@@ -63,7 +64,7 @@ export function sendArticleValidation(cartId: string, articleId: string): Promis
                 }
             }).catch(
                 (err) => {
-                    return new Promise<IArticleExistMessage>((resolve, reject) => {
+                    return new Promise<IRabbitCallbackMessage>((resolve, reject) => {
                         console.log("RabbitMQ Cart " + err);
                         reject();
                     });
