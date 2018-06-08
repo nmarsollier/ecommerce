@@ -22,7 +22,7 @@ let channel: amqp.Channel;
  * @api {direct} cart/catalog Comprobar Articulo
  * @apiGroup RabbitMQ POST
  *
- * @apiDescription Cart envia un mensaje a Catalog para comprobar la validez de un articulo.
+ * @apiDescription Cart enviá un mensaje a Catalog para comprobar la validez de un articulo.
  *
  * @apiParamsExample {json} Mensaje
  *     {
@@ -35,7 +35,7 @@ let channel: amqp.Channel;
  *
  */
 /**
- * Envia una peticion a catalog para validar si un articulo puede incluirse en el cart.
+ * Enviá una petición a catalog para validar si un articulo puede incluirse en el cart.
  */
 export function sendArticleValidation(cartId: string, articleId: string): Promise<IRabbitMessage> {
     const message: IRabbitMessage = {
@@ -85,7 +85,7 @@ function getChannel(): Promise<amqp.Channel> {
 
                         channel = chn;
                         channel.on("close", function () {
-                            console.error("RabbitMQ Cart Conexion cerrada");
+                            console.error("RabbitMQ Cart Conexión cerrada");
                             channel = undefined;
                         });
                         resolve(channel);

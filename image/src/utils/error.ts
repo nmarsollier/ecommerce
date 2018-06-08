@@ -4,9 +4,8 @@ import * as express from "express";
 import { NextFunction } from "express-serve-static-core";
 import { Result } from "express-validator/check";
 
-export const ERROR_UNATORIZED = 401;
+export const ERROR_UNAUTHORIZED = 401;
 export const ERROR_NOT_FOUND = 404;
-export const ERROR_UNAUTORIZED_METHOD = 405;
 export const ERROR_BAD_REQUEST = 400;
 export const ERROR_INTERNAL_ERROR = 500;
 
@@ -26,7 +25,7 @@ function processUnknownError(res: express.Response, err: any): ValidationErrorMe
   return { error: err };
 }
 
-// Error de validacion de datos
+// Error de validación de datos
 function processValidationError(res: express.Response, err: any): ValidationErrorMessage {
   res.status(ERROR_BAD_REQUEST);
   res.setHeader("X-Status-Reason", "Validation failed");
@@ -72,13 +71,6 @@ function processValidationError(res: express.Response, err: any): ValidationErro
  *
  * @apiSuccessExample {json} 500 Server Error
  *     HTTP/1.1 500 Internal Server Error
- *     HTTP/1.1 Header X-Status-Reason: {Mensaje}
- *     {
- *        "error" : "Not Found"
- *     }
- *
- * @apiSuccessExample {json} 405 Unautorized
- *     HTTP/1.1 405 Unautorized Method
  *     HTTP/1.1 Header X-Status-Reason: {Mensaje}
  *     {
  *        "error" : "Not Found"

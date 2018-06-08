@@ -49,7 +49,7 @@ function initAuth() {
             conn.createChannel().then(
                 (channel) => {
                     channel.on("close", function () {
-                        console.error("RabbitMQ Auth conexion cerrada, intentado reconectar en 10'");
+                        console.error("RabbitMQ Auth conexión cerrada, intentado reconectar en 10'");
                         setTimeout(() => initAuth(), 10000);
                     });
 
@@ -90,10 +90,10 @@ function initAuth() {
 
 
 /**
- * @api {direct} cart/article-exist Validacion de Articulos
+ * @api {direct} cart/article-exist Validación de Artículos
  * @apiGroup RabbitMQ GET
  *
- * @apiDescription Escucha de mensajes article-exist desde cart. Valida articulos
+ * @apiDescription Escucha de mensajes article-exist desde cart. Valida artículos
  *
  * @apiSuccessExample {json} Mensaje
  *     {
@@ -107,9 +107,9 @@ function initAuth() {
  */
 
 /**
- * Escucha eventos especificos de cart.
+ * Escucha eventos específicos de cart.
  *
- * article-exist : Es un evento que lo envia Catalog indicando que un articulo existe y es valido para el cart.
+ * article-exist : Es un evento que lo enviá Catalog indicando que un articulo existe y es valido para el cart.
  */
 function initCart() {
     const EXCHANGE = "cart";

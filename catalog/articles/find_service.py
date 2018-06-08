@@ -7,14 +7,14 @@ import re
 
 def searchArticles(text):
     """
-    Busca articulos por nombre o descripcion.\n
+    Busca articulos por nombre o descripción.\n
     test string Texto a buscar
     """
     """
     @api {get} /articles/search/:criteria Buscar articulos
     @apiName SearchArticle
     @apiGroup Articulos
-    @apiDescription Busca articulos por nombre o descripci&oacute;n
+    @apiDescription Busca articulos por nombre o descripción
 
     @apiSuccessExample {json} Respuesta
         HTTP/1.1 200 OK
@@ -22,12 +22,12 @@ def searchArticles(text):
             {
                 "_id": "{id de articulo}"
                 "name": "{nombre del articulo}",
-                "description": "{descripcion del articulo}",
+                "description": "{descripción del articulo}",
                 "image": "{id de imagen}",
                 "price": {precio actual},
                 "stock": {stock actual}
-                "updated": {fecha ultima actualizacion}
-                "created": {fecha creacion}
+                "updated": {fecha ultima actualización}
+                "created": {fecha creación}
                 "enabled": {activo}
             },
             ...

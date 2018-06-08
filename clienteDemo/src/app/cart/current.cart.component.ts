@@ -1,20 +1,17 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { JsonPipe } from '@angular/common';
-import { AuthService, Usuario } from '../auth/auth.service';
-import { IErrorController } from '../tools/error.handler';
-import * as errorHanlder from '../tools/error.handler';
-import { Cart, CartService, ICartArticleValidation } from './cart.service';
+import * as errorHandler from '../tools/error.handler';
+import { Cart, CartService, ICartValidation } from './cart.service';
 
 @Component({
     selector: 'app-current-cart',
     templateUrl: './current.cart.component.html'
 })
-export class CurrentCartComponent implements errorHanlder.IErrorController, OnInit {
+export class CurrentCartComponent implements errorHandler.IErrorController, OnInit {
     errorMessage: string;
     errors: Map<string, string>;
 
-    validation: ICartArticleValidation;
+    validation: ICartValidation;
 
     @Input()
     currentCart: Cart;
@@ -28,19 +25,19 @@ export class CurrentCartComponent implements errorHanlder.IErrorController, OnIn
     refresh() {
         this.cartService.getCurrentCart()
             .then(result => this.currentCart = result)
-            .catch(error => errorHanlder.procesarValidacionesRest(this, error));
+            .catch(error => errorHandler.processRestValidations(this, error));
     }
 
     checkout() {
         this.cartService.checkout()
             .then(_ => this.refresh())
-            .catch(error => errorHanlder.procesarValidacionesRest(this, error));
+            .catch(error => errorHandler.processRestValidations(this, error));
     }
 
     validate() {
         this.cartService.validate()
             .then(validation => this.validation = validation)
-            .catch(error => errorHanlder.procesarValidacionesRest(this, error));
+            .catch(error => errorHandler.processRestValidations(this, error));
     }
 
 }

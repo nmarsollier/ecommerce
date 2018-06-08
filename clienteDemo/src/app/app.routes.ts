@@ -8,7 +8,7 @@ import { AuthService } from './auth/auth.service';
 import { AddImageComponent } from './image/new.image.component';
 import { LoadImageComponent } from './image/load.image.component';
 import { NewArticleComponent } from './catalog/new.article.component';
-import { SearchArticleaComponent } from './catalog/search.articles.component';
+import { SearchArticleComponent } from './catalog/search.articles.component';
 import { EditArticleComponent } from './catalog/edit.article.component';
 import { CurrentCartComponent } from './cart/current.cart.component';
 import { AddArticleCartComponent } from './cart/add.article.cart.component';
@@ -41,7 +41,7 @@ export const routes: Routes = [
     { path: 'load_image/:id', component: LoadImageComponent, canActivate: [LoggedIn] },
     { path: 'load_image', component: LoadImageComponent, canActivate: [LoggedIn] },
     { path: 'new_article', component: NewArticleComponent, canActivate: [LoggedIn] },
-    { path: 'list_articles', component: SearchArticleaComponent, canActivate: [LoggedIn] },
+    { path: 'list_articles', component: SearchArticleComponent, canActivate: [LoggedIn] },
     { path: 'edit_article/:id', component: EditArticleComponent, canActivate: [LoggedIn] },
     { path: 'edit_article', component: EditArticleComponent, canActivate: [LoggedIn] },
     { path: 'current_cart', component: CurrentCartComponent, canActivate: [LoggedIn] },

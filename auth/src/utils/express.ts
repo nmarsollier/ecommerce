@@ -12,13 +12,13 @@ import * as compression from "compression";
 import * as passport from "passport";
 import * as expressValidator from "express-validator";
 
-// Modulos de la aplicacion
+// Módulos de la aplicación
 import * as securityModule from "../security/module";
 import * as error from "../utils/error";
-import * as pasportConf from "../security/passport.service";
+import * as passportConf from "../security/passport.service";
 
 export function init(appConfig: Config): express.Express {
-  // Notas de configuracion de express http://expressjs.com/es/guide/using-middleware.html#middleware.application
+  // Notas de configuración de express http://expressjs.com/es/guide/using-middleware.html#middleware.application
   const app = express();
   app.set("port", appConfig.port);
 
@@ -29,7 +29,7 @@ export function init(appConfig: Config): express.Express {
     credentials: true
   }));
 
-  // Si estamos en level debug, debaguear los request
+  // Si estamos en level debug, log de los request
   if (appConfig.logLevel == "debug") {
     app.use(morgan("dev"));
   }
@@ -41,30 +41,30 @@ export function init(appConfig: Config): express.Express {
   // Configurar express para comprimir contenidos de text en http
   app.use(compression());
 
-  // Configuramos passport, authenticacion por tokens y db
+  // Configuramos passport, authentication por tokens y db
   app.use(passport.initialize());
   app.use(passport.session());
 
-  // Permite hacer validaciones de parametros req.assert
+  // Permite hacer validaciones de parámetros req.assert
   app.use(expressValidator());
 
   // helmet le da seguridad al sistema para prevenir hacks
-  app.use(helmet.xssFilter());  // Previene inyeccion de javascript
+  app.use(helmet.xssFilter());  // Previene inyección de javascript
   app.use(helmet.noSniff());
   app.use(helmet.ieNoOpen());
   app.disable("x-powered-by");
 
-  // Esta es la ruta de contenidos estaticos, no deberian haber muchos pero algo de documentacion
-  // vendria bien como contenido estatico.
+  // Esta es la ruta de contenidos estáticos, no deberían haber muchos pero algo de documentación
+  // vendría bien como contenido estático.
   app.use(
     express.static(path.join(__dirname, "../public"), { maxAge: 31557600000 })
   );
   app.get("/", (req, res, next) => { res.redirect("index.html"); });
 
-  // Inicializamos nuestros modulos
-  pasportConf.init();
+  // Iniciamos nuestros módulos
+  passportConf.init();
 
-  // Inicializamos las rutas del directorio
+  // Iniciamos las rutas del directorio
   // mas sobre rutas http://expressjs.com/es/guide/routing.html
   securityModule.init(app);
 

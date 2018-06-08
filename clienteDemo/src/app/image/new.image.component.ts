@@ -1,40 +1,36 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { Router } from '@angular/router';
-import { JsonPipe } from '@angular/common';
-import { AuthService, Usuario } from '../auth/auth.service';
-import { IErrorController } from '../tools/error.handler';
-import * as errorHanlder from '../tools/error.handler';
-import { FormControl, Validators, FormGroup } from '@angular/forms';
+import * as errorHandler from '../tools/error.handler';
 import { Image, ImageService } from './image.service';
 
 @Component({
     selector: 'app-new-image',
     templateUrl: './new.image.component.html'
 })
-export class AddImageComponent implements errorHanlder.IErrorController {
+export class AddImageComponent implements errorHandler.IErrorController {
     errorMessage: string;
     errors = new Map();
     showing = '/assets/select_image.png';
-    imagen: Image = { image: '' };
+    image: Image = { image: '' };
 
     constructor(private imageService: ImageService, private router: Router) { }
 
-    actualizarImagen(imagen: any) {
-        this.showing = imagen;
-        this.imagen.image = imagen;
+    updateImage(image: any) {
+        this.showing = image;
+        this.image.image = image;
     }
 
     submitForm() {
-        errorHanlder.cleanRestValidations(this);
+        errorHandler.cleanRestValidations(this);
 
-        if (this.imagen.image && !this.imagen.id) {
+        if (this.image.image && !this.image.id) {
             this.imageService
-                .guardarImagen(this.imagen)
+                .saveImage(this.image)
                 .then(image => {
-                    this.imagen = image;
+                    this.image = image;
                 })
                 .catch(error => {
-                    errorHanlder.procesarValidacionesRest(this, error);
+                    errorHandler.processRestValidations(this, error);
                 });
         }
     }

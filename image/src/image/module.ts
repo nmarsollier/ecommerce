@@ -8,13 +8,13 @@ import * as security from "../utils/security";
 export function init(app: Express) {
   app
     .route("/image")
-    .post(security.validateSesssionToken, createService.validateCreate, createService.create);
+    .post(security.validateSessionToken, createService.validateCreate, createService.create);
 
   app
     .route("/image/:imageId")
-    .get(security.validateSesssionToken, getService.findById, getService.read);
+    .get(security.validateSessionToken, getService.findById, getService.read);
 
   app
     .route("/image/:imageId/jpeg")
-    .get(security.validateSesssionToken, getService.findById, getService.readJpeg);
+    .get(security.validateSessionToken, getService.findById, getService.readJpeg);
 }

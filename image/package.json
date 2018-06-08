@@ -1,7 +1,7 @@
 {
     "name": "image-service",
     "version": "0.1.0",
-    "description": "Server de Imagenes",
+    "description": "Server de Imágenes",
     "repository": {
         "type": "git",
         "url": "https://github.com/nmarsollier/2018_microservicios.git"

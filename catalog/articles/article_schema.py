@@ -40,7 +40,7 @@ def validateSchema(article):
 
     errors = {}
 
-    # Errores de tipos de datos invalidos en parametros
+    # Errores de tipos de datos inválidos en parametros
     errors.update(
         dict((k, "Invalid") for (k, v) in article.items()
              if k in ARTICLE_SCHEMA.keys()
@@ -53,7 +53,7 @@ def validateSchema(article):
                  len(v.strip()) < ARTICLE_SCHEMA[k][1]
                  or len(v.strip()) > ARTICLE_SCHEMA[k][2])))
 
-    # Validamos valores maximos y minimos de numeros
+    # Validamos valores maximos y minimos de números
     errors.update(
         dict(
             (k, "Invalid size") for (k, v) in article.items()
@@ -63,4 +63,4 @@ def validateSchema(article):
                  or v > ARTICLE_SCHEMA[k][2])))
 
     if (len(errors) > 0):
-        raise errors.MultipleArgumenException(errors)
+        raise errors.MultipleArgumentException(errors)

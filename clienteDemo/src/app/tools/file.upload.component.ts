@@ -1,5 +1,5 @@
-import { NgModule, Component, Input, ViewChildren, Output, ElementRef, forwardRef } from '@angular/core';
-import { FormsModule, NgModel, ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
+import { NgModule, Component, ViewChildren, forwardRef } from '@angular/core';
+import { FormsModule, ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 
 @Component({
     selector: 'app-file-upload',
@@ -34,12 +34,10 @@ export class FileUploadComponent implements ControlValueAccessor {
         this.fileInput.first.nativeElement.click();
     }
     changeListener($event): void {
-        // debugger; // uncomment this for debugging purposes
         this.readThis($event.target);
     }
 
     readThis(inputValue: any): void {
-        // debugger; // uncomment this for debugging purposes
         const file: File = inputValue.files[0];
         const myReader: FileReader = new FileReader();
 

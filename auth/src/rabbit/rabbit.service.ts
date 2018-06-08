@@ -14,7 +14,7 @@ let channel: amqp.Channel;
  * @api {fanout} auth/fanout Invalidar Token
  * @apiGroup RabbitMQ POST
  *
- * @apiDescription AuthService envia un broadcast a todos los usuarios cuando un token ha sido invalidado. Los clientes deben eliminar de sus caches las sesiones invalidadas.
+ * @apiDescription AuthService enviá un broadcast a todos los usuarios cuando un token ha sido invalidado. Los clientes deben eliminar de sus caches las sesiones invalidadas.
  *
  * @apiSuccessExample {json} Mensaje
  *     {
@@ -63,7 +63,7 @@ function getChannel(): Promise<amqp.Channel> {
 
                         channel = chn;
                         channel.on("close", function () {
-                            console.error("RabbitMQ Conexion cerrada");
+                            console.error("RabbitMQ Conexión cerrada");
                             channel = undefined;
                         });
                         resolve(channel);

@@ -1,9 +1,9 @@
 Microservicio de Carrito
 =
 
-Este microservicio almacena un carrito por usuario. Una vez hecha la compra el carrito se cierra y se gener una orden.
+Este microservicio almacena un carrito por usuario. Una vez hecha la compra el carrito se cierra y se genera una orden.
 
-La documentacion de las api se pueden consultar desde el home del microservicio
+La documentación de las api se pueden consultar desde el home del microservicio
 que una vez levantado el servidor se puede navegar en http://localhost:3003/
 
 Dependencias
@@ -12,16 +12,16 @@ Dependencias
 Node 8
 -
 
-Seguir los pasos de instalacion del sitio oficial
+Seguir los pasos de instalación del sitio oficial
 
 <https://nodejs.org/en/>
 
 MongoDb
 -
 
-Ver tutorial de instalacion en [README.md](../README.md) en la raiz.
+Ver tutorial de instalación en [README.md](../README.md) en la raíz.
 
-Ejecucion
+Ejecución
 -
 
 Abrir ventana de comandos en la carpeta del microservicio y ejecutar :

@@ -8,7 +8,7 @@ export interface CartValidationItem {
     message: string;
   }
 export interface ICartValidation {
-    erros: CartValidationItem[];
+    errors: CartValidationItem[];
     warnings: CartValidationItem[];
 }
 

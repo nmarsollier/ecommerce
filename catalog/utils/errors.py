@@ -43,7 +43,7 @@ class InvalidArgument(Exception):
         return repr(self.path)
 
 
-class MultipleArgumenException(Exception):
+class MultipleArgumentException(Exception):
     def __init__(self, error):
         self.errors = error
 
@@ -69,10 +69,10 @@ def handleError(err):
         return handleInvalidArgument(err)
     elif isinstance(err, InvalidRequest):
         return handleInvalidRequest(err)
-    elif isinstance(err, MultipleArgumenException):
-        return handleMultipleArgumenException(err)
+    elif isinstance(err, MultipleArgumentException):
+        return handleMultipleArgumentException(err)
     elif isinstance(err, InvalidAuth):
-        return handleUnatorized(err)
+        return handleUnauthorized(err)
     elif isinstance(err, InvalidAccessLevel):
         return handleInvalidAccessLevel(err)
     else:
@@ -80,10 +80,10 @@ def handleError(err):
         return handleUnknown(err)
 
 
-def handleMultipleArgumenException(err):
+def handleMultipleArgumentException(err):
     """
     Multiples argumentos con errores.
-    err: MultipleArgumenException
+    err: MultipleArgumentException
     result json error a enviar al cliente
     """
     return json.dic_to_json(err.errors), 400
@@ -116,13 +116,13 @@ def handleUnknown(err):
     return json.dic_to_json({"error": "Unknown error"}), 500
 
 
-def handleUnatorized(err):
+def handleUnauthorized(err):
     """
     Usuario no autorizado.
     err: InvalidAuth
     result json error a enviar al cliente
     """
-    return json.dic_to_json({"error": "Unautorized"}), 401
+    return json.dic_to_json({"error": "Unauthorized"}), 401
 
 
 def handleInvalidAccessLevel(err):
@@ -131,4 +131,4 @@ def handleInvalidAccessLevel(err):
     err: InvalidAuth
     result json error a enviar al cliente
     """
-    return json.dic_to_json({"error": "Insuficient access level"}), 401
+    return json.dic_to_json({"error": "Insufficient access level"}), 401

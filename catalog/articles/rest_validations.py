@@ -63,7 +63,7 @@ def validateArticleParams(params):
                  or v > schema.ARTICLE_SCHEMA[k][2])))
 
     if (len(errors) > 0):
-        raise error.MultipleArgumenException(errors)
+        raise error.MultipleArgumentException(errors)
 
 
 def validateArticleExist(articleId):

@@ -15,7 +15,7 @@ memo = memoize.Memoizer(memoKeys)
 @memo(max_age=3600)
 def isValidToken(authKey):
     """
-    Obtiene el currentUser desde el servicio de authenticacion
+    Obtiene el currentUser desde el servicio de autentificación
     authKey: string El header Authorization enviado por el cliente
     return dict<property, value> CurrentUser
     """

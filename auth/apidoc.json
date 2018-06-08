@@ -1,7 +1,7 @@
 {
   "name": "Auth Service",
   "version": "0.1.0",
-  "description": "Microservicio de Autenticaci&oacute;n",
-  "title": "Microservicio de Autenticaci&oacute;n",
+  "description": "Microservicio de Autentificación",
+  "title": "Microservicio de Autentificación",
   "url" : ""
 }

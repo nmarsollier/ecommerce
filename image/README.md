@@ -1,9 +1,9 @@
-Microservicio de Imagenes
+Microservicio de Imágenes
 =
 
-Este microservicio almacena las imagnes en una base de datos clave-valor (redis)
+Este microservicio almacena las imágenes en una base de datos clave-valor (redis)
 
-La documentacion de las api se pueden consultar desde el home del microservicio
+La documentación de las api se pueden consultar desde el home del microservicio
 que una vez levantado el servidor se puede navegar en http://localhost:3001/
 
 Dependencias
@@ -12,16 +12,16 @@ Dependencias
 Node 8
 -
 
-Seguir los pasos de instalacion del sitio oficial
+Seguir los pasos de instalación del sitio oficial
 
 <https://nodejs.org/en/>
 
 Redis
 -
 
-Ver tutorial de instalacion en [README.md](../README.md) en la raiz.
+Ver tutorial de instalación en [README.md](../README.md) en la raiz.
 
-Ejecucion
+Ejecución
 -
 
 Abrir ventana de comandos en la carpeta del microservicio y ejecutar :

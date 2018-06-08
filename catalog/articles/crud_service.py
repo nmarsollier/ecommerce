@@ -23,12 +23,12 @@ def getArticle(articleId):
         {
             "_id": "{id de articulo}"
             "name": "{nombre del articulo}",
-            "description": "{descripcion del articulo}",
+            "description": "{descripción del articulo}",
             "image": "{id de imagen}",
             "price": {precio actual},
             "stock": {stock actual}
-            "updated": {fecha ultima actualizacion}
-            "created": {fecha creacion}
+            "updated": {fecha ultima actualización}
+            "created": {fecha creación}
             "enabled": {activo}
         }
 
@@ -58,7 +58,7 @@ def addArticle(params):
     @apiParamExample {json} Body
         {
             "name": "{nombre del articulo}",
-            "description": "{descripcion del articulo}",
+            "description": "{descripción del articulo}",
             "image": "{id de imagen}",
             "price": {precio actual},
             "stock": {stock actual}
@@ -69,12 +69,12 @@ def addArticle(params):
         {
             "_id": "{id de articulo}"
             "name": "{nombre del articulo}",
-            "description": "{descripcion del articulo}",
+            "description": "{descripción del articulo}",
             "image": "{id de imagen}",
             "price": {precio actual},
             "stock": {stock actual}
-            "updated": {fecha ultima actualizacion}
-            "created": {fecha creacion}
+            "updated": {fecha ultima actualización}
+            "created": {fecha creación}
             "enabled": {si esta activo}
         }
 
@@ -99,7 +99,7 @@ def updateArticle(articleId, params):
     @apiParamExample {json} Body
         {
             "name": "{nombre del articulo}",
-            "description": "{descripcion del articulo}",
+            "description": "{descripción del articulo}",
             "image": "{id de imagen}",
             "price": {precio actual},
             "stock": {stock actual}
@@ -110,12 +110,12 @@ def updateArticle(articleId, params):
         {
             "_id": "{id de articulo}"
             "name": "{nombre del articulo}",
-            "description": "{descripcion del articulo}",
+            "description": "{descripción del articulo}",
             "image": "{id de imagen}",
             "price": {precio actual},
             "stock": {stock actual}
-            "updated": {fecha ultima actualizacion}
-            "created": {fecha creacion}
+            "updated": {fecha ultima actualización}
+            "created": {fecha creación}
             "enabled": {si esta activo}
         }
 

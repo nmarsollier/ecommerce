@@ -1,17 +1,14 @@
 import { Component, OnInit } from '@angular/core';
-import { Router, ActivatedRoute } from '@angular/router';
-import { JsonPipe } from '@angular/common';
-import { AuthService, Usuario, RegistrarUsuario } from '../auth/auth.service';
-import { IErrorController } from '../tools/error.handler';
-import * as errorHanlder from '../tools/error.handler';
-import { FormGroup, FormControl, Validators } from '@angular/forms';
-import { CartService, Cart } from './cart.service';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { ActivatedRoute, Router } from '@angular/router';
+import * as errorHandler from '../tools/error.handler';
+import { Cart, CartService } from './cart.service';
 
 @Component({
     selector: 'app-catalog-edit-article',
     templateUrl: './add.article.cart.component.html'
 })
-export class AddArticleCartComponent implements errorHanlder.IFormGroupErrorController, OnInit {
+export class AddArticleCartComponent implements errorHandler.IFormGroupErrorController, OnInit {
     errorMessage: string;
     errors = new Map();
 
@@ -24,8 +21,8 @@ export class AddArticleCartComponent implements errorHanlder.IFormGroupErrorCont
 
     constructor(private cartService: CartService, private router: Router, private route: ActivatedRoute) { }
 
-    agregar() {
-        errorHanlder.cleanRestValidations(this);
+    addArticle() {
+        errorHandler.cleanRestValidations(this);
 
         this.cartService
             .addArticle({
@@ -35,41 +32,41 @@ export class AddArticleCartComponent implements errorHanlder.IFormGroupErrorCont
             .then(cart => {
                 this.currentCart = cart;
             })
-            .catch(error => errorHanlder.procesarValidacionesRestFormGroup(this, error));
+            .catch(error => errorHandler.processFormGroupRestValidations(this, error));
     }
 
 
-    eliminar() {
-        errorHanlder.cleanRestValidations(this);
+    deleteArticle() {
+        errorHandler.cleanRestValidations(this);
 
         this.cartService
             .deleteArticle(this.form.get('articleId').value)
             .then(_ => {
                 this.refresh();
             })
-            .catch(error => errorHanlder.procesarValidacionesRestFormGroup(this, error));
+            .catch(error => errorHandler.processFormGroupRestValidations(this, error));
     }
 
-    incrementar() {
-        errorHanlder.cleanRestValidations(this);
+    incrementArticle() {
+        errorHandler.cleanRestValidations(this);
 
         this.cartService
             .incrementArticle(this.form.get('articleId').value)
             .then(_ => {
                 this.refresh();
             })
-            .catch(error => errorHanlder.procesarValidacionesRestFormGroup(this, error));
+            .catch(error => errorHandler.processFormGroupRestValidations(this, error));
     }
 
-    decrementar() {
-        errorHanlder.cleanRestValidations(this);
+    decrementArticle() {
+        errorHandler.cleanRestValidations(this);
 
         this.cartService
             .decrementArticle(this.form.get('articleId').value)
             .then(_ => {
                 this.refresh();
             })
-            .catch(error => errorHanlder.procesarValidacionesRestFormGroup(this, error));
+            .catch(error => errorHandler.processFormGroupRestValidations(this, error));
     }
 
     ngOnInit(): void {
@@ -79,6 +76,6 @@ export class AddArticleCartComponent implements errorHanlder.IFormGroupErrorCont
     refresh() {
         this.cartService.getCurrentCart()
             .then(result => this.currentCart = result)
-            .catch(error => errorHanlder.procesarValidacionesRestFormGroup(this, error));
+            .catch(error => errorHandler.processFormGroupRestValidations(this, error));
     }
 }

@@ -9,18 +9,18 @@ import * as security from "../utils/security";
  */
 export function init(app: Express) {
 
-  app.route("/cart/article").post(security.validateSesssionToken, cart.findCurrentCart, cart.validateAddArticle, cart.addArticle);
+  app.route("/cart/article").post(security.validateSessionToken, cart.findCurrentCart, cart.validateAddArticle, cart.addArticle);
 
-  app.route("/cart").get(security.validateSesssionToken, cart.findCurrentCart, cart.getCurrentCart);
+  app.route("/cart").get(security.validateSessionToken, cart.findCurrentCart, cart.getCurrentCart);
 
-  app.route("/cart/article/:articleId").delete(security.validateSesssionToken, cart.findCurrentCart, cart.validateDelete, cart.deleteArticle);
+  app.route("/cart/article/:articleId").delete(security.validateSessionToken, cart.findCurrentCart, cart.validateDelete, cart.deleteArticle);
 
-  app.route("/cart/article/:articleId/increment").post(security.validateSesssionToken, cart.findCurrentCart, cart.validateAddArticle, cart.incrementArticle);
+  app.route("/cart/article/:articleId/increment").post(security.validateSessionToken, cart.findCurrentCart, cart.validateAddArticle, cart.incrementArticle);
 
-  app.route("/cart/article/:articleId/decrement").post(security.validateSesssionToken, cart.findCurrentCart, cart.validateAddArticle, cart.decrementArticle);
+  app.route("/cart/article/:articleId/decrement").post(security.validateSessionToken, cart.findCurrentCart, cart.validateAddArticle, cart.decrementArticle);
 
-  app.route("/cart/validate").get(security.validateSesssionToken, cart.findCurrentCart, cart.validateOrder, cart.validateToCheckout);
+  app.route("/cart/validate").get(security.validateSessionToken, cart.findCurrentCart, cart.validateOrder, cart.validateToCheckout);
 
-  app.route("/cart/checkout").post(security.validateSesssionToken, cart.findCurrentCart, cart.validateOrder, cart.postOrder);
+  app.route("/cart/checkout").post(security.validateSessionToken, cart.findCurrentCart, cart.validateOrder, cart.postOrder);
 
 }

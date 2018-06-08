@@ -29,7 +29,7 @@ import { ImageService } from './image/image.service';
 import { LoadImageComponent } from './image/load.image.component';
 import { NewArticleComponent } from './catalog/new.article.component';
 import { CatalogService } from './catalog/catalog.service';
-import { SearchArticleaComponent } from './catalog/search.articles.component';
+import { SearchArticleComponent } from './catalog/search.articles.component';
 import { ShowImageComponent } from './image/display.image.component';
 import { EditArticleComponent } from './catalog/edit.article.component';
 import { MatFileUploadComponent } from './tools/mat.file.upload.component';
@@ -51,7 +51,7 @@ import { AddArticleCartComponent } from './cart/add.article.cart.component';
     LoadImageComponent,
     InfoComponent,
     NewArticleComponent,
-    SearchArticleaComponent,
+    SearchArticleComponent,
     ShowImageComponent,
     EditArticleComponent,
     MatFileUploadComponent,

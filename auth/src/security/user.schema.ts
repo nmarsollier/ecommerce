@@ -18,14 +18,14 @@ export interface IUser extends Document {
 }
 
 /**
- * Validacion para tamaño de contraseña
+ * Validación para tamaño de contraseña
  */
 const validateLocalStrategyPassword = function (password: string) {
   return password && password.length > 6;
 };
 
 /**
- * Esquea de un usuario del sistema
+ * Esquema de un usuario del sistema
  */
 export let UserSchema = new Schema({
   name: {
@@ -73,14 +73,14 @@ UserSchema.path("password").validate(function (value: string) {
 }, "La contraseña debe ser mayor a 6 caracteres");
 
 /**
- * Crea un hash del passwrod
+ * Crea un hash del password
  */
 UserSchema.methods.hashPassword = function (password: string) {
   return pbkdf2Sync(password, conf.passwordSalt, 10000, 64, "SHA1").toString("base64");
 };
 
 /**
- * Trigger antes de guardar, si el password se mofico hay que encriptarlo
+ * Trigger antes de guardar, si el password se modifico hay que encriptarlo
  */
 const fixPassword = function (next: Function) {
   if (this.isModified("password") && this.password && this.password.length > 6) {
@@ -94,7 +94,7 @@ const fixPassword = function (next: Function) {
 UserSchema.pre("save", fixPassword);
 
 /**
- * Authentica un usuario
+ * Authentifica un usuario
  */
 UserSchema.methods.authenticate = function (password: string) {
   return this.password && this.password === this.hashPassword(password);

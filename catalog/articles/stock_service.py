@@ -15,7 +15,7 @@ def reserveStock(articleId, quantity):
     quantity: int Cantidad a descontar
     """
     if (not isinstance(quantity, numbers.Integral) or quantity <= 0):
-        raise errors.InvalidArgument("quanity", "Invalid quanity")
+        raise errors.InvalidArgument("quantity", "Invalid quantity")
 
     result = db.articles.find_one_and_update(
         {
@@ -34,7 +34,7 @@ def reserveStock(articleId, quantity):
         return_document=pymongo.ReturnDocument.AFTER)
 
     if (not result):
-        raise errors.InvalidArgument("quanity", "Invalid quanity")
+        raise errors.InvalidArgument("quantity", "Invalid quantity")
 
     return result
 
@@ -48,7 +48,7 @@ def increaseStock(articleId, quantity):
     """
 
     if (not isinstance(quantity, numbers.Integral) or quantity <= 0):
-        raise errors.InvalidArgument("quanity", "Invalid quanity")
+        raise errors.InvalidArgument("quantity", "Invalid quantity")
 
     result = db.articles.find_one_and_update(
         {
@@ -63,6 +63,6 @@ def increaseStock(articleId, quantity):
         return_document=pymongo.ReturnDocument.AFTER)
 
     if (not result):
-        raise errors.InvalidArgument("quanity", "Invalid quanity")
+        raise errors.InvalidArgument("quantity", "Invalid quantity")
 
     return result

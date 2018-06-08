@@ -9,7 +9,7 @@ import * as express from "express";
 import * as env from "../utils/environment";
 
 // Este cache de sesiones en memoria va a evitar que tenga que ir a la base de datos
-// para verificar que la sesion sea valida. 1 hora de cache en memoria. Luego se vuelve a leer de la db
+// para verificar que la sesión sea valida. 1 hora de cache en memoria. Luego se vuelve a leer de la db
 const sessionCache = new nodeCache({ stdTTL: 3600, checkperiod: 60 });
 const conf = env.getConfig(process.env);
 
@@ -35,13 +35,13 @@ export interface IUserSessionRequest extends express.Request {
  * @apiParamExample {String} Header Autorización
  *    Authorization=bearer {token}
  *
- * @apiSuccessExample 401 Unautorized
- *    HTTP/1.1 401 Unautorized
+ * @apiSuccessExample 401 Unauthorized
+ *    HTTP/1.1 401 Unauthorized
  */
-export function validateSesssionToken(req: IUserSessionRequest, res: express.Response, next: NextFunction) {
+export function validateSessionToken(req: IUserSessionRequest, res: express.Response, next: NextFunction) {
   const auth = req.header("Authorization");
   if (!auth) {
-    return error.sendError(res, error.ERROR_UNATORIZED, "Unautorized");
+    return error.sendError(res, error.ERROR_UNAUTHORIZED, "Unauthorized");
   }
 
   /*
@@ -56,9 +56,9 @@ export function validateSesssionToken(req: IUserSessionRequest, res: express.Res
     };
     return next();
   } else {
-    const restc: RestClient = new RestClient("CurrentUser", conf.securityServer);
+    const restClient: RestClient = new RestClient("CurrentUser", conf.securityServer);
 
-    restc.get<any>("/auth/currentUser",
+    restClient.get<any>("/auth/currentUser",
       { additionalHeaders: { "Authorization": auth } }).then(
         (data) => {
           sessionCache.set(auth, data.result);
@@ -70,7 +70,7 @@ export function validateSesssionToken(req: IUserSessionRequest, res: express.Res
         }
       ).catch(
         (exception) => {
-          return error.sendError(res, error.ERROR_UNATORIZED, "Unautorized");
+          return error.sendError(res, error.ERROR_UNAUTHORIZED, "Unauthorized");
         }
       );
   }

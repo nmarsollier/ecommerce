@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
-import { Http, Headers, Response, URLSearchParams } from '@angular/http';
-import { RestBaseService } from '../tools/rest.tools';
+import { Http } from '@angular/http';
 import { environment } from '../../environments/environment';
+import { RestBaseService } from '../tools/rest.tools';
 
 export enum Calidad {
     Q160 = '160',
@@ -18,7 +18,7 @@ export class ImageService extends RestBaseService {
         super();
     }
 
-    buscarImagen(id: string, calidad?: Calidad): Promise<Image> {
+    getImage(id: string, calidad?: Calidad): Promise<Image> {
         const headers = (calidad) ? this.getRestHeader({ 'Size': calidad }) : this.getRestHeader();
 
         return this.http
@@ -30,7 +30,7 @@ export class ImageService extends RestBaseService {
             .catch(this.handleError);
     }
 
-    guardarImagen(value: Image): Promise<Image> {
+    saveImage(value: Image): Promise<Image> {
         return this.http
             .post(
                 environment.imageServerUrl + 'image/',

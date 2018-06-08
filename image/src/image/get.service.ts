@@ -111,8 +111,8 @@ export function findById(req: IReadRequest, res: express.Response, next: NextFun
 }
 
 /*
-* Solo llamamos a esta funcion si estamos seguros de que hay que ajustarle el tamaño,
-* o sea que el header size contiene un valor adecuado y que no lo temenos ya generado en redis
+* Solo llamamos a esta función si estamos seguros de que hay que ajustarle el tamaño,
+* o sea que el header size contiene un valor adecuado y que no lo tenemos ya generado en redis
 */
 function findAndResize(req: IReadRequest, res: express.Response, next: NextFunction, id: string) {
   const size = escape(req.header("Size"));

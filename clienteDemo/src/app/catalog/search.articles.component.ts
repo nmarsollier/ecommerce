@@ -1,31 +1,28 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
+import { FormControl, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
-import { JsonPipe } from '@angular/common';
-import { AuthService, Usuario, RegistrarUsuario } from '../auth/auth.service';
-import { IErrorController } from '../tools/error.handler';
-import * as errorHanlder from '../tools/error.handler';
-import { FormGroup, FormControl, Validators } from '@angular/forms';
-import { Articulo, CatalogService } from './catalog.service';
+import * as errorHandler from '../tools/error.handler';
+import { Article, CatalogService } from './catalog.service';
 
 @Component({
     selector: 'app-catalog-search-articles',
     templateUrl: './search.articles.component.html'
 })
-export class SearchArticleaComponent implements errorHanlder.IErrorController {
+export class SearchArticleComponent implements errorHandler.IErrorController {
     errorMessage: string;
     errors = new Map();
 
     filter = new FormControl('', [Validators.required]);
 
-    articulos: Articulo[];
+    articles: Article[];
 
     constructor(private catalogService: CatalogService, private router: Router) { }
 
     submitForm() {
-        errorHanlder.cleanRestValidations(this);
+        errorHandler.cleanRestValidations(this);
 
-        this.catalogService.buscarArticulos(this.filter.value).then(
-            result => this.articulos = result
-        ).catch(err => errorHanlder.procesarValidacionesRest(this, err));
+        this.catalogService.findArticles(this.filter.value).then(
+            result => this.articles = result
+        ).catch(err => errorHandler.processRestValidations(this, err));
     }
 }

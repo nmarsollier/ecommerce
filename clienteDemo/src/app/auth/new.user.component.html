@@ -5,7 +5,7 @@
         <input matInput placeholder="Login" formControlName="login" />
 
         <mat-error *ngIf="form.get('login')?.invalid">
-            {{ errors.get('login') ? errors.get('login') : "Valor no v&aacute;lido." }}
+            {{ errors.get('login') ? errors.get('login') : "Valor no válido." }}
         </mat-error>
     </mat-form-field>
 
@@ -13,7 +13,7 @@
         <input matInput placeholder="Nombre" formControlName="name" />
 
         <mat-error *ngIf="form.get('name')?.invalid">
-            {{ errors.get('name') ? errors.get('name') : "Valor no v&aacute;lido." }}
+            {{ errors.get('name') ? errors.get('name') : "Valor no válido." }}
         </mat-error>
     </mat-form-field>
 
@@ -22,7 +22,7 @@
         <input matInput placeholder="Password" formControlName="password" type="password" />
 
         <mat-error *ngIf="form.get('password')?.invalid">
-            {{ errors.get('password') ? errors.get('password') : "Valor no v&aacute;lido." }}
+            {{ errors.get('password') ? errors.get('password') : "Valor no válido." }}
         </mat-error>
 
         <mat-error *ngIf="errors.get('password')">{{errors.password}}</mat-error>

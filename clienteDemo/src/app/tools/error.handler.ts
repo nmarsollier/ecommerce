@@ -1,4 +1,4 @@
-import { FormControl, FormGroup } from '@angular/forms';
+import { FormGroup } from '@angular/forms';
 
 export interface ValidationErrorItem {
     path: string;
@@ -16,8 +16,8 @@ export interface IFormGroupErrorController extends IErrorController {
     form: FormGroup;
 }
 
-export function procesarValidacionesRest(controller: IErrorController, data: ValidationErrorMessage) {
-    if (controller.errors.size > 0) {
+export function processRestValidations(controller: IErrorController, data: ValidationErrorMessage) {
+    if (controller.errors && controller.errors.size > 0) {
         cleanRestValidations(controller);
     }
     if (data.message) {
@@ -29,8 +29,8 @@ export function procesarValidacionesRest(controller: IErrorController, data: Val
     }
 }
 
-export function procesarValidacionesRestFormGroup(controller: IFormGroupErrorController, data: ValidationErrorMessage) {
-    procesarValidacionesRest(controller, data);
+export function processFormGroupRestValidations(controller: IFormGroupErrorController, data: ValidationErrorMessage) {
+    processRestValidations(controller, data);
 
     controller.errors.forEach((value, key) => {
         if (controller.form.get(key)) {

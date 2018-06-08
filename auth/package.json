@@ -1,7 +1,7 @@
 {
     "name": "auth-service",
     "version": "0.1.0",
-    "description": "Server de Autenticacion",
+    "description": "Server de Autentificación",
     "repository": {
         "type": "git",
         "url": "https://github.com/nmarsollier/2018_microservicios.git"

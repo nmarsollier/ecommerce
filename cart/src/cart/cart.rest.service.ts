@@ -27,7 +27,7 @@ export interface CartValidationItem {
     message: string;
 }
 export interface ICartValidation {
-    erros: CartValidationItem[];
+    errors: CartValidationItem[];
     warnings: CartValidationItem[];
 }
 
@@ -60,8 +60,8 @@ export function findCurrentCart(req: ICartRequest, res: express.Response, next: 
 }
 
 export function validateAddArticle(req: ICartRequest, res: express.Response, next: NextFunction) {
-    req.check("articleId", "No puede quedar vac&iacute;o.").notEmpty();
-    req.check("quantity", "Debe se numerico").isInt({ min: 1 });
+    req.check("articleId", "No puede quedar vacío.").notEmpty();
+    req.check("quantity", "Debe se numérico").isInt({ min: 1 });
 
     req.getValidationResult().then(function (result) {
         if (!result.isEmpty()) {
@@ -77,7 +77,7 @@ export function validateAddArticle(req: ICartRequest, res: express.Response, nex
  * @apiName Add Article
  * @apiGroup Carrito
  *
- * @apiDescription Agregar articulos al carrito.
+ * @apiDescription Agregar artículos al carrito.
  *
  * @apiParamasExample {json} Body
  *    {
@@ -90,8 +90,8 @@ export function validateAddArticle(req: ICartRequest, res: express.Response, nex
  *      "userId": "{User Id}",
  *      "enabled": true|false,
  *      "_id": "{Id de carrito}",
- *      "articles": [{Articulos}],
- *      "updated": "{Fecha ultima actualizacion}",
+ *      "articles": [{Artículos}],
+ *      "updated": "{Fecha ultima actualización}",
  *      "created": "{Fecha creado}"
  *    }
  *
@@ -121,7 +121,7 @@ export function addArticle(req: ICartRequest, res: express.Response) {
  * @apiName Decrement Article Cart
  * @apiGroup Carrito
  *
- * @apiDescription Decrementa la cantidad de articulos en el cart.
+ * @apiDescription Decrementa la cantidad de artículos en el cart.
  *
  * @apiSuccessExample {json} Body
  *    {
@@ -134,8 +134,8 @@ export function addArticle(req: ICartRequest, res: express.Response) {
  *      "userId": "{User Id}",
  *      "enabled": true|false,
  *      "_id": "{Id de carrito}",
- *      "articles": [{Articulos}],
- *      "updated": "{Fecha ultima actualizacion}",
+ *      "articles": [{Artículos}],
+ *      "updated": "{Fecha ultima actualización}",
  *      "created": "{Fecha creado}"
  *    }
  *
@@ -166,12 +166,13 @@ export function decrementArticle(req: ICartRequest, res: express.Response) {
  * @apiName Increment Article Cart
  * @apiGroup Carrito
  *
- * @apiDescription Incrementa la cantidad de articulos en el cart.
+ * @apiDescription Incrementa la cantidad de artículos en el cart.
  *
  * @apiSuccessExample {json} Body
  *    {
  *      "articleId": "{Article Id}",
- *      "quantity": {articles to increment}
+ *      "quantity": {articles to increment},
+ *      "validated": True|False Determina si el articulo se valido en catalog
  *    }
  *
  * @apiSuccessExample {json} Body
@@ -179,8 +180,8 @@ export function decrementArticle(req: ICartRequest, res: express.Response) {
  *      "userId": "{User Id}",
  *      "enabled": true|false,
  *      "_id": "{Id de carrito}",
- *      "articles": [{Articulos}],
- *      "updated": "{Fecha ultima actualizacion}",
+ *      "articles": [{Artículos}],
+ *      "updated": "{Fecha ultima actualización}",
  *      "created": "{Fecha creado}"
  *    }
  *
@@ -218,8 +219,8 @@ export function incrementArticle(req: ICartRequest, res: express.Response) {
  *      "userId": "{User Id}",
  *      "enabled": true|false,
  *      "_id": "{Id de carrito}",
- *      "articles": [{Articulos}],
- *      "updated": "{Fecha ultima actualizacion}",
+ *      "articles": [{Artículos}],
+ *      "updated": "{Fecha ultima actualización}",
  *      "created": "{Fecha creado}"
  *    }
  *
@@ -271,7 +272,7 @@ export function deleteArticle(req: ICartRequest, res: express.Response) {
  * @apiName Validate Cart
  * @apiGroup Carrito
  *
- * @apiDescription Realiza una validacion completa del cart, para realizar el checkout.
+ * @apiDescription Realiza una validación completa del cart, para realizar el checkout.
  *
  * @apiSuccessExample {json} Body
  *   {
@@ -300,13 +301,13 @@ interface Article {
     "enabled": boolean;
 }
 /**
- * Esta validacion es muy cara porque checkea todo contra otros servicios en forma sincrona.
+ * Esta validación es muy cara porque valida todo contra otros servicios en forma síncrona.
  */
 export function validateOrder(req: IValidationResult, res: express.Response, next: NextFunction) {
     async.map(req.cart.articles,
         function (article: ICartArticle, callback) {
-            const restc: RestClient = new RestClient("GetArticle", conf.catalogServer);
-            restc.get<any>("/articles/" + article.articleId,
+            const restClient: RestClient = new RestClient("GetArticle", conf.catalogServer);
+            restClient.get<any>("/articles/" + article.articleId,
                 { additionalHeaders: { "Authorization": req.user.token } }).then(
                     (data) => {
                         callback(undefined, data.result as Article);
@@ -318,7 +319,7 @@ export function validateOrder(req: IValidationResult, res: express.Response, nex
                 );
         }, function (err, results: Article[]) {
             req.validation = {
-                erros: [],
+                errors: [],
                 warnings: []
             };
 
@@ -329,12 +330,12 @@ export function validateOrder(req: IValidationResult, res: express.Response, nex
                 };
             }).forEach(element => {
                 if (!element.result) {
-                    req.validation.erros.push({
+                    req.validation.errors.push({
                         articleId: element.article.articleId,
                         message: "No se encuentra"
                     });
                 } else if (!element.result.enabled) {
-                    req.validation.erros.push({
+                    req.validation.errors.push({
                         articleId: element.article.articleId,
                         message: "Articulo invalido"
                     });
@@ -342,7 +343,7 @@ export function validateOrder(req: IValidationResult, res: express.Response, nex
                     if (element.result.stock < element.article.quantity) {
                         req.validation.warnings.push({
                             articleId: element.article.articleId,
-                            message: "No hay stock suficiente"
+                            message: "Insuficiente stock"
                         });
                     }
                 }

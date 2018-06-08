@@ -5,13 +5,13 @@ import { environment } from '../../environments/environment';
 
 @Injectable()
 export class AuthService extends RestBaseService {
-    public usuarioLogueado: Usuario;
+    public usuarioLogueado: User;
 
     constructor(private http: Http) {
         super();
     }
 
-    login(username: string, password: string): Promise<Usuario> {
+    login(username: string, password: string): Promise<User> {
         const data = {
             login: username,
             password: password
@@ -47,7 +47,7 @@ export class AuthService extends RestBaseService {
             });
     }
 
-    getPrincipal(): Promise<Usuario> {
+    getPrincipal(): Promise<User> {
         if (this.usuarioLogueado) {
             return new Promise((resolve) => {
                 resolve(this.usuarioLogueado);
@@ -58,13 +58,13 @@ export class AuthService extends RestBaseService {
                 .toPromise()
                 .then(response => {
                     this.usuarioLogueado = response.json();
-                    return response.json() as Usuario;
+                    return response.json() as User;
                 })
                 .catch(this.handleError);
         }
     }
 
-    registrarUsuario(value: RegistrarUsuario): Promise<Usuario> {
+    newUser(value: RegistrarUsuario): Promise<User> {
         return this.http
             .post(
                 environment.authServerUrl + 'auth/signup',
@@ -86,7 +86,7 @@ export interface RegistrarUsuario {
     password: string;
 }
 
-export interface Usuario {
+export interface User {
     id: string;
     name: string;
     login: string;

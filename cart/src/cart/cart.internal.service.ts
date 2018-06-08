@@ -13,7 +13,7 @@ export interface IArticleExistMessage {
 }
 
 /**
- * Procesa una validacion realizada a travez de rabbit.
+ * Procesa una validación realizada a través de rabbit.
  * Si un articulo no es valido se elimina del cart.
  */
 export function articleValidationCheck(validation: IArticleExistMessage) {

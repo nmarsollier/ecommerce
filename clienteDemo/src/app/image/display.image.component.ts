@@ -1,11 +1,6 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { Router } from '@angular/router';
-import { JsonPipe } from '@angular/common';
-import { AuthService, Usuario } from '../auth/auth.service';
-import { IErrorController } from '../tools/error.handler';
-import * as errorHanlder from '../tools/error.handler';
-import { FormControl, Validators, FormGroup } from '@angular/forms';
-import { Image, ImageService, Calidad } from './image.service';
+import { Calidad, Image, ImageService } from './image.service';
 
 @Component({
     selector: 'app-show-image',
@@ -17,26 +12,26 @@ export class ShowImageComponent  {
     calidad: Calidad;
 
     @Input()
-    set imagenId(name: string) {
-        this.buscarImagen(name);
+    set imageId(name: string) {
+        this.getImage(name);
     }
 
-    imagen: Image = { image: '' };
+    image: Image = { image: '' };
 
     constructor(private imageService: ImageService, private router: Router) { }
 
-    buscarImagen(imagen: string) {
-        if (imagen) {
+    getImage(image: string) {
+        if (image) {
             this.imageService
-                .buscarImagen(imagen, this.calidad)
-                .then(image => {
-                    this.imagen = image;
+                .getImage(image, this.calidad)
+                .then(result => {
+                    this.image = result;
                 })
                 .catch(error => {
-                    this.imagen = { image: '/assets/not_found.png' };
+                    this.image = { image: '/assets/not_found.png' };
                 });
         } else {
-            this.imagen = { image: '' };
+            this.image = { image: '' };
         }
     }
 }

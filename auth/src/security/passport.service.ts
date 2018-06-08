@@ -12,7 +12,7 @@ import * as nodeCache from "node-cache";
 import * as jwt from "jsonwebtoken";
 
 // Este cache de sesiones en memoria va a evitar que tenga que ir a la base de datos
-// para verificar que la sesion sea valida. 1 hora de cache en memoria. Luego se vuelve a leer de la db
+// para verificar que la sesión sea valida. 1 hora de cache en memoria. Luego se vuelve a leer de la db
 const sessionCache = new nodeCache({ stdTTL: 3600, checkperiod: 60 });
 const conf = appConfig.getConfig(process.env);
 
@@ -22,8 +22,8 @@ const conf = appConfig.getConfig(process.env);
  * @apiParamExample {String} Header Autorización
  *    Authorization=bearer {token}
  *
- * @apiSuccessExample 401 Unautorized
- *    HTTP/1.1 401 Unautorized
+ * @apiSuccessExample 401 Unauthorized
+ *    HTTP/1.1 401 Unauthorized
  */
 
 export function init() {
@@ -33,9 +33,9 @@ export function init() {
     };
 
     /*
-    Este metodo se utiliza para validar que el usuario se haya logueado.
-    passport.authenticate("jwt", { session: false })  termina llamando a este metodo.
-    El resultado de este metodo es puesto en el request, o sea el payload se pone en el request
+    Este método se utiliza para validar que el usuario se haya logueado.
+    passport.authenticate("jwt", { session: false })  termina llamando a este método.
+    El resultado de este método es puesto en el request, o sea el payload se pone en el request
 
     A esta altura el token fue desencriptado correctamente, pero hay que validar el contenido.
     */
@@ -73,7 +73,7 @@ export function init() {
 }
 
 /**
- * Invalida la sesion en passport. Basciamente limpia el cache
+ * Invalida la sesión en passport. Básicamente limpia el cache
  */
 export function invalidateSessionToken(token: IUserSession) {
     sessionCache.del(token.token_id);

@@ -1,6 +1,6 @@
 import { NgModule, Component, Input, ViewChildren, Output, ElementRef, forwardRef, OnDestroy } from '@angular/core';
-import { FormsModule, NgModel, ControlValueAccessor, NG_VALUE_ACCESSOR, NgControl } from '@angular/forms';
-import { MatInputModule, MatFormFieldControl } from '@angular/material';
+import { ControlValueAccessor, NG_VALUE_ACCESSOR, NgControl } from '@angular/forms';
+import { MatFormFieldControl } from '@angular/material';
 import { Subject } from 'rxjs';
 
 @Component({
@@ -60,12 +60,10 @@ export class MatFileUploadComponent implements ControlValueAccessor, MatFormFiel
         this.fileInput.first.nativeElement.click();
     }
     changeListener($event): void {
-        // debugger; // uncomment this for debugging purposes
         this.readThis($event.target);
     }
 
     readThis(inputValue: any): void {
-        // debugger; // uncomment this for debugging purposes
         const file: File = inputValue.files[0];
         const myReader: FileReader = new FileReader();
 

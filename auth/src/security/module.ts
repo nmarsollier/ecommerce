@@ -10,9 +10,9 @@ import * as passport from "passport";
 export function init(app: Express) {
   app.route("/auth/password").post(passport.authenticate("jwt", { session: false }), security.validateCambiarPassword, security.changePassword);
 
-  app.route("/auth/signup").post(security.validateSignUp, security.signup);
-  app.route("/auth/signin").post(security.validateSignIn, security.signin);
-  app.route("/auth/signout").get(passport.authenticate("jwt", { session: false }), security.signout);
+  app.route("/auth/signup").post(security.validateSignUp, security.signUp);
+  app.route("/auth/signin").post(security.validateSignIn, security.signIn);
+  app.route("/auth/signout").get(passport.authenticate("jwt", { session: false }), security.signOut);
 
   app
     .route("/auth/currentUser")

@@ -1,7 +1,7 @@
-import { Injectable, OnInit } from '@angular/core';
-import { Http, Headers, Response, URLSearchParams } from '@angular/http';
-import { RestBaseService } from '../tools/rest.tools';
+import { Injectable } from '@angular/core';
+import { Http } from '@angular/http';
 import { environment } from '../../environments/environment';
+import { RestBaseService } from '../tools/rest.tools';
 
 @Injectable()
 export class CatalogService extends RestBaseService {
@@ -10,7 +10,7 @@ export class CatalogService extends RestBaseService {
         super();
     }
 
-    buscarArticulo(id: string): Promise<Articulo> {
+    getArticle(id: string): Promise<Article> {
         return this.http
             .get(
                 environment.catalogServerUrl + 'articles/' + id,
@@ -18,12 +18,12 @@ export class CatalogService extends RestBaseService {
             )
             .toPromise()
             .then(response => {
-                return response.json() as Articulo;
+                return response.json() as Article;
             })
             .catch(this.handleError);
     }
 
-    buscarArticulos(text: string): Promise<Articulo[]> {
+    findArticles(text: string): Promise<Article[]> {
         return this.http
             .get(
                 environment.catalogServerUrl + 'articles/search/' + text,
@@ -31,12 +31,12 @@ export class CatalogService extends RestBaseService {
             )
             .toPromise()
             .then(response => {
-                return response.json() as Articulo[];
+                return response.json() as Article[];
             })
             .catch(this.handleError);
     }
 
-    nuevoArticulo(value: Articulo): Promise<Articulo> {
+    newArticle(value: Article): Promise<Article> {
         return this.http
             .post(
                 environment.catalogServerUrl + 'articles',
@@ -45,13 +45,13 @@ export class CatalogService extends RestBaseService {
             )
             .toPromise()
             .then(response => {
-                return response.json() as Articulo;
+                return response.json() as Article;
             })
             .catch(this.handleError);
     }
 
 
-    actualizarArticulo(articleId: string, value: Articulo): Promise<Articulo> {
+    updateArticle(articleId: string, value: Article): Promise<Article> {
         return this.http
             .post(
                 environment.catalogServerUrl + 'articles/' + articleId,
@@ -60,13 +60,13 @@ export class CatalogService extends RestBaseService {
             )
             .toPromise()
             .then(response => {
-                return response.json() as Articulo;
+                return response.json() as Article;
             })
             .catch(this.handleError);
     }
 
 
-    eliminarArticulo(articleId: string): Promise<string> {
+    deleteArticle(articleId: string): Promise<string> {
         return this.http
             .delete(
                 environment.catalogServerUrl + 'articles/' + articleId,
@@ -81,7 +81,7 @@ export class CatalogService extends RestBaseService {
 }
 
 
-export interface Articulo {
+export interface Article {
     _id?: string;
     name: string;
     description?: string;

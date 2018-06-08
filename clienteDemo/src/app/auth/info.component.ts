@@ -1,9 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { JsonPipe } from '@angular/common';
-import { AuthService, Usuario } from '../auth/auth.service';
-import { IErrorController } from '../tools/error.handler';
-import * as errorHanlder from '../tools/error.handler';
+import { AuthService, User } from '../auth/auth.service';
 
 @Component({
     selector: 'app-auth-info',
@@ -12,7 +9,7 @@ import * as errorHanlder from '../tools/error.handler';
 export class InfoComponent implements OnInit {
     token: string;
 
-    get usuarioLogueado(): Usuario {
+    get loggedInUser(): User {
         return this.authService.usuarioLogueado;
     }
 

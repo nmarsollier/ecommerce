@@ -1,6 +1,6 @@
 
 <mat-list role="list">
-	<mat-list-item role="listitem" *ngIf="!usuarioLogueado">Sesion</mat-list-item>
+	<mat-list-item role="listitem" *ngIf="!usuarioLogueado">Sesión</mat-list-item>
 	<mat-list-item role="listitem" *ngIf="!usuarioLogueado"><a mat-button [routerLink]="['/login']">Login</a></mat-list-item>
 	<mat-list-item role="listitem" *ngIf="!usuarioLogueado"><a mat-button [routerLink]="['/registrarse']">Registrarse</a></mat-list-item>
 
@@ -8,11 +8,11 @@
 	<mat-list-item role="listitem" *ngIf="usuarioLogueado"><a mat-button [routerLink]="['/info']">Info</a></mat-list-item>
 	<mat-list-item role="listitem" *ngIf="usuarioLogueado"><a mat-button [routerLink]="" (click)="logout()">Logout</a></mat-list-item>
 
-	<mat-list-item role="listitem" *ngIf="usuarioLogueado">Imagenes</mat-list-item>
+	<mat-list-item role="listitem" *ngIf="usuarioLogueado">Imágenes</mat-list-item>
 	<mat-list-item role="listitem" *ngIf="usuarioLogueado"><a mat-button [routerLink]="['/new_image']">Nueva</a></mat-list-item>
 	<mat-list-item role="listitem" *ngIf="usuarioLogueado"><a mat-button [routerLink]="['/load_image']">Buscar</a></mat-list-item>
 
-	<mat-list-item role="listitem" *ngIf="usuarioLogueado">Articulos</mat-list-item>
+	<mat-list-item role="listitem" *ngIf="usuarioLogueado">Artículos</mat-list-item>
 	<mat-list-item role="listitem" *ngIf="usuarioLogueado"><a mat-button [routerLink]="['/new_article']">Nuevo</a></mat-list-item>
 	<mat-list-item role="listitem" *ngIf="usuarioLogueado"><a mat-button [routerLink]="['/list_articles']">Listado</a></mat-list-item>
 	<mat-list-item role="listitem" *ngIf="usuarioLogueado"><a mat-button [routerLink]="['/edit_article']">Editar</a></mat-list-item>

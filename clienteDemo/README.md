@@ -9,11 +9,11 @@ Dependencias
 Node 8
 -
 
-Seguir los pasos de instalacion del sitio oficial
+Seguir los pasos de instalación del sitio oficial
 
 <https://nodejs.org/en/>
 
-Ejecucion
+Ejecución
 -
 
 Para poder usarlo es necesario haber ejecutado todos los microservicios a probar.

@@ -26,17 +26,17 @@ export interface IUserSessionRequest extends express.Request {
  * Signup
  */
 export function validateSignUp(req: express.Request, res: express.Response, next: NextFunction) {
-  req.check("name", "No puede quedar vac&iacute;o.").notEmpty();
+  req.check("name", "No puede quedar vacío.").notEmpty();
   req.check("name", "Hasta 1024 caracteres solamente.").isLength({ max: 1024 });
 
-  req.check("password", "No puede quedar vac&iacute;o.").notEmpty();
+  req.check("password", "No puede quedar vacío.").notEmpty();
   req.check("password", "Mas de 4 caracteres.").isLength({ min: 4 });
   req.check("password", "Hasta 256 caracteres solamente.").isLength({ max: 256 });
-  req.check("password", "S&oacute;lo letras y n&uacute;meros.").isAlphanumeric();
+  req.check("password", "Sólo letras y números.").isAlphanumeric();
 
-  req.check("login", "No puede quedar vac&iacute;o.").notEmpty();
+  req.check("login", "No puede quedar vacío.").notEmpty();
   req.check("login", "Hasta 256 caracteres solamente.").isLength({ max: 64 });
-  req.check("login", "S&oacute;lo letras y n&uacute;meros.").isAlphanumeric();
+  req.check("login", "Sólo letras y números.").isAlphanumeric();
 
   req.sanitize("name").escape();
   req.sanitize("password").escape();
@@ -61,7 +61,7 @@ export function validateSignUp(req: express.Request, res: express.Response, next
  *    {
  *      "name": "{Nombre de Usuario}",
  *      "login": "{Login de usuario}",
- *      "password": "{Contrase$ntilde;a}"
+ *      "password": "{Contraseña}"
  *    }
  *
  * @apiUse TokenResponse
@@ -69,7 +69,7 @@ export function validateSignUp(req: express.Request, res: express.Response, next
  * @apiUse ParamValidationErrors
  * @apiUse OtherErrors
  */
-export function signup(req: express.Request, res: express.Response) {
+export function signUp(req: express.Request, res: express.Response) {
   const user = <IUser>new User();
   user.name = req.body.name;
   user.login = req.body.login;
@@ -85,11 +85,11 @@ export function signup(req: express.Request, res: express.Response) {
 }
 
 export function validateSignIn(req: express.Request, res: express.Response, next: NextFunction) {
-  req.check("password", "No puede quedar vac&iacute;o.").notEmpty();
-  req.check("password", "S&oacute;lo letras y n&uacute;meros.").isAlphanumeric();
+  req.check("password", "No puede quedar vacío.").notEmpty();
+  req.check("password", "Sólo letras y números.").isAlphanumeric();
 
-  req.check("login", "No puede quedar vac&iacute;o.").notEmpty();
-  req.check("login", "S&oacute;lo letras y n&uacute;meros.").isAlphanumeric();
+  req.check("login", "No puede quedar vacío.").notEmpty();
+  req.check("login", "Sólo letras y números.").isAlphanumeric();
 
   req.sanitize("password").escape();
   req.sanitize("login").escape();
@@ -120,7 +120,7 @@ export function validateSignIn(req: express.Request, res: express.Response, next
  * @apiUse ParamValidationErrors
  * @apiUse OtherErrors
  */
-export function signin(req: express.Request, res: express.Response, next: NextFunction) {
+export function signIn(req: express.Request, res: express.Response, next: NextFunction) {
   User.findOne({
     login: escape(req.body.login),
     enabled: true
@@ -151,7 +151,7 @@ export function signin(req: express.Request, res: express.Response, next: NextFu
  *     }
  */
 /**
- * Crea un token de sesion, lo guarda en la base de Tokens, luego inicializa passport
+ * Crea un token de sesión, lo guarda en la base de Tokens, luego inicializa passport
  * con el token, para que se ingrese en el cache y se encripte correctamente
  */
 function createToken(res: express.Response, user: IUser) {
@@ -179,7 +179,7 @@ function createToken(res: express.Response, user: IUser) {
  * @apiUse AuthHeader
  * @apiUse OtherErrors
  */
-export function signout(req: IUserSessionRequest, res: express.Response) {
+export function signOut(req: IUserSessionRequest, res: express.Response) {
   Token.findById(req.user.token_id, function (err: any, token: IToken) {
     if (err) return error.handleError(res, err);
 
@@ -210,7 +210,7 @@ export function signout(req: IUserSessionRequest, res: express.Response) {
  * @apiName CurrentUser
  * @apiGroup Seguridad
  *
- * @apiDescription Obtiene informacion del usuario actual.
+ * @apiDescription Obtiene información del usuario actual.
  *
  * @apiSuccessExample {json} Respuesta
  *     HTTP/1.1 200 OK
@@ -254,20 +254,20 @@ export interface ICambiarPasswordRequest extends IUserSessionRequest {
   usuario: IUser;
 }
 export function validateCambiarPassword(req: ICambiarPasswordRequest, res: express.Response, next: NextFunction) {
-  req.check("currentPassword", "No puede quedar vac&iacute;o.").notEmpty();
+  req.check("currentPassword", "No puede quedar vacío.").notEmpty();
   req.check("currentPassword", "Mas de 4 caracteres.").isLength({ min: 4 });
   req.check("currentPassword", "Hasta 256 caracteres solamente.").isLength({ max: 256 });
-  req.check("currentPassword", "S&oacute;lo letras y n&uacute;meros.").isAlphanumeric();
+  req.check("currentPassword", "Sólo letras y números.").isAlphanumeric();
 
-  req.check("newPassword", "No puede quedar vac&iacute;o.").notEmpty();
+  req.check("newPassword", "No puede quedar vacío.").notEmpty();
   req.check("newPassword", "Mas de 4 caracteres.").isLength({ min: 4 });
   req.check("newPassword", "Hasta 256 caracteres solamente.").isLength({ max: 256 });
-  req.check("newPassword", "S&oacute;lo letras y n&uacute;meros.").isAlphanumeric();
+  req.check("newPassword", "Sólo letras y números.").isAlphanumeric();
 
-  req.check("verifyPassword", "No puede quedar vac&iacute;o.").notEmpty();
+  req.check("verifyPassword", "No puede quedar vacío.").notEmpty();
   req.check("verifyPassword", "Mas de 4 caracteres.").isLength({ min: 4 });
   req.check("verifyPassword", "Hasta 256 caracteres solamente.").isLength({ max: 256 });
-  req.check("verifyPassword", "S&oacute;lo letras y n&uacute;meros.").isAlphanumeric();
+  req.check("verifyPassword", "Sólo letras y números.").isAlphanumeric();
 
   req.sanitize("currentPassword").escape();
   req.sanitize("newPassword").escape();
@@ -351,7 +351,7 @@ export function validateAdminRole(req: IUserSessionRequest, res: express.Respons
       }
 
       if (!(user.roles.indexOf("admin") >= 0)) {
-        return error.sendError(res, error.ERROR_UNATORIZED, "No autorizado.");
+        return error.sendError(res, error.ERROR_UNAUTHORIZED, "No autorizado.");
       }
 
       next();

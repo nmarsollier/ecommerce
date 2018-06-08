@@ -2,10 +2,10 @@
 
 <form #f="ngForm" novalidate>
     <mat-form-field>
-        <input matInput placeholder="Imagen Id" [formControl]="imagenId" />
+        <input matInput placeholder="Imagen Id" [formControl]="imageId" />
 
-        <mat-error *ngIf="imagenId?.invalid">
-            {{ errors.get('_id') ? errors.get('_id') : "Valor no v&aacute;lido." }}
+        <mat-error *ngIf="imageId?.invalid">
+            {{ errors.get('_id') ? errors.get('_id') : "Valor no válido." }}
         </mat-error>
     </mat-form-field>
     <div>
@@ -18,12 +18,12 @@
     </div>
     <BR>
 
-    <app-show-image *ngIf="imagenBuscada" [imagenId]='imagenBuscada' [calidad]="160"></app-show-image>
-    <app-show-image *ngIf="imagenBuscada" [imagenId]='imagenBuscada' [calidad]="320"></app-show-image>
-    <app-show-image *ngIf="imagenBuscada" [imagenId]='imagenBuscada' [calidad]="640"></app-show-image>
-    <app-show-image *ngIf="imagenBuscada" [imagenId]='imagenBuscada' [calidad]="800"></app-show-image>
-    <app-show-image *ngIf="imagenBuscada" [imagenId]='imagenBuscada' [calidad]="1024"></app-show-image>
-    <app-show-image *ngIf="imagenBuscada" [imagenId]='imagenBuscada' [calidad]="1200"></app-show-image>
-    <app-show-image *ngIf="imagenBuscada" [imagenId]='imagenBuscada'></app-show-image>
+    <app-show-image *ngIf="imageFounded" [imageId]='imageFounded' [calidad]="160"></app-show-image>
+    <app-show-image *ngIf="imageFounded" [imageId]='imageFounded' [calidad]="320"></app-show-image>
+    <app-show-image *ngIf="imageFounded" [imageId]='imageFounded' [calidad]="640"></app-show-image>
+    <app-show-image *ngIf="imageFounded" [imageId]='imageFounded' [calidad]="800"></app-show-image>
+    <app-show-image *ngIf="imageFounded" [imageId]='imageFounded' [calidad]="1024"></app-show-image>
+    <app-show-image *ngIf="imageFounded" [imageId]='imageFounded' [calidad]="1200"></app-show-image>
+    <app-show-image *ngIf="imageFounded" [imageId]='imageFounded'></app-show-image>
 
 </form>

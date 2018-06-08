@@ -5,7 +5,7 @@ import { Config } from "./utils/environment";
 
 import * as express from "./utils/express";
 import * as env from "./utils/environment";
-import * as rabbbit from "./rabbit/rabbit.service";
+import * as rabbit from "./rabbit/rabbit.service";
 
 // Variables de entorno
 const conf: Config = env.getConfig(process.env);
@@ -15,10 +15,10 @@ process.on("unhandledRejection", (reason, p) => {
   console.error("Unhandled Rejection at: Promise", p, "reason:", reason);
 });
 
-// Se configura e inicializa express
+// Se configura e inicia express
 const app = express.init(conf);
 
-rabbbit.init();
+rabbit.init();
 
 app.listen(conf.port, () => {
   console.log(`Image Server escuchando en puerto ${conf.port}`);

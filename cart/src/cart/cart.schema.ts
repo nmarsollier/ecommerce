@@ -26,7 +26,7 @@ export interface ICart extends Document {
 }
 
 /**
- * Esquea del cart
+ * Esquema del cart
  */
 export let CartSchema = new Schema({
   userId: {
@@ -104,7 +104,7 @@ CartSchema.methods.removeArticle = function (article: ICartArticle) {
 };
 
 /**
- * Decrementa o Elimina un articulo del cartito
+ * Decrementa o Elimina un articulo del carrito
  */
 CartSchema.methods.decrementArticle = function (article: ICartArticle) {
   for (let _i = 0; _i < this.articles.length; _i++) {

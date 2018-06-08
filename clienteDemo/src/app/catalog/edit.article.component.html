@@ -5,7 +5,7 @@
         <input matInput placeholder="Id" [formControl]="articleId" />
 
         <mat-error *ngIf="articleId.invalid">
-            {{ errors.get('articleId') ? errors.get('articleId') : "Valor no v&aacute;lido." }}
+            {{ errors.get('articleId') ? errors.get('articleId') : "Valor no válido." }}
         </mat-error>
     </mat-form-field>
     <div>
@@ -22,25 +22,25 @@
         <input matInput placeholder="Nombre" formControlName="name" />
 
         <mat-error *ngIf="form.get('name')?.invalid">
-            {{ errors.get('name') ? errors.get('name') : "Valor no v&aacute;lido." }}
+            {{ errors.get('name') ? errors.get('name') : "Valor no válido." }}
         </mat-error>
     </mat-form-field>
 
     <mat-form-field>
-        <input matInput placeholder="Descripci&oacute;n" formControlName="description" />
+        <input matInput placeholder="Descripción" formControlName="description" />
 
         <mat-error *ngIf="form.get('description')?.invalid">
-            {{ errors.get('description') ? errors.get('description') : "Valor no v&aacute;lido." }}
+            {{ errors.get('description') ? errors.get('description') : "Valor no válido." }}
         </mat-error>
     </mat-form-field>
 
     <mat-form-field>
         <app-mat-file-upload matInput placeholder="Imagen" allowedTypes="image/*" uploadButtonText="Upload File" formControlName="image"
-            (ngModelChange)="actualizarImagen($event)">
+            (ngModelChange)="updateImage($event)">
         </app-mat-file-upload>
 
         <mat-error *ngIf="form.get('image')?.invalid">
-            {{ errors.get('image') ? errors.get('image') : "Valor no v&aacute;lido." }}
+            {{ errors.get('image') ? errors.get('image') : "Valor no válido." }}
         </mat-error>
     </mat-form-field>
 
@@ -48,7 +48,7 @@
         <input matInput placeholder="Precio" formControlName="price" />
 
         <mat-error *ngIf="form.get('price')?.invalid">
-            {{ errors.get('price') ? errors.get('price') : "Valor no v&aacute;lido." }}
+            {{ errors.get('price') ? errors.get('price') : "Valor no válido." }}
         </mat-error>
     </mat-form-field>
 
@@ -56,7 +56,7 @@
         <input matInput placeholder="Stock" formControlName="stock" />
 
         <mat-error *ngIf="form.get('stock')?.invalid">
-            {{ errors.get('stock') ? errors.get('stock') : "Valor no v&aacute;lido." }}
+            {{ errors.get('stock') ? errors.get('stock') : "Valor no válido." }}
         </mat-error>
     </mat-form-field>
 

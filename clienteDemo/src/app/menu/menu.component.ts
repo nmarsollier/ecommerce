@@ -1,14 +1,13 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { JsonPipe } from '@angular/common';
-import { AuthService, Usuario } from '../auth/auth.service';
-import * as errorHanlder from '../tools/error.handler';
+import { AuthService, User } from '../auth/auth.service';
+import * as errorHandler from '../tools/error.handler';
 
 @Component({
   selector: 'app-menu',
   templateUrl: './menu.component.html'
 })
-export class MenuComponent implements errorHanlder.IErrorController, OnInit {
+export class MenuComponent implements errorHandler.IErrorController, OnInit {
   errorMessage: string;
   errors = new Map();
 
@@ -18,7 +17,7 @@ export class MenuComponent implements errorHanlder.IErrorController, OnInit {
     }
   }
 
-  get usuarioLogueado(): Usuario {
+  get usuarioLogueado(): User {
     return this.authService.usuarioLogueado;
   }
 
@@ -30,6 +29,6 @@ export class MenuComponent implements errorHanlder.IErrorController, OnInit {
       .then(_ => {
         this.router.navigate(['/']);
       })
-      .catch(error => errorHanlder.procesarValidacionesRest(this, error));
+      .catch(error => errorHandler.processRestValidations(this, error));
   }
 }

@@ -26,7 +26,7 @@ def initAuth():
 
 def initCatalog():
     """
-    Inicializa RabbitMQ para escuchar eventos de catalog especificos.
+    Inicializa RabbitMQ para escuchar eventos de catalog específicos.
     """
     catalogConsumer = threading.Thread(target=listenCatalog)
     catalogConsumer.start()
@@ -34,7 +34,7 @@ def initCatalog():
 
 def listenAuth():
     """
-    Basicamente eventos de logout enviados por auth.
+    Básicamente eventos de logout enviados por auth.
 
     @api {fanout} auth/logout Logout de usuarios
 
@@ -80,9 +80,9 @@ def listenAuth():
 
 def listenCatalog():
     """
-    article-exist : Es una validacion solicitada por Cart para validar si el articulo puede incluirse en el cart
+    article-exist : Es una validación solicitada por Cart para validar si el articulo puede incluirse en el cart
 
-    @api {direct} cart/article-exist Validacion de Articulos
+    @api {direct} cart/article-exist Validación de Articulos
 
     @apiGroup RabbitMQ GET
 
@@ -137,16 +137,16 @@ def listenCatalog():
 
 def sendArticleValidToCart(cartId, articleId, valid):
     """
-    Envia eventos al Cart
+    Envía eventos al Cart
 
-    article-exist : Es una validacion solicitada por Cart para validar si el articulo puede incluirse en el cart
+    article-exist : Es una validación solicitada por Cart para validar si el articulo puede incluirse en el cart
 
 
-    @api {direct} cart/article-exist Validacion de Articulos
+    @api {direct} cart/article-exist Validación de Articulos
 
     @apiGroup RabbitMQ POST
 
-    @apiDescription Envia de mensajes article-exist desde cart. Valida articulos
+    @apiDescription Enviá de mensajes article-exist desde cart. Valida articulos
 
     @apiSuccessExample {json} Mensaje
       {

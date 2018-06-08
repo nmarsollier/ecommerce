@@ -12,12 +12,12 @@ import * as cors from "cors";
 import * as compression from "compression";
 import * as expressValidator from "express-validator";
 
-// Modulos de la aplicacion
+// Módulos de la aplicación
 import * as error from "../utils/error";
 import * as imageModule from "../image/module";
 
 export function init(appConfig: Config): express.Express {
-  // Notas de configuracion de express http://expressjs.com/es/guide/using-middleware.html#middleware.application
+  // Notas de configuración de express http://expressjs.com/es/guide/using-middleware.html#middleware.application
   const app = express();
   app.set("port", appConfig.port);
 
@@ -28,7 +28,7 @@ export function init(appConfig: Config): express.Express {
     credentials: true
   }));
 
-  // Si estamos en level debug, debaguear los request
+  // Si estamos en level debug, loguear los request
   if (appConfig.logLevel == "debug") {
     app.use(morgan("dev"));
   }
@@ -40,23 +40,23 @@ export function init(appConfig: Config): express.Express {
   // Configurar express para comprimir contenidos de text en http
   app.use(compression());
 
-  // Permite hacer validaciones de parametros req.assert
+  // Permite hacer validaciones de parámetros req.assert
   app.use(expressValidator());
 
   // helmet le da seguridad al sistema para prevenir hacks
-  app.use(helmet.xssFilter());  // Previene inyeccion de javascript
+  app.use(helmet.xssFilter());  // Previene inyección de javascript
   app.use(helmet.noSniff());
   app.use(helmet.ieNoOpen());
   app.disable("x-powered-by");
 
-  // Esta es la ruta de contenidos estaticos, no deberian haber muchos pero algo de documentacion
-  // vendria bien como contenido estatico.
+  // Esta es la ruta de contenidos estáticos, no deberían haber muchos pero algo de documentación
+  // vendría bien como contenido estático.
   app.use(
     express.static(path.join(__dirname, "../public"), { maxAge: 31557600000 })
   );
   app.get("/", (req, res, next) => { res.redirect("index.html"); });
 
-  // Inicializamos las rutas del directorio
+  // Iniciamos las rutas del directorio
   // mas sobre rutas http://expressjs.com/es/guide/routing.html
   imageModule.init(app);
 
@@ -64,7 +64,7 @@ export function init(appConfig: Config): express.Express {
   app.use(error.logErrors);
 
   // Responder con JSON cuando hay un error 404, sino responde con un html
-  // Esto tiene que ir al final porque sino nos sobreescribe las otras rutas
+  // Esto tiene que ir al final porque sino nos sobrescribe las otras rutas
   app.use(error.handle404);
 
   return app;

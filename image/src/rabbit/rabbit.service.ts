@@ -22,14 +22,13 @@ export interface IRabbitMessage {
  *        "message": "{tokenId}"
  *     }
  */
-
 export function init() {
     amqp.connect("amqp://localhost").then(
         (conn) => {
             conn.createChannel().then(
                 (channel) => {
                     channel.on("close", function () {
-                        console.error("RabbitMQ conexion cerrada, intentado reconectar en 10'");
+                        console.error("RabbitMQ conexión cerrada, intentado reconectar en 10'");
                         setTimeout(() => init(), 10000);
                     });
 
