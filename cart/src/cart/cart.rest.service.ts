@@ -273,8 +273,17 @@ export function deleteArticle(req: ICartRequest, res: express.Response) {
  *
  * @apiDescription Realiza una validacion completa del cart, para realizar el checkout.
  *
- * @apiSuccessExample {string} Body
- *    HTTP/1.1 200 Ok
+ * @apiSuccessExample {json} Body
+ *   {
+ *      "errors": [
+ *          {  "articleId": "{Article}",
+ *             "message" : "{Error message}"
+ *          }, ...],
+ *      "warnings": [
+ *          {  "articleId": "{Article}",
+ *             "message" : "{Error message}"
+ *          }, ...]
+ *    }
  *
  * @apiUse ParamValidationErrors
  * @apiUse OtherErrors
@@ -322,18 +331,18 @@ export function validateOrder(req: IValidationResult, res: express.Response, nex
                 if (!element.result) {
                     req.validation.erros.push({
                         articleId: element.article.articleId,
-                        message: "Not found"
+                        message: "No se encuentra"
                     });
                 } else if (!element.result.enabled) {
                     req.validation.erros.push({
                         articleId: element.article.articleId,
-                        message: "Invalid"
+                        message: "Articulo invalido"
                     });
                 } else {
                     if (element.result.stock < element.article.quantity) {
                         req.validation.warnings.push({
                             articleId: element.article.articleId,
-                            message: "Insuficient stock"
+                            message: "No hay stock suficiente"
                         });
                     }
                 }
