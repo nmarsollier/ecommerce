@@ -82,7 +82,7 @@ def listenCatalog():
     """
     article-exist : Es una validación solicitada por Cart para validar si el articulo puede incluirse en el cart
 
-    @api {direct} cart/article-exist Validación de Articulos
+    @api {direct} catalog/article-exist Validación de Articulos
 
     @apiGroup RabbitMQ GET
 

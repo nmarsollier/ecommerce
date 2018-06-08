@@ -18,7 +18,7 @@ export interface IRabbitCallbackMessage extends IRabbitMessage {
 let channel: amqp.Channel;
 
 /**
- * @api {direct} cart/catalog Comprobar Articulo
+ * @api {direct} catalog/article-exist Comprobar Articulo
  * @apiGroup RabbitMQ POST
  *
  * @apiDescription Cart enviá un mensaje a Catalog para comprobar la validez de un articulo.
@@ -26,6 +26,8 @@ let channel: amqp.Channel;
  * @apiParamsExample {json} Mensaje
  *     {
  *        "type": "article-exist",
+ *        "queue": "cart",
+ *        "exchange": "cart",
  *         "message": {
  *             "cartId": "{cartId}",
  *             "articleId": "{articleId}"
