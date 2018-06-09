@@ -1,5 +1,6 @@
 import utils.errors as errors
 
+
 def validateSchema(schema, document):
     """
     Valida un documento contra un esquema dado
@@ -36,7 +37,7 @@ def validateSchema(schema, document):
                 errors[k] = "Tipo invalido"
 
             if("type" in v and not isinstance(value, v["type"])):
-                errors[k]= "Tipo invalido"
+                errors[k] = "Tipo invalido"
                 continue
 
             if("minLen" in v):

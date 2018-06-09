@@ -47,6 +47,7 @@ MSG_ARTICLE_EXIST = {
     }
 }
 
+
 def init():
     """
     Inicializa los servicios Rabbit
