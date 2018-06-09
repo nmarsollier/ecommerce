@@ -1,10 +1,14 @@
-<app-toolbar class="mat-elevation-z6"></app-toolbar>
+<mat-toolbar class="mat-elevation-z4 toolbar">
+    <app-toolbar></app-toolbar>
+</mat-toolbar>
 
-<mat-drawer-container class="container">
-    <mat-drawer mode="side" opened="true" class="docs-navbar-header mat-elevation-z6">
-        <app-menu></app-menu>
-    </mat-drawer>
-    <mat-drawer-content class="content">
-        <router-outlet></router-outlet>
-    </mat-drawer-content>
-</mat-drawer-container>
+<div class="container">
+    <div style="display: table-row">
+        <div class="mat-elevation-z6 menu">
+            <app-menu></app-menu>
+        </div>
+        <div class="content">
+            <router-outlet></router-outlet>
+        </div>
+    </div>
+</div>
