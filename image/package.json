@@ -13,8 +13,8 @@
         "build": "npm run build-ts && npm run tslint && npm run apidoc",
         "serve": "node dist/server.js",
         "watch": "concurrently -k -p \"[{name}]\" -n \"TypeScript,Node\" -c \"yellow.bold,cyan.bold,green.bold\"  \"npm run watch-ts\" \"nodemon dist/server.js\"",
-        "build-ts": "tsc",
-        "watch-ts": "tsc -w",
+        "build-ts": "tsc -p tsconfig.json",
+        "watch-ts": "tsc -w -p tsconfig.json",
         "tslint": "tslint -c tslint.json -p tsconfig.json",
         "apidoc": "./node_modules/.bin/apidoc -i src -o ./dist/public"
     },

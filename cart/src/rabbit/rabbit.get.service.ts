@@ -41,51 +41,39 @@ export function init() {
 /**
  * Escucha el evento logout del exchange auth
  */
-function initAuth() {
-    const EXCHANGE = "auth";
+async function initAuth() {
+    try {
+        const conn = await amqp.connect("amqp://localhost");
 
-    amqp.connect("amqp://localhost").then(
-        (conn) => {
-            conn.createChannel().then(
-                (channel) => {
-                    channel.on("close", function () {
-                        console.error("RabbitMQ Auth conexión cerrada, intentado reconectar en 10'");
-                        setTimeout(() => initAuth(), 10000);
-                    });
+        const channel = await conn.createChannel();
 
-                    console.log("RabbitMQ Auth conectado");
-
-                    channel.assertExchange(EXCHANGE, "fanout", { durable: false });
-                    channel.assertQueue("", { exclusive: true }).then(
-                        (queue) => {
-                            channel.bindQueue(queue.queue, EXCHANGE, "");
-
-                            channel.consume(queue.queue,
-                                (message) => {
-                                    const rabbitMessage: IRabbitMessage = JSON.parse(message.content.toString());
-                                    switch (rabbitMessage.type) {
-                                        case "logout":
-                                            console.log("RabbitMQ Auth logout " + rabbitMessage.message);
-                                            security.invalidateSessionToken(rabbitMessage.message);
-                                    }
-                                }, { noAck: true });
-                        }).catch(
-                            (err) => {
-                                console.error("RabbitMQ Auth " + err.message);
-                                setTimeout(() => initAuth(), 10000);
-                            }
-                        );
-                },
-                (err) => {
-                    console.error("RabbitMQ Auth " + err.message);
-                    setTimeout(() => initAuth(), 10000);
-                }
-            );
-        },
-        (err) => {
-            console.error("RabbitMQ Auth " + err.message);
+        channel.on("close", function () {
+            console.error("RabbitMQ Auth conexión cerrada, intentado reconecta en 10'");
             setTimeout(() => initAuth(), 10000);
         });
+
+        console.log("RabbitMQ Auth conectado");
+
+        const exchange = await channel.assertExchange("auth", "fanout", { durable: false });
+
+        const queue = await channel.assertQueue("", { exclusive: true });
+
+        channel.bindQueue(queue.queue, exchange.exchange, "");
+
+        channel.consume(queue.queue,
+            (message) => {
+                const rabbitMessage: IRabbitMessage = JSON.parse(message.content.toString());
+                switch (rabbitMessage.type) {
+                    case "logout":
+                        console.log("RabbitMQ Auth logout " + rabbitMessage.message);
+                        security.invalidateSessionToken(rabbitMessage.message);
+                }
+            }, { noAck: true });
+
+    } catch (err) {
+        console.error("RabbitMQ Auth " + err.message);
+        setTimeout(() => initAuth(), 10000);
+    }
 }
 
 
@@ -111,50 +99,37 @@ function initAuth() {
  *
  * article-exist : Es un evento que lo enviá Catalog indicando que un articulo existe y es valido para el cart.
  */
-function initCart() {
-    const EXCHANGE = "cart";
-    const QUEUE = "cart";
+async function initCart() {
+    try {
+        const conn = await amqp.connect("amqp://localhost");
 
-    amqp.connect("amqp://localhost").then(
-        (conn) => {
-            conn.createChannel().then(
-                (channel) => {
-                    channel.on("close", function () {
-                        console.error("RabbitMQ conexion cerrada, intentado reconectar en 10'");
-                        setTimeout(() => init(), 10000);
-                    });
+        const channel = await conn.createChannel();
 
-                    console.log("RabbitMQ LCart conectado");
-
-                    channel.assertExchange(EXCHANGE, "direct", { durable: false });
-                    channel.assertQueue(EXCHANGE, { durable: false }).then(
-                        (queue) => {
-                            channel.bindQueue(QUEUE, EXCHANGE, QUEUE);
-
-                            channel.consume(QUEUE,
-                                (message) => {
-                                    const rabbitMessage: IRabbitMessage = JSON.parse(message.content.toString());
-                                    switch (rabbitMessage.type) {
-                                        case "article-exist":
-                                            const article = rabbitMessage.message as IArticleExistMessage;
-                                            cartService.articleValidationCheck(article);
-                                    }
-                                }, { noAck: true });
-                        }).catch(
-                            (err) => {
-                                console.error("RabbitMQ LCart" + err.message);
-                                setTimeout(() => initCart(), 10000);
-                            }
-                        );
-                },
-                (err) => {
-                    console.error("RabbitMQ LCart" + err.message);
-                    setTimeout(() => initCart(), 10000);
-                }
-            );
-        },
-        (err) => {
-            console.error("RabbitMQ LCart" + err.message);
-            setTimeout(() => initCart(), 10000);
+        channel.on("close", function () {
+            console.error("RabbitMQ conexión cerrada, intentado reconecta en 10'");
+            setTimeout(() => init(), 10000);
         });
+
+        console.log("RabbitMQ LCart conectado");
+
+        const exchange = await channel.assertExchange("cart", "direct", { durable: false });
+
+        const queue = await channel.assertQueue("cart", { durable: false });
+
+        channel.bindQueue(queue.queue, exchange.exchange, queue.queue);
+
+        channel.consume(queue.queue,
+            (message) => {
+                const rabbitMessage: IRabbitMessage = JSON.parse(message.content.toString());
+                switch (rabbitMessage.type) {
+                    case "article-exist":
+                        const article = rabbitMessage.message as IArticleExistMessage;
+                        cartService.articleValidationCheck(article);
+                }
+            }, { noAck: true });
+
+    } catch (err) {
+        console.error("RabbitMQ LCart" + err.message);
+        setTimeout(() => initCart(), 10000);
+    }
 }

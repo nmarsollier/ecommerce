@@ -32,17 +32,17 @@ import * as redis from "../utils/redis";
  * @apiUse ParamValidationErrors
  * @apiUse OtherErrors
  */
-export function validateCreate(req: express.Request, res: express.Response, next: NextFunction) {
+export async function validateCreate(req: express.Request, res: express.Response, next: NextFunction) {
   req.check("image", "Debe especificar la imagen.").isLength({ min: 1 });
   req.check("image", "Imagen invalida").contains("data:image/");
 
-  req.getValidationResult().then(function (result) {
-    if (!result.isEmpty()) {
-      return error.handleExpressValidationError(res, result);
-    }
-    next();
-  });
+  const result = await req.getValidationResult();
+  if (!result.isEmpty()) {
+    return error.handleExpressValidationError(res, result);
+  }
+  next();
 }
+
 export function create(req: express.Request, res: express.Response) {
   const image: IImage = {
     id: uuid(),

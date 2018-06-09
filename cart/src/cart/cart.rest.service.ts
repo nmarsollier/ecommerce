@@ -49,7 +49,7 @@ export function findCurrentCart(req: ICartRequest, res: express.Response, next: 
         } else {
 
             req.cart.articles.forEach(article => {
-                if (!article.validated)  {
+                if (!article.validated) {
                     rabbit.sendArticleValidation(cart._id, article.articleId).then();
                 }
             });
@@ -305,7 +305,7 @@ interface Article {
  */
 export function validateOrder(req: IValidationResult, res: express.Response, next: NextFunction) {
     async.map(req.cart.articles,
-        function (article: ICartArticle, callback) {
+        (article: ICartArticle, callback) => {
             const restClient: RestClient = new RestClient("GetArticle", conf.catalogServer);
             restClient.get<any>("/articles/" + article.articleId,
                 { additionalHeaders: { "Authorization": req.user.token } }).then(
@@ -317,7 +317,8 @@ export function validateOrder(req: IValidationResult, res: express.Response, nex
                         callback(undefined, { "_id": undefined });
                     }
                 );
-        }, function (err, results: Article[]) {
+        },
+        (err, results: Article[]) => {
             req.validation = {
                 errors: [],
                 warnings: []

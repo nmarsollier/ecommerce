@@ -22,47 +22,36 @@ export interface IRabbitMessage {
  *        "message": "{tokenId}"
  *     }
  */
-export function init() {
-    amqp.connect("amqp://localhost").then(
-        (conn) => {
-            conn.createChannel().then(
-                (channel) => {
-                    channel.on("close", function () {
-                        console.error("RabbitMQ conexión cerrada, intentado reconectar en 10'");
-                        setTimeout(() => init(), 10000);
-                    });
+export async function init() {
+    try {
+        const conn = await amqp.connect("amqp://localhost");
+        const channel = await conn.createChannel();
 
-                    console.log("RabbitMQ conectado");
-
-                    channel.assertExchange(EXCHANGE, "fanout", { durable: false });
-                    channel.assertQueue("", { exclusive: true }).then(
-                        (queue) => {
-                            channel.bindQueue(queue.queue, EXCHANGE, "");
-
-                            channel.consume(queue.queue,
-                                (message) => {
-                                    const rabbitMessage: IRabbitMessage = JSON.parse(message.content.toString());
-                                    switch (rabbitMessage.type) {
-                                        case "logout":
-                                            console.log("RabbitMQ logout " + rabbitMessage.message);
-                                            security.invalidateSessionToken(rabbitMessage.message);
-                                    }
-                                }, { noAck: true });
-                        }).catch(
-                            (err) => {
-                                console.error("RabbitMQ " + err.message);
-                                setTimeout(() => init(), 10000);
-                            }
-                        );
-                },
-                (err) => {
-                    console.error("RabbitMQ " + err.message);
-                    setTimeout(() => init(), 10000);
-                }
-            );
-        },
-        (err) => {
-            console.error("RabbitMQ " + err.message);
+        channel.on("close", function () {
+            console.error("RabbitMQ conexión cerrada, intentado reconectar en 10'");
             setTimeout(() => init(), 10000);
         });
+
+        channel.assertExchange(EXCHANGE, "fanout", { durable: false });
+
+        const queue = await channel.assertQueue("", { exclusive: true });
+
+        channel.bindQueue(queue.queue, EXCHANGE, "");
+
+        console.log("RabbitMQ conectado");
+
+        channel.consume(queue.queue,
+            (message) => {
+                const rabbitMessage: IRabbitMessage = JSON.parse(message.content.toString());
+                switch (rabbitMessage.type) {
+                    case "logout":
+                        console.log("RabbitMQ logout " + rabbitMessage.message);
+                        security.invalidateSessionToken(rabbitMessage.message);
+                }
+            }, { noAck: true });
+    } catch (err) {
+        console.error("RabbitMQ " + err.message);
+        setTimeout(() => init(), 10000);
+        return;
+    }
 }

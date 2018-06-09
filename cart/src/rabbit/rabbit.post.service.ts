@@ -5,17 +5,14 @@
  */
 import amqp = require("amqplib");
 
-export interface IRabbitMessage {
+let channel: amqp.Channel;
+
+export interface IRabbitCallbackMessage {
     type: string;
     message: any;
-}
-
-export interface IRabbitCallbackMessage extends IRabbitMessage {
     exchange: string;
     queue: string;
 }
-
-let channel: amqp.Channel;
 
 /**
  * @api {direct} catalog/article-exist Comprobar Articulo
@@ -38,73 +35,60 @@ let channel: amqp.Channel;
 /**
  * Enviá una petición a catalog para validar si un articulo puede incluirse en el cart.
  */
-export function sendArticleValidation(cartId: string, articleId: string): Promise<IRabbitCallbackMessage> {
-    const message: IRabbitCallbackMessage = {
-        type: "article-exist",
-        exchange: "cart",
-        queue: "cart",
-        message: {
-            cartId: cartId,
-            articleId: articleId
+export async function sendArticleValidation(cartId: string, articleId: string): Promise<IRabbitCallbackMessage> {
+    try {
+        const message: IRabbitCallbackMessage = {
+            type: "article-exist",
+            exchange: "cart",
+            queue: "cart",
+            message: {
+                cartId: cartId,
+                articleId: articleId
+            }
+        };
+
+        const channel = await getChannel();
+        const exchange = await channel.assertExchange("catalog", "direct", { durable: false });
+        const queue = await channel.assertQueue("catalog", { durable: false });
+
+        if (channel.publish(exchange.exchange, queue.queue, new Buffer(JSON.stringify(message)))) {
+            console.log("RabbitMQ Cart : Article check encolado " + message);
+            return Promise.resolve(message);
+        } else {
+            return Promise.reject(new Error("No se pudo encolar el mensaje"));
         }
-    };
 
-    const EXCHANGE = "catalog";
-    const QUEUE = "catalog";
-
-    return new Promise<IRabbitCallbackMessage>((resolve, reject) => {
-        getChannel().then(
-            (channel) => {
-                channel.assertExchange(EXCHANGE, "direct", { durable: false });
-                channel.assertQueue(QUEUE, { durable: false });
-
-                if (channel.publish(EXCHANGE, QUEUE, new Buffer(JSON.stringify(message)))) {
-                    resolve(message);
-                    console.log("RabbitMQ Cart : Article check encolado " + message);
-                } else {
-                    reject();
-                }
-            }).catch(
-                (err) => {
-                    return new Promise<IRabbitCallbackMessage>((resolve, reject) => {
-                        console.log("RabbitMQ Cart " + err);
-                        reject();
-                    });
-                });
-    });
+    } catch (err) {
+        return new Promise<IRabbitCallbackMessage>((resolve, reject) => {
+            console.log("RabbitMQ Cart " + err);
+            return Promise.reject(err);
+        });
+    }
 }
 
-function getChannel(): Promise<amqp.Channel> {
-    return new Promise((resolve, reject) => {
-        if (channel) {
-            return resolve(channel);
-        }
+async function getChannel(): Promise<amqp.Channel> {
+    if (!channel) {
+        try {
+            const conn = await amqp.connect("amqp://localhost");
 
-        amqp.connect("amqp://localhost").then(
-            (conn) => {
-                conn.createChannel().then(
-                    (chn) => {
-                        console.log("RabbitMQ Cart conectado");
+            channel = await conn.createChannel();
 
-                        channel = chn;
-                        channel.on("close", function () {
-                            console.error("RabbitMQ Cart Conexión cerrada");
-                            channel = undefined;
-                        });
-                        resolve(channel);
-                    },
-                    (onReject) => {
-                        console.error("RabbitMQ Cart " + onReject.message);
-                        channel = undefined;
-                        reject();
-                    }
-                );
-            },
-            (onReject) => {
-                console.error("RabbitMQ Cart " + onReject.message);
+            console.log("RabbitMQ Cart conectado");
+
+            channel.on("close", function () {
+                console.error("RabbitMQ Cart Conexión cerrada");
                 channel = undefined;
-                reject();
             });
-    });
+        } catch (onReject) {
+            console.error("RabbitMQ Cart " + onReject.message);
+            channel = undefined;
+            return Promise.reject(onReject);
+        }
+    }
+    if (channel) {
+        return Promise.resolve(channel);
+    } else {
+        return Promise.reject(new Error("No channel available"));
+    }
 }
 

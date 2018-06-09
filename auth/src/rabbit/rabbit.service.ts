@@ -7,7 +7,7 @@ export interface IRabbitMessage {
     type: string;
     message: any;
 }
-const EXCHANGE = "auth";
+
 let channel: amqp.Channel;
 
 /**
@@ -29,57 +29,41 @@ export function sendLogout(token: string): Promise<IRabbitMessage> {
     });
 }
 
-function sendMessage(message: IRabbitMessage): Promise<IRabbitMessage> {
-    return new Promise<IRabbitMessage>((resolve, reject) => {
-        getChannel().then(
-            (channel) => {
-                channel.assertExchange(EXCHANGE, "fanout", { durable: false });
-                if (channel.publish(EXCHANGE, "", new Buffer(JSON.stringify(message)))) {
-                    resolve(message);
-                } else {
-                    reject();
-                }
-            }).catch(
-                (err) => {
-                    return new Promise<IRabbitMessage>((resolve, reject) => {
-                        console.log("RabbitMQ " + err);
-                        reject();
-                    });
-                });
-    });
+async function sendMessage(message: IRabbitMessage): Promise<IRabbitMessage> {
+    const channel = await getChannel();
+    try {
+        const exchange = await channel.assertExchange("auth", "fanout", { durable: false });
+        if (channel.publish(exchange.exchange, "", new Buffer(JSON.stringify(message)))) {
+            return Promise.resolve(message);
+        } else {
+            return Promise.reject(new Error("No se pudo encolar el mensaje"));
+        }
+    } catch (err) {
+        console.log("RabbitMQ " + err);
+        return Promise.reject(err);
+    }
 }
 
-function getChannel(): Promise<amqp.Channel> {
-    return new Promise((resolve, reject) => {
-        if (channel) {
-            return resolve(channel);
-        }
-
-        amqp.connect("amqp://localhost").then(
-            (conn) => {
-                conn.createChannel().then(
-                    (chn) => {
-                        console.log("RabbitMQ conectado");
-
-                        channel = chn;
-                        channel.on("close", function () {
-                            console.error("RabbitMQ Conexión cerrada");
-                            channel = undefined;
-                        });
-                        resolve(channel);
-                    },
-                    (onReject) => {
-                        console.error("RabbitMQ " + onReject.message);
-                        channel = undefined;
-                        reject();
-                    }
-                );
-            },
-            (onReject) => {
-                console.error("RabbitMQ " + onReject.message);
+async function getChannel(): Promise<amqp.Channel> {
+    if (!channel) {
+        try {
+            const conn = await amqp.connect("amqp://localhost");
+            channel = await conn.createChannel();
+            console.log("RabbitMQ conectado");
+            channel.on("close", function () {
+                console.error("RabbitMQ Conexión cerrada");
                 channel = undefined;
-                reject();
             });
-    });
+        } catch (onReject) {
+            console.error("RabbitMQ " + onReject.message);
+            channel = undefined;
+            return Promise.reject(onReject);
+        }
+    }
+    if (channel) {
+        return Promise.resolve(channel);
+    } else {
+        return Promise.reject(new Error("No channel available"));
+    }
 }
 

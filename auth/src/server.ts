@@ -31,7 +31,7 @@ mongoose.connect(conf.mongoDb, {}, function (err: MongoError) {
 const app = express.init(conf);
 
 app.listen(conf.port, () => {
-  console.log(`Server escuchando en puerto ${conf.port}`);
+  console.log(`Auth Server escuchando en puerto ${conf.port}`);
 });
 
 module.exports = app;
