@@ -6,7 +6,46 @@ import threading
 import utils.json_serializer as json
 import utils.config as config
 import articles.rest_validations as articleValidation
+import utils.schema_validator as validator
+import traceback
 
+EVENT = {
+    "type": {
+        "required": True,
+        "type": str
+    },
+    "message": {
+        "required": True
+    }
+}
+
+EVENT_CALLBACK = {
+    "type": {
+        "required": True,
+        "type": str
+    },
+    "message": {
+        "required": True
+    },
+    "exchange": {
+        "required": True
+    },
+    "queue": {
+        "required": True
+    }
+}
+
+
+MSG_ARTICLE_EXIST = {
+    "articleId": {
+        "required": True,
+        "type": str
+    },
+    "cartId": {
+        "required": True,
+        "type": str
+    }
+}
 
 def init():
     """
@@ -64,8 +103,10 @@ def listenAuth():
 
         def callback(ch, method, properties, body):
             event = json.body_to_dic(body.decode('utf-8'))
-            if ("type" in event and "message" in event
-                    and event["type"] == "logout"):
+            if(len(validator.validateSchema(EVENT, event)) > 0):
+                return
+
+            if (event["type"] == "logout"):
                 security.invalidateSession(event["message"])
 
         print("RabbitMQ Auth conectado")
@@ -115,11 +156,18 @@ def listenCatalog():
 
         def callback(ch, method, properties, body):
             event = json.body_to_dic(body.decode('utf-8'))
-            if ("type" in event and event["type"] == "article-exist"):
-                cartId = event["message"]["cartId"]
+            if(len(validator.validateSchema(EVENT_CALLBACK, event)) > 0):
+                return
+
+            if (event["type"] == "article-exist"):
+                message = event["message"]
+                if(len(validator.validateSchema(MSG_ARTICLE_EXIST, message)) > 0):
+                    return
+
                 exchange = event["exchange"]
                 queue = event["queue"]
-                articleId = event["message"]["articleId"]
+                cartId = message["cartId"]
+                articleId = message["articleId"]
 
                 print("RabbitMQ Catalog GET article-exist catalogId:%r , articleId:%r", cartId, articleId)
 
@@ -135,6 +183,7 @@ def listenCatalog():
 
         channel.start_consuming()
     except Exception:
+        traceback.print_exc()
         print("RabbitMQ Catalog desconectado, intentando reconectar en 10'")
         threading.Timer(10.0, initCatalog).start()
 

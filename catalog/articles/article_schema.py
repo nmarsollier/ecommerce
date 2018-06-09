@@ -2,14 +2,38 @@
 
 import numbers
 import datetime
-import sys
+import utils.schema_validator as validator
+import utils.errors as errors
 
-ARTICLE_SCHEMA = {
-    "name": (str, 1, 60),
-    "description": (str, 0, 2048),
-    "image": (str, 0, 50),
-    "price": (numbers.Real, 0, sys.maxsize),
-    "stock": (numbers.Integral, 0, sys.maxsize)
+# Validaciones generales del esquema, se valida solo lo que el usuario puede cambiar
+ARTICLE_DB_SCHEMA = {
+    "name": {
+        "required": True,
+        "type": str,
+        "minLen": 1,
+        "maxLen": 60
+        },
+    "description": {
+        "required": False,
+        "type": str,
+        "maxLen": 2048
+        },
+    "image": {
+        "required": False,
+        "type": str,
+        "minLen": 30,
+        "maxLen": 40
+        },
+    "price": {
+        "required": False,
+        "type": numbers.Real,
+        "min": 0
+        },
+    "stock": {
+        "required": False,
+        "type": numbers.Integral,
+        "min": 0
+        }
 }
 
 
@@ -31,36 +55,8 @@ def newArticle():
     }
 
 
-def validateSchema(article):
-    """
-    Valida el esquema de db, este se debe ejecutar antes de insertar o agregar
-    a la db.\n
-    params: dict<propiedad, valor> Article
-    """
+def validateSchema(document):
+    err = validator.validateSchema(ARTICLE_DB_SCHEMA, document)
 
-    errors = {}
-
-    # Errores de tipos de datos inválidos en parametros
-    errors.update(
-        dict((k, "Invalid") for (k, v) in article.items()
-             if k in ARTICLE_SCHEMA.keys()
-             and not isinstance(v, ARTICLE_SCHEMA[k][0])))
-
-    # Validamos tamaños de strings
-    errors.update(
-        dict((k, "Invalid size") for (k, v) in article.items()
-             if k in ARTICLE_SCHEMA.keys() and isinstance(v, str) and (
-                 len(v.strip()) < ARTICLE_SCHEMA[k][1]
-                 or len(v.strip()) > ARTICLE_SCHEMA[k][2])))
-
-    # Validamos valores maximos y minimos de números
-    errors.update(
-        dict(
-            (k, "Invalid size") for (k, v) in article.items()
-            if k in ARTICLE_SCHEMA.keys() and (
-                isinstance(v, numbers.Real) or isinstance(v, numbers.Integral))
-            and (v < ARTICLE_SCHEMA[k][1]
-                 or v > ARTICLE_SCHEMA[k][2])))
-
-    if (len(errors) > 0):
-        raise errors.MultipleArgumentException(errors)
+    if (len(err) > 0):
+        raise errors.MultipleArgumentException(err)

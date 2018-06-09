@@ -22,7 +22,7 @@ def init(app):
 
             params = json.body_to_dic(flask.request.data)
 
-            restValidator.validateAddArticleParams(params)
+            params = restValidator.validateAddArticleParams(params)
 
             result = crud.addArticle(params)
 
@@ -37,7 +37,7 @@ def init(app):
 
             params = json.body_to_dic(flask.request.data)
 
-            restValidator.validateEditArticleParams(articleId, params)
+            params = restValidator.validateEditArticleParams(articleId, params)
 
             result = crud.updateArticle(articleId, params)
 

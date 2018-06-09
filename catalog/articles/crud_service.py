@@ -165,10 +165,7 @@ def _addOrUpdateArticle(params):
         article = getArticle(params["_id"])
 
     # Actualizamos los valores validos a actualizar
-    article.update(
-        dict((k, v.strip() if isinstance(v, str) else v)
-             for (k, v) in params.items() if k in schema.ARTICLE_SCHEMA.keys()
-             and isinstance(v, schema.ARTICLE_SCHEMA[k][0])))
+    article.update(params)
 
     article["updated"] = datetime.datetime.utcnow()
 

@@ -61,7 +61,7 @@ class InvalidAccessLevel(Exception):
 
 def handleError(err):
     """
-    Controla cualquier error que se de en el proceso, da como resultado un string json con informacion del error.
+    Controla cualquier error que se de en el proceso, da como resultado un string json con información del error.
     err: Exception
     result json error a enviar al cliente
     """
