@@ -1,32 +1,45 @@
 Experimental : Auth Service en GO
 ==
 
-Instalar go
+Rquisitos
+-
 
-'''bash
-sudo apt-get install golang-go
-'''
+Go 1.10.1
 
-Pararse en el proyecto y escribir 
-'''bash
-export GOPATH=$(pwd)
-'''
+Configuración inicial
+-
 
-para builder
-'''bash
-go install auth
-'''
+establecer variables de entorno (consultar documentación de la version instalada)
 
-para ejecutar
-'''bash
-./bin/auth
-'''
+```bash
+export GOPATH="$HOME/go"
+export GOROOT=/usr/local/go
+export PATH="$PATH:$GOPATH/bin:$GOROOT/bin"
+```
 
-Librerias requeridas
+Para evitar problemas de repositorios y librerias con GOPATH, hacemos un enlace simbolico en la carpeta $HOME/go/src
 
-'''bash
+```bash
+ln -s /home/nestor/Dev/utn/2018_microservicios/auth_go/src/ $GOPATH/src/auth
+```
+
+
+
+
+Instalar Librerias requeridas
+-
+
+```bash
 go get github.com/gin-gonic/gin
 go get github.com/mongodb/mongo-go-driver/mongo
 go get golang.org/x/crypto/bcrypt
 go get github.com/dgrijalva/jwt-go
-'''
+```
+
+Buildeo y ejecucion
+-
+
+```bash
+go install auth
+auth
+```
