@@ -33,6 +33,7 @@ go get golang.org/x/crypto/bcrypt
 go get github.com/dgrijalva/jwt-go
 go get github.com/itsjamie/gin-cors
 go get github.com/patrickmn/go-cache
+go get github.com/streadway/amqp
 ```
 
 Build y ejecución

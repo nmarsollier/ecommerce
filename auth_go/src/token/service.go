@@ -1,8 +1,10 @@
 package token
 
 import (
+	"auth/rabbit"
 	"auth/tools/errors/unauthorized"
 	"fmt"
+	"log"
 	"strings"
 	"time"
 
@@ -101,6 +103,11 @@ func InvalidateToken(c *gin.Context) error {
 	}
 
 	tokenString := c.GetHeader("Authorization")
+	err = rabbit.SendLogout(tokenString)
+	if err != nil {
+		log.Output(1, "Rabbit logout no se pudo enviar")
+	}
+
 	if strings.Index(tokenString, "bearer ") != 0 {
 		return unauthorized.New()
 	}
