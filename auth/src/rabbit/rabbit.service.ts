@@ -1,7 +1,8 @@
 "use strict";
 
 import amqp = require("amqplib");
-import { IUserSession } from "../security/security.service";
+import * as env from "../utils/environment";
+const conf = env.getConfig(process.env);
 
 export interface IRabbitMessage {
     type: string;
@@ -47,7 +48,7 @@ async function sendMessage(message: IRabbitMessage): Promise<IRabbitMessage> {
 async function getChannel(): Promise<amqp.Channel> {
     if (!channel) {
         try {
-            const conn = await amqp.connect("amqp://localhost");
+            const conn = await amqp.connect(conf.rabbitUrl);
             channel = await conn.createChannel();
             console.log("RabbitMQ conectado");
             channel.on("close", function () {

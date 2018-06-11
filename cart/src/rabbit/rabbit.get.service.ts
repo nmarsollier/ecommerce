@@ -7,6 +7,8 @@ import amqp = require("amqplib");
 import * as security from "../utils/security";
 import * as cartService from "../cart/cart.internal.service";
 
+import * as env from "../utils/environment";
+const conf = env.getConfig(process.env);
 
 export interface IRabbitMessage {
     type: string;
@@ -43,7 +45,7 @@ export function init() {
  */
 async function initAuth() {
     try {
-        const conn = await amqp.connect("amqp://localhost");
+        const conn = await amqp.connect(conf.rabbitUrl);
 
         const channel = await conn.createChannel();
 

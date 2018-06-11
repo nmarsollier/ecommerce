@@ -22,7 +22,8 @@ export function getConfig(environment: any): Config {
       logLevel: process.env.LOG_LEVEL || "debug",
       mongoDb: process.env.MONGODB || "mongodb://localhost/authentication",
       jwtSecret: process.env.JWT_SECRET || "+b59WQF+kUDr0TGxevzpRV3ixMvyIQuD1O",
-      passwordSalt: process.env.PASSWORD_SALT || "DP3whK1fL7kKvhWm6pZomM/y8tZ92mkEBtj29A4M+b8"
+      passwordSalt: process.env.PASSWORD_SALT || "DP3whK1fL7kKvhWm6pZomM/y8tZ92mkEBtj29A4M+b8",
+      rabbitUrl: process.env.RABBIT_URL || "amqp://localhost"
     };
   }
   return config;
@@ -34,4 +35,5 @@ export interface Config {
   mongoDb: string;
   passwordSalt: string;
   jwtSecret: string;
+  rabbitUrl: string;
 }

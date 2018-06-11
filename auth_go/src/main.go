@@ -2,6 +2,8 @@ package main
 
 import (
 	"auth/controller"
+	"auth/tools/config"
+	"fmt"
 	"net/http"
 	"time"
 
@@ -11,7 +13,6 @@ import (
 )
 
 func main() {
-
 	r := gin.Default()
 
 	r.Use(cors.Middleware(cors.Config{
@@ -31,7 +32,7 @@ func main() {
 	r.GET("/auth/signout", controller.SignOut)
 	r.POST("/auth/signup", controller.SignUp)
 	r.GET("/auth/currentUser", controller.CurrentUser)
-	r.Run(":3000")
+	r.Run(fmt.Sprintf(":%d", config.Environment().Port))
 }
 
 func preflight(c *gin.Context) {

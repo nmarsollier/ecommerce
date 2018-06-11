@@ -1,6 +1,7 @@
 package db
 
 import (
+	"auth/tools/config"
 	"context"
 	"log"
 
@@ -12,7 +13,7 @@ var database *mongo.Database
 // Database returns the database
 func Database() (*mongo.Database, error) {
 	if database == nil {
-		client, err := mongo.NewClient("mongodb://localhost:27017")
+		client, err := mongo.NewClient(config.Environment().MongoUrl)
 		if err != nil {
 			log.Fatal(err)
 			return nil, err
