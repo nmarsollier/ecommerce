@@ -40,12 +40,6 @@ export function init() {
     A esta altura el token fue desencriptado correctamente, pero hay que validar el contenido.
     */
     passport.use(new Strategy(params, function (payload: IUserSession, done) {
-        if (!payload) {
-            return done(undefined, false, {
-                message: "Invalid Token"
-            });
-        }
-
         /*
         La estrategia es tener un listado de Token validos en la db y validar contra eso.
         Podemos invalidar un token desde la db, usando Token.valid.
