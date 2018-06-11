@@ -1,8 +1,9 @@
-package user
+package controller
 
 import (
 	"auth/token"
 	"auth/tools/rest"
+	"auth/user"
 
 	"github.com/gin-gonic/gin"
 )
@@ -16,7 +17,7 @@ func CurrentUser(c *gin.Context) {
 		return
 	}
 
-	user, err := findUserByID(payload.UserID)
+	user, err := user.CurrentUser(payload.UserID)
 
 	if err != nil {
 		rest.HandleError(c, err)

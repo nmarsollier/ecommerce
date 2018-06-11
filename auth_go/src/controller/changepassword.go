@@ -1,8 +1,9 @@
-package user
+package controller
 
 import (
 	"auth/token"
 	"auth/tools/rest"
+	"auth/user"
 
 	"github.com/gin-gonic/gin"
 )
@@ -23,30 +24,7 @@ func ChangePassword(c *gin.Context) {
 		return
 	}
 
-	if err != nil {
-		rest.HandleError(c, err)
-		return
-	}
-
-	user, err := findUserByID(payload.UserID)
-	if err != nil {
-		rest.HandleError(c, err)
-		return
-	}
-
-	err = user.validatePassword(body.CurrentPassword)
-	if err != nil {
-		rest.HandleError(c, err)
-		return
-	}
-
-	err = user.setPasswordText(body.NewPassword)
-	if err != nil {
-		rest.HandleError(c, err)
-		return
-	}
-
-	_, err = saveUser(*user)
+	err = user.ChangePassword(payload.UserID, body.CurrentPassword, body.NewPassword)
 	if err != nil {
 		rest.HandleError(c, err)
 		return

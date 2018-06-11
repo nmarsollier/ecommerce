@@ -1,7 +1,7 @@
 package main
 
 import (
-	"auth/user"
+	"auth/controller"
 
 	"github.com/gin-gonic/gin"
 )
@@ -9,10 +9,10 @@ import (
 func main() {
 
 	r := gin.Default()
-	r.POST("/auth/password", user.ChangePassword)
-	r.POST("/auth/signin", user.SignIn)
-	r.GET("/auth/signout", user.SignOut)
-	r.POST("/auth/signup", user.SignUp)
-	r.GET("/auth/currentUser", user.CurrentUser)
-	r.Run(":3005")
+	r.POST("/auth/password", controller.ChangePassword)
+	r.POST("/auth/signin", controller.SignIn)
+	r.GET("/auth/signout", controller.SignOut)
+	r.POST("/auth/signup", controller.SignUp)
+	r.GET("/auth/currentUser", controller.CurrentUser)
+	r.Run(":3000")
 }

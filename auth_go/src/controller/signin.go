@@ -1,10 +1,10 @@
-package user
+package controller
 
 import (
 	"github.com/gin-gonic/gin"
 
-	"auth/token"
 	"auth/tools/rest"
+	"auth/user"
 )
 
 // SignIn is the controller to sign in users
@@ -16,19 +16,8 @@ func SignIn(c *gin.Context) {
 		return
 	}
 
-	user, err := findUserByLogin(login.Login)
-	if err != nil {
-		rest.HandleError(c, err)
-		return
-	}
+	tokenString, err := user.SignIn(login.Login, login.Password)
 
-	err = user.validatePassword(login.Password)
-	if err != nil {
-		rest.HandleError(c, err)
-		return
-	}
-
-	tokenString, err := token.CreateToken(user.ID())
 	if err != nil {
 		rest.HandleError(c, err)
 		return
