@@ -34,6 +34,18 @@ func getChannel() (*amqp.Channel, error) {
 	return channel, nil
 }
 
+/**
+ * @api {fanout} auth/fanout Invalidar Token
+ * @apiGroup RabbitMQ POST
+ *
+ * @apiDescription AuthService enviá un broadcast a todos los usuarios cuando un token ha sido invalidado. Los clientes deben eliminar de sus caches las sesiones invalidadas.
+ *
+ * @apiSuccessExample {json} Mensaje
+ *     {
+ *        "type": "logout",
+ *        "message": "{Token revocado}"
+ *     }
+ */
 func SendLogout(token string) error {
 	message := Message{
 		Type:    "logout",

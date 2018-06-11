@@ -5,6 +5,7 @@ import (
 	"net/http"
 	"time"
 
+	"github.com/gin-contrib/static"
 	"github.com/gin-gonic/gin"
 	cors "github.com/itsjamie/gin-cors"
 )
@@ -12,6 +13,7 @@ import (
 func main() {
 
 	r := gin.Default()
+
 	r.Use(cors.Middleware(cors.Config{
 		Origins:         "*",
 		Methods:         "GET, PUT, POST, DELETE",
@@ -21,6 +23,8 @@ func main() {
 		Credentials:     true,
 		ValidateHeaders: false,
 	}))
+
+	r.Use(static.Serve("/", static.LocalFile("public", false)))
 
 	r.POST("/auth/password", controller.ChangePassword)
 	r.POST("/auth/signin", controller.SignIn)

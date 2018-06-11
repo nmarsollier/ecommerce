@@ -8,6 +8,27 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
+/**
+ * @api {get} /auth/currentUser Usuario Actual
+ * @apiName CurrentUser
+ * @apiGroup Seguridad
+ *
+ * @apiDescription Obtiene información del usuario actual.
+ *
+ * @apiSuccessExample {json} Respuesta
+ *     HTTP/1.1 200 OK
+ *     {
+ *        "id": "{Id usuario}",
+ *        "name": "{Nombre del usuario}",
+ *        "login": "{Login de usuario}",
+ *        "roles": [
+ *            "{Rol}"
+ *        ]
+ *     }
+ *
+ * @apiUse AuthHeader
+ * @apiUse OtherErrors
+ */
 // CurrentUser is the controller to get the current logged in user
 func CurrentUser(c *gin.Context) {
 	payload, err := token.ValidateToken(c)
