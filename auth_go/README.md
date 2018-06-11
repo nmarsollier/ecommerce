@@ -34,12 +34,26 @@ go get github.com/dgrijalva/jwt-go
 go get github.com/itsjamie/gin-cors
 go get github.com/patrickmn/go-cache
 go get github.com/streadway/amqp
+go get github.com/gin-contrib/static
 ```
 
 Build y ejecución
 -
 
+Parados en la carpeta auth_go :
+
 ```bash
 go install auth
 auth
 ```
+
+Apidoc
+-
+
+La documentación necesita ser generada manualmente ejecutando la siguiente linea en la carpeta auth_go :
+
+```bash
+../auth/node_modules/apidoc/bin/apidoc -s src -o public
+```
+
+Esto nos genera una carpeta public con la documentación, esta carpeta debe estar presente desde donde se ejecute auth, auth busca ./public para localizarlo, aunque se puede configurar desde el archivo de properties.

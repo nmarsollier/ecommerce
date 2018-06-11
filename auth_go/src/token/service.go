@@ -22,6 +22,15 @@ type Payload struct {
 	UserID  string
 }
 
+/**
+ * @apiDefine TokenResponse
+ *
+ * @apiSuccessExample {json} Respuesta
+ *     HTTP/1.1 200 OK
+ *     {
+ *       "token": "{Token de autorización}"
+ *     }
+ */
 // CreateToken crea un token
 func CreateToken(userID string) (string, error) {
 	token := newToken()
@@ -43,6 +52,15 @@ func CreateToken(userID string) (string, error) {
 	return tokenString, err
 }
 
+/**
+ * @apiDefine AuthHeader
+ *
+ * @apiParamExample {String} Header Autorización
+ *    Authorization=bearer {token}
+ *
+ * @apiSuccessExample 401 Unauthorized
+ *    HTTP/1.1 401 Unauthorized
+ */
 // ValidateToken valida un token
 func ValidateToken(c *gin.Context) (*Payload, error) {
 	tokenString := c.GetHeader("Authorization")

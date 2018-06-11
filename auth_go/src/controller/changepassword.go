@@ -8,6 +8,27 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
+/**
+ * @api {post} /auth/password Cambiar Password
+ * @apiName ChangePassword
+ * @apiGroup Seguridad
+ *
+ * @apiDescription Cambia la contraseña del usuario actual.
+ *
+ * @apiParamExample {json} Body
+ *    {
+ *      "currentPassword" : "{Contraseña actual}",
+ *      "verifyPassword" : "{Contraseña actual}"
+ *      "newPassword" : "{Nueva Contraseña}",
+ *    }
+ *
+ * @apiSuccessExample {json} Respuesta
+ *     HTTP/1.1 200 OK
+ *
+ * @apiUse AuthHeader
+ * @apiUse ParamValidationErrors
+ * @apiUse OtherErrors
+ */
 // ChangePassword Change Password Controller
 func ChangePassword(c *gin.Context) {
 	payload, err := token.ValidateToken(c)

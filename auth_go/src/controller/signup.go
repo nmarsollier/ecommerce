@@ -7,6 +7,25 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
+/**
+ * @api {post} /auth/signup Registrar Usuario
+ * @apiName signup
+ * @apiGroup Seguridad
+ *
+ * @apiDescription Registra un nuevo usuario en el sistema.
+ *
+ * @apiParamExample {json} Body
+ *    {
+ *      "name": "{Nombre de Usuario}",
+ *      "login": "{Login de usuario}",
+ *      "password": "{Contraseña}"
+ *    }
+ *
+ * @apiUse TokenResponse
+ *
+ * @apiUse ParamValidationErrors
+ * @apiUse OtherErrors
+ */
 // SignUp is the controller to signup new users
 func SignUp(c *gin.Context) {
 	userRequest := user.NewUserRequest{}
