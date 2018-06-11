@@ -1,6 +1,7 @@
 package rabbit
 
 import (
+	"auth/tools/config"
 	"encoding/json"
 	"errors"
 	"log"
@@ -17,7 +18,7 @@ type Message struct {
 
 func getChannel() (*amqp.Channel, error) {
 	if channel == nil {
-		conn, err := amqp.Dial("amqp://localhost")
+		conn, err := amqp.Dial(config.Environment().RabbitUrl)
 		if err != nil {
 			return nil, err
 		}

@@ -5,6 +5,9 @@
  */
 import amqp = require("amqplib");
 
+import * as env from "../utils/environment";
+const conf = env.getConfig(process.env);
+
 let channel: amqp.Channel;
 
 export interface IRabbitCallbackMessage {
@@ -69,7 +72,7 @@ export async function sendArticleValidation(cartId: string, articleId: string): 
 async function getChannel(): Promise<amqp.Channel> {
     if (!channel) {
         try {
-            const conn = await amqp.connect("amqp://localhost");
+            const conn = await amqp.connect(conf.rabbitUrl);
 
             channel = await conn.createChannel();
 

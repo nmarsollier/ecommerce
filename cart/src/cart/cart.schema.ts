@@ -37,7 +37,6 @@ export let CartSchema = new Schema({
   },
   orderId: {
     type: String,
-    unique: "El login ya existe",
     trim: true
   },
   articles: [{
@@ -69,7 +68,7 @@ export let CartSchema = new Schema({
 }, { collection: "cart" });
 
 CartSchema.index({ userId: 1, enabled: -1 });
-CartSchema.index({ orderId: 1 });
+CartSchema.index({ userId: 1, orderId: 1 });
 
 /**
  * Agrega un articulo al carrito
