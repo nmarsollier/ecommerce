@@ -1,8 +1,6 @@
-package security
+package token
 
 import (
-	tokenD "auth/tokens/dao"
-	"auth/tokens/schema"
 	"auth/tools/errors/unauthorized"
 	"fmt"
 	"strings"
@@ -11,7 +9,7 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-var hmacSampleSecret = []byte("ecb6d3479ac3823f1da7f314d871989b")
+var jwtSecret = []byte("ecb6d3479ac3823f1da7f314d871989b")
 
 type Payload struct {
 	TokenID string
@@ -19,14 +17,22 @@ type Payload struct {
 }
 
 // CreateToken crea un token
-func CreateToken(token schema.Token) (string, error) {
+func CreateToken(userID string) (string, error) {
+	token := newToken()
+	token.UserID = userID
+
+	token, err := saveToken(token)
+	if err != nil {
+		return "", err
+	}
+
 	jwtToken := jwt.NewWithClaims(jwt.SigningMethodHS256, jwt.MapClaims{
 		"tokenID": token.ID(),
 		"userID":  token.UserID,
 	})
 
 	// Sign and get the complete encoded token as a string using the secret
-	tokenString, err := jwtToken.SignedString(hmacSampleSecret)
+	tokenString, err := jwtToken.SignedString(jwtSecret)
 
 	return tokenString, err
 }
@@ -34,11 +40,9 @@ func CreateToken(token schema.Token) (string, error) {
 // ValidateToken valida un token
 func ValidateToken(c *gin.Context) (*Payload, error) {
 	tokenString := c.GetHeader("Authorization")
-
 	if strings.Index(tokenString, "bearer ") != 0 {
 		return nil, unauthorized.New()
 	}
-
 	tokenString = tokenString[7:]
 
 	token, err := jwt.Parse(tokenString, func(token *jwt.Token) (interface{}, error) {
@@ -46,14 +50,10 @@ func ValidateToken(c *gin.Context) (*Payload, error) {
 			return nil, fmt.Errorf("Unexpected signing method: %v", token.Header["alg"])
 		}
 
-		return hmacSampleSecret, nil
+		return jwtSecret, nil
 	})
 
-	if err != nil {
-		return nil, unauthorized.New()
-	}
-
-	if !token.Valid {
+	if err != nil || !token.Valid {
 		return nil, unauthorized.New()
 	}
 
@@ -68,7 +68,7 @@ func ValidateToken(c *gin.Context) (*Payload, error) {
 		TokenID: claims["tokenID"].(string),
 	}
 
-	dbToken, err := tokenD.FindByID(payload.TokenID)
+	dbToken, err := findTokenByID(payload.TokenID)
 
 	if err != nil {
 		return nil, unauthorized.New()
@@ -79,4 +79,19 @@ func ValidateToken(c *gin.Context) (*Payload, error) {
 	}
 
 	return &payload, nil
+}
+
+// InvalidateToken valida un token
+func InvalidateToken(c *gin.Context) error {
+	payload, err := ValidateToken(c)
+	if err != nil {
+		return unauthorized.New()
+	}
+
+	err = deleteToken(payload.TokenID)
+	if err != nil {
+		return unauthorized.New()
+	}
+
+	return nil
 }

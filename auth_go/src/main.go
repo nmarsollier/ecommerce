@@ -1,7 +1,7 @@
 package main
 
 import (
-	"auth/users/services"
+	"auth/user"
 
 	"github.com/gin-gonic/gin"
 )
@@ -9,10 +9,10 @@ import (
 func main() {
 
 	r := gin.Default()
-	r.POST("/auth/password", services.ChangePassword)
-	r.POST("/auth/signin", services.SignIn)
-	r.POST("/auth/signout", services.SignOut)
-	r.POST("/auth/signup", services.SignUp)
-	r.GET("/auth/currentUser", services.CurrentUser)
+	r.POST("/auth/password", user.ChangePassword)
+	r.POST("/auth/signin", user.SignIn)
+	r.GET("/auth/signout", user.SignOut)
+	r.POST("/auth/signup", user.SignUp)
+	r.GET("/auth/currentUser", user.CurrentUser)
 	r.Run(":3005")
 }
