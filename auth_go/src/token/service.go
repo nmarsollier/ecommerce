@@ -4,10 +4,14 @@ import (
 	"auth/tools/errors/unauthorized"
 	"fmt"
 	"strings"
+	"time"
 
 	jwt "github.com/dgrijalva/jwt-go"
 	"github.com/gin-gonic/gin"
+	cache "github.com/patrickmn/go-cache"
 )
+
+var tokenCache = cache.New(60*time.Minute, 10*time.Minute)
 
 var jwtSecret = []byte("ecb6d3479ac3823f1da7f314d871989b")
 
@@ -45,6 +49,12 @@ func ValidateToken(c *gin.Context) (*Payload, error) {
 	}
 	tokenString = tokenString[7:]
 
+	if found, ok := tokenCache.Get(tokenString); ok {
+		if payload, ok := found.(Payload); ok {
+			return &payload, nil
+		}
+	}
+
 	token, err := jwt.Parse(tokenString, func(token *jwt.Token) (interface{}, error) {
 		if _, ok := token.Method.(*jwt.SigningMethodHMAC); !ok {
 			return nil, fmt.Errorf("Unexpected signing method: %v", token.Header["alg"])
@@ -78,6 +88,8 @@ func ValidateToken(c *gin.Context) (*Payload, error) {
 		return nil, unauthorized.New()
 	}
 
+	tokenCache.Set(tokenString, payload, cache.DefaultExpiration)
+
 	return &payload, nil
 }
 
@@ -87,6 +99,13 @@ func InvalidateToken(c *gin.Context) error {
 	if err != nil {
 		return unauthorized.New()
 	}
+
+	tokenString := c.GetHeader("Authorization")
+	if strings.Index(tokenString, "bearer ") != 0 {
+		return unauthorized.New()
+	}
+	tokenString = tokenString[7:]
+	tokenCache.Delete(tokenString)
 
 	err = deleteToken(payload.TokenID)
 	if err != nil {

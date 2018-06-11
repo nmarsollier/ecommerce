@@ -53,7 +53,6 @@ export function findCurrentCart(req: ICartRequest, res: express.Response, next: 
                     rabbit.sendArticleValidation(cart._id, article.articleId).then();
                 }
             });
-
             next();
         }
     });

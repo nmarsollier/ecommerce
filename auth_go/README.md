@@ -31,6 +31,8 @@ go get github.com/gin-gonic/gin
 go get github.com/mongodb/mongo-go-driver/mongo
 go get golang.org/x/crypto/bcrypt
 go get github.com/dgrijalva/jwt-go
+go get github.com/itsjamie/gin-cors
+go get github.com/patrickmn/go-cache
 ```
 
 Build y ejecución
