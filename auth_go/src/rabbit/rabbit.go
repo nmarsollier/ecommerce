@@ -55,6 +55,7 @@ func SendLogout(token string) error {
 
 	chanel, err := getChannel()
 	if err != nil {
+		channel = nil
 		return err
 	}
 
@@ -68,6 +69,7 @@ func SendLogout(token string) error {
 		nil,      // arguments
 	)
 	if err != nil {
+		channel = nil
 		return err
 	}
 
@@ -85,6 +87,7 @@ func SendLogout(token string) error {
 			Body: []byte(body),
 		})
 	if err != nil {
+		channel = nil
 		return err
 	}
 

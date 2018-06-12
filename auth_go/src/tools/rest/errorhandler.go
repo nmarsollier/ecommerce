@@ -5,6 +5,7 @@ import (
 	"strings"
 
 	"github.com/gin-gonic/gin"
+	"github.com/mongodb/mongo-go-driver/core/topology"
 	validator "gopkg.in/go-playground/validator.v8"
 )
 
@@ -18,6 +19,13 @@ func HandleError(c *gin.Context, err interface{}) {
 	customError, ok := err.(errors.GinError)
 	if ok {
 		customError.Handle(c)
+		return
+	}
+
+	if err == topology.ErrServerSelectionTimeout {
+		c.JSON(500, gin.H{
+			"error": "Internal server error",
+		})
 		return
 	}
 

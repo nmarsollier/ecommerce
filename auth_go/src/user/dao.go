@@ -17,12 +17,12 @@ import (
 
 // UsersCollection obtiene la colección de Usuarios
 func userCollection() (*mongo.Collection, error) {
-	db, err := db.Database()
+	database, err := db.Database()
 	if err != nil {
 		return nil, err
 	}
 
-	collection := db.Collection("users")
+	collection := database.Collection("users")
 
 	_, err = collection.Indexes().CreateOne(
 		context.Background(),
@@ -36,6 +36,7 @@ func userCollection() (*mongo.Collection, error) {
 		},
 	)
 	if err != nil {
+		db.HandleConnectionError(err)
 		fmt.Print(err.Error())
 	}
 
@@ -131,17 +132,22 @@ func findUserByID(userID string) (*User, error) {
 		return nil, unauthorized.New()
 	}
 
-	collection, collectionError := userCollection()
-	if collectionError != nil {
-		db.HandleConnectionError(collectionError)
-		return nil, collectionError
+	collection, err := userCollection()
+	if err != nil {
+		db.HandleConnectionError(err)
+		return nil, err
 	}
 
 	result := bson.NewDocument()
 	filter := bson.NewDocument(bson.EC.ObjectID("_id", _id))
 	err = collection.FindOne(context.Background(), filter).Decode(result)
 	if err != nil {
-		return nil, unauthorized.New()
+		db.HandleConnectionError(err)
+		if err == mongo.ErrNoDocuments {
+			return nil, unauthorized.New()
+		} else {
+			return nil, err
+		}
 	}
 
 	user := newUserFromBson(*result)
@@ -161,7 +167,12 @@ func findUserByLogin(login string) (*User, error) {
 	filter := bson.NewDocument(bson.EC.String("login", login))
 	err := collection.FindOne(context.Background(), filter).Decode(result)
 	if err != nil {
-		return nil, errors.NewValidationErrorError("login", "Invalid")
+		db.HandleConnectionError(err)
+		if err == mongo.ErrNoDocuments {
+			return nil, errors.NewValidationErrorError("login", "Invalid")
+		} else {
+			return nil, err
+		}
 	}
 
 	user := newUserFromBson(*result)
