@@ -1,13 +1,12 @@
 "use strict";
 
+import * as express from "express";
 import { NextFunction } from "express-serve-static-core";
-import { Express } from "express";
+import * as uuid from "uuid/v1";
+import * as error from "../utils/error";
+import * as redis from "../utils/redis";
 import { IImage } from "./types";
 
-import * as error from "../utils/error";
-import * as express from "express";
-import * as uuid from "uuid/v1";
-import * as redis from "../utils/redis";
 
 /**
  * @api {post} /image Crear Imagen

@@ -1,9 +1,9 @@
 "use strict";
 
-import { Document, Schema, Model, model } from "mongoose";
 import { pbkdf2Sync } from "crypto";
-
+import { Document, model, Schema } from "mongoose";
 import * as env from "../utils/environment";
+
 const conf = env.getConfig(process.env);
 
 export interface IUser extends Document {

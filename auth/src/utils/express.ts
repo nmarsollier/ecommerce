@@ -1,21 +1,21 @@
 "use strict";
 
-import { Config } from "./environment";
-
-import * as express from "express";
 import * as bodyParser from "body-parser";
-import * as morgan from "morgan";
-import * as path from "path";
-import * as helmet from "helmet";
-import * as cors from "cors";
 import * as compression from "compression";
-import * as passport from "passport";
+import * as cors from "cors";
+import * as express from "express";
 import * as expressValidator from "express-validator";
-
+import * as helmet from "helmet";
+import * as morgan from "morgan";
+import * as passport from "passport";
+import * as path from "path";
 // Módulos de la aplicación
 import * as securityModule from "../security/module";
-import * as error from "../utils/error";
 import * as passportConf from "../security/passport.service";
+import * as error from "../utils/error";
+import { Config } from "./environment";
+
+
 
 export function init(appConfig: Config): express.Express {
   // Notas de configuración de express http://expressjs.com/es/guide/using-middleware.html#middleware.application

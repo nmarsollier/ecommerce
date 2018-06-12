@@ -1,5 +1,5 @@
-import { NgModule, Component, ViewChildren, forwardRef } from '@angular/core';
-import { FormsModule, ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
+import { Component, forwardRef, NgModule, ViewChildren } from '@angular/core';
+import { ControlValueAccessor, FormsModule, NG_VALUE_ACCESSOR } from '@angular/forms';
 
 @Component({
     selector: 'app-file-upload',

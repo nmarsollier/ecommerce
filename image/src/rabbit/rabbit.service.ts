@@ -1,9 +1,9 @@
 "use strict";
 
 import amqp = require("amqplib");
+import * as env from "../utils/environment";
 import * as security from "../utils/security";
 
-import * as env from "../utils/environment";
 const conf = env.getConfig(process.env);
 
 const EXCHANGE = "auth";

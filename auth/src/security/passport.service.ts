@@ -1,15 +1,14 @@
 "use strict";
 
-import { User, IUser } from "./user.schema";
-import { Config } from "../utils/environment";
-import { IUserSession } from "./security.service";
-import { Token, IToken } from "./token.schema";
-import { Strategy, ExtractJwt } from "passport-jwt";
-
-import * as appConfig from "../utils/environment";
-import * as passport from "passport";
-import * as nodeCache from "node-cache";
 import * as jwt from "jsonwebtoken";
+import * as nodeCache from "node-cache";
+import * as passport from "passport";
+import { ExtractJwt, Strategy } from "passport-jwt";
+import * as appConfig from "../utils/environment";
+import { IUserSession } from "./security.service";
+import { IToken, Token } from "./token.schema";
+import { IUser } from "./user.schema";
+
 
 // Este cache de sesiones en memoria va a evitar que tenga que ir a la base de datos
 // para verificar que la sesión sea valida. 1 hora de cache en memoria. Luego se vuelve a leer de la db

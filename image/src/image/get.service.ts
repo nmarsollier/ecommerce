@@ -1,14 +1,13 @@
 "use strict";
 
+import * as escape from "escape-html";
+import * as express from "express";
 import { NextFunction } from "express-serve-static-core";
-import { Express } from "express";
+import * as jimp from "jimp";
+import * as error from "../utils/error";
+import * as redis from "../utils/redis";
 import { IImage } from "./types";
 
-import * as error from "../utils/error";
-import * as express from "express";
-import * as escape from "escape-html";
-import * as jimp from "jimp";
-import * as redis from "../utils/redis";
 
 /**
  * @api {get} /image/:id Obtener Imagen

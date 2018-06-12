@@ -1,17 +1,17 @@
-import { ModuleWithProviders, Injectable } from '@angular/core';
-import { Routes, RouterModule, CanLoad, Route, CanActivate, ActivatedRouteSnapshot, RouterStateSnapshot, Router } from '@angular/router';
-import { LoginComponent } from './auth/login.component';
-import { WelcomeComponent } from './welcome/welcome.component';
-import { InfoComponent } from './auth/info.component';
-import { NewUserComponent } from './auth/new.user.component';
+import { Injectable, ModuleWithProviders } from '@angular/core';
+import { ActivatedRouteSnapshot, CanActivate, Router, RouterModule, RouterStateSnapshot, Routes } from '@angular/router';
 import { AuthService } from './auth/auth.service';
-import { AddImageComponent } from './image/new.image.component';
-import { LoadImageComponent } from './image/load.image.component';
+import { InfoComponent } from './auth/info.component';
+import { LoginComponent } from './auth/login.component';
+import { NewUserComponent } from './auth/new.user.component';
+import { AddArticleCartComponent } from './cart/add.article.cart.component';
+import { CurrentCartComponent } from './cart/current.cart.component';
+import { EditArticleComponent } from './catalog/edit.article.component';
 import { NewArticleComponent } from './catalog/new.article.component';
 import { SearchArticleComponent } from './catalog/search.articles.component';
-import { EditArticleComponent } from './catalog/edit.article.component';
-import { CurrentCartComponent } from './cart/current.cart.component';
-import { AddArticleCartComponent } from './cart/add.article.cart.component';
+import { LoadImageComponent } from './image/load.image.component';
+import { AddImageComponent } from './image/new.image.component';
+import { WelcomeComponent } from './welcome/welcome.component';
 
 
 @Injectable()

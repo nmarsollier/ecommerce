@@ -1,4 +1,4 @@
-import { Http, Headers, Response, RequestOptions } from '@angular/http';
+import { Headers, RequestOptions, Response } from '@angular/http';
 
 export class RestBaseService {
 

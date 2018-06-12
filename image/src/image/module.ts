@@ -1,9 +1,9 @@
 "use strict";
 
 import { Express } from "express";
+import * as security from "../utils/security";
 import * as createService from "./create.service";
 import * as getService from "./get.service";
-import * as security from "../utils/security";
 
 export function init(app: Express) {
   app

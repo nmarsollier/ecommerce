@@ -1,6 +1,6 @@
 "use strict";
-import * as appConfig from "../utils/environment";
 import * as redis from "ioredis";
+import * as appConfig from "../utils/environment";
 
 const conf = appConfig.getConfig(process.env);
 let redisClient: redis.Redis;

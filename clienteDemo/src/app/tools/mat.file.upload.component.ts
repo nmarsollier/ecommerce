@@ -1,5 +1,5 @@
-import { NgModule, Component, Input, ViewChildren, Output, ElementRef, forwardRef, OnDestroy } from '@angular/core';
-import { ControlValueAccessor, NG_VALUE_ACCESSOR, NgControl } from '@angular/forms';
+import { Component, forwardRef, Input, OnDestroy, ViewChildren } from '@angular/core';
+import { ControlValueAccessor, NgControl, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { MatFormFieldControl } from '@angular/material';
 import { Subject } from 'rxjs';
 

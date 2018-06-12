@@ -4,10 +4,10 @@
  *  Servicios de escucha de eventos rabbit
  */
 import amqp = require("amqplib");
-import * as security from "../utils/security";
 import * as cartService from "../cart/cart.internal.service";
-
 import * as env from "../utils/environment";
+import * as security from "../utils/security";
+
 const conf = env.getConfig(process.env);
 
 export interface IRabbitMessage {

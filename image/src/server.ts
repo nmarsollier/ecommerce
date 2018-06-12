@@ -1,11 +1,10 @@
 "use strict";
 
-import { Express } from "express";
-import { Config } from "./utils/environment";
-
-import * as express from "./utils/express";
-import * as env from "./utils/environment";
 import * as rabbit from "./rabbit/rabbit.service";
+import * as env from "./utils/environment";
+import { Config } from "./utils/environment";
+import * as express from "./utils/express";
+
 
 // Variables de entorno
 const conf: Config = env.getConfig(process.env);

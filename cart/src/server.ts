@@ -1,12 +1,12 @@
 "use strict";
 
-import { Config } from "./utils/environment";
-
-import * as express from "./utils/express";
-import * as env from "./utils/environment";
-import * as rabbit from "./rabbit/rabbit.get.service";
-import * as mongoose from "mongoose";
 import { MongoError } from "mongodb";
+import * as mongoose from "mongoose";
+import * as rabbit from "./rabbit/rabbit.get.service";
+import * as env from "./utils/environment";
+import { Config } from "./utils/environment";
+import * as express from "./utils/express";
+
 
 // Variables de entorno
 const conf: Config = env.getConfig(process.env);

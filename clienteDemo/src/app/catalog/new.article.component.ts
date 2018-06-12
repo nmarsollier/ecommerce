@@ -1,12 +1,9 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
-import { JsonPipe } from '@angular/common';
-import { AuthService, User, RegistrarUsuario } from '../auth/auth.service';
-import { IErrorController } from '../tools/error.handler';
-import * as errorHandler from '../tools/error.handler';
-import { FormGroup, FormControl, Validators } from '@angular/forms';
-import { CatalogService } from './catalog.service';
 import { ImageService } from '../image/image.service';
+import * as errorHandler from '../tools/error.handler';
+import { CatalogService } from './catalog.service';
 
 @Component({
     selector: 'app-catalog-new-article',

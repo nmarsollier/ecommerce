@@ -1,12 +1,12 @@
 "use strict";
 
-import { NextFunction } from "express-serve-static-core";
-import { RestClient } from "typed-rest-client/RestClient";
-
-import * as nodeCache from "node-cache";
-import * as error from "../utils/error";
 import * as express from "express";
+import { NextFunction } from "express-serve-static-core";
+import * as nodeCache from "node-cache";
+import { RestClient } from "typed-rest-client/RestClient";
 import * as env from "../utils/environment";
+import * as error from "../utils/error";
+
 
 // Este cache de sesiones en memoria va a evitar que tenga que ir a la base de datos
 // para verificar que la sesión sea valida. 1 hora de cache en memoria. Luego se vuelve a leer de la db

@@ -1,9 +1,9 @@
 "use strict";
 
-import { Document, Schema, Model, model } from "mongoose";
+import { Document, model, Schema } from "mongoose";
 import * as rabbit from "../rabbit/rabbit.post.service";
-
 import * as env from "../utils/environment";
+
 const conf = env.getConfig(process.env);
 
 export interface ICartArticle {

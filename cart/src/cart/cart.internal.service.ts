@@ -3,7 +3,7 @@
  * Servicios internos de Cart, normalmente son llamados por procesos Rabbit o background
  */
 
-import { ICart, Cart, ICartArticle } from "./cart.schema";
+import { Cart, ICart } from "./cart.schema";
 
 export interface IArticleExistMessage {
     type: string;
