@@ -6,10 +6,14 @@ Este proyecto es un ejemplo de como armar una arquitectura de microservicios, po
 
 Al ser una arquitectura de microservicios cada directorio dentro de la raíz del proyecto es un microservicio, leer los pasos documentados en cada proyecto en los archivos README.txt
 
-[Seguridad](auth/README.md)\
-[Imágenes](image/README.md)\
-[Catalogo](catalog/README.md)\
-[Carrito](cart/README.md)
+[Auth](auth/README.md)\
+[Image](image/README.md)\
+[Catalog](catalog/README.md)\
+[Cart](cart/README.md)
+
+Existe un modulo de Seguridad desarrollado en GoLang
+
+[AuthGo](https://github.com/nmarsollier/ms_auth_go)
 
 Guía de Instalación General
 -
