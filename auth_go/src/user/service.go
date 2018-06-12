@@ -2,7 +2,7 @@ package user
 
 import (
 	"auth/token"
-	"auth/tools/rest"
+	"auth/tools/errors"
 )
 
 type NewUserRequest struct {
@@ -21,7 +21,7 @@ func SignUp(user NewUserRequest) (string, error) {
 
 	newUser, err := saveUser(newUser)
 	if err != nil {
-		if rest.IsUniqueKeyError(err) {
+		if errors.IsUniqueKeyError(err) {
 			return "", LoginAlreadyExistError
 		} else {
 			return "", err

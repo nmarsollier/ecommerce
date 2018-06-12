@@ -2,7 +2,7 @@ package controller
 
 import (
 	"auth/token"
-	"auth/tools/rest"
+	"auth/tools/errors"
 	"auth/user"
 
 	"github.com/gin-gonic/gin"
@@ -34,14 +34,14 @@ func CurrentUser(c *gin.Context) {
 	payload, err := token.ValidateToken(c)
 
 	if err != nil {
-		rest.HandleError(c, err)
+		errors.HandleError(c, err)
 		return
 	}
 
 	user, err := user.CurrentUser(payload.UserID)
 
 	if err != nil {
-		rest.HandleError(c, err)
+		errors.HandleError(c, err)
 		return
 	}
 

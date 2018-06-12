@@ -2,7 +2,7 @@ package controller
 
 import (
 	"auth/token"
-	"auth/tools/rest"
+	"auth/tools/errors"
 	"auth/user"
 
 	"github.com/gin-gonic/gin"
@@ -34,20 +34,20 @@ func ChangePassword(c *gin.Context) {
 	payload, err := token.ValidateToken(c)
 
 	if err != nil {
-		rest.HandleError(c, err)
+		errors.HandleError(c, err)
 		return
 	}
 
 	body := changePasswordRequest{}
 
 	if err := c.ShouldBindJSON(&body); err != nil {
-		rest.HandleError(c, err)
+		errors.HandleError(c, err)
 		return
 	}
 
 	err = user.ChangePassword(payload.UserID, body.CurrentPassword, body.NewPassword)
 	if err != nil {
-		rest.HandleError(c, err)
+		errors.HandleError(c, err)
 		return
 	}
 

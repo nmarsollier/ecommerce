@@ -1,7 +1,7 @@
 package controller
 
 import (
-	"auth/tools/rest"
+	"auth/tools/errors"
 	"auth/user"
 
 	"github.com/gin-gonic/gin"
@@ -31,14 +31,14 @@ func SignUp(c *gin.Context) {
 	userRequest := user.NewUserRequest{}
 
 	if err := c.ShouldBindJSON(&userRequest); err != nil {
-		rest.HandleError(c, err)
+		errors.HandleError(c, err)
 		return
 	}
 
 	token, err := user.SignUp(userRequest)
 
 	if err != nil {
-		rest.HandleError(c, err)
+		errors.HandleError(c, err)
 		return
 	}
 

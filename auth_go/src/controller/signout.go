@@ -2,7 +2,7 @@ package controller
 
 import (
 	"auth/token"
-	"auth/tools/rest"
+	"auth/tools/errors"
 
 	"github.com/gin-gonic/gin"
 )
@@ -25,7 +25,7 @@ func SignOut(c *gin.Context) {
 	err := token.InvalidateToken(c)
 
 	if err != nil {
-		rest.HandleError(c, err)
+		errors.HandleError(c, err)
 		return
 	}
 

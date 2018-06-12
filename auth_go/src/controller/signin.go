@@ -3,7 +3,7 @@ package controller
 import (
 	"github.com/gin-gonic/gin"
 
-	"auth/tools/rest"
+	"auth/tools/errors"
 	"auth/user"
 )
 
@@ -30,14 +30,14 @@ func SignIn(c *gin.Context) {
 	login := signInRequest{}
 
 	if err := c.ShouldBindJSON(&login); err != nil {
-		rest.HandleError(c, err)
+		errors.HandleError(c, err)
 		return
 	}
 
 	tokenString, err := user.SignIn(login.Login, login.Password)
 
 	if err != nil {
-		rest.HandleError(c, err)
+		errors.HandleError(c, err)
 		return
 	}
 
