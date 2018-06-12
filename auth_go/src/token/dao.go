@@ -2,7 +2,6 @@ package token
 
 import (
 	"auth/tools/db"
-	"auth/tools/errors/unauthorized"
 	"context"
 	"fmt"
 	"strings"
@@ -115,7 +114,7 @@ func validateTokenSchema(token Token) error {
 func findTokenByID(tokenID string) (*Token, error) {
 	_id, err := getTokenID(tokenID)
 	if err != nil {
-		return nil, unauthorized.New()
+		return nil, UnauthorizedError
 	}
 
 	collection, err := tokenCollection()
@@ -130,7 +129,7 @@ func findTokenByID(tokenID string) (*Token, error) {
 	if err != nil {
 		db.HandleConnectionError(err)
 		if err == mongo.ErrNoDocuments {
-			return nil, unauthorized.New()
+			return nil, UnauthorizedError
 		} else {
 			return nil, err
 		}
@@ -144,7 +143,7 @@ func findTokenByID(tokenID string) (*Token, error) {
 func findTokenByUserID(tokenID string) (*Token, error) {
 	_id, err := getTokenID(tokenID)
 	if err != nil {
-		return nil, unauthorized.New()
+		return nil, UnauthorizedError
 	}
 
 	collection, err := tokenCollection()
@@ -163,7 +162,7 @@ func findTokenByUserID(tokenID string) (*Token, error) {
 	if err != nil {
 		db.HandleConnectionError(err)
 		if err == mongo.ErrNoDocuments {
-			return nil, unauthorized.New()
+			return nil, UnauthorizedError
 		} else {
 			return nil, err
 		}

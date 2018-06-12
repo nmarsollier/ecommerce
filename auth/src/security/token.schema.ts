@@ -1,6 +1,6 @@
 "use strict";
 
-import { Document, Schema, Model, model } from "mongoose";
+import { Document, model, Schema } from "mongoose";
 
 /*
 Son tokens de sesión se guardan en la base de datos.

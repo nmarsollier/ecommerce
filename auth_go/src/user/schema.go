@@ -2,7 +2,6 @@ package user
 
 import (
 	"auth/tools/bsontools"
-	"auth/tools/errors"
 
 	"github.com/mongodb/mongo-go-driver/bson"
 	"github.com/mongodb/mongo-go-driver/bson/objectid"
@@ -47,7 +46,7 @@ func newUserFromBson(document bson.Document) User {
 func (e *User) setPasswordText(pwd string) error {
 	hash, err := bcrypt.GenerateFromPassword([]byte(pwd), bcrypt.MinCost)
 	if err != nil {
-		return errors.NewValidationErrorError("password", "Invalid")
+		return InvalidPasswordError
 	}
 
 	e.Password = string(hash)
@@ -58,7 +57,7 @@ func (e *User) validatePassword(plainPwd string) error {
 	err := bcrypt.CompareHashAndPassword([]byte(e.Password), []byte(plainPwd))
 
 	if err != nil {
-		return errors.NewValidationErrorError("password", "Invalid")
+		return InvalidPasswordError
 	}
 	return nil
 }

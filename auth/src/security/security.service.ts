@@ -1,16 +1,16 @@
 "use strict";
 
-import { User, IUser } from "./user.schema";
-import { Token, IToken } from "./token.schema";
-import { NextFunction } from "express-serve-static-core";
-
+import * as escape from "escape-html";
 import * as express from "express";
+import { NextFunction } from "express-serve-static-core";
+import * as rabbit from "../rabbit/rabbit.service";
+import * as env from "../utils/environment";
 import * as error from "../utils/error";
 import * as passport from "./passport.service";
-import * as escape from "escape-html";
-import * as rabbit from "../rabbit/rabbit.service";
+import { IToken, Token } from "./token.schema";
+import { IUser, User } from "./user.schema";
 
-import * as env from "../utils/environment";
+
 const conf = env.getConfig(process.env);
 
 export interface IUserSession {

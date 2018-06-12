@@ -2,7 +2,6 @@ package token
 
 import (
 	"auth/rabbit"
-	"auth/tools/errors/unauthorized"
 	"fmt"
 	"log"
 	"strings"
@@ -65,7 +64,7 @@ func CreateToken(userID string) (string, error) {
 func ValidateToken(c *gin.Context) (*Payload, error) {
 	tokenString := c.GetHeader("Authorization")
 	if strings.Index(tokenString, "bearer ") != 0 {
-		return nil, unauthorized.New()
+		return nil, UnauthorizedError
 	}
 	tokenString = tokenString[7:]
 
@@ -84,13 +83,13 @@ func ValidateToken(c *gin.Context) (*Payload, error) {
 	})
 
 	if err != nil || !token.Valid {
-		return nil, unauthorized.New()
+		return nil, UnauthorizedError
 	}
 
 	claims, ok := token.Claims.(jwt.MapClaims)
 
 	if !ok {
-		return nil, unauthorized.New()
+		return nil, UnauthorizedError
 	}
 
 	payload := Payload{
@@ -101,11 +100,11 @@ func ValidateToken(c *gin.Context) (*Payload, error) {
 	dbToken, err := findTokenByID(payload.TokenID)
 
 	if err != nil {
-		return nil, unauthorized.New()
+		return nil, UnauthorizedError
 	}
 
 	if !dbToken.Enabled {
-		return nil, unauthorized.New()
+		return nil, UnauthorizedError
 	}
 
 	tokenCache.Set(tokenString, payload, cache.DefaultExpiration)
@@ -117,7 +116,7 @@ func ValidateToken(c *gin.Context) (*Payload, error) {
 func InvalidateToken(c *gin.Context) error {
 	payload, err := ValidateToken(c)
 	if err != nil {
-		return unauthorized.New()
+		return UnauthorizedError
 	}
 
 	tokenString := c.GetHeader("Authorization")
@@ -127,14 +126,14 @@ func InvalidateToken(c *gin.Context) error {
 	}
 
 	if strings.Index(tokenString, "bearer ") != 0 {
-		return unauthorized.New()
+		return UnauthorizedError
 	}
 	tokenString = tokenString[7:]
 	tokenCache.Delete(tokenString)
 
 	err = deleteToken(payload.TokenID)
 	if err != nil {
-		return unauthorized.New()
+		return UnauthorizedError
 	}
 
 	return nil
