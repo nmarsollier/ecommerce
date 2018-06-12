@@ -13,7 +13,7 @@ Al ser una arquitectura de microservicios cada directorio dentro de la raíz del
 
 Existe un modulo de Seguridad desarrollado en GoLang
 
-[AuthGo](https://github.com/nmarsollier/ms_auth_go)
+[AuthGo](https://github.com/nmarsollier/authgo)
 
 Guía de Instalación General
 -
