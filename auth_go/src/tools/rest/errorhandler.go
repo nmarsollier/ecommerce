@@ -9,6 +9,9 @@ import (
 	validator "gopkg.in/go-playground/validator.v8"
 )
 
+var alreadyExistError = gin.H{"error": "Already exist"}
+var internalServerError = gin.H{"error": "Internal server error"}
+
 // HandleError handle any error and output JSON
 func HandleError(c *gin.Context, err interface{}) {
 	if ve, ok := err.(validator.ValidationErrors); ok {
@@ -23,18 +26,14 @@ func HandleError(c *gin.Context, err interface{}) {
 	}
 
 	if err == topology.ErrServerSelectionTimeout {
-		c.JSON(500, gin.H{
-			"error": "Internal server error",
-		})
+		c.JSON(500, internalServerError)
 		return
 	}
 
 	simpleError, ok := err.(error)
 	if ok {
-		if strings.Contains(simpleError.Error(), "duplicate key error") {
-			c.JSON(400, gin.H{
-				"id": "Already exist",
-			})
+		if IsUniqueKeyError(simpleError) {
+			c.JSON(400, alreadyExistError)
 
 		} else {
 			c.JSON(500, gin.H{
@@ -44,9 +43,7 @@ func HandleError(c *gin.Context, err interface{}) {
 		return
 	}
 
-	c.JSON(500, gin.H{
-		"error": "Internal server error",
-	})
+	c.JSON(500, internalServerError)
 }
 
 // IsDuplicateKeyError retorna true si el error es de indice unico

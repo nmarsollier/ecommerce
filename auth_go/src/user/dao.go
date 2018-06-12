@@ -2,8 +2,6 @@ package user
 
 import (
 	"auth/tools/db"
-	"auth/tools/errors"
-	"auth/tools/errors/unauthorized"
 	"context"
 	"fmt"
 	"strings"
@@ -129,7 +127,7 @@ func validateUserSchema(user User) error {
 func findUserByID(userID string) (*User, error) {
 	_id, err := objectid.FromHex(userID)
 	if err != nil {
-		return nil, unauthorized.New()
+		return nil, InvalidUserIdError
 	}
 
 	collection, err := userCollection()
@@ -144,7 +142,7 @@ func findUserByID(userID string) (*User, error) {
 	if err != nil {
 		db.HandleConnectionError(err)
 		if err == mongo.ErrNoDocuments {
-			return nil, unauthorized.New()
+			return nil, InvalidUserIdError
 		} else {
 			return nil, err
 		}
@@ -169,7 +167,7 @@ func findUserByLogin(login string) (*User, error) {
 	if err != nil {
 		db.HandleConnectionError(err)
 		if err == mongo.ErrNoDocuments {
-			return nil, errors.NewValidationErrorError("login", "Invalid")
+			return nil, InvalidLoginError
 		} else {
 			return nil, err
 		}
@@ -209,7 +207,7 @@ func deleteUser(userID string) error {
 func getUserID(ID string) (*objectid.ObjectID, error) {
 	_id, err := objectid.FromHex(ID)
 	if err != nil {
-		return nil, errors.NewValidationErrorError("id", "Invalid")
+		return nil, InvalidUserIdError
 	}
 	return &_id, nil
 }

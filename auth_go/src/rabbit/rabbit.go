@@ -9,6 +9,8 @@ import (
 	"github.com/streadway/amqp"
 )
 
+var ChannelNotInitializedError = errors.New("Channel not initialized")
+
 var channel *amqp.Channel
 
 type Message struct {
@@ -30,7 +32,7 @@ func getChannel() (*amqp.Channel, error) {
 		channel = ch
 	}
 	if channel == nil {
-		return nil, errors.New("Channel not initialized")
+		return nil, ChannelNotInitializedError
 	}
 	return channel, nil
 }
