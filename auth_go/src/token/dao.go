@@ -128,7 +128,12 @@ func findTokenByID(tokenID string) (*Token, error) {
 	filter := bson.NewDocument(bson.EC.ObjectID("_id", *_id))
 	err = collection.FindOne(context.Background(), filter).Decode(result)
 	if err != nil {
-		return nil, unauthorized.New()
+		db.HandleConnectionError(err)
+		if err == mongo.ErrNoDocuments {
+			return nil, unauthorized.New()
+		} else {
+			return nil, err
+		}
 	}
 
 	token := newTokenFromBson(*result)
@@ -156,7 +161,12 @@ func findTokenByUserID(tokenID string) (*Token, error) {
 	)
 	err = collection.FindOne(context.Background(), filter).Decode(result)
 	if err != nil {
-		return nil, unauthorized.New()
+		db.HandleConnectionError(err)
+		if err == mongo.ErrNoDocuments {
+			return nil, unauthorized.New()
+		} else {
+			return nil, err
+		}
 	}
 
 	token := newTokenFromBson(*result)

@@ -4,7 +4,7 @@ Experimental : Auth Service en GO
 Requisitos
 -
 
-Go 1.10.1
+Go 1.10  <https://golang.org/doc/install>
 
 Configuración inicial
 -
