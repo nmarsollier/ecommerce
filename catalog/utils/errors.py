@@ -86,7 +86,7 @@ def handleMultipleArgumentException(err):
     err: MultipleArgumentException
     result json error a enviar al cliente
     """
-    return json.dic_to_json(err.errors), 400
+    return json.dic_to_json({"messages": [{"path": k, "message": v} for k, v in err.errors.items()]}), 400
 
 
 def handleInvalidArgument(err):

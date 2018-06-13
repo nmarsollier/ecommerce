@@ -55,11 +55,11 @@ export let CartSchema = new Schema({
   }],
   updated: {
     type: Date,
-    default: Date.now
+    default: Date.now()
   },
   created: {
     type: Date,
-    default: Date.now
+    default: Date.now()
   },
   enabled: {
     type: Boolean,
@@ -122,7 +122,7 @@ CartSchema.methods.decrementArticle = function (article: ICartArticle) {
  * Trigger antes de guardar
  */
 CartSchema.pre("save", next => {
-  this.updated = Date.now;
+  this.updated = Date.now();
 
   next();
 });

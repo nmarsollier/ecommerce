@@ -15,31 +15,9 @@ export interface ValidationErrorItem {
 }
 export interface ValidationErrorMessage {
   error?: string;
-  message?: ValidationErrorItem[];
+  messages?: ValidationErrorItem[];
 }
 
-// Error desconocido
-function processUnknownError(res: express.Response, err: any): ValidationErrorMessage {
-  res.status(ERROR_INTERNAL_ERROR);
-  res.setHeader("X-Status-Reason", "Unknown error");
-  return { error: err };
-}
-
-// Error de validación de datos
-function processValidationError(res: express.Response, err: any): ValidationErrorMessage {
-  res.status(ERROR_BAD_REQUEST);
-  res.setHeader("X-Status-Reason", "Validation failed");
-  const messages: ValidationErrorItem[] = [];
-  for (const key in err.errors) {
-    messages.push({
-      path: key,
-      message: err.errors[key].message
-    });
-  }
-  return {
-    message: messages
-  };
-}
 
 /**
  * @apiDefine ParamValidationErrors
@@ -101,7 +79,7 @@ export function handleExpressValidationError(res: express.Response, err: Result)
       message: error.msg
     });
   }
-  return res.send({ message: messages });
+  return res.send({ messages: messages });
 }
 
 // Controla errores
@@ -114,7 +92,7 @@ export function logErrors(err: any, req: express.Request, res: express.Response,
   res.status(err.status || ERROR_INTERNAL_ERROR);
 
   res.json({
-    message: err.message
+    error: err.message
   });
 }
 
@@ -125,4 +103,28 @@ export function handle404(req: express.Request, res: express.Response) {
     url: req.originalUrl,
     error: "Not Found"
   });
+}
+
+
+// Error desconocido
+function processUnknownError(res: express.Response, err: any): ValidationErrorMessage {
+  res.status(ERROR_INTERNAL_ERROR);
+  res.setHeader("X-Status-Reason", "Unknown error");
+  return { error: err };
+}
+
+// Error de validación de datos
+function processValidationError(res: express.Response, err: any): ValidationErrorMessage {
+  res.status(ERROR_BAD_REQUEST);
+  res.setHeader("X-Status-Reason", "Validation failed");
+  const messages: ValidationErrorItem[] = [];
+  for (const key in err.errors) {
+    messages.push({
+      path: key,
+      message: err.errors[key].message
+    });
+  }
+  return {
+    messages: messages
+  };
 }

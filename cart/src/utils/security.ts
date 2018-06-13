@@ -6,6 +6,7 @@ import * as nodeCache from "node-cache";
 import { RestClient } from "typed-rest-client/RestClient";
 import * as env from "../utils/environment";
 import * as error from "../utils/error";
+import { Exception } from "winston";
 
 
 // Este cache de sesiones en memoria va a evitar que tenga que ir a la base de datos
@@ -38,7 +39,7 @@ export interface IUserSessionRequest extends express.Request {
  * @apiSuccessExample 401 Unauthorized
  *    HTTP/1.1 401 Unauthorized
  */
-export function validateSessionToken(req: IUserSessionRequest, res: express.Response, next: NextFunction) {
+export async function validateSessionToken(req: IUserSessionRequest, res: express.Response, next: NextFunction) {
   const auth = req.header("Authorization");
   if (!auth) {
     return error.sendError(res, error.ERROR_UNAUTHORIZED, "Unauthorized");
@@ -55,24 +56,23 @@ export function validateSessionToken(req: IUserSessionRequest, res: express.Resp
       user: cachedSession as IUser
     };
     return next();
-  } else {
+  }
+
+  try {
     const restClient: RestClient = new RestClient("CurrentUser", conf.securityServer);
 
-    restClient.get<any>("/auth/currentUser",
-      { additionalHeaders: { "Authorization": auth } }).then(
-        (data) => {
-          sessionCache.set(auth, data.result);
-          req.user = {
-            token: auth,
-            user: data.result as IUser
-          };
-          return next();
-        }
-      ).catch(
-        (exception) => {
-          return error.sendError(res, error.ERROR_UNAUTHORIZED, "Unauthorized");
-        }
-      );
+    const data = await restClient.get<any>("/auth/currentUser", {
+      additionalHeaders: { "Authorization": auth }
+    });
+
+    sessionCache.set(auth, data.result);
+    req.user = {
+      token: auth,
+      user: data.result as IUser
+    };
+    return next();
+  } catch (exception) {
+    return error.sendError(res, error.ERROR_UNAUTHORIZED, "Unauthorized");
   }
 }
 

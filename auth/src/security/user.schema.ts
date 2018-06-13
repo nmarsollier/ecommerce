@@ -15,6 +15,7 @@ export interface IUser extends Document {
   created: Date;
   enabled: Boolean;
   authenticate: Function;
+  setStringPassword: Function;
 }
 
 /**
@@ -56,11 +57,11 @@ export let UserSchema = new Schema({
   },
   updated: {
     type: Date,
-    default: Date.now
+    default: Date.now()
   },
   created: {
     type: Date,
-    default: Date.now
+    default: Date.now()
   },
   enabled: {
     type: Boolean,
@@ -80,24 +81,19 @@ UserSchema.methods.hashPassword = function (password: string) {
 };
 
 /**
- * Trigger antes de guardar, si el password se modifico hay que encriptarlo
- */
-const fixPassword = function (next: Function) {
-  if (this.isModified("password") && this.password && this.password.length > 6) {
-    this.password = this.hashPassword(this.password);
-  }
-
-  this.updated = Date.now;
-
-  next();
-};
-UserSchema.pre("save", fixPassword);
-
-/**
- * Authentifica un usuario
+ * Autentifica un usuario
  */
 UserSchema.methods.authenticate = function (password: string) {
   return this.password && this.password === this.hashPassword(password);
+};
+
+/**
+ * Permite cambiar la contraseña de usuario
+ */
+UserSchema.methods.setStringPassword = function (password: string) {
+  this.password = this.hashPassword(password);
+
+  this.updated = Date.now();
 };
 
 export let User = model<IUser>("User", UserSchema);

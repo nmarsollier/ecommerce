@@ -15,7 +15,7 @@ export interface ValidationErrorItem {
 }
 export interface ValidationErrorMessage {
   error?: string;
-  message?: ValidationErrorItem[];
+  messages?: ValidationErrorItem[];
 }
 
 // Error desconocido
@@ -37,7 +37,7 @@ function processValidationError(res: express.Response, err: any): ValidationErro
     });
   }
   return {
-    message: messages
+    messages: messages
   };
 }
 
@@ -111,7 +111,7 @@ export function logErrors(err: any, req: express.Request, res: express.Response,
 
   res.status(err.status || ERROR_INTERNAL_ERROR);
   res.json({
-    message: err.message
+    error: err.message
   });
 }
 

@@ -73,8 +73,8 @@ export function signUp(req: express.Request, res: express.Response) {
   const user = <IUser>new User();
   user.name = req.body.name;
   user.login = req.body.login;
-  user.password = req.body.password;
   user.roles = ["user"];
+  user.setStringPassword(req.body.password);
 
   // Then save the user
   user.save(function (err: any) {
@@ -228,8 +228,7 @@ export function signOut(req: IUserSessionRequest, res: express.Response) {
  */
 export function currentUser(req: IUserSessionRequest, res: express.Response, next: NextFunction) {
   User.findOne({
-    _id: req.user.user_id,
-    enabled: true
+    _id: req.user.user_id
   },
     function (err: any, user: IUser) {
       if (err) return error.handleError(res, err);
@@ -264,14 +263,8 @@ export function validateCambiarPassword(req: ICambiarPasswordRequest, res: expre
   req.check("newPassword", "Hasta 256 caracteres solamente.").isLength({ max: 256 });
   req.check("newPassword", "Sólo letras y números.").isAlphanumeric();
 
-  req.check("verifyPassword", "No puede quedar vacío.").notEmpty();
-  req.check("verifyPassword", "Mas de 4 caracteres.").isLength({ min: 4 });
-  req.check("verifyPassword", "Hasta 256 caracteres solamente.").isLength({ max: 256 });
-  req.check("verifyPassword", "Sólo letras y números.").isAlphanumeric();
-
   req.sanitize("currentPassword").escape();
   req.sanitize("newPassword").escape();
-  req.sanitize("verifyPassword").escape();
 
   req.getValidationResult().then(function (result) {
     if (!result.isEmpty()) {
@@ -291,12 +284,8 @@ export function validateCambiarPassword(req: ICambiarPasswordRequest, res: expre
           return error.sendError(res, error.ERROR_NOT_FOUND, "El usuario no se encuentra.");
         }
 
-        if (req.body.newPassword !== req.body.verifyPassword) {
-          return error.sendError(res, error.ERROR_BAD_REQUEST, "Las contraseñas no coinciden.");
-        }
-
         if (!user.authenticate(req.body.currentPassword)) {
-          return error.sendError(res, error.ERROR_BAD_REQUEST, "El password actual es incorrecto.");
+          return error.sendArgumentError(res, "currentPassword", "El password actual es incorrecto.");
         }
 
         req.usuario = user;
@@ -316,7 +305,6 @@ export function validateCambiarPassword(req: ICambiarPasswordRequest, res: expre
  * @apiParamExample {json} Body
  *    {
  *      "currentPassword" : "{Contraseña actual}",
- *      "verifyPassword" : "{Contraseña actual}"
  *      "newPassword" : "{Nueva Contraseña}",
  *    }
  *
@@ -328,32 +316,11 @@ export function validateCambiarPassword(req: ICambiarPasswordRequest, res: expre
  * @apiUse OtherErrors
  */
 export function changePassword(req: ICambiarPasswordRequest, res: express.Response) {
-  req.usuario.password = req.body.newPassword;
+  req.usuario.setStringPassword(req.body.newPassword);
 
   req.usuario.save(function (err: any) {
     if (err) return error.handleError(res, err);
 
     return res.send();
   });
-}
-
-export function validateAdminRole(req: IUserSessionRequest, res: express.Response, next: NextFunction) {
-  User.findOne(
-    {
-      _id: req.user.user_id,
-      enabled: true
-    },
-    function (err: any, user: IUser) {
-      if (err) return error.handleError(res, err);
-
-      if (!user) {
-        return error.sendError(res, error.ERROR_NOT_FOUND, "El usuario no se encuentra.");
-      }
-
-      if (!(user.roles.indexOf("admin") >= 0)) {
-        return error.sendError(res, error.ERROR_UNAUTHORIZED, "No autorizado.");
-      }
-
-      next();
-    });
 }

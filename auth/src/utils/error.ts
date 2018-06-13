@@ -15,69 +15,14 @@ export interface ValidationErrorItem {
 }
 export interface ValidationErrorMessage {
   error?: string;
-  message?: ValidationErrorItem[];
-}
-
-// Error desconocido
-function processUnknownError(res: express.Response, err: any): ValidationErrorMessage {
-  res.status(ERROR_INTERNAL_ERROR);
-  res.setHeader("X-Status-Reason", "Unknown error");
-  return { error: err };
-}
-
-// Obtiene un error adecuando cuando hay errores de db
-function processMongooseErrorCode(res: express.Response, err: any): ValidationErrorMessage {
-  res.status(ERROR_BAD_REQUEST);
-
-  try {
-    switch (err.code) {
-      case 11000:
-      case 11001:
-        res.setHeader("X-Status-Reason", "Unique constraint");
-
-        const fieldName = err.errmsg.substring(
-          err.errmsg.lastIndexOf("index:") + 7,
-          err.errmsg.lastIndexOf("_1")
-        );
-        return {
-          message: [{
-            path: fieldName,
-            message: "Este registro ya existe."
-          }]
-        };
-      default:
-        res.status(ERROR_BAD_REQUEST);
-        res.setHeader("X-Status-Reason", "Unknown database error code:" + err.code);
-        return { error: err };
-    }
-  } catch (ex) {
-    res.status(ERROR_INTERNAL_ERROR);
-    res.setHeader("X-Status-Reason", "Unknown database error");
-    return { error: err };
-  }
-}
-
-// Error de validación de datos
-function processValidationError(res: express.Response, err: any): ValidationErrorMessage {
-  res.setHeader("X-Status-Reason", "Validation failed");
-  res.status(ERROR_BAD_REQUEST);
-  const messages: ValidationErrorItem[] = [];
-  for (const key in err.errors) {
-    messages.push({
-      path: key,
-      message: err.errors[key].message
-    });
-  }
-  return {
-    message: messages
-  };
+  messages?: ValidationErrorItem[];
 }
 
 export function sendArgumentError(res: express.Response, argument: string, err: string) {
   res.setHeader("X-Status-Reason", "Validation failed");
   res.status(ERROR_BAD_REQUEST);
   return res.send({
-    message: [{
+    messages: [{
       path: argument,
       message: err
     }]
@@ -146,7 +91,7 @@ export function handleExpressValidationError(res: express.Response, err: Result)
       message: error.msg
     });
   }
-  return res.send({ message: messages });
+  return res.send({ messages: messages });
 }
 
 // Controla errores
@@ -157,7 +102,7 @@ export function logErrors(err: any, req: express.Request, res: express.Response,
 
   res.status(err.status || ERROR_INTERNAL_ERROR);
   res.json({
-    message: err.message
+    error: err.message
   });
 }
 
@@ -168,4 +113,60 @@ export function handle404(req: express.Request, res: express.Response) {
     url: req.originalUrl,
     error: "Not Found"
   });
+}
+
+
+// Error desconocido
+function processUnknownError(res: express.Response, err: any): ValidationErrorMessage {
+  res.status(ERROR_INTERNAL_ERROR);
+  res.setHeader("X-Status-Reason", "Unknown error");
+  return { error: err };
+}
+
+// Obtiene un error adecuando cuando hay errores de db
+function processMongooseErrorCode(res: express.Response, err: any): ValidationErrorMessage {
+  res.status(ERROR_BAD_REQUEST);
+
+  try {
+    switch (err.code) {
+      case 11000:
+      case 11001:
+        res.setHeader("X-Status-Reason", "Unique constraint");
+
+        const fieldName = err.errmsg.substring(
+          err.errmsg.lastIndexOf("index:") + 7,
+          err.errmsg.lastIndexOf("_1")
+        );
+        return {
+          messages: [{
+            path: fieldName,
+            message: "Este registro ya existe."
+          }]
+        };
+      default:
+        res.status(ERROR_BAD_REQUEST);
+        res.setHeader("X-Status-Reason", "Unknown database error code:" + err.code);
+        return { error: err };
+    }
+  } catch (ex) {
+    res.status(ERROR_INTERNAL_ERROR);
+    res.setHeader("X-Status-Reason", "Unknown database error");
+    return { error: err };
+  }
+}
+
+// Error de validación de datos
+function processValidationError(res: express.Response, err: any): ValidationErrorMessage {
+  res.setHeader("X-Status-Reason", "Validation failed");
+  res.status(ERROR_BAD_REQUEST);
+  const messages: ValidationErrorItem[] = [];
+  for (const key in err.errors) {
+    messages.push({
+      path: key,
+      message: err.errors[key].message
+    });
+  }
+  return {
+    messages: messages
+  };
 }

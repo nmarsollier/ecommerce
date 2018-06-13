@@ -11,7 +11,6 @@ import * as express from "./utils/express";
 // Variables de entorno
 const conf: Config = env.getConfig(process.env);
 
-
 // Mejoramos el log de las promesas
 process.on("unhandledRejection", (reason, p) => {
   console.error("Unhandled Rejection at: Promise", p, "reason:", reason);

@@ -6,7 +6,7 @@ import * as dotenv from "dotenv";
 let config: Config;
 
 /*
-Todas las configuraciones del servidor se encuentran en este modulo, si se quien
+Todas las configuraciones del servidor se encuentran en este modulo, si se quiere
 acceder desde cualquier parte del sistema, se deben acceder llamando a este metodo.
 */
 export function getConfig(environment: any): Config {

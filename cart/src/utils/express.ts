@@ -54,7 +54,7 @@ export function init(appConfig: Config): express.Express {
   );
   app.get("/", (req, res, next) => { res.redirect("index.html"); });
 
-  // Inicializamos las rutas del directorio
+  // Iniciamos las rutas del directorio
   // mas sobre rutas http://expressjs.com/es/guide/routing.html
   imageModule.init(app);
 

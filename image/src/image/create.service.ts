@@ -42,17 +42,16 @@ export async function validateCreate(req: express.Request, res: express.Response
   next();
 }
 
-export function create(req: express.Request, res: express.Response) {
+export async function create(req: express.Request, res: express.Response) {
   const image: IImage = {
     id: uuid(),
     image: req.body.image
   };
 
-  redis.getClient().set(image.id, image.image, function (err: any, reply: any) {
-    if (err) {
-      return error.handleError(res, err);
-    }
-
-    res.json({ id: image.id });
-  });
+  try {
+    const id = await redis.setRedisDocument(image.id, image.image);
+    res.json({ id: id });
+  } catch (err) {
+    return error.handleError(res, err);
+  }
 }

@@ -78,7 +78,7 @@ export function readJpeg(req: IReadRequest, res: express.Response) {
 }
 
 
-export function findById(req: IReadRequest, res: express.Response, next: NextFunction) {
+export async function findById(req: IReadRequest, res: express.Response, next: NextFunction) {
   const id = escape(req.params.imageId);
 
   // Buscamos la imagen de acuerdo a lo solicitado en el header, si no se encuentra y se
@@ -91,62 +91,58 @@ export function findById(req: IReadRequest, res: express.Response, next: NextFun
     imageId = imageId + "_" + size;
   }
 
-  redis.getClient().get(imageId, function (err, reply) {
-    if (err) return error.handleError(res, err);
-    if (!reply) {
-      if (newSize > 0) {
-        return findAndResize(req, res, next, id);
-      } else {
-        return error.sendError(res, error.ERROR_NOT_FOUND, id + " not found");
-      }
-    }
+  try {
+    const reply = await redis.getRedisDocument(imageId);
     req.image = {
       id: escape(id),
       image: reply
     };
 
     next();
-  });
+  } catch (err) {
+    if (err) return error.handleError(res, err);
+
+    if (newSize > 0) {
+      return findAndResize(req, res, next, id);
+    } else {
+      return error.sendError(res, error.ERROR_NOT_FOUND, id + " not found");
+    }
+  }
 }
 
 /*
 * Solo llamamos a esta función si estamos seguros de que hay que ajustarle el tamaño,
 * o sea que el header size contiene un valor adecuado y que no lo tenemos ya generado en redis
 */
-function findAndResize(req: IReadRequest, res: express.Response, next: NextFunction, id: string) {
+async function findAndResize(req: IReadRequest, res: express.Response, next: NextFunction, id: string) {
   const size = escape(req.header("Size"));
 
-  redis.getClient().get(escape(id), function (err, reply) {
-    if (err) return error.handleError(res, err);
-
-    if (!reply) {
-      return error.sendError(res, error.ERROR_NOT_FOUND, id + " not found");
-    }
+  try {
+    const data = await redis.getRedisDocument(escape(id));
 
     const image: IImage = {
       id: escape(id),
-      image: reply
+      image: data
     };
 
-    resizeImage(image, size).then(
-      (result) => {
-        redis.getClient().set(result.id, result.image, function (err: any, reply: any) {
-          if (err) {
-            req.image = image;
-            next();
-          }
-          req.image = result;
-          next();
-        });
-      },
-      (err) => {
-        console.error("Error al reajustar tamaño de imagen");
+    try {
+      const result = await resizeImage(image, size);
+      await redis.setRedisDocument(result.id, result.image);
 
-        req.image = image;
-        next();
-      }
-    );
-  });
+      req.image = result;
+      next();
+    } catch (_) {
+      console.error("Error al reajustar tamaño de imagen");
+
+      req.image = image;
+      next();
+    }
+  } catch (err) {
+    if (!err) {
+      return error.sendError(res, error.ERROR_NOT_FOUND, id + " not found");
+    }
+    return error.handleError(res, err);
+  }
 }
 
 /**
