@@ -37,7 +37,6 @@ def isValidToken(authKey):
     if (len(result) == 0):
         raise errors.InvalidAuth()
 
-    print(result)
     return result
 
 
@@ -47,8 +46,6 @@ def validateAdminRole(token):
     token: string Header Auth Token
     """
     profile = isValidToken(token)
-    print(profile)
-    print(profile["roles"])
     if ("roles" not in profile or "admin" not in profile["roles"]):
         raise errors.InvalidAccessLevel()
 
