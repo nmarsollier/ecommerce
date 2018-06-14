@@ -27,7 +27,7 @@ Existe un proyecto en Angular6, que nos proporciona un cliente demo para la plat
 
 Ver la documentación del proyecto en :
 
-[Cliente Demo](clienteDemo/README.md)
+[Cliente Demo](apiClient/README.md)
 
 Dependencias globales
 -
