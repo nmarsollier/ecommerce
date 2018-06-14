@@ -46,7 +46,7 @@ def validateAdminRole(token):
     token: string Header Auth Token
     """
     profile = isValidToken(token)
-    if ("roles" not in profile or "admin" not in profile["roles"]):
+    if ("permissions" not in profile or "admin" not in profile["permissions"]):
         raise errors.InvalidAccessLevel()
 
 

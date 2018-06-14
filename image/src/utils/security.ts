@@ -17,7 +17,7 @@ export interface IUser {
   id: string;
   name: string;
   login: string;
-  roles: string[];
+  permissions: string[];
 }
 
 export interface ISession {

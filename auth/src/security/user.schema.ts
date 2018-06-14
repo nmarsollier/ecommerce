@@ -10,12 +10,14 @@ export interface IUser extends Document {
   name: string;
   login: string;
   password: string;
-  roles: string[];
+  permissions: string[];
   updated: Date;
   created: Date;
   enabled: Boolean;
   authenticate: Function;
   setStringPassword: Function;
+  grant: Function;
+  revoke: Function;
 }
 
 /**
@@ -46,11 +48,10 @@ export let UserSchema = new Schema({
     default: "",
     required: "La contraseña es requerida"
   },
-  roles: {
+  permissions: {
     type: [
       {
         type: String,
-        enum: ["user", "admin"]
       }
     ],
     default: ["user"]
@@ -79,6 +80,31 @@ UserSchema.path("password").validate(function (value: string) {
 UserSchema.methods.hashPassword = function (password: string) {
   return pbkdf2Sync(password, conf.passwordSalt, 10000, 64, "SHA1").toString("base64");
 };
+
+
+/**
+ * Le asigna permisos nuevos a un usuario
+ */
+UserSchema.methods.grant = function (permissions: string[]) {
+  permissions.forEach(p => {
+    if (this.permissions.indexOf(p) < 0) {
+      this.permissions.push(p);
+    }
+  });
+};
+
+/**
+ * Le asigna permisos nuevos a un usuario
+ */
+UserSchema.methods.revoke = function (permissions: string[]) {
+  permissions.forEach(p => {
+    const idx = this.permissions.indexOf(p);
+    if (idx) {
+      this.permissions.splice(idx, 1);
+    }
+  });
+};
+
 
 /**
  * Autentifica un usuario

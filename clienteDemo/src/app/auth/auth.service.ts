@@ -90,5 +90,5 @@ export interface User {
     id: string;
     name: string;
     login: string;
-    roles: string[];
+    permissions: string[];
 }

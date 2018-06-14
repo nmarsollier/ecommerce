@@ -8,7 +8,7 @@ import * as env from "../utils/environment";
 import * as error from "../utils/error";
 import * as passport from "./passport.service";
 import { IToken, Token } from "./token.schema";
-import { IUser, User } from "./user.schema";
+import { IUser, User, UserSchema } from "./user.schema";
 
 
 const conf = env.getConfig(process.env);
@@ -20,6 +20,10 @@ export interface IUserSession {
 
 export interface IUserSessionRequest extends express.Request {
   user: IUserSession;
+}
+
+export interface ICurrentUserRequest extends IUserSessionRequest {
+  usuario: IUser;
 }
 
 /**
@@ -73,7 +77,7 @@ export function signUp(req: express.Request, res: express.Response) {
   const user = <IUser>new User();
   user.name = req.body.name;
   user.login = req.body.login;
-  user.roles = ["user"];
+  user.permissions = ["user"];
   user.setStringPassword(req.body.password);
 
   // Then save the user
@@ -218,7 +222,7 @@ export function signOut(req: IUserSessionRequest, res: express.Response) {
  *        "id": "{Id usuario}",
  *        "name": "{Nombre del usuario}",
  *        "login": "{Login de usuario}",
- *        "roles": [
+ *        "permissions": [
  *            "{Rol}"
  *        ]
  *     }
@@ -226,7 +230,16 @@ export function signOut(req: IUserSessionRequest, res: express.Response) {
  * @apiUse AuthHeader
  * @apiUse OtherErrors
  */
-export function currentUser(req: IUserSessionRequest, res: express.Response, next: NextFunction) {
+export function currentUser(req: ICurrentUserRequest, res: express.Response) {
+  return res.json({
+    id: req.usuario.id,
+    name: req.usuario.name,
+    login: req.usuario.login,
+    permissions: req.usuario.permissions
+  });
+}
+
+export function fillCurrentUser(req: ICurrentUserRequest, res: express.Response, next: NextFunction) {
   User.findOne({
     _id: req.user.user_id
   },
@@ -236,23 +249,16 @@ export function currentUser(req: IUserSessionRequest, res: express.Response, nex
       if (!user) {
         return error.sendError(res, error.ERROR_NOT_FOUND, "El usuario no se encuentra");
       }
-      return res.json({
-        id: user.id,
-        name: user.name,
-        login: user.login,
-        roles: user.roles
-      });
+
+      req.usuario = user;
+      next();
     });
 }
-
 
 /**
  * Cambiar contraseña
  */
-export interface ICambiarPasswordRequest extends IUserSessionRequest {
-  usuario: IUser;
-}
-export function validateCambiarPassword(req: ICambiarPasswordRequest, res: express.Response, next: NextFunction) {
+export function validateCambiarPassword(req: ICurrentUserRequest, res: express.Response, next: NextFunction) {
   req.check("currentPassword", "No puede quedar vacío.").notEmpty();
   req.check("currentPassword", "Mas de 4 caracteres.").isLength({ min: 4 });
   req.check("currentPassword", "Hasta 256 caracteres solamente.").isLength({ max: 256 });
@@ -315,7 +321,7 @@ export function validateCambiarPassword(req: ICambiarPasswordRequest, res: expre
  * @apiUse ParamValidationErrors
  * @apiUse OtherErrors
  */
-export function changePassword(req: ICambiarPasswordRequest, res: express.Response) {
+export function changePassword(req: ICurrentUserRequest, res: express.Response) {
   req.usuario.setStringPassword(req.body.newPassword);
 
   req.usuario.save(function (err: any) {
@@ -323,4 +329,178 @@ export function changePassword(req: ICambiarPasswordRequest, res: express.Respon
 
     return res.send();
   });
+}
+
+export function validateAdmin(req: ICurrentUserRequest, res: express.Response, next: NextFunction) {
+  if (req.usuario.permissions.indexOf("admin") < 0) {
+    return error.sendError(res, error.ERROR_UNAUTHORIZED, "Accesos insuficientes");
+  }
+  next();
+}
+
+/**
+ * @api {post} /auth/:userId/grant Otorga Permisos
+ * @apiName Grant
+ * @apiGroup Seguridad
+ *
+ * @apiDescription Otorga permisos al usuario indicado, el usuario logueado tiene que tener permiso "admin".
+ *
+ * @apiParamExample {json} Body
+ *    {
+ *      "permissions" : ["{permiso}", ...],
+ *    }
+ *
+ * @apiSuccessExample {json} Respuesta
+ *     HTTP/1.1 200 OK
+ *
+ * @apiUse AuthHeader
+ * @apiUse ParamValidationErrors
+ * @apiUse OtherErrors
+ */
+export function grantPermission(req: ICurrentUserRequest, res: express.Response) {
+  User.findOne({
+    _id: req.params.userID
+  },
+    function (err: any, user: IUser) {
+      if (err) {
+        return error.handleError(res, err);
+      }
+      if (!user) {
+        return error.sendError(res, error.ERROR_NOT_FOUND, "El usuario no se encuentra");
+      }
+
+
+      let p: string[];
+      try {
+        p = req.body.permissions;
+      } catch (_) {
+        return error.sendArgumentError(res, "permissions", "Invalid value");
+      }
+
+      user.grant(p);
+
+      user.save(function (err: any) {
+        if (err) return error.handleError(res, err);
+
+        return res.send();
+      });
+    });
+}
+
+/**
+ * @api {post} /auth/:userId/revoke Revoca Permisos
+ * @apiName Revoke
+ * @apiGroup Seguridad
+ *
+ * @apiDescription Quita permisos al usuario indicado, el usuario logueado tiene que tener permiso "admin".
+ *
+ * @apiParamExample {json} Body
+ *    {
+ *      "permissions" : ["{permiso}", ...],
+ *    }
+ *
+ * @apiSuccessExample {json} Respuesta
+ *     HTTP/1.1 200 OK
+ *
+ * @apiUse AuthHeader
+ * @apiUse ParamValidationErrors
+ * @apiUse OtherErrors
+ */
+export function revokePermission(req: ICurrentUserRequest, res: express.Response) {
+  User.findOne({
+    _id: req.params.userID
+  },
+    function (err: any, user: IUser) {
+      if (err) {
+        return error.handleError(res, err);
+      }
+      if (!user) {
+        return error.sendError(res, error.ERROR_NOT_FOUND, "El usuario no se encuentra");
+      }
+
+      let p: string[];
+      try {
+        p = req.body.permissions;
+      } catch (_) {
+        return error.sendArgumentError(res, "permissions", "Invalid value");
+      }
+
+      user.revoke(p);
+
+      user.save(function (err: any) {
+        if (err) return error.handleError(res, err);
+
+        return res.send();
+      });
+    });
+}
+
+/**
+ * @api {post} /auth/:userId/enable Habilitar Usuario
+ * @apiName Enable
+ * @apiGroup Seguridad
+ *
+ * @apiDescription Habilita un usuario en el sistema. El usuario logueado debe tener permisos "admin".
+ *
+ * @apiSuccessExample {json} Respuesta
+ *     HTTP/1.1 200 OK
+ *
+ * @apiUse AuthHeader
+ * @apiUse ParamValidationErrors
+ * @apiUse OtherErrors
+ */
+export function enableUser(req: ICurrentUserRequest, res: express.Response) {
+  User.findOne({
+    _id: req.params.userID
+  },
+    function (err: any, user: IUser) {
+      if (err) return error.handleError(res, err);
+
+      if (!user) {
+        return error.sendError(res, error.ERROR_NOT_FOUND, "El usuario no se encuentra");
+      }
+
+      user.enabled = true;
+
+      user.save(function (err: any) {
+        if (err) return error.handleError(res, err);
+
+        return res.send();
+      });
+    });
+}
+
+/**
+ * @api {post} /auth/:userId/disable Deshabilitar Usuario
+ * @apiName Disable
+ * @apiGroup Seguridad
+ *
+ * @apiDescription Deshabilita un usuario en el sistema.   El usuario logueado debe tener permisos "admin".
+ *
+ * @apiSuccessExample {json} Respuesta
+ *     HTTP/1.1 200 OK
+ *
+ * @apiUse AuthHeader
+ * @apiUse ParamValidationErrors
+ * @apiUse OtherErrors
+ */
+export function disableUser(req: ICurrentUserRequest, res: express.Response) {
+  User.findOne({
+    _id: req.params.userID
+  },
+    function (err: any, user: IUser) {
+      if (err) return error.handleError(res, err);
+
+      if (!user) {
+        return error.sendError(res, error.ERROR_NOT_FOUND, "El usuario no se encuentra");
+      }
+
+      user.enabled = false;
+
+      user.save(function (err: any) {
+        if (err) return error.handleError(res, err);
+
+        return res.send();
+      });
+    });
 }
