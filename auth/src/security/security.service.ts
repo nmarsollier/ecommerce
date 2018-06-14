@@ -55,7 +55,7 @@ export function validateSignUp(req: express.Request, res: express.Response, next
 }
 
 /**
- * @api {post} /auth/signup Registrar Usuario
+ * @api {post} /users Registrar Usuario
  * @apiName signup
  * @apiGroup Seguridad
  *
@@ -107,7 +107,7 @@ export function validateSignIn(req: express.Request, res: express.Response, next
 }
 
 /**
- * @api {post} /auth/signin Login
+ * @api {post} /users/signin Login
  * @apiName Log in
  * @apiGroup Seguridad
  *
@@ -171,7 +171,7 @@ function createToken(res: express.Response, user: IUser) {
 }
 
 /**
- * @api {get} /auth/signout Logout
+ * @api {get} /users/signout Logout
  * @apiName SignOut
  * @apiGroup Seguridad
  *
@@ -210,7 +210,7 @@ export function signOut(req: IUserSessionRequest, res: express.Response) {
 }
 
 /**
- * @api {get} /auth/currentUser Usuario Actual
+ * @api {get} /users/current Usuario Actual
  * @apiName CurrentUser
  * @apiGroup Seguridad
  *
@@ -302,7 +302,7 @@ export function validateCambiarPassword(req: ICurrentUserRequest, res: express.R
 }
 
 /**
- * @api {post} /auth/password Cambiar Password
+ * @api {post} /user/password Cambiar Password
  * @apiName ChangePassword
  * @apiGroup Seguridad
  *
@@ -339,7 +339,7 @@ export function validateAdmin(req: ICurrentUserRequest, res: express.Response, n
 }
 
 /**
- * @api {post} /auth/:userId/grant Otorga Permisos
+ * @api {post} /users/:userId/grant Otorga Permisos
  * @apiName Grant
  * @apiGroup Seguridad
  *
@@ -388,7 +388,7 @@ export function grantPermission(req: ICurrentUserRequest, res: express.Response)
 }
 
 /**
- * @api {post} /auth/:userId/revoke Revoca Permisos
+ * @api {post} /users/:userId/revoke Revoca Permisos
  * @apiName Revoke
  * @apiGroup Seguridad
  *
@@ -436,7 +436,7 @@ export function revokePermission(req: ICurrentUserRequest, res: express.Response
 }
 
 /**
- * @api {post} /auth/:userId/enable Habilitar Usuario
+ * @api {post} /users/:userId/enable Habilitar Usuario
  * @apiName Enable
  * @apiGroup Seguridad
  *
@@ -471,7 +471,7 @@ export function enableUser(req: ICurrentUserRequest, res: express.Response) {
 }
 
 /**
- * @api {post} /auth/:userId/disable Deshabilitar Usuario
+ * @api {post} /users/:userId/disable Deshabilitar Usuario
  * @apiName Disable
  * @apiGroup Seguridad
  *

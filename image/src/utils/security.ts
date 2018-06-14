@@ -58,7 +58,7 @@ export function validateSessionToken(req: IUserSessionRequest, res: express.Resp
   } else {
     const restClient: RestClient = new RestClient("CurrentUser", conf.securityServer);
 
-    restClient.get<any>("/auth/currentUser",
+    restClient.get<any>("/user/current",
       { additionalHeaders: { "Authorization": auth } }).then(
         (data) => {
           sessionCache.set(auth, data.result);

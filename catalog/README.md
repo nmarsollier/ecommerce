@@ -80,9 +80,14 @@ Este proyecto utiliza apidoc para documentar los servicios rest.
 
 Desafortunadamente apidoc no funciona bien cuando tenemos los ejecutables de apidoc de node y python juntos,  podemos usar el apidoc de algún proyecto node para generar los docs de este proyecto. Cuando queramos generar las apidoc, ejecutamos:
 
-La ejecución del proyecto main genera la documentación, pero usando el ejecutable de auth.
+La ejecución del proyecto main genera la documentación, hay que instalar apidoc con node.
 
 ```bash
-../auth/node_modules/.bin/apidoc -i ./ -o public
+npm install apidoc -g
 ```
 
+Luego podemos generar la documentación usando
+
+```bash
+apidoc -i ./ -o public
+```

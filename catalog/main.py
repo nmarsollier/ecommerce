@@ -14,9 +14,7 @@ rabbitService.init()
 
 articlesRoutes.init(app)
 
-if(os.path.isfile('../auth/node_modules/apidoc/bin/apidoc')):
-    os.system("../auth/node_modules/apidoc/bin/apidoc -i ./ -o ./public")
-
+os.system("apidoc -i ./ -o ./public")
 
 # Servidor de archivos estáticos de apidoc
 # Por el momento se genera con ../auth/node_modules/.bin/apidoc -i ./ -o public

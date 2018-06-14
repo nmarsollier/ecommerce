@@ -20,7 +20,7 @@ export class AuthService extends RestBaseService {
 
         return this.http
             .post(
-                environment.authServerUrl + 'auth/signin',
+                environment.authServerUrl + 'user/signin',
                 JSON.stringify(data),
                 this.getRestHeader()
             )
@@ -34,7 +34,7 @@ export class AuthService extends RestBaseService {
 
     logout(): Promise<string> {
         return this.http
-            .get(environment.authServerUrl + 'auth/signout', this.getRestHeader())
+            .get(environment.authServerUrl + 'user/signout', this.getRestHeader())
             .toPromise()
             .then(response => {
                 localStorage.removeItem('auth_token');
@@ -54,7 +54,7 @@ export class AuthService extends RestBaseService {
             });
         } else {
             return this.http
-                .get(environment.authServerUrl + 'auth/currentUser', this.getRestHeader())
+                .get(environment.authServerUrl + 'users/current', this.getRestHeader())
                 .toPromise()
                 .then(response => {
                     this.usuarioLogueado = response.json();
@@ -67,7 +67,7 @@ export class AuthService extends RestBaseService {
     newUser(value: RegistrarUsuario): Promise<User> {
         return this.http
             .post(
-                environment.authServerUrl + 'auth/signup',
+                environment.authServerUrl + 'user',
                 JSON.stringify(value),
                 this.getRestHeader()
             )
