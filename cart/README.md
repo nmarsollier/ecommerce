@@ -1,28 +1,27 @@
-Microservicio de Carrito
-=
+# Microservicio de Carrito
 
 Este microservicio almacena un carrito por usuario. Una vez hecha la compra el carrito se cierra y se genera una orden.
 
 La documentación de las api se pueden consultar desde el home del microservicio
 que una vez levantado el servidor se puede navegar en http://localhost:3003/
 
-Dependencias
--
+## Dependencias
 
-Node 8
--
+### Node 8
 
 Seguir los pasos de instalación del sitio oficial
 
 <https://nodejs.org/en/>
 
-MongoDb
--
+### MongoDb
 
 Ver tutorial de instalación en [README.md](../README.md) en la raíz.
 
-Ejecución
--
+### RabbitMQ
+
+Ver tutorial de instalación en [README.md](../README.md) en la raíz.
+
+## Ejecución
 
 Abrir ventana de comandos en la carpeta del microservicio y ejecutar :
 

@@ -1,5 +1,4 @@
-Arquitectura de Microservicios
-=
+# Arquitectura de Microservicios
 
 Este proyecto es un ejemplo de como armar una arquitectura de microservicios, posee varias tecnologías, entre ellas :
     Node, MongoDb, Redis
@@ -15,13 +14,11 @@ Existe un modulo de Seguridad desarrollado en GoLang
 
 [AuthGo](https://github.com/nmarsollier/authgo)
 
-Guía de Instalación General
--
+## Guía de Instalación General
 
 Este proyecto utiliza varias tecnologías, las siguientes dependencias son necesarias antes de comenzar a compilar y ejecutar aplicaciones. Es necesario seguir los tutoriales en cada uno de los microservicios. En general hay 2 entornos, uno Node y uno Python, habiendo configurado estos dos entornos, se podrá ejecutar todo el proyecto.
 
-Cliente Demo
--
+## Cliente Demo
 
 Existe un proyecto en Angular6, que nos proporciona un cliente demo para la plataforma, permitiéndonos probar como interactúan los diferentes microservicios.
 
@@ -29,13 +26,11 @@ Ver la documentación del proyecto en :
 
 [Cliente Demo](apiClient/README.md)
 
-Dependencias globales
--
+## Dependencias globales
 
 Estas son dependencias compartidas, cada microservicio tiene su propia base de datos, pero para simplificar la configuración, en estos ejemplos vamos a compartir instancias de db. Pero en un entorno real cada servicio debe configurar su entorno.
 
-MongoDB
--
+### MongoDB
 
 Seguir las guías de instalación de mongo desde el sitio oficial
 
@@ -49,8 +44,7 @@ Sugiero instalar Mongodb Compass para poder navegar la base de datos en forma vi
 
 <https://www.mongodb.com/products/compass>
 
-Redis
--
+### Redis
 
 Seguir los pasos de instalación desde la pagina oficial
 
@@ -62,8 +56,7 @@ Para windows se puede descargar el paquete sin instalación : <https://sourcefor
 
 Recomiendo instalar FastoRedis para navegar la base de datos <https://fastoredis.com/>
 
-RabbitMQ
--
+### RabbitMQ
 
 Seguir los pasos de instalación en la pagina oficial
 

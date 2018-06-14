@@ -1,20 +1,16 @@
-Es un cliente simple para probar la plataforma
-=
+# Es un cliente simple para probar la plataforma
 
 Con este cliente se pueden probar los diferentes microservicios.
 
-Dependencias
--
+## Dependencias
 
-Node 8
--
+### Node 8
 
 Seguir los pasos de instalación del sitio oficial
 
 <https://nodejs.org/en/>
 
-Ejecución
--
+## Ejecución
 
 Para poder usarlo es necesario haber ejecutado todos los microservicios a probar.
 

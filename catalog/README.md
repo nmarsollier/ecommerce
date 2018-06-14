@@ -1,17 +1,22 @@
-Microservicio de Catalogo de Productos
-=
+# Microservicio de Catalogo de Productos
 
 Es un microservicio que permite manejar el catalogo de artículos, precios y stock,
 
 Una vez iniciado el servidor, la documentación puede obtenerse desde <http://localhost:3002/>
 
-Configuración inicial
--
+## Dependencias
 
-Pip
--
+### MongoDb
 
-Pip es un gestor de paquetes que nos va a permitir instalar las dependencias de python.
+Ver tutorial de instalación en [README.md](../README.md) en la raíz.
+
+### RabbitMQ
+
+Ver tutorial de instalación en [README.md](../README.md) en la raíz.
+
+### Pip
+
+Pip es un gestor de paquetes que nos va a permitir instalar las dependencias de python. <https://pypi.org/project/pip/>
 
 Ubuntu
 
@@ -19,10 +24,9 @@ Ubuntu
 sudo apt-get install python-pip
 ```
 
-Pyenv
--
+### Pyenv
 
-Pyenv nos permite tener varias versiones de python instaladas en nuestro sistema. Es util para no generar conflicto con los programas que tengamos funcionando actualmente.
+Pyenv nos permite tener varias versiones de python instaladas en nuestro sistema. Es util para no generar conflicto con los programas que tengamos funcionando actualmente. <https://github.com/pyenv/pyenv-installer>
 
 Ubuntu
 
@@ -51,8 +55,7 @@ pyenv install 2.7.6
 pyenv global 2.7.6
 ```
 
-Python 3.6.5
--
+### Python 3.6.5
 
 A partir de ahora todo lo que ejecutamos, va a ser dentro de la carpeta catalog
 
@@ -73,8 +76,8 @@ Ahora deberíamos ser capaces de ejecutar el proyecto
 python main.py
 ```
 
-ACLARACIÓN : Apidoc
--
+
+## Apidoc
 
 Este proyecto utiliza apidoc para documentar los servicios rest.
 
