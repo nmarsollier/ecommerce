@@ -7,14 +7,14 @@ import * as getService from "./get.service";
 
 export function init(app: Express) {
   app
-    .route("/image")
+    .route("/v1/image")
     .post(security.validateSessionToken, createService.validateCreate, createService.create);
 
   app
-    .route("/image/:imageId")
+    .route("/v1/image/:imageId")
     .get(security.validateSessionToken, getService.findById, getService.read);
 
   app
-    .route("/image/:imageId/jpeg")
+    .route("/v1/image/:imageId/jpeg")
     .get(security.validateSessionToken, getService.findById, getService.readJpeg);
 }

@@ -15,7 +15,7 @@ def init(app):
     app: Flask
     """
 
-    @app.route('/articles', methods=['POST'])
+    @app.route('/v1/articles', methods=['POST'])
     def addArticle():
         try:
             security.validateAdminRole(flask.request.headers.get("Authorization"))
@@ -30,7 +30,7 @@ def init(app):
         except Exception as err:
             return errors.handleError(err)
 
-    @app.route('/articles/<articleId>', methods=['POST'])
+    @app.route('/v1/articles/<articleId>', methods=['POST'])
     def updateArticle(articleId):
         try:
             security.validateAdminRole(flask.request.headers.get("Authorization"))
@@ -45,14 +45,14 @@ def init(app):
         except Exception as err:
             return errors.handleError(err)
 
-    @app.route('/articles/<articleId>', methods=['GET'])
+    @app.route('/v1/articles/<articleId>', methods=['GET'])
     def getArticle(articleId):
         try:
             return json.dic_to_json(crud.getArticle(articleId))
         except Exception as err:
             return errors.handleError(err)
 
-    @app.route('/articles/<articleId>', methods=['DELETE'])
+    @app.route('/v1/articles/<articleId>', methods=['DELETE'])
     def delArticle(articleId):
         try:
             security.validateAdminRole(flask.request.headers.get("Authorization"))
@@ -61,7 +61,7 @@ def init(app):
         except Exception as err:
             return errors.handleError(err)
 
-    @app.route('/articles/search/<criteria>', methods=['GET'])
+    @app.route('/v1/articles/search/<criteria>', methods=['GET'])
     def searchArticles(criteria):
         try:
             return json.dic_to_json(find.searchArticles(criteria))

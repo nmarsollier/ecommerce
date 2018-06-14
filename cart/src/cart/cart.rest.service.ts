@@ -306,7 +306,7 @@ export function validateOrder(req: IValidationResult, res: express.Response, nex
     async.map(req.cart.articles,
         (article: ICartArticle, callback) => {
             const restClient: RestClient = new RestClient("GetArticle", conf.catalogServer);
-            restClient.get<any>("/articles/" + article.articleId,
+            restClient.get<any>("/v1/articles/" + article.articleId,
                 { additionalHeaders: { "Authorization": req.user.token } }).then(
                     (data) => {
                         callback(undefined, data.result as Article);

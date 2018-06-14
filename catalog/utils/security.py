@@ -27,7 +27,7 @@ def isValidToken(authKey):
     conn = http.client.HTTPConnection(socket.gethostbyname(
         config.getSecurityServerUrl()), config.getSecurityServerPort())
 
-    conn.request("GET", "/users/current", {}, headers)
+    conn.request("GET", "/v1/users/current", {}, headers)
     response = conn.getresponse()
 
     if (response.status != 200):

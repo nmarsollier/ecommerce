@@ -61,7 +61,7 @@ export async function validateSessionToken(req: IUserSessionRequest, res: expres
   try {
     const restClient: RestClient = new RestClient("CurrentUser", conf.securityServer);
 
-    const data = await restClient.get<any>("/users/current", {
+    const data = await restClient.get<any>("/v1/users/current", {
       additionalHeaders: { "Authorization": auth }
     });
 
