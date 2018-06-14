@@ -76,7 +76,7 @@ def listenAuth():
     """
     Básicamente eventos de logout enviados por auth.
 
-    @api {fanout} auth/logout Logout de usuarios
+    @api {fanout} auth/logout Logout
 
     @apiGroup RabbitMQ GET
 

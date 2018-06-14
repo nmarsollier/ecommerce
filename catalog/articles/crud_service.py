@@ -14,7 +14,7 @@ def getArticle(articleId):
     return dict<propiedad, valor> Articulo\n
     """
     """
-    @api {get} /articles/:articleId Buscar articulo
+    @api {get} /articles/:articleId Buscar Artículo
     @apiName GetArticle
     @apiGroup Articulos
 
@@ -51,7 +51,7 @@ def addArticle(params):
     return dict<propiedad, valor> Articulo
     """
     """
-    @api {post} /articles/ Crear articulo
+    @api {post} /articles/ Crear Artículo
     @apiName AddArticle
     @apiGroup Articulos
 
@@ -92,7 +92,7 @@ def updateArticle(articleId, params):
     return dict<propiedad, valor> Articulo\n
     """
     """
-    @api {post} /articles/:articleId Actualizar articulo
+    @api {post} /articles/:articleId Actualizar Artículo
     @apiName UpdateArticle
     @apiGroup Articulos
 
@@ -134,7 +134,7 @@ def delArticle(articleId):
     """
     Elimina un articulo : delArticle(articleId: string)
 
-    @api {delete} /articles/:articleId Eliminar articulo
+    @api {delete} /articles/:articleId Eliminar Artículo
     @apiName DelArticle
     @apiGroup Articulos
 

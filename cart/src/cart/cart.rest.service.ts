@@ -72,8 +72,8 @@ export function validateAddArticle(req: ICartRequest, res: express.Response, nex
 
 
 /**
- * @api {post} /cart/article AddArticle
- * @apiName Add Article
+ * @api {post} /cart/article Agregar Artículo
+ * @apiName Agregar Artículo
  * @apiGroup Carrito
  *
  * @apiDescription Agregar artículos al carrito.
@@ -116,8 +116,8 @@ export function addArticle(req: ICartRequest, res: express.Response) {
 }
 
 /**
- * @api {post} /cart/article/:articleId/decrement DecrementArticleCart
- * @apiName Decrement Article Cart
+ * @api {post} /cart/article/:articleId/decrement Decrementar
+ * @apiName Decrementar Cart
  * @apiGroup Carrito
  *
  * @apiDescription Decrementa la cantidad de artículos en el cart.
@@ -161,8 +161,8 @@ export function decrementArticle(req: ICartRequest, res: express.Response) {
 }
 
 /**
- * @api {post} /cart/article/:articleId/increment IncrementArticleCart
- * @apiName Increment Article Cart
+ * @api {post} /cart/article/:articleId/increment Incrementar
+ * @apiName Incrementar Cart
  * @apiGroup Carrito
  *
  * @apiDescription Incrementa la cantidad de artículos en el cart.
@@ -207,8 +207,8 @@ export function incrementArticle(req: ICartRequest, res: express.Response) {
 }
 
 /**
- * @api {get} /cart GetCart
- * @apiName Get Cart
+ * @api {get} /cart Obtener Carrito
+ * @apiName Obtener Carrito
  * @apiGroup Carrito
  *
  * @apiDescription Devuelve el carrito activo.
@@ -235,8 +235,8 @@ export function validateDelete(req: ICartRequest, res: express.Response, next: N
 }
 
 /**
- * @api {delete} /cart/article/:articleId DeleteCartArticle
- * @apiName Delete Cart
+ * @api {delete} /cart/article/:articleId Quitar Artículo
+ * @apiName Quitar Artículo
  * @apiGroup Carrito
  *
  * @apiDescription Eliminar un articulo del carrito.
@@ -267,8 +267,8 @@ export function deleteArticle(req: ICartRequest, res: express.Response) {
 }
 
 /**
- * @api {post} /cart/validate ValidateCart
- * @apiName Validate Cart
+ * @api {post} /cart/validate Validar Carrito
+ * @apiName Validar Carrito
  * @apiGroup Carrito
  *
  * @apiDescription Realiza una validación completa del cart, para realizar el checkout.
@@ -354,8 +354,8 @@ export function validateOrder(req: IValidationResult, res: express.Response, nex
 }
 
 /**
- * @api {post} /cart/checkout CheckoutCart
- * @apiName Checkout Cart
+ * @api {post} /cart/checkout Checkout
+ * @apiName Checkout
  * @apiGroup Carrito
  *
  * @apiDescription Realiza el checkout del carrito.
