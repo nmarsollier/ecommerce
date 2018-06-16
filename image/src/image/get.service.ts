@@ -129,10 +129,7 @@ async function findAndResize(req: IReadRequest, res: express.Response, next: Nex
 /**
  * @apiDefine SizeHeader
  *
- * @apiParam {String} Size
- *    Size=[160|320|640|800|1024|1200]
- *
- * @apiExample {String} Header Size
+ * @apiExample {String} Size : Parametro url o header
  *    Size=[160|320|640|800|1024|1200]
  */
 function resizeImage(image: IImage, size: string): Promise<IImage> {

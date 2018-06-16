@@ -89,16 +89,9 @@ HTTP/1.1 500 Internal Server Error
 
 
 
-
-
-### Parameter Parameters
-
-| Name     | Type       | Description                           |
-|:---------|:-----------|:--------------------------------------|
-|  Size | String | <p>Size=[160|320|640|800|1024|1200]</p>|
 ### Examples
 
-Header Size
+Size : Parametro url o header
 
 ```
 Size=[160|320|640|800|1024|1200]
@@ -159,16 +152,9 @@ HTTP/1.1 500 Internal Server Error
 
 
 
-
-
-### Parameter Parameters
-
-| Name     | Type       | Description                           |
-|:---------|:-----------|:--------------------------------------|
-|  Size | String | <p>Size=[160|320|640|800|1024|1200]</p>|
 ### Examples
 
-Header Size
+Size : Parametro url o header
 
 ```
 Size=[160|320|640|800|1024|1200]
