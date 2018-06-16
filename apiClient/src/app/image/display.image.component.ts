@@ -12,6 +12,9 @@ export class ShowImageComponent  {
     calidad: Calidad;
 
     @Input()
+    jpeg: string;
+
+    @Input()
     set imageId(name: string) {
         this.getImage(name);
     }
@@ -23,7 +26,7 @@ export class ShowImageComponent  {
     getImage(image: string) {
         if (image) {
             this.imageService
-                .getImage(image, this.calidad)
+                .getImage(image, this.calidad, Boolean(this.jpeg))
                 .then(result => {
                     this.image = result;
                 })

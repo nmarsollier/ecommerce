@@ -18,11 +18,18 @@ export class ImageService extends RestBaseService {
         super();
     }
 
-    getImage(id: string, calidad?: Calidad): Promise<Image> {
+    getImage(id: string, calidad?: Calidad, jpeg: boolean = false): Promise<Image> {
         const headers = (calidad) ? this.getRestHeader({ 'Size': calidad }) : this.getRestHeader();
 
+        const url = environment.imageServerUrl + 'image/' + id;
+        if (jpeg) {
+            return Promise.resolve({
+                image: url + '/jpeg?Size=' + calidad
+            });
+        }
+
         return this.http
-            .get(environment.imageServerUrl + 'image/' + id, headers)
+            .get(url, headers)
             .toPromise()
             .then(response => {
                 return response.json() as Image;

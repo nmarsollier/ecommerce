@@ -12,9 +12,9 @@ export function init(app: Express) {
 
   app
     .route("/v1/image/:imageId")
-    .get(security.validateSessionToken, getService.findById, getService.read);
+    .get(getService.findById, getService.read);
 
   app
     .route("/v1/image/:imageId/jpeg")
-    .get(security.validateSessionToken, getService.findById, getService.readJpeg);
+    .get(getService.findById, getService.readJpeg);
 }

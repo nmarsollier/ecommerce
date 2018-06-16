@@ -34,7 +34,8 @@
         "helmet": "3.12.1",
         "cors": "2.8.4",
         "amqplib": "0.5.2",
-        "jimp": "0.2.28"
+        "jimp": "0.2.28",
+        "base-64": "0.1.0"
     },
     "devDependencies": {
         "@types/body-parser": "1.17.0",

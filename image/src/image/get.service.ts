@@ -8,7 +8,6 @@ import * as error from "../utils/error";
 import * as redis from "../utils/redis";
 import { IImage } from "./types";
 
-
 /**
  * @api {get} /v1/image/:id Obtener Imagen
  * @apiName Obtener Imagen
@@ -52,29 +51,10 @@ export function read(req: IReadRequest, res: express.Response) {
  * @apiUse OtherErrors
  */
 export function readJpeg(req: IReadRequest, res: express.Response) {
-  jimp.read(
-    Buffer.from(req.image.image.substring(req.image.image.indexOf(",") + 1), "base64")
-  ).then(
-    (loadedImage) => {
-      let contentType = req.image.image.substring(0, req.image.image.indexOf(";"));
-      contentType = contentType.substring(req.image.image.indexOf(":") + 1);
-
-      loadedImage.quality(60);
-
-      loadedImage.getBuffer("image/jpeg", (err, buffer) => {
-        if (err) {
-          return error.sendError(res, error.ERROR_INTERNAL_ERROR, "Cannot load image.");
-        }
-
-        res.contentType(contentType);
-        res.send(buffer);
-      });
-    }
-  ).catch(
-    (exception) => {
-      return error.sendError(res, error.ERROR_INTERNAL_ERROR, "Cannot load image.");
-    }
-  );
+  const data = req.image.image.substring(req.image.image.indexOf(",") + 1);
+  const buff = new Buffer(data, "base64");
+  res.type("image/jpeg");
+  res.send(buff);
 }
 
 
@@ -83,8 +63,8 @@ export async function findById(req: IReadRequest, res: express.Response, next: N
 
   // Buscamos la imagen de acuerdo a lo solicitado en el header, si no se encuentra y se
   // esta pidiendo un tamaño en particular que no se tiene, se reajusta el tamaño
-
-  const size = escape(req.header("Size"));
+  console.log(escape(req.header("Size") || req.query.Size));
+  const size = escape(req.header("Size") || req.query.Size);
   const newSize = getSize(size);
   let imageId = escape(id);
   if (newSize > 0) {
@@ -115,7 +95,8 @@ export async function findById(req: IReadRequest, res: express.Response, next: N
 * o sea que el header size contiene un valor adecuado y que no lo tenemos ya generado en redis
 */
 async function findAndResize(req: IReadRequest, res: express.Response, next: NextFunction, id: string) {
-  const size = escape(req.header("Size"));
+  console.log(escape(req.header("Size") || req.query.Size));
+  const size = escape(req.header("Size") || req.query.Size);
 
   try {
     const data = await redis.getRedisDocument(escape(id));
@@ -147,6 +128,9 @@ async function findAndResize(req: IReadRequest, res: express.Response, next: Nex
 
 /**
  * @apiDefine SizeHeader
+ *
+ * @apiParam {String} Size
+ *    Size=[160|320|640|800|1024|1200]
  *
  * @apiExample {String} Header Size
  *    Size=[160|320|640|800|1024|1200]
