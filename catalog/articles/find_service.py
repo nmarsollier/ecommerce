@@ -11,8 +11,8 @@ def searchArticles(text):
     test string Texto a buscar
     """
     """
-    @api {get} /articles/search/:criteria Buscar Artículo
-    @apiName SearchArticle
+    @api {get} /v1/articles/search/:criteria Buscar Artículo
+    @apiName Buscar Artículo
     @apiGroup Articulos
     @apiDescription Busca articulos por nombre o descripción
 

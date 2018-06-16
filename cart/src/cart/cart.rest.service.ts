@@ -72,13 +72,13 @@ export function validateAddArticle(req: ICartRequest, res: express.Response, nex
 
 
 /**
- * @api {post} /cart/article Agregar Artículo
+ * @api {post} /v1/cart/article Agregar Artículo
  * @apiName Agregar Artículo
  * @apiGroup Carrito
  *
  * @apiDescription Agregar artículos al carrito.
  *
- * @apiParamasExample {json} Body
+ * @apiExample {json} Body
  *    {
  *      "articleId": "{Article Id}",
  *      "quantity": {Quantity to add}
@@ -116,7 +116,7 @@ export function addArticle(req: ICartRequest, res: express.Response) {
 }
 
 /**
- * @api {post} /cart/article/:articleId/decrement Decrementar
+ * @api {post} /v1/cart/article/:articleId/decrement Decrementar
  * @apiName Decrementar Cart
  * @apiGroup Carrito
  *
@@ -161,7 +161,7 @@ export function decrementArticle(req: ICartRequest, res: express.Response) {
 }
 
 /**
- * @api {post} /cart/article/:articleId/increment Incrementar
+ * @api {post} /v1/cart/article/:articleId/increment Incrementar
  * @apiName Incrementar Cart
  * @apiGroup Carrito
  *
@@ -207,7 +207,7 @@ export function incrementArticle(req: ICartRequest, res: express.Response) {
 }
 
 /**
- * @api {get} /cart Obtener Carrito
+ * @api {get} /v1/cart Obtener Carrito
  * @apiName Obtener Carrito
  * @apiGroup Carrito
  *
@@ -267,7 +267,7 @@ export function deleteArticle(req: ICartRequest, res: express.Response) {
 }
 
 /**
- * @api {post} /cart/validate Validar Carrito
+ * @api {post} /v1/cart/validate Validar Carrito
  * @apiName Validar Carrito
  * @apiGroup Carrito
  *
@@ -354,7 +354,7 @@ export function validateOrder(req: IValidationResult, res: express.Response, nex
 }
 
 /**
- * @api {post} /cart/checkout Checkout
+ * @api {post} /v1/cart/checkout Checkout
  * @apiName Checkout
  * @apiGroup Carrito
  *

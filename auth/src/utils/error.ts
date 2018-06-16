@@ -32,7 +32,7 @@ export function sendArgumentError(res: express.Response, argument: string, err: 
 /**
  * @apiDefine ParamValidationErrors
  *
- * @apiSuccessExample {json} 400 Bad Request
+ * @apiErrorExample 400 Bad Request
  *     HTTP/1.1 400 Bad Request
  *     HTTP/1.1 Header X-Status-Reason: {Message}
  *     {
@@ -49,7 +49,7 @@ export function sendArgumentError(res: express.Response, argument: string, err: 
 /**
  * @apiDefine OtherErrors
  *
- * @apiSuccessExample {json} 404 Not Found
+ * @apiErrorExample 404 Not Found
  *     HTTP/1.1 404 Not Found
  *     HTTP/1.1 Header X-Status-Reason: {Message}
  *     {
@@ -57,7 +57,7 @@ export function sendArgumentError(res: express.Response, argument: string, err: 
  *        "error" : "Not Found"
  *     }
  *
- * @apiSuccessExample {json} 500 Server Error
+ * @apiErrorExample 500 Server Error
  *     HTTP/1.1 500 Internal Server Error
  *     HTTP/1.1 Header X-Status-Reason: {Message}
  *     {

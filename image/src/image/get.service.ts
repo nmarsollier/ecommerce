@@ -10,7 +10,7 @@ import { IImage } from "./types";
 
 
 /**
- * @api {get} /image/:id Obtener Imagen
+ * @api {get} /v1/image/:id Obtener Imagen
  * @apiName Obtener Imagen
  * @apiGroup Imagen
  *
@@ -36,7 +36,7 @@ export function read(req: IReadRequest, res: express.Response) {
 }
 
 /**
- * @api {get} /image/:id/jpeg Obtener Imagen Jpeg
+ * @api {get} /v1/image/:id/jpeg Obtener Imagen Jpeg
  * @apiName Obtener Imagen Jpeg
  * @apiGroup Imagen
  *
@@ -148,7 +148,7 @@ async function findAndResize(req: IReadRequest, res: express.Response, next: Nex
 /**
  * @apiDefine SizeHeader
  *
- * @apiParamExample {String} Header Size
+ * @apiExample {String} Header Size
  *    Size=[160|320|640|800|1024|1200]
  */
 function resizeImage(image: IImage, size: string): Promise<IImage> {

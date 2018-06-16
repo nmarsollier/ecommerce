@@ -18,40 +18,16 @@ export interface ValidationErrorMessage {
   messages?: ValidationErrorItem[];
 }
 
-// Error desconocido
-function processUnknownError(res: express.Response, err: any): ValidationErrorMessage {
-  res.status(ERROR_INTERNAL_ERROR);
-  res.setHeader("X-Status-Reason", "Unknown error");
-  return { error: err };
-}
-
-// Error de validación de datos
-function processValidationError(res: express.Response, err: any): ValidationErrorMessage {
-  res.status(ERROR_BAD_REQUEST);
-  res.setHeader("X-Status-Reason", "Validation failed");
-  const messages: ValidationErrorItem[] = [];
-  for (const key in err.errors) {
-    messages.push({
-      path: key,
-      message: err.errors[key].message
-    });
-  }
-  return {
-    messages: messages
-  };
-}
-
 /**
  * @apiDefine ParamValidationErrors
  *
- * @apiSuccessExample {json} 400 Bad Request
+ * @apiErrorExample 400 Bad Request
  *     HTTP/1.1 400 Bad Request
- *     HTTP/1.1 Header X-Status-Reason: {Mensaje}
  *     {
  *        "messages" : [
  *          {
- *            "path" : "{Propiedad con errores}",
- *            "message" : "{Mensaje con el error}"
+ *            "path" : "{Nombre de la propiedad}",
+ *            "message" : "{Motivo del error}"
  *          },
  *          ...
  *       ]
@@ -61,20 +37,12 @@ function processValidationError(res: express.Response, err: any): ValidationErro
 /**
  * @apiDefine OtherErrors
  *
- * @apiSuccessExample {json} 404 Not Found
- *     HTTP/1.1 404 Not Found
- *     HTTP/1.1 Header X-Status-Reason: {Mensaje}
+ * @apiErrorExample 500 Server Error
+ *     HTTP/1.1 500 Internal Server Error
  *     {
- *        "url" : "{Url no encontrada}",
  *        "error" : "Not Found"
  *     }
  *
- * @apiSuccessExample {json} 500 Server Error
- *     HTTP/1.1 500 Internal Server Error
- *     HTTP/1.1 Header X-Status-Reason: {Mensaje}
- *     {
- *        "error" : "Not Found"
- *     }
  */
 export function handleError(res: express.Response, err: any): express.Response {
   if (err.errors) {  // ValidationError
@@ -122,4 +90,28 @@ export function handle404(req: express.Request, res: express.Response) {
     url: req.originalUrl,
     error: "Not Found"
   });
+}
+
+
+// Error desconocido
+function processUnknownError(res: express.Response, err: any): ValidationErrorMessage {
+  res.status(ERROR_INTERNAL_ERROR);
+  res.setHeader("X-Status-Reason", "Unknown error");
+  return { error: err };
+}
+
+// Error de validación de datos
+function processValidationError(res: express.Response, err: any): ValidationErrorMessage {
+  res.status(ERROR_BAD_REQUEST);
+  res.setHeader("X-Status-Reason", "Validation failed");
+  const messages: ValidationErrorItem[] = [];
+  for (const key in err.errors) {
+    messages.push({
+      path: key,
+      message: err.errors[key].message
+    });
+  }
+  return {
+    messages: messages
+  };
 }

@@ -11,6 +11,16 @@ memoKeys = {}
 
 memo = memoize.Memoizer(memoKeys)
 
+"""
+@apiDefine AuthHeader
+
+@apiExample {String} Header Autorización
+    Authorization=bearer {token}
+
+@apiErrorExample 401 Unauthorized
+    HTTP/1.1 401 Unauthorized
+ """
+
 
 @memo(max_age=3600)
 def isValidToken(authKey):

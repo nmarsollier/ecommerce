@@ -10,13 +10,14 @@
     "license": "MIT",
     "scripts": {
         "start": "npm run build && npm run watch",
-        "build": "npm run build-ts && npm run tslint && npm run apidoc",
+        "build": "npm run build-ts && npm run tslint && npm run apidoc && npm run apidocmd",
         "serve": "node dist/server.js",
         "watch": "concurrently -k -p \"[{name}]\" -n \"TypeScript,Node\" -c \"yellow.bold,cyan.bold,green.bold\"  \"npm run watch-ts\" \"nodemon dist/server.js\"",
         "build-ts": "tsc",
         "watch-ts": "tsc -w",
         "tslint": "tslint -c tslint.json -p tsconfig.json",
-        "apidoc": "./node_modules/.bin/apidoc -i src -o ./dist/public"
+        "apidoc": "./node_modules/.bin/apidoc -i src -o ./dist/public",
+        "apidocmd": "./node_modules/.bin/apidoc-markdown2 -p ./dist/public -o README-API.md"
     },
     "dependencies": {
         "body-parser": "1.18.3",
@@ -59,6 +60,7 @@
         "@types/amqplib": "0.5.7",
         "@types/async": "2.0.49",
         "apidoc": "0.17.6",
+        "apidoc-markdown2": "0.3.6",
         "concurrently": "3.5.1",
         "tslint": "5.10.0",
         "nodemon": "1.17.5",

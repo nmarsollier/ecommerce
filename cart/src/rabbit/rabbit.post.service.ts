@@ -23,7 +23,7 @@ export interface IRabbitCallbackMessage {
  *
  * @apiDescription Cart enviá un mensaje a Catalog para comprobar la validez de un articulo.
  *
- * @apiParamsExample {json} Mensaje
+ * @apiExample {json} Mensaje
  *     {
  *        "type": "article-exist",
  *        "queue": "cart",

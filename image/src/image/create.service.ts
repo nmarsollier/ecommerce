@@ -9,14 +9,13 @@ import { IImage } from "./types";
 
 
 /**
- * @api {post} /image Crear Imagen
- * @apiName CreateImage
+ * @api {post} /v1/image Crear Imagen
+ * @apiName Crear Imagen
  * @apiGroup Imagen
  *
  * @apiDescription Agrega una nueva imagen al servidor.
  *
- *
- * @apiParamExample {json} Body
+ * @apiExample {json} Body
  *    {
  *      "image" : "{Imagen en formato Base 64}"
  *    }

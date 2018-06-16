@@ -55,13 +55,13 @@ export function validateSignUp(req: express.Request, res: express.Response, next
 }
 
 /**
- * @api {post} /users Registrar Usuario
- * @apiName signup
+ * @api {post} /v1/users Registrar Usuario
+ * @apiName Registrar Usuario
  * @apiGroup Seguridad
  *
  * @apiDescription Registra un nuevo usuario en el sistema.
  *
- * @apiParamExample {json} Body
+ * @apiExample {json} Body
  *    {
  *      "name": "{Nombre de Usuario}",
  *      "login": "{Login de usuario}",
@@ -107,13 +107,13 @@ export function validateSignIn(req: express.Request, res: express.Response, next
 }
 
 /**
- * @api {post} /users/signin Login
+ * @api {post} /v1/users/signin Login
  * @apiName Log in
  * @apiGroup Seguridad
  *
  * @apiDescription Loguea un usuario en el sistema.
  *
- * @apiParamExample {json} Body
+ * @apiExample {json} Body
  *    {
  *      "login": "{Login de usuario}",
  *      "password": "{Contraseña}"
@@ -171,8 +171,8 @@ function createToken(res: express.Response, user: IUser) {
 }
 
 /**
- * @api {get} /users/signout Logout
- * @apiName SignOut
+ * @api {get} /v1/users/signout Logout
+ * @apiName Logout
  * @apiGroup Seguridad
  *
  * @apiDescription Desloguea un usuario en el sistema, invalida el token.
@@ -210,8 +210,8 @@ export function signOut(req: IUserSessionRequest, res: express.Response) {
 }
 
 /**
- * @api {get} /users/current Usuario Actual
- * @apiName CurrentUser
+ * @api {get} /v1/users/current Usuario Actual
+ * @apiName Usuario Actual
  * @apiGroup Seguridad
  *
  * @apiDescription Obtiene información del usuario actual.
@@ -223,7 +223,7 @@ export function signOut(req: IUserSessionRequest, res: express.Response) {
  *        "name": "{Nombre del usuario}",
  *        "login": "{Login de usuario}",
  *        "permissions": [
- *            "{Rol}"
+ *            "{Permission}"
  *        ]
  *     }
  *
@@ -302,13 +302,13 @@ export function validateCambiarPassword(req: ICurrentUserRequest, res: express.R
 }
 
 /**
- * @api {post} /user/password Cambiar Password
- * @apiName ChangePassword
+ * @api {post} /v1/user/password Cambiar Password
+ * @apiName Cambiar Password
  * @apiGroup Seguridad
  *
  * @apiDescription Cambia la contraseña del usuario actual.
  *
- * @apiParamExample {json} Body
+ * @apiExample {json} Body
  *    {
  *      "currentPassword" : "{Contraseña actual}",
  *      "newPassword" : "{Nueva Contraseña}",
@@ -339,13 +339,13 @@ export function validateAdmin(req: ICurrentUserRequest, res: express.Response, n
 }
 
 /**
- * @api {post} /users/:userId/grant Otorga Permisos
- * @apiName Grant
+ * @api {post} /v1/users/:userId/grant Otorga Permisos
+ * @apiName Otorga Permisos
  * @apiGroup Seguridad
  *
  * @apiDescription Otorga permisos al usuario indicado, el usuario logueado tiene que tener permiso "admin".
  *
- * @apiParamExample {json} Body
+ * @apiExample {json} Body
  *    {
  *      "permissions" : ["{permiso}", ...],
  *    }
@@ -388,13 +388,13 @@ export function grantPermission(req: ICurrentUserRequest, res: express.Response)
 }
 
 /**
- * @api {post} /users/:userId/revoke Revoca Permisos
- * @apiName Revoke
+ * @api {post} /v1/users/:userId/revoke Revoca Permisos
+ * @apiName Revoca Permisos
  * @apiGroup Seguridad
  *
  * @apiDescription Quita permisos al usuario indicado, el usuario logueado tiene que tener permiso "admin".
  *
- * @apiParamExample {json} Body
+ * @apiExample {json} Body
  *    {
  *      "permissions" : ["{permiso}", ...],
  *    }
@@ -436,8 +436,8 @@ export function revokePermission(req: ICurrentUserRequest, res: express.Response
 }
 
 /**
- * @api {post} /users/:userId/enable Habilitar Usuario
- * @apiName Enable
+ * @api {post} /v1/users/:userId/enable Habilitar Usuario
+ * @apiName Habilitar Usuario
  * @apiGroup Seguridad
  *
  * @apiDescription Habilita un usuario en el sistema. El usuario logueado debe tener permisos "admin".
@@ -471,8 +471,8 @@ export function enableUser(req: ICurrentUserRequest, res: express.Response) {
 }
 
 /**
- * @api {post} /users/:userId/disable Deshabilitar Usuario
- * @apiName Disable
+ * @api {post} /v1/users/:userId/disable Deshabilitar Usuario
+ * @apiName Deshabilitar Usuario
  * @apiGroup Seguridad
  *
  * @apiDescription Deshabilita un usuario en el sistema.   El usuario logueado debe tener permisos "admin".

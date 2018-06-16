@@ -14,8 +14,8 @@ def getArticle(articleId):
     return dict<propiedad, valor> Articulo\n
     """
     """
-    @api {get} /articles/:articleId Buscar Artículo
-    @apiName GetArticle
+    @api {get} /v1/articles/:articleId Buscar Artículo
+    @apiName Buscar Artículo
     @apiGroup Articulos
 
     @apiSuccessExample {json} Respuesta
@@ -51,11 +51,13 @@ def addArticle(params):
     return dict<propiedad, valor> Articulo
     """
     """
-    @api {post} /articles/ Crear Artículo
-    @apiName AddArticle
+    @api {post} /v1/articles/ Crear Artículo
+    @apiName Crear Artículo
     @apiGroup Articulos
 
-    @apiParamExample {json} Body
+    @apiUse AuthHeader
+
+    @apiExample {json} Body
         {
             "name": "{nombre del articulo}",
             "description": "{descripción del articulo}",
@@ -92,11 +94,13 @@ def updateArticle(articleId, params):
     return dict<propiedad, valor> Articulo\n
     """
     """
-    @api {post} /articles/:articleId Actualizar Artículo
-    @apiName UpdateArticle
+    @api {post} /v1/articles/:articleId Actualizar Artículo
+    @apiName Actualizar Artículo
     @apiGroup Articulos
 
-    @apiParamExample {json} Body
+    @apiUse AuthHeader
+
+    @apiExample {json} Body
         {
             "name": "{nombre del articulo}",
             "description": "{descripción del articulo}",
@@ -135,8 +139,10 @@ def delArticle(articleId):
     Elimina un articulo : delArticle(articleId: string)
 
     @api {delete} /articles/:articleId Eliminar Artículo
-    @apiName DelArticle
+    @apiName Eliminar Artículo
     @apiGroup Articulos
+
+    @apiUse AuthHeader
 
     @apiSuccessExample {json} 200 Respuesta
         HTTP/1.1 200 OK

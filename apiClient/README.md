@@ -6,9 +6,7 @@ Con este cliente se pueden probar los diferentes microservicios.
 
 ### Node 8
 
-Seguir los pasos de instalación del sitio oficial
-
-<https://nodejs.org/en/>
+Seguir los pasos de instalación del sitio oficial [nodejs.org](https://nodejs.org/en/)
 
 ## Ejecución
 

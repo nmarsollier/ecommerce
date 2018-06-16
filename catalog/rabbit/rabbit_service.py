@@ -82,7 +82,7 @@ def listenAuth():
 
     @apiDescription Escucha de mensajes logout desde auth. Invalida sesiones en cache.
 
-    @apiParamExample {json} Mensaje
+    @apiExample {json} Mensaje
       {
         "type": "article-exist",
         "message" : "tokenId"
@@ -130,7 +130,7 @@ def listenCatalog():
 
     @apiDescription Escucha de mensajes article-exist desde cart. Valida articulos
 
-    @apiParamExample {json} Mensaje
+    @apiExample {json} Mensaje
       {
         "type": "article-exist",
         "exchange" : "{Exchange name to reply}"

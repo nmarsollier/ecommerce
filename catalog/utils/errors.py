@@ -3,20 +3,20 @@
 """
 @apiDefine Errors
 
-@apiSuccessExample {json} 400 Bad Request
+@apiErrorExample 400 Bad Request
     HTTP/1.1 400 Bad Request
     {
         "path" : "{Nombre de la propiedad}",
         "message" : "{Motivo del error}"
     }
 
-@apiSuccessExample {json} 400 Bad Request
+@apiErrorExample 400 Bad Request
     HTTP/1.1 400 Bad Request
     {
         "error" : "{Motivo del error}"
     }
 
-@apiSuccessExample {json} 500 Server Error
+@apiErrorExample 500 Server Error
     HTTP/1.1 500 Server Error
     {
         "error" : "{Motivo del error}"
