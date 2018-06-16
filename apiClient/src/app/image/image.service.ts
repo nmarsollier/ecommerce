@@ -33,7 +33,7 @@ export class ImageService extends RestBaseService {
     saveImage(value: Image): Promise<Image> {
         return this.http
             .post(
-                environment.imageServerUrl + 'image/',
+                environment.imageServerUrl + 'image',
                 JSON.stringify(value),
                 this.getRestHeader()
             )
