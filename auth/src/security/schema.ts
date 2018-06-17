@@ -1,6 +1,7 @@
 "use strict";
 
 import { Document, model, Schema } from "mongoose";
+import { ObjectID } from "bson";
 
 /*
 Son tokens de sesión se guardan en la base de datos.
@@ -8,7 +9,7 @@ Para deshabilitar un token hay que poner valida=false
 */
 export interface IToken extends Document {
   valid: boolean;
-  user: Schema.Types.ObjectId;
+  user: ObjectID;
 }
 
 export let TokenSchema = new Schema({

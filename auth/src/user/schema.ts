@@ -21,13 +21,6 @@ export interface IUser extends Document {
 }
 
 /**
- * Validación para tamaño de contraseña
- */
-const validateLocalStrategyPassword = function (password: string) {
-  return password && password.length > 6;
-};
-
-/**
  * Esquema de un usuario del sistema
  */
 export let UserSchema = new Schema({
@@ -70,8 +63,8 @@ export let UserSchema = new Schema({
   }
 }, { collection: "users" });
 
-UserSchema.path("password").validate(function (value: string) {
-  return validateLocalStrategyPassword(value);
+UserSchema.path("password").validate(function (password: string) {
+  return password && password.length > 6;
 }, "La contraseña debe ser mayor a 6 caracteres");
 
 /**
@@ -81,13 +74,12 @@ UserSchema.methods.hashPassword = function (password: string) {
   return pbkdf2Sync(password, conf.passwordSalt, 10000, 64, "SHA1").toString("base64");
 };
 
-
 /**
  * Le asigna permisos nuevos a un usuario
  */
 UserSchema.methods.grant = function (permissions: string[]) {
   permissions.forEach(p => {
-    if (this.permissions.indexOf(p) < 0) {
+    if ((typeof p === "string") && this.permissions.indexOf(p) < 0) {
       this.permissions.push(p);
     }
   });
@@ -98,9 +90,11 @@ UserSchema.methods.grant = function (permissions: string[]) {
  */
 UserSchema.methods.revoke = function (permissions: string[]) {
   permissions.forEach(p => {
-    const idx = this.permissions.indexOf(p);
-    if (idx) {
-      this.permissions.splice(idx, 1);
+    if (typeof p === "string") {
+      const idx = this.permissions.indexOf(p);
+      if (idx) {
+        this.permissions.splice(idx, 1);
+      }
     }
   });
 };

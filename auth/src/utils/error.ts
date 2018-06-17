@@ -2,32 +2,35 @@
 
 import * as express from "express";
 import { NextFunction } from "express-serve-static-core";
-import { Result } from "express-validator/check";
 
 export const ERROR_UNAUTHORIZED = 401;
 export const ERROR_NOT_FOUND = 404;
 export const ERROR_BAD_REQUEST = 400;
 export const ERROR_INTERNAL_ERROR = 500;
 
-export interface ValidationErrorItem {
+export class ValidationErrorItem {
   path: string;
   message: string;
 }
-export interface ValidationErrorMessage {
+export class ValidationErrorMessage {
+  code?: number;
   error?: string;
   messages?: ValidationErrorItem[];
 }
 
-export function sendArgumentError(res: express.Response, argument: string, err: string) {
-  res.setHeader("X-Status-Reason", "Validation failed");
-  res.status(ERROR_BAD_REQUEST);
-  return res.send({
+export function newArgumentError(argument: string, err: string): ValidationErrorMessage {
+  return {
     messages: [{
       path: argument,
       message: err
     }]
-  });
+  };
 }
+
+export function newError(code: number, err: string): ValidationErrorMessage {
+  return { code: code, error: err };
+}
+
 
 /**
  * @apiDefine ParamValidationErrors
@@ -65,36 +68,22 @@ export function sendArgumentError(res: express.Response, argument: string, err: 
  *     }
  *
  */
-export function handleError(res: express.Response, err: any): express.Response {
-  if (err.code) {   // Database Error
-    return res.send(processMongooseErrorCode(res, err));
-  } else if (err.errors) {  // ValidationError
-    return res.send(processValidationError(res, err));
+export function handle(res: express.Response, err: any): express.Response {
+  if (err instanceof ValidationErrorMessage) {
+    // ValidationErrorMessage
+    if (err.code) {
+      res.status(err.code);
+    }
+    return res.send({ error: err.error, messages: err.messages });
+  } else if (err.code) {
+    // Error de Mongo
+    return res.send(sendMongoose(res, err));
   } else {
-    return res.send(processUnknownError(res, err));
+    return res.send(sendUnknown(res, err));
   }
 }
 
-export function sendError(res: express.Response, code: number, err: string) {
-  res.status(code);
-  res.setHeader("X-Status-Reason", err);
-  return res.send({ error: err });
-}
-
-export function handleExpressValidationError(res: express.Response, err: Result): express.Response {
-  res.setHeader("X-Status-Reason", "Validation failed");
-  res.status(ERROR_BAD_REQUEST);
-  const messages: ValidationErrorItem[] = [];
-  for (const error of err.array({ onlyFirstError: true })) {
-    messages.push({
-      path: error.param,
-      message: error.msg
-    });
-  }
-  return res.send({ messages: messages });
-}
-
-// Controla errores
+// Loguea errores a la consola
 export function logErrors(err: any, req: express.Request, res: express.Response, next: NextFunction) {
   if (!err) return next();
 
@@ -117,14 +106,14 @@ export function handle404(req: express.Request, res: express.Response) {
 
 
 // Error desconocido
-function processUnknownError(res: express.Response, err: any): ValidationErrorMessage {
+function sendUnknown(res: express.Response, err: any): ValidationErrorMessage {
   res.status(ERROR_INTERNAL_ERROR);
   res.setHeader("X-Status-Reason", "Unknown error");
   return { error: err };
 }
 
 // Obtiene un error adecuando cuando hay errores de db
-function processMongooseErrorCode(res: express.Response, err: any): ValidationErrorMessage {
+function sendMongoose(res: express.Response, err: any): ValidationErrorMessage {
   res.status(ERROR_BAD_REQUEST);
 
   try {
@@ -153,20 +142,4 @@ function processMongooseErrorCode(res: express.Response, err: any): ValidationEr
     res.setHeader("X-Status-Reason", "Unknown database error");
     return { error: err };
   }
-}
-
-// Error de validación de datos
-function processValidationError(res: express.Response, err: any): ValidationErrorMessage {
-  res.setHeader("X-Status-Reason", "Validation failed");
-  res.status(ERROR_BAD_REQUEST);
-  const messages: ValidationErrorItem[] = [];
-  for (const key in err.errors) {
-    messages.push({
-      path: key,
-      message: err.errors[key].message
-    });
-  }
-  return {
-    messages: messages
-  };
 }

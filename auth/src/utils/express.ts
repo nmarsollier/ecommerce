@@ -4,21 +4,17 @@ import * as bodyParser from "body-parser";
 import * as compression from "compression";
 import * as cors from "cors";
 import * as express from "express";
-import * as expressValidator from "express-validator";
 import * as helmet from "helmet";
 import * as morgan from "morgan";
 import * as passport from "passport";
 import * as path from "path";
 // Módulos de la aplicación
-import * as securityModule from "../security/module";
-import * as passportConf from "../security/passport.service";
+import * as routes from "../routes/routes";
+import * as passportConf from "../security/passport";
 import * as error from "../utils/error";
 import { Config } from "./environment";
 
-
-
 export function init(appConfig: Config): express.Express {
-  // Notas de configuración de express http://expressjs.com/es/guide/using-middleware.html#middleware.application
   const app = express();
   app.set("port", appConfig.port);
 
@@ -45,9 +41,6 @@ export function init(appConfig: Config): express.Express {
   app.use(passport.initialize());
   app.use(passport.session());
 
-  // Permite hacer validaciones de parámetros req.assert
-  app.use(expressValidator());
-
   // helmet le da seguridad al sistema para prevenir hacks
   app.use(helmet.xssFilter());  // Previene inyección de javascript
   app.use(helmet.noSniff());
@@ -66,7 +59,7 @@ export function init(appConfig: Config): express.Express {
 
   // Iniciamos las rutas del directorio
   // mas sobre rutas http://expressjs.com/es/guide/routing.html
-  securityModule.init(app);
+  routes.init(app);
 
   // Para el manejo de errores, para que los loguee en la consola
   app.use(error.logErrors);

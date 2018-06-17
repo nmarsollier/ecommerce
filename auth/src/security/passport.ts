@@ -5,10 +5,12 @@ import * as nodeCache from "node-cache";
 import * as passport from "passport";
 import { ExtractJwt, Strategy } from "passport-jwt";
 import * as appConfig from "../utils/environment";
-import { IUserSession } from "./security.service";
-import { IToken, Token } from "./token.schema";
-import { IUser } from "./user.schema";
+import { IToken, Token } from "./schema";
 
+export interface Payload {
+    token_id: string;
+    user_id: string;
+}
 
 // Este cache de sesiones en memoria va a evitar que tenga que ir a la base de datos
 // para verificar que la sesión sea valida. 1 hora de cache en memoria. Luego se vuelve a leer de la db
@@ -38,7 +40,7 @@ export function init() {
 
     A esta altura el token fue desencriptado correctamente, pero hay que validar el contenido.
     */
-    passport.use(new Strategy(params, function (payload: IUserSession, done) {
+    passport.use(new Strategy(params, function (payload: Payload, done) {
         /*
         La estrategia es tener un listado de Token validos en la db y validar contra eso.
         Podemos invalidar un token desde la db, usando Token.valid.
@@ -68,17 +70,17 @@ export function init() {
 /**
  * Invalida la sesión en passport. Básicamente limpia el cache
  */
-export function invalidateSessionToken(token: IUserSession) {
+export function invalidateSessionToken(token: Payload) {
     sessionCache.del(token.token_id);
 }
 
 /**
  * Crea un token lo pone en el cache, lo encripta y lo devuelve.
  */
-export function createToken(user: IUser, sessionToken: IToken): string {
-    const payload: IUserSession = { user_id: user.id, token_id: sessionToken.id };
+export function createSessionToken(userId: string, sessionToken: IToken): string {
+    const payload: Payload = { user_id: userId, token_id: sessionToken.id };
     const token = jwt.sign(payload, conf.jwtSecret);
-    sessionCache.set(sessionToken.id, user.id);
+    sessionCache.set(sessionToken.id, userId);
 
     return token;
 }
