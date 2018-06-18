@@ -92,7 +92,7 @@ def listenAuth():
 
     try:
         connection = pika.BlockingConnection(
-            pika.ConnectionParameters(host=config.getRabbitServerUrl()))
+            pika.ConnectionParameters(host=config.get_rabbit_server_url()))
         channel = connection.channel()
 
         channel.exchange_declare(exchange=EXCHANGE, exchange_type='fanout')
@@ -146,7 +146,7 @@ def listenCatalog():
 
     try:
         connection = pika.BlockingConnection(
-            pika.ConnectionParameters(host=config.getRabbitServerUrl()))
+            pika.ConnectionParameters(host=config.get_rabbit_server_url()))
         channel = connection.channel()
 
         channel.exchange_declare(exchange=EXCHANGE, exchange_type='direct')
@@ -212,7 +212,7 @@ def sendArticleValidToCart(exchange, queue, cartId, articleId, valid):
         }
       }
     """
-    connection = pika.BlockingConnection(pika.ConnectionParameters(host=config.getRabbitServerUrl()))
+    connection = pika.BlockingConnection(pika.ConnectionParameters(host=config.get_rabbit_server_url()))
     channel = connection.channel()
 
     channel.exchange_declare(exchange=exchange, exchange_type='direct')

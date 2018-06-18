@@ -34,8 +34,10 @@ def isValidToken(authKey):
 
     headers = {"Authorization".encode("utf-8"): authKey.encode("utf-8")}
 
-    conn = http.client.HTTPConnection(socket.gethostbyname(
-        config.getSecurityServerUrl()), config.getSecurityServerPort())
+    conn = http.client.HTTPConnection(
+        socket.gethostbyname(config.get_security_server_url()),
+        config.get_security_server_port(),
+    )
 
     conn.request("GET", "/v1/users/current", {}, headers)
     response = conn.getresponse()
