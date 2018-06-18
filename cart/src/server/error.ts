@@ -37,7 +37,6 @@ export function newError(code: number, err: string): ValidationErrorMessage {
  *
  * @apiErrorExample 400 Bad Request
  *     HTTP/1.1 400 Bad Request
- *     HTTP/1.1 Header X-Status-Reason: {Message}
  *     {
  *        "messages" : [
  *          {
@@ -52,17 +51,8 @@ export function newError(code: number, err: string): ValidationErrorMessage {
 /**
  * @apiDefine OtherErrors
  *
- * @apiErrorExample 404 Not Found
- *     HTTP/1.1 404 Not Found
- *     HTTP/1.1 Header X-Status-Reason: {Message}
- *     {
- *        "url" : "{Url no encontrada}",
- *        "error" : "Not Found"
- *     }
- *
  * @apiErrorExample 500 Server Error
  *     HTTP/1.1 500 Internal Server Error
- *     HTTP/1.1 Header X-Status-Reason: {Message}
  *     {
  *        "error" : "Not Found"
  *     }
@@ -108,7 +98,6 @@ export function handle404(req: express.Request, res: express.Response) {
 // Error desconocido
 function sendUnknown(res: express.Response, err: any): ValidationErrorMessage {
   res.status(ERROR_INTERNAL_ERROR);
-  res.setHeader("X-Status-Reason", "Unknown error");
   return { error: err };
 }
 
@@ -120,8 +109,6 @@ function sendMongoose(res: express.Response, err: any): ValidationErrorMessage {
     switch (err.code) {
       case 11000:
       case 11001:
-        res.setHeader("X-Status-Reason", "Unique constraint");
-
         const fieldName = err.errmsg.substring(
           err.errmsg.lastIndexOf("index:") + 7,
           err.errmsg.lastIndexOf("_1")
@@ -134,12 +121,10 @@ function sendMongoose(res: express.Response, err: any): ValidationErrorMessage {
         };
       default:
         res.status(ERROR_BAD_REQUEST);
-        res.setHeader("X-Status-Reason", "Unknown database error code:" + err.code);
         return { error: err };
     }
   } catch (ex) {
     res.status(ERROR_INTERNAL_ERROR);
-    res.setHeader("X-Status-Reason", "Unknown database error");
     return { error: err };
   }
 }

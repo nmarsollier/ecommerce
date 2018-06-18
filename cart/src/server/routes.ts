@@ -25,7 +25,7 @@ interface IUserSessionRequest extends express.Request {
   user: token.ISession;
 }
 
-function validateToken(req: express.Request, res: express.Response, next: NextFunction) {
+function validateToken(req: IUserSessionRequest, res: express.Response, next: NextFunction) {
   const auth = req.header("Authorization");
   if (!auth) {
     return error.handle(res, error.newError(error.ERROR_UNAUTHORIZED, "Unauthorized"));

@@ -1,9 +1,9 @@
 "use strict";
 
 import * as rabbit from "./rabbit/rabbit.service";
-import * as env from "./utils/environment";
-import { Config } from "./utils/environment";
-import * as express from "./utils/express";
+import * as env from "./server/environment";
+import { Config } from "./server/environment";
+import * as express from "./server/express";
 
 
 // Variables de entorno

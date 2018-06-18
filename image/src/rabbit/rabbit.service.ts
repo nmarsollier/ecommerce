@@ -1,8 +1,8 @@
 "use strict";
 
 import amqp = require("amqplib");
-import * as env from "../utils/environment";
-import * as security from "../utils/security";
+import * as env from "../server/environment";
+import * as token from "../security/token";
 
 const conf = env.getConfig(process.env);
 
@@ -49,7 +49,7 @@ export async function init() {
                 switch (rabbitMessage.type) {
                     case "logout":
                         console.log("RabbitMQ logout " + rabbitMessage.message);
-                        security.invalidateSessionToken(rabbitMessage.message);
+                        token.invalidate(rabbitMessage.message);
                 }
             }, { noAck: true });
     } catch (err) {

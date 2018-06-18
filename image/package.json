@@ -25,7 +25,6 @@
         "dotenv": "5.0.1",
         "typed-rest-client": "1.0.7",
         "express": "4.16.3",
-        "express-validator": "5.2.0",
         "escape-html": "1.0.3",
         "uuid": "3.2.1",
         "ioredis": "3.2.2",

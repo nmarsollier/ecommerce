@@ -90,7 +90,6 @@ HTTP/1.1 401 Unauthorized
 
 ```
 HTTP/1.1 400 Bad Request
-HTTP/1.1 Header X-Status-Reason: {Message}
 {
    "messages" : [
      {
@@ -101,21 +100,10 @@ HTTP/1.1 Header X-Status-Reason: {Message}
   ]
 }
 ```
-404 Not Found
-
-```
-HTTP/1.1 404 Not Found
-HTTP/1.1 Header X-Status-Reason: {Message}
-{
-   "url" : "{Url no encontrada}",
-   "error" : "Not Found"
-}
-```
 500 Server Error
 
 ```
 HTTP/1.1 500 Internal Server Error
-HTTP/1.1 Header X-Status-Reason: {Message}
 {
    "error" : "Not Found"
 }
@@ -157,7 +145,6 @@ HTTP/1.1 401 Unauthorized
 
 ```
 HTTP/1.1 400 Bad Request
-HTTP/1.1 Header X-Status-Reason: {Message}
 {
    "messages" : [
      {
@@ -168,21 +155,10 @@ HTTP/1.1 Header X-Status-Reason: {Message}
   ]
 }
 ```
-404 Not Found
-
-```
-HTTP/1.1 404 Not Found
-HTTP/1.1 Header X-Status-Reason: {Message}
-{
-   "url" : "{Url no encontrada}",
-   "error" : "Not Found"
-}
-```
 500 Server Error
 
 ```
 HTTP/1.1 500 Internal Server Error
-HTTP/1.1 Header X-Status-Reason: {Message}
 {
    "error" : "Not Found"
 }
@@ -224,7 +200,6 @@ HTTP/1.1 401 Unauthorized
 
 ```
 HTTP/1.1 400 Bad Request
-HTTP/1.1 Header X-Status-Reason: {Message}
 {
    "messages" : [
      {
@@ -235,21 +210,10 @@ HTTP/1.1 Header X-Status-Reason: {Message}
   ]
 }
 ```
-404 Not Found
-
-```
-HTTP/1.1 404 Not Found
-HTTP/1.1 Header X-Status-Reason: {Message}
-{
-   "url" : "{Url no encontrada}",
-   "error" : "Not Found"
-}
-```
 500 Server Error
 
 ```
 HTTP/1.1 500 Internal Server Error
-HTTP/1.1 Header X-Status-Reason: {Message}
 {
    "error" : "Not Found"
 }
@@ -292,7 +256,6 @@ HTTP/1.1 200 OK
 
 ```
 HTTP/1.1 400 Bad Request
-HTTP/1.1 Header X-Status-Reason: {Message}
 {
    "messages" : [
      {
@@ -303,21 +266,10 @@ HTTP/1.1 Header X-Status-Reason: {Message}
   ]
 }
 ```
-404 Not Found
-
-```
-HTTP/1.1 404 Not Found
-HTTP/1.1 Header X-Status-Reason: {Message}
-{
-   "url" : "{Url no encontrada}",
-   "error" : "Not Found"
-}
-```
 500 Server Error
 
 ```
 HTTP/1.1 500 Internal Server Error
-HTTP/1.1 Header X-Status-Reason: {Message}
 {
    "error" : "Not Found"
 }
@@ -355,21 +307,10 @@ HTTP/1.1 200 OK
 ```
 HTTP/1.1 401 Unauthorized
 ```
-404 Not Found
-
-```
-HTTP/1.1 404 Not Found
-HTTP/1.1 Header X-Status-Reason: {Message}
-{
-   "url" : "{Url no encontrada}",
-   "error" : "Not Found"
-}
-```
 500 Server Error
 
 ```
 HTTP/1.1 500 Internal Server Error
-HTTP/1.1 Header X-Status-Reason: {Message}
 {
    "error" : "Not Found"
 }
@@ -418,7 +359,6 @@ HTTP/1.1 401 Unauthorized
 
 ```
 HTTP/1.1 400 Bad Request
-HTTP/1.1 Header X-Status-Reason: {Message}
 {
    "messages" : [
      {
@@ -429,21 +369,10 @@ HTTP/1.1 Header X-Status-Reason: {Message}
   ]
 }
 ```
-404 Not Found
-
-```
-HTTP/1.1 404 Not Found
-HTTP/1.1 Header X-Status-Reason: {Message}
-{
-   "url" : "{Url no encontrada}",
-   "error" : "Not Found"
-}
-```
 500 Server Error
 
 ```
 HTTP/1.1 500 Internal Server Error
-HTTP/1.1 Header X-Status-Reason: {Message}
 {
    "error" : "Not Found"
 }
@@ -487,7 +416,6 @@ HTTP/1.1 200 OK
 
 ```
 HTTP/1.1 400 Bad Request
-HTTP/1.1 Header X-Status-Reason: {Message}
 {
    "messages" : [
      {
@@ -498,21 +426,10 @@ HTTP/1.1 Header X-Status-Reason: {Message}
   ]
 }
 ```
-404 Not Found
-
-```
-HTTP/1.1 404 Not Found
-HTTP/1.1 Header X-Status-Reason: {Message}
-{
-   "url" : "{Url no encontrada}",
-   "error" : "Not Found"
-}
-```
 500 Server Error
 
 ```
 HTTP/1.1 500 Internal Server Error
-HTTP/1.1 Header X-Status-Reason: {Message}
 {
    "error" : "Not Found"
 }
@@ -561,7 +478,6 @@ HTTP/1.1 401 Unauthorized
 
 ```
 HTTP/1.1 400 Bad Request
-HTTP/1.1 Header X-Status-Reason: {Message}
 {
    "messages" : [
      {
@@ -572,21 +488,10 @@ HTTP/1.1 Header X-Status-Reason: {Message}
   ]
 }
 ```
-404 Not Found
-
-```
-HTTP/1.1 404 Not Found
-HTTP/1.1 Header X-Status-Reason: {Message}
-{
-   "url" : "{Url no encontrada}",
-   "error" : "Not Found"
-}
-```
 500 Server Error
 
 ```
 HTTP/1.1 500 Internal Server Error
-HTTP/1.1 Header X-Status-Reason: {Message}
 {
    "error" : "Not Found"
 }
@@ -632,21 +537,10 @@ HTTP/1.1 200 OK
 ```
 HTTP/1.1 401 Unauthorized
 ```
-404 Not Found
-
-```
-HTTP/1.1 404 Not Found
-HTTP/1.1 Header X-Status-Reason: {Message}
-{
-   "url" : "{Url no encontrada}",
-   "error" : "Not Found"
-}
-```
 500 Server Error
 
 ```
 HTTP/1.1 500 Internal Server Error
-HTTP/1.1 Header X-Status-Reason: {Message}
 {
    "error" : "Not Found"
 }
