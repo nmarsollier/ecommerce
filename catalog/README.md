@@ -82,7 +82,7 @@ pip install -U -r requirements.txt
 Ahora deberíamos ser capaces de ejecutar el proyecto
 
 ```bash
-python main.py
+python run.py
 ```
 
 
