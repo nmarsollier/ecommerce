@@ -1,6 +1,6 @@
 "use strict";
 
-import * as rabbit from "./rabbit/rabbit.service";
+import * as rabbit from "./rabbit/rabbit";
 import * as env from "./server/environment";
 import { Config } from "./server/environment";
 import * as express from "./server/express";

@@ -12,6 +12,7 @@ export class ValidationErrorItem {
   path: string;
   message: string;
 }
+
 export class ValidationErrorMessage {
   code?: number;
   error?: string;

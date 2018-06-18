@@ -5,20 +5,6 @@ import * as appConfig from "./environment";
 const conf = appConfig.getConfig(process.env);
 let redisClient: redis.Redis;
 
-function getClient() {
-    if (!redisClient) {
-        redisClient = new redis(conf.redisPort, conf.redisHost);
-        redisClient.on("connect", function () {
-            console.log("Redis conectado");
-        });
-        redisClient.on("end", function () {
-            redisClient = undefined;
-            console.error("Redis desconectado");
-        });
-    }
-    return redisClient;
-}
-
 export function getRedisDocument(id: string): Promise<string> {
     return new Promise((resolve, reject) => {
         getClient().get(escape(id), function (err, reply) {
@@ -39,4 +25,18 @@ export function setRedisDocument(id: string, image: string): Promise<string> {
             resolve(id);
         });
     });
+}
+
+function getClient() {
+    if (!redisClient) {
+        redisClient = new redis(conf.redisPort, conf.redisHost);
+        redisClient.on("connect", function () {
+            console.log("Redis conectado");
+        });
+        redisClient.on("end", function () {
+            redisClient = undefined;
+            console.error("Redis desconectado");
+        });
+    }
+    return redisClient;
 }

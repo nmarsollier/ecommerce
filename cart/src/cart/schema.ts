@@ -1,7 +1,7 @@
 "use strict";
 
 import { Document, model, Schema } from "mongoose";
-import * as rabbit from "../rabbit/rabbit.post.service";
+import * as rabbit from "../rabbit/post";
 import * as env from "../server/environment";
 
 const conf = env.getConfig(process.env);

@@ -1,7 +1,6 @@
-import * as passport from "./passport";
-
 "use strict";
 
+import * as passport from "./passport";
 
 export { create, invalidate } from "./token";
 

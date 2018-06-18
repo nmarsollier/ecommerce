@@ -4,8 +4,8 @@
  *  Servicios de escucha de eventos rabbit
  */
 import amqp = require("amqplib");
-import * as cartService from "../cart/cart.validation.service";
-import * as token from "../security/token";
+import * as cartService from "../cart/validation";
+import * as token from "../token";
 import * as env from "../server/environment";
 
 const conf = env.getConfig(process.env);

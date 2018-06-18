@@ -2,7 +2,7 @@
 
 import * as async from "async";
 import { RestClient } from "typed-rest-client/RestClient";
-import * as rabbit from "../rabbit/rabbit.post.service";
+import * as rabbit from "../rabbit/post";
 import * as env from "../server/environment";
 import * as error from "../server/error";
 import { Cart, ICart, ICartArticle } from "./schema";

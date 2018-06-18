@@ -33,7 +33,6 @@ interface IRabbitCallbackMessage {
  *             "articleId": "{articleId}"
  *        }
  *     }
- *
  */
 /**
  * Enviá una petición a catalog para validar si un articulo puede incluirse en el cart.

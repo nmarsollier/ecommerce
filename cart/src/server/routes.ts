@@ -1,8 +1,8 @@
 "use strict";
 
 import { Express } from "express";
-import * as token from "../security/token";
-import * as cart from "../cart/cart.service";
+import * as token from "../token";
+import * as cart from "../cart";
 import * as error from "./error";
 import * as express from "express";
 import { NextFunction } from "connect";
@@ -18,13 +18,21 @@ export function init(app: Express) {
   app.route("/v1/cart/article/:articleId/decrement").post(validateToken, decrementArticle);
   app.route("/v1/cart/validate").get(validateToken, validateCheckout);
   app.route("/v1/cart/checkout").post(validateToken, postOrder);
-
 }
 
 interface IUserSessionRequest extends express.Request {
   user: token.ISession;
 }
 
+/**
+ * @apiDefine AuthHeader
+ *
+ * @apiExample {String} Header Autorización
+ *    Authorization=bearer {token}
+ *
+ * @apiErrorExample 401 Unauthorized
+ *    HTTP/1.1 401 Unauthorized
+ */
 function validateToken(req: IUserSessionRequest, res: express.Response, next: NextFunction) {
   const auth = req.header("Authorization");
   if (!auth) {

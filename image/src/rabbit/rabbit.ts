@@ -1,7 +1,7 @@
 "use strict";
 
 import amqp = require("amqplib");
-import * as token from "../security/token";
+import * as token from "../token";
 import * as env from "../server/environment";
 
 const conf = env.getConfig(process.env);

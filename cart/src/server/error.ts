@@ -31,7 +31,6 @@ export function newError(code: number, err: string): ValidationErrorMessage {
   return { code: code, error: err };
 }
 
-
 /**
  * @apiDefine ParamValidationErrors
  *

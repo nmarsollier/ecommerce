@@ -3,9 +3,8 @@
 import { NextFunction } from "connect";
 import * as express from "express";
 import { Express } from "express";
-import * as createService from "../image/create.service";
-import * as getService from "../image/get.service";
-import * as token from "../security/token";
+import * as image from "../image";
+import * as token from "../token";
 import * as error from "./error";
 
 export function init(app: Express) {
@@ -20,6 +19,15 @@ interface IUserSessionRequest extends express.Request {
   user: token.ISession;
 }
 
+/**
+ * @apiDefine AuthHeader
+ *
+ * @apiExample {String} Header Autorización
+ *    Authorization=bearer {token}
+ *
+ * @apiErrorExample 401 Unauthorized
+ *    HTTP/1.1 401 Unauthorized
+ */
 function validateToken(req: IUserSessionRequest, res: express.Response, next: NextFunction) {
   const auth = req.header("Authorization");
   if (!auth) {
@@ -33,7 +41,6 @@ function validateToken(req: IUserSessionRequest, res: express.Response, next: Ne
     })
     .catch(err => error.handle(res, err));
 }
-
 
 /**
  * @api {post} /v1/image Crear Imagen
@@ -57,8 +64,8 @@ function validateToken(req: IUserSessionRequest, res: express.Response, next: Ne
  * @apiUse ParamValidationErrors
  * @apiUse OtherErrors
  */
-export async function create(req: IUserSessionRequest, res: express.Response, next: NextFunction) {
-  createService.create(req.body)
+function create(req: IUserSessionRequest, res: express.Response, next: NextFunction) {
+  image.create(req.body)
     .then(id => res.json({ id: id }))
     .catch(err => error.handle(res, err));
 }
@@ -79,11 +86,11 @@ export async function create(req: IUserSessionRequest, res: express.Response, ne
  * @apiUse ParamValidationErrors
  * @apiUse OtherErrors
  */
-export function findJpegById(req: express.Request, res: express.Response) {
+function findJpegById(req: express.Request, res: express.Response) {
   const id = escape(req.params.imageId);
   const sizeHeader = req.header("Size") || req.query.Size;
-  getService
-    .findById(id, sizeHeader).then(image => {
+  image.findById(id, sizeHeader)
+    .then(image => {
       const data = image.image.substring(image.image.indexOf(",") + 1);
       const buff = new Buffer(data, "base64");
       res.type("image/jpeg");
@@ -111,10 +118,10 @@ export function findJpegById(req: express.Request, res: express.Response) {
  * @apiUse ParamValidationErrors
  * @apiUse OtherErrors
  */
-export function findById(req: express.Request, res: express.Response) {
+function findById(req: express.Request, res: express.Response) {
   const id = escape(req.params.imageId);
   const sizeHeader = req.header("Size") || req.query.Size;
-  getService
-    .findById(id, sizeHeader).then(image => res.json(image))
+  image.findById(id, sizeHeader)
+    .then(image => res.json(image))
     .catch(err => error.handle(res, err));
 }

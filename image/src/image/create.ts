@@ -5,11 +5,26 @@ import * as error from "../server/error";
 import * as redis from "../server/redis";
 import { IImage } from "./schema";
 
-
 interface ImageRequest {
   image: string;
 }
 
+export async function create(body: ImageRequest): Promise<string> {
+  return new Promise<string>((resolve, reject) => {
+    validateCreate(body)
+      .then(body => {
+        const image: IImage = {
+          id: uuid(),
+          image: body.image
+        };
+
+        redis.setRedisDocument(image.id, image.image)
+          .then(id => resolve(id))
+          .catch(err => reject(err));
+      })
+      .catch(err => reject(err));
+  });
+}
 
 function validateCreate(body: ImageRequest): Promise<ImageRequest> {
   const result: error.ValidationErrorMessage = {
@@ -28,21 +43,4 @@ function validateCreate(body: ImageRequest): Promise<ImageRequest> {
     return Promise.reject(result);
   }
   return Promise.resolve(body);
-}
-
-export async function create(body: ImageRequest): Promise<string> {
-  return new Promise<string>((resolve, reject) => {
-    validateCreate(body)
-      .then(body => {
-        const image: IImage = {
-          id: uuid(),
-          image: body.image
-        };
-
-        redis.setRedisDocument(image.id, image.image)
-          .then(id => resolve(id))
-          .catch(err => reject(err));
-      })
-      .catch(err => reject(err));
-  });
 }

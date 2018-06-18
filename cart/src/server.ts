@@ -2,7 +2,7 @@
 
 import { MongoError } from "mongodb";
 import * as mongoose from "mongoose";
-import * as rabbit from "./rabbit/rabbit.get.service";
+import * as rabbit from "./rabbit/listen";
 import * as env from "./server/environment";
 import { Config } from "./server/environment";
 import * as express from "./server/express";
