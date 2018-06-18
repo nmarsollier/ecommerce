@@ -1,7 +1,7 @@
 "use strict";
 
 import * as mongoose from "mongoose";
-import * as error from "../utils/error";
+import * as error from "../server/error";
 import * as passport from "./passport";
 import { IToken, Token } from "./schema";
 

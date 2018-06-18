@@ -2,7 +2,7 @@
 
 import { Document, model, Schema } from "mongoose";
 import * as rabbit from "../rabbit/rabbit.post.service";
-import * as env from "../utils/environment";
+import * as env from "../server/environment";
 
 const conf = env.getConfig(process.env);
 
@@ -28,7 +28,7 @@ export interface ICart extends Document {
 /**
  * Esquema del cart
  */
-export let CartSchema = new Schema({
+const CartSchema = new Schema({
   userId: {
     type: String,
     trim: true,
@@ -91,11 +91,11 @@ CartSchema.methods.addArticle = function (article: ICartArticle) {
 /**
  * Elimina un articulo del carrito
  */
-CartSchema.methods.removeArticle = function (article: ICartArticle) {
+CartSchema.methods.removeArticle = function (articleId: string) {
   for (let _i = 0; _i < this.articles.length; _i++) {
     const element: ICartArticle = this.articles[_i];
 
-    if (element.articleId === article.articleId) {
+    if (element.articleId === articleId) {
       this.articles.splice(_i, 1);
       return;
     }
@@ -103,7 +103,7 @@ CartSchema.methods.removeArticle = function (article: ICartArticle) {
 };
 
 /**
- * Decrementa o Elimina un articulo del carrito
+ * Decremento o Elimina un articulo del carrito
  */
 CartSchema.methods.decrementArticle = function (article: ICartArticle) {
   for (let _i = 0; _i < this.articles.length; _i++) {

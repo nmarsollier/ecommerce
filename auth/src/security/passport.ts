@@ -4,7 +4,7 @@ import * as jwt from "jsonwebtoken";
 import * as nodeCache from "node-cache";
 import * as passport from "passport";
 import { ExtractJwt, Strategy } from "passport-jwt";
-import * as appConfig from "../utils/environment";
+import * as appConfig from "../server/environment";
 import { IToken, Token } from "./schema";
 
 export interface Payload {

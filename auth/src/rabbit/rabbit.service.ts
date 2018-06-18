@@ -1,7 +1,7 @@
 "use strict";
 
 import amqp = require("amqplib");
-import * as env from "../utils/environment";
+import * as env from "../server/environment";
 const conf = env.getConfig(process.env);
 
 export interface IRabbitMessage {

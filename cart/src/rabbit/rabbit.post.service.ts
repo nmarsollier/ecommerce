@@ -5,12 +5,12 @@
  */
 import amqp = require("amqplib");
 
-import * as env from "../utils/environment";
+import * as env from "../server/environment";
 const conf = env.getConfig(process.env);
 
 let channel: amqp.Channel;
 
-export interface IRabbitCallbackMessage {
+interface IRabbitCallbackMessage {
     type: string;
     message: any;
     exchange: string;

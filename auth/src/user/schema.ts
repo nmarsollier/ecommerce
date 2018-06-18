@@ -2,7 +2,7 @@
 
 import { pbkdf2Sync } from "crypto";
 import { Document, model, Schema } from "mongoose";
-import * as env from "../utils/environment";
+import * as env from "../server/environment";
 
 const conf = env.getConfig(process.env);
 

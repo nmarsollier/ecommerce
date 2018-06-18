@@ -25,7 +25,6 @@
         "connect-mongo": "2.0.1",
         "dotenv": "5.0.1",
         "express": "4.16.3",
-        "express-validator": "5.2.0",
         "typed-rest-client": "1.0.7",
         "escape-html": "1.0.3",
         "mongoose": "5.1.2",

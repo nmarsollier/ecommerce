@@ -4,18 +4,18 @@
  *  Servicios de escucha de eventos rabbit
  */
 import amqp = require("amqplib");
-import * as cartService from "../cart/cart.internal.service";
-import * as env from "../utils/environment";
-import * as security from "../utils/security";
+import * as cartService from "../cart/cart.validation.service";
+import * as env from "../server/environment";
+import * as token from "../security/token";
 
 const conf = env.getConfig(process.env);
 
-export interface IRabbitMessage {
+interface IRabbitMessage {
     type: string;
     message: any;
 }
 
-export interface IArticleExistMessage {
+interface IArticleExistMessage {
     type: string;
     cartId: string;
     articleId: string;
@@ -68,7 +68,7 @@ async function initAuth() {
                 switch (rabbitMessage.type) {
                     case "logout":
                         console.log("RabbitMQ Auth logout " + rabbitMessage.message);
-                        security.invalidateSessionToken(rabbitMessage.message);
+                        token.invalidate(rabbitMessage.message);
                 }
             }, { noAck: true });
 
@@ -99,7 +99,7 @@ async function initAuth() {
 /**
  * Escucha eventos específicos de cart.
  *
- * article-exist : Es un evento que lo enviá Catalog indicando que un articulo existe y es valido para el cart.
+ * article-exist : Es un evento que lo envía Catalog indicando que un articulo existe y es valido para el cart.
  */
 async function initCart() {
     try {
