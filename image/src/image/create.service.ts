@@ -1,11 +1,9 @@
 "use strict";
 
-import * as express from "express";
-import { NextFunction } from "express-serve-static-core";
 import * as uuid from "uuid/v1";
 import * as error from "../server/error";
 import * as redis from "../server/redis";
-import { IImage } from "./types";
+import { IImage } from "./schema";
 
 
 interface ImageRequest {

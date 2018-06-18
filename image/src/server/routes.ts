@@ -1,11 +1,11 @@
 "use strict";
 
+import { NextFunction } from "connect";
+import * as express from "express";
 import { Express } from "express";
-import * as token from "../security/token";
 import * as createService from "../image/create.service";
 import * as getService from "../image/get.service";
-import * as express from "express";
-import { NextFunction } from "connect";
+import * as token from "../security/token";
 import * as error from "./error";
 
 export function init(app: Express) {

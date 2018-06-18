@@ -5,8 +5,8 @@
  */
 import amqp = require("amqplib");
 import * as cartService from "../cart/cart.validation.service";
-import * as env from "../server/environment";
 import * as token from "../security/token";
+import * as env from "../server/environment";
 
 const conf = env.getConfig(process.env);
 

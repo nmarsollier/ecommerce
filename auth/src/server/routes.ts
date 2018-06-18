@@ -5,8 +5,8 @@ import * as passport from "passport";
 import * as rabbit from "../rabbit/rabbit.service";
 import { Payload } from "../security/passport";
 import * as token from "../security/token.service";
-import * as user from "../user/user.service";
 import * as error from "../server/error";
+import * as user from "../user/user.service";
 
 /**
  * Modulo de seguridad, login/logout, cambio de contraseñas, etc

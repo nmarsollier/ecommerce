@@ -1,12 +1,10 @@
 "use strict";
 
 import * as escape from "escape-html";
-import * as express from "express";
-import { NextFunction } from "express-serve-static-core";
 import * as jimp from "jimp";
 import * as error from "../server/error";
 import * as redis from "../server/redis";
-import { IImage } from "./types";
+import { IImage } from "./schema";
 
 export async function findById(id: string, sizeHeader: string): Promise<IImage> {
   // Buscamos la imagen de acuerdo a lo solicitado en el header, si no se encuentra y se

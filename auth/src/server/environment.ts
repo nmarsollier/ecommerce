@@ -1,8 +1,6 @@
 "use strict";
 
 import * as dotenv from "dotenv";
-
-
 let config: Config;
 
 /*

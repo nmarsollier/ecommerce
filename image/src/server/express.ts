@@ -7,12 +7,9 @@ import * as express from "express";
 import * as helmet from "helmet";
 import * as morgan from "morgan";
 import * as path from "path";
-import * as routes from "./routes";
-// Módulos de la aplicación
-import * as error from "./error";
 import { Config } from "./environment";
-
-
+import * as error from "./error";
+import * as routes from "./routes";
 
 export function init(appConfig: Config): express.Express {
   // Notas de configuración de express http://expressjs.com/es/guide/using-middleware.html#middleware.application

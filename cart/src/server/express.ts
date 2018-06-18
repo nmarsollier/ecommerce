@@ -7,9 +7,8 @@ import * as express from "express";
 import * as helmet from "helmet";
 import * as morgan from "morgan";
 import * as path from "path";
-import * as routes from "../server/routes";
-// Módulos de la aplicación
 import * as error from "../server/error";
+import * as routes from "../server/routes";
 import { Config } from "./environment";
 
 export function init(appConfig: Config): express.Express {

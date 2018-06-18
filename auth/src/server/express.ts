@@ -8,11 +8,10 @@ import * as helmet from "helmet";
 import * as morgan from "morgan";
 import * as passport from "passport";
 import * as path from "path";
-// Módulos de la aplicación
-import * as routes from "./routes";
 import * as passportConf from "../security/passport";
 import * as error from "../server/error";
 import { Config } from "./environment";
+import * as routes from "./routes";
 
 export function init(appConfig: Config): express.Express {
   const app = express();

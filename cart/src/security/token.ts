@@ -5,7 +5,6 @@ import { RestClient } from "typed-rest-client/RestClient";
 import * as env from "../server/environment";
 import * as error from "../server/error";
 
-
 // Este cache de sesiones en memoria va a evitar que tenga que ir a la base de datos
 // para verificar que la sesión sea valida. 1 hora de cache en memoria. Luego se vuelve a leer de la db
 const sessionCache = new nodeCache({ stdTTL: 3600, checkperiod: 60 });
