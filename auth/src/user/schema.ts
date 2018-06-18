@@ -23,7 +23,7 @@ export interface IUser extends Document {
 /**
  * Esquema de un usuario del sistema
  */
-export let UserSchema = new Schema({
+const UserSchema = new Schema({
   name: {
     type: String,
     trim: true,

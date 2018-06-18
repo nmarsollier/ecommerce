@@ -8,7 +8,7 @@ import * as helmet from "helmet";
 import * as morgan from "morgan";
 import * as passport from "passport";
 import * as path from "path";
-import * as passportConf from "../security/passport";
+import * as token from "../token";
 import * as error from "../server/error";
 import { Config } from "./environment";
 import * as routes from "./routes";
@@ -53,8 +53,8 @@ export function init(appConfig: Config): express.Express {
   );
   app.get("/", (req, res, next) => { res.redirect("index.html"); });
 
-  // Iniciamos nuestros módulos
-  passportConf.init();
+  // Iniciamos passport
+  token.initPassport();
 
   // Iniciamos las rutas del directorio
   // mas sobre rutas http://expressjs.com/es/guide/routing.html

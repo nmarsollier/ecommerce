@@ -12,7 +12,7 @@ export interface IToken extends Document {
   user: ObjectID;
 }
 
-export let TokenSchema = new Schema({
+const TokenSchema = new Schema({
   valid: {
     type: Boolean,
     default: true,

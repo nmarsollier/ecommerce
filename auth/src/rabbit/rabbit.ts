@@ -4,7 +4,7 @@ import amqp = require("amqplib");
 import * as env from "../server/environment";
 const conf = env.getConfig(process.env);
 
-export interface IRabbitMessage {
+interface IRabbitMessage {
     type: string;
     message: any;
 }

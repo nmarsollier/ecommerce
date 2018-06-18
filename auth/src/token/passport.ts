@@ -26,7 +26,6 @@ const conf = appConfig.getConfig(process.env);
  * @apiErrorExample 401 Unauthorized
  *    HTTP/1.1 401 Unauthorized
  */
-
 export function init() {
     const params = {
         secretOrKey: conf.jwtSecret,

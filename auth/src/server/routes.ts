@@ -2,11 +2,11 @@
 
 import * as express from "express";
 import * as passport from "passport";
-import * as rabbit from "../rabbit/rabbit.service";
-import { Payload } from "../security/passport";
-import * as token from "../security/token.service";
+import * as rabbit from "../rabbit/rabbit";
+import { Payload } from "../token";
+import * as token from "../token";
 import * as error from "../server/error";
-import * as user from "../user/user.service";
+import * as user from "../user";
 
 /**
  * Modulo de seguridad, login/logout, cambio de contraseñas, etc
@@ -26,7 +26,6 @@ export function init(app: express.Express) {
     .route("/v1/users/current")
     .get(passport.authenticate("jwt", { session: false }), current);
 }
-
 
 interface ISessionRequest extends express.Request {
   user: Payload;
@@ -58,6 +57,15 @@ function changePassword(req: ISessionRequest, res: express.Response) {
     .catch(err => error.handle(res, err));
 }
 
+/**
+ * @apiDefine TokenResponse
+ *
+ * @apiSuccessExample {json} Respuesta
+ *     HTTP/1.1 200 OK
+ *     {
+ *       "token": "{Token de autorización}"
+ *     }
+ */
 /**
  * @api {post} /v1/users Registrar Usuario
  * @apiName Registrar Usuario
