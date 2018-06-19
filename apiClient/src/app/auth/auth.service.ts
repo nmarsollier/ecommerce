@@ -32,6 +32,23 @@ export class AuthService extends RestBaseService {
             .catch(this.handleError);
     }
 
+    changePassword(currentPassword: string, newPassword: string): Promise<void> {
+        const data = {
+            currentPassword: currentPassword,
+            newPassword: newPassword
+        };
+
+        return this.http
+            .post(
+                environment.authServerUrl + 'user/password',
+                JSON.stringify(data),
+                this.getRestHeader()
+            )
+            .toPromise()
+            .then(response => null)
+            .catch(this.handleError);
+    }
+
     logout(): Promise<string> {
         return this.http
             .get(environment.authServerUrl + 'user/signout', this.getRestHeader())

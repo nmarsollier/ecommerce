@@ -34,6 +34,7 @@ import { ToolbarComponent } from './toolbar/toolbar.component';
 import { FileUploadComponent } from './tools/file.upload.component';
 import { MatFileUploadComponent } from './tools/mat.file.upload.component';
 import { WelcomeComponent } from './welcome/welcome.component';
+import { NewPasswordComponent } from './auth/new.password.component';
 
 
 
@@ -55,7 +56,8 @@ import { WelcomeComponent } from './welcome/welcome.component';
     EditArticleComponent,
     MatFileUploadComponent,
     CurrentCartComponent,
-    AddArticleCartComponent
+    AddArticleCartComponent,
+    NewPasswordComponent,
   ],
   imports: [
     CommonModule,

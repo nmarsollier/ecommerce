@@ -24,8 +24,6 @@
         <mat-error *ngIf="form.get('password')?.invalid">
             {{ errors.get('password') ? errors.get('password') : "Valor no válido." }}
         </mat-error>
-
-        <mat-error *ngIf="errors.get('password')">{{errors.password}}</mat-error>
     </mat-form-field>
 
     <div>

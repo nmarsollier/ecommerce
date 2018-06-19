@@ -12,6 +12,7 @@ import { SearchArticleComponent } from './catalog/search.articles.component';
 import { LoadImageComponent } from './image/load.image.component';
 import { AddImageComponent } from './image/new.image.component';
 import { WelcomeComponent } from './welcome/welcome.component';
+import { NewPasswordComponent } from './auth/new.password.component';
 
 
 @Injectable()
@@ -36,6 +37,7 @@ export const routes: Routes = [
     { path: '', component: WelcomeComponent },
     { path: 'login', component: LoginComponent },
     { path: 'info', component: InfoComponent, canActivate: [LoggedIn] },
+    { path: 'password', component: NewPasswordComponent, canActivate: [LoggedIn] },
     { path: 'registrarse', component: NewUserComponent },
     { path: 'new_image', component: AddImageComponent, canActivate: [LoggedIn] },
     { path: 'load_image/:id', component: LoadImageComponent, canActivate: [LoggedIn] },
