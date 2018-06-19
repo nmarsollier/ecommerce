@@ -21,6 +21,7 @@ export function init(app: express.Express) {
   app.route("/v1/users/:userID/revoke").post(passport.authenticate("jwt", { session: false }), revokePermissions);
   app.route("/v1/users/:userID/enable").post(passport.authenticate("jwt", { session: false }), enableUser);
   app.route("/v1/users/:userID/disable").post(passport.authenticate("jwt", { session: false }), disableUser);
+  app.route("/v1/users").get(passport.authenticate("jwt", { session: false }), getAll);
 
   app
     .route("/v1/users/current")
@@ -249,6 +250,49 @@ async function disableUser(req: ISessionRequest, res: express.Response) {
     await user.hasPermission(req.user.user_id, "admin");
     await user.disable(req.params.userID);
     res.send();
+  } catch (err) {
+    error.handle(res, err);
+  }
+}
+
+/**
+ * @api {post} /v1/users Lista de Usuarios
+ * @apiName Lista de Usuarios
+ * @apiGroup Seguridad
+ *
+ * @apiDescription Devuelve una lista de usuarios. El usuario logueado debe tener permisos "admin".
+ *
+ * @apiSuccessExample {json} Respuesta
+ *     HTTP/1.1 200 OK
+ *     [{
+ *        "id": "{Id usuario}",
+ *        "name": "{Nombre del usuario}",
+ *        "login": "{Login de usuario}",
+ *        "permissions": [
+ *            "{Permission}"
+ *        ],
+ *        "enabled": true|false
+ *       }, ...
+ *     ]
+ *
+ * @apiUse AuthHeader
+ * @apiUse ParamValidationErrors
+ * @apiUse OtherErrors
+ */
+async function getAll(req: ISessionRequest, res: express.Response) {
+  try {
+    await user.hasPermission(req.user.user_id, "admin");
+    const users = await user.findAll();
+
+    res.json(users.map(u => {
+      return {
+        id: u.id,
+        name: u.name,
+        login: u.login,
+        permissions: u.permissions,
+        enabled: u.enabled
+      };
+    }));
   } catch (err) {
     error.handle(res, err);
   }

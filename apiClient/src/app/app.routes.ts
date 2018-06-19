@@ -48,7 +48,7 @@ export const routes: Routes = [
     { path: 'edit_article/:id', component: EditArticleComponent, canActivate: [LoggedIn] },
     { path: 'edit_article', component: EditArticleComponent, canActivate: [LoggedIn] },
     { path: 'current_cart', component: CurrentCartComponent, canActivate: [LoggedIn] },
-    { path: 'add_article_cart', component: AddArticleCartComponent, canActivate: [LoggedIn] }
+    { path: 'add_article_cart', component: AddArticleCartComponent, canActivate: [LoggedIn] },
     { path: 'users', component: UsersComponent, canActivate: [LoggedIn] }
 ];
 

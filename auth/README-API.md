@@ -10,6 +10,7 @@ Microservicio de Autentificación
 	- [Cambiar Password](#cambiar-password)
 	- [Deshabilitar Usuario](#deshabilitar-usuario)
 	- [Habilitar Usuario](#habilitar-usuario)
+	- [Lista de Usuarios](#lista-de-usuarios)
 	- [Login](#login)
 	- [Logout](#logout)
 	- [Otorga Permisos](#otorga-permisos)
@@ -186,6 +187,71 @@ Respuesta
 
 ```
 HTTP/1.1 200 OK
+```
+
+
+### Error Response
+
+401 Unauthorized
+
+```
+HTTP/1.1 401 Unauthorized
+```
+400 Bad Request
+
+```
+HTTP/1.1 400 Bad Request
+{
+   "messages" : [
+     {
+       "path" : "{Nombre de la propiedad}",
+       "message" : "{Motivo del error}"
+     },
+     ...
+  ]
+}
+```
+500 Server Error
+
+```
+HTTP/1.1 500 Internal Server Error
+{
+   "error" : "Not Found"
+}
+```
+## <a name='lista-de-usuarios'></a> Lista de Usuarios
+[Back to top](#top)
+
+<p>Devuelve una lista de usuarios. El usuario logueado debe tener permisos &quot;admin&quot;.</p>
+
+	POST /v1/users
+
+
+
+### Examples
+
+Header Autorización
+
+```
+Authorization=bearer {token}
+```
+
+### Success Response
+
+Respuesta
+
+```
+HTTP/1.1 200 OK
+[{
+   "id": "{Id usuario}",
+   "name": "{Nombre del usuario}",
+   "login": "{Login de usuario}",
+   "permissions": [
+       "{Permission}"
+   ],
+   "enabled": true|false
+  }, ...
+]
 ```
 
 

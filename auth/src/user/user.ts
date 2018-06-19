@@ -129,6 +129,17 @@ export function findById(userId: string): Promise<IUser> {
     });
 }
 
+export function findAll(): Promise<IUser[]> {
+    return new Promise<IUser[]>((resolve, reject) => {
+        User.find({},
+            function (err: any, user: IUser[]) {
+                if (err) return reject(err);
+                resolve(user);
+            });
+    });
+}
+
+
 export function changePassword(userId: string, body: ChangePasswordRequest): Promise<void> {
     return new Promise((resolve, reject) => {
         validateChangePassword(userId, body).then(user => {

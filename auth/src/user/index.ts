@@ -11,7 +11,8 @@ export {
     grant,
     revoke,
     enable,
-    disable
+    disable,
+    findAll
 } from "./user";
 
 
