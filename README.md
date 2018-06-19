@@ -11,10 +11,11 @@ Cada directorio dentro de la raíz de este repositorio  es un microservicio, cad
 [Microservicio de Catálogo](catalog/README.md)\
 [Microservicio de Carrito](cart/README.md)
 
-Existen versiones desarrolladas en GoLang que pueden reemplazar las versiones en este proyecto :
+Existen otras versiones desarrolladas en otros lenguajes que definen con diversos paradigmas y patrones de desarrollo los mismos microservicios :
 
 [Seguridad en Go](https://github.com/nmarsollier/authgo)\
-[Imágnes en Go](https://github.com/nmarsollier/imagego)
+[Imágenes en Go](https://github.com/nmarsollier/imagego)\
+[Catálogo en Java](https://github.com/nmarsollier/catalogjava)
 
 ## Guía de Instalación General
 

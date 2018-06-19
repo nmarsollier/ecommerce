@@ -34,11 +34,13 @@ export function currentCart(userId: string): Promise<ICart> {
                     resolve(result);
                 });
             } else {
-                cart.articles.forEach(article => {
-                    if (!article.validated) {
-                        rabbit.sendArticleValidation(cart._id, article.articleId).then();
-                    }
-                });
+                new Promise((result, reject) => {
+                    cart.articles.forEach(article => {
+                        if (!article.validated) {
+                            rabbit.sendArticleValidation(cart._id, article.articleId).then();
+                        }
+                    });
+                }).catch(err => console.log(err));
                 resolve(cart);
             }
         });
