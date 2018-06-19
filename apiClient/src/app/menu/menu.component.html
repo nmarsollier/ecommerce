@@ -9,6 +9,9 @@
 	<mat-list-item role="listitem" *ngIf="usuarioLogueado"><a mat-button [routerLink]="['/password']">Password</a></mat-list-item>
 	<mat-list-item role="listitem" *ngIf="usuarioLogueado"><a mat-button [routerLink]="" (click)="logout()">Logout</a></mat-list-item>
 
+	<mat-list-item role="listitem" *ngIf="usuarioLogueado">Adm Tools</mat-list-item>
+	<mat-list-item role="listitem" *ngIf="usuarioLogueado"><a mat-button [routerLink]="['/users']">Usuarios</a></mat-list-item>
+
 	<mat-list-item role="listitem" *ngIf="usuarioLogueado">Imágenes</mat-list-item>
 	<mat-list-item role="listitem" *ngIf="usuarioLogueado"><a mat-button [routerLink]="['/new_image']">Nueva</a></mat-list-item>
 	<mat-list-item role="listitem" *ngIf="usuarioLogueado"><a mat-button [routerLink]="['/load_image']">Buscar</a></mat-list-item>

@@ -13,6 +13,7 @@ import { LoadImageComponent } from './image/load.image.component';
 import { AddImageComponent } from './image/new.image.component';
 import { WelcomeComponent } from './welcome/welcome.component';
 import { NewPasswordComponent } from './auth/new.password.component';
+import { UsersComponent } from './auth/users.component';
 
 
 @Injectable()
@@ -48,6 +49,7 @@ export const routes: Routes = [
     { path: 'edit_article', component: EditArticleComponent, canActivate: [LoggedIn] },
     { path: 'current_cart', component: CurrentCartComponent, canActivate: [LoggedIn] },
     { path: 'add_article_cart', component: AddArticleCartComponent, canActivate: [LoggedIn] }
+    { path: 'users', component: UsersComponent, canActivate: [LoggedIn] }
 ];
 
 export const routing: ModuleWithProviders = RouterModule.forRoot(routes);

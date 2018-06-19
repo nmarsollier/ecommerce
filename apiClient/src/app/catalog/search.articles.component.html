@@ -40,7 +40,9 @@
     <ng-container matColumnDef="image">
         <th mat-header-cell *matHeaderCellDef> Imagen </th>
         <td mat-cell *matCellDef="let element"> {{element.image}}
-            <a *ngIf="element.image" [routerLink]="['/load_image/'+element.image]">Ver</a>
+            <a *ngIf="element.image" [routerLink]="['/load_image/'+element.image]">
+                <img src="/assets/find.png"/>
+            </a>
         </td>
     </ng-container>
 
@@ -57,7 +59,9 @@
     <ng-container matColumnDef="options">
         <th mat-header-cell *matHeaderCellDef> </th>
         <td mat-cell *matCellDef="let element">
-            <a [routerLink]="['/edit_article/'+element._id]">Edit</a>
+            <a [routerLink]="['/edit_article/'+element._id]">
+                <img src="/assets/edit.png"/>
+            </a>
         </td>
     </ng-container>
 

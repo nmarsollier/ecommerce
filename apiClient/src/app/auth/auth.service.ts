@@ -95,6 +95,53 @@ export class AuthService extends RestBaseService {
             })
             .catch(this.handleError);
     }
+
+    getUsers(): Promise<User[]> {
+        return this.http
+            .get(
+                environment.authServerUrl + 'users',
+                this.getRestHeader()
+            )
+            .toPromise()
+            .then(response => response.json())
+            .catch(this.handleError);
+    }
+
+
+    enable(id: string): Promise<void> {
+        return this.http
+            .post(environment.authServerUrl + 'users/' + id + '/enable', {}, this.getRestHeader())
+            .toPromise()
+            .then(response => null)
+            .catch(this.handleError);
+    }
+
+    disable(id: string): Promise<void> {
+        return this.http
+            .post(environment.authServerUrl + 'users/' + id + '/disable', {}, this.getRestHeader())
+            .toPromise()
+            .then(response => null)
+            .catch(this.handleError);
+    }
+
+    grant(id: string, permisos: string[]): Promise<void> {
+        const data = {'permissions': permisos};
+
+        return this.http
+            .post(environment.authServerUrl + 'users/' + id + '/grant', data, this.getRestHeader())
+            .toPromise()
+            .then(response => null)
+            .catch(this.handleError);
+    }
+
+    revoke(id: string, permisos: string[]): Promise<void> {
+        const data = {'permissions': permisos};
+        return this.http
+            .post(environment.authServerUrl + 'users/' + id + '/revoke', data, this.getRestHeader())
+            .toPromise()
+            .then(response => null)
+            .catch(this.handleError);
+    }
 }
 
 export interface RegistrarUsuario {

@@ -35,6 +35,7 @@ import { FileUploadComponent } from './tools/file.upload.component';
 import { MatFileUploadComponent } from './tools/mat.file.upload.component';
 import { WelcomeComponent } from './welcome/welcome.component';
 import { NewPasswordComponent } from './auth/new.password.component';
+import { UsersComponent } from './auth/users.component';
 
 
 
@@ -58,6 +59,7 @@ import { NewPasswordComponent } from './auth/new.password.component';
     CurrentCartComponent,
     AddArticleCartComponent,
     NewPasswordComponent,
+    UsersComponent,
   ],
   imports: [
     CommonModule,
