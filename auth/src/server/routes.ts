@@ -23,9 +23,7 @@ export function init(app: express.Express) {
   app.route("/v1/users/:userID/disable").post(passport.authenticate("jwt", { session: false }), disableUser);
   app.route("/v1/users").get(passport.authenticate("jwt", { session: false }), getAll);
 
-  app
-    .route("/v1/users/current")
-    .get(passport.authenticate("jwt", { session: false }), current);
+  app.route("/v1/users/current").get(passport.authenticate("jwt", { session: false }), current);
 }
 
 interface ISessionRequest extends express.Request {
