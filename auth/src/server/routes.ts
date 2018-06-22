@@ -84,12 +84,14 @@ function changePassword(req: ISessionRequest, res: express.Response) {
  * @apiUse ParamValidationErrors
  * @apiUse OtherErrors
  */
-function signUp(req: express.Request, res: express.Response) {
-  user.register(req.body).then(userId => {
-    token.create(userId).then(token => {
-      res.json({ token: token });
-    }).catch(err => error.handle(res, err));
-  }).catch(err => error.handle(res, err));
+async function signUp(req: express.Request, res: express.Response) {
+  try {
+    const userId = await user.register(req.body);
+    const tokenString = await token.create(userId);
+    res.json({ token: tokenString });
+  } catch (err) {
+    error.handle(res, err);
+  }
 }
 
 /**
@@ -110,14 +112,14 @@ function signUp(req: express.Request, res: express.Response) {
  * @apiUse ParamValidationErrors
  * @apiUse OtherErrors
  */
-function login(req: express.Request, res: express.Response) {
-  user.login(req.body)
-    .then(userId => {
-      token.create(userId).then(token => {
-        res.json({ token: token });
-      }).catch(err => error.handle(res, err));
-    })
-    .catch(err => error.handle(res, err));
+async function login(req: express.Request, res: express.Response) {
+  try {
+    const userId = await user.login(req.body);
+    const tokenString = await token.create(userId);
+    res.json({ token: tokenString });
+  } catch (err) {
+    error.handle(res, err);
+  }
 }
 
 /**
@@ -133,16 +135,17 @@ function login(req: express.Request, res: express.Response) {
  * @apiUse AuthHeader
  * @apiUse OtherErrors
  */
-function logout(req: ISessionRequest, res: express.Response) {
-  token.invalidate(req.user)
-    .then(v => {
-      rabbit.sendLogout(req.header("Authorization"))
-        .catch((err) => {
-          console.error("signout " + err);
-        });
-      res.send();
-    })
-    .catch(err => error.handle(res, err));
+async function logout(req: ISessionRequest, res: express.Response) {
+  try {
+    await token.invalidate(req.user);
+    rabbit.sendLogout(req.header("Authorization"))
+      .catch((err) => {
+        console.error("signout " + err);
+      });
+    res.send();
+  } catch (err) {
+    error.handle(res, err);
+  }
 }
 
 
@@ -165,10 +168,10 @@ function logout(req: ISessionRequest, res: express.Response) {
  * @apiUse ParamValidationErrors
  * @apiUse OtherErrors
  */
-function grantPermissions(req: ISessionRequest, res: express.Response) {
+async function grantPermissions(req: ISessionRequest, res: express.Response) {
   try {
-    user.hasPermission(req.user.user_id, "admin");
-    user.grant(req.params.userID, req.body.permissions);
+    await user.hasPermission(req.user.user_id, "admin");
+    await user.grant(req.params.userID, req.body.permissions);
     res.send();
   } catch (err) {
     error.handle(res, err);

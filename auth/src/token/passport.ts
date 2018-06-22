@@ -5,7 +5,7 @@ import * as nodeCache from "node-cache";
 import * as passport from "passport";
 import { ExtractJwt, Strategy } from "passport-jwt";
 import * as appConfig from "../server/environment";
-import { IToken, Token } from "./schema";
+import { IToken, Token } from "./token";
 
 export interface Payload {
     token_id: string;

@@ -2,8 +2,8 @@
 
 export {
     SignUpRequest,
-    register,
     SignInRequest,
+    register,
     login,
     findById,
     changePassword,
@@ -13,6 +13,6 @@ export {
     enable,
     disable,
     findAll
-} from "./user";
+} from "./service";
 
 

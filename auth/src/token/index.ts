@@ -2,7 +2,7 @@
 
 import * as passport from "./passport";
 
-export { create, invalidate } from "./token";
+export { create, invalidate } from "./service";
 
 export { Payload } from "./passport";
 
