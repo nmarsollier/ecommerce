@@ -66,7 +66,7 @@ export async function placeOrder(cart: ICart): Promise<IRabbitCallbackMessage> {
         const queue = await channel.assertQueue("order", { durable: false });
 
         if (channel.publish(exchange.exchange, queue.queue, new Buffer(JSON.stringify(message)))) {
-            console.log("RabbitMQ Cart : Place Order encolado " + message);
+            console.log("RabbitMQ Publish PlaceOrder : " + message);
             return Promise.resolve(message);
         } else {
             return Promise.reject(new Error("No se pudo encolar el mensaje"));

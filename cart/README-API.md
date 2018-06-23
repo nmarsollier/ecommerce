@@ -14,10 +14,12 @@ Microservicio de Carrito
 	
 - [RabbitMQ_GET](#rabbitmq_get)
 	- [Validación de Artículos](#validación-de-artículos)
+	- [Validación de Artículos](#validación-de-artículos)
 	- [Logout de Usuarios](#logout-de-usuarios)
 	
 - [RabbitMQ_POST](#rabbitmq_post)
 	- [Comprobar Articulo](#comprobar-articulo)
+	- [Crear Ordern](#crear-ordern)
 	
 
 
@@ -416,6 +418,31 @@ Mensaje
 ```
 
 
+## <a name='validación-de-artículos'></a> Validación de Artículos
+[Back to top](#top)
+
+<p>Escucha de mensajes order-placed desde Order.</p>
+
+	DIRECT cart/order-placed
+
+
+
+
+### Success Response
+
+Mensaje
+
+```
+{
+   "type": "order-placed",
+   "message": {
+        "cartId": "{cartId}",
+        "orderId": "{orderId}"
+   }
+}
+```
+
+
 ## <a name='logout-de-usuarios'></a> Logout de Usuarios
 [Back to top](#top)
 
@@ -461,6 +488,38 @@ Mensaje
     "message": {
         "cartId": "{cartId}",
         "articleId": "{articleId}"
+   }
+}
+```
+
+
+
+## <a name='crear-ordern'></a> Crear Ordern
+[Back to top](#top)
+
+<p>Cart enviá un mensaje a Order para crear una nueva orden.</p>
+
+	DIRECT catalog/place-order
+
+
+
+### Examples
+
+Mensaje
+
+```
+{
+   "type": "place-order",
+   "queue": "order",
+   "exchange": "order",
+    "message": {
+        "cartId": "{cartId}",
+        "userId": "{userId}",
+        "articles": "{
+             "id": "{articleId}",
+             "quantity": {value}
+             }, ...
+        ]"
    }
 }
 ```

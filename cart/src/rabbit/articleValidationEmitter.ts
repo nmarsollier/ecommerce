@@ -54,7 +54,7 @@ export async function sendArticleValidation(cartId: string, articleId: string): 
         const queue = await channel.assertQueue("catalog", { durable: false });
 
         if (channel.publish(exchange.exchange, queue.queue, new Buffer(JSON.stringify(message)))) {
-            console.log("RabbitMQ Cart : Article check encolado " + message);
+            console.log("RabbitMQ Publish ArticleValidation " + message);
             return Promise.resolve(message);
         } else {
             return Promise.reject(new Error("No se pudo encolar el mensaje"));

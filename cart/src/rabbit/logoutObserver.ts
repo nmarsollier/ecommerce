@@ -59,7 +59,7 @@ async function initAuth() {
                 const rabbitMessage: IRabbitMessage = JSON.parse(message.content.toString());
                 switch (rabbitMessage.type) {
                     case "logout":
-                        console.log("RabbitMQ Auth logout " + rabbitMessage.message);
+                        console.log("RabbitMQ Consume logout " + rabbitMessage.message);
                         token.invalidate(rabbitMessage.message);
                 }
             }, { noAck: true });

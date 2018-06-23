@@ -15,6 +15,7 @@ export interface IOrderPlaced {
  * Si un articulo no es valido se elimina del cart.
  */
 export function orderPlaced(data: IOrderPlaced) {
+    console.log("RabbitMQ Consume OrderPlaced : " + data);
 
     Cart.findById(data.cartId, function (err: any, cart: ICart) {
         if (err) return;
