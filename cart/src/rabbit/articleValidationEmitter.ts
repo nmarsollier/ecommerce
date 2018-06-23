@@ -29,7 +29,7 @@ interface IRabbitCallbackMessage {
  *        "queue": "cart",
  *        "exchange": "cart",
  *         "message": {
- *             "cartId": "{cartId}",
+ *             "referenceId": "{cartId}",
  *             "articleId": "{articleId}"
  *        }
  *     }
@@ -44,7 +44,7 @@ export async function sendArticleValidation(cartId: string, articleId: string): 
             exchange: "cart",
             queue: "cart",
             message: {
-                cartId: cartId,
+                referenceId: cartId,
                 articleId: articleId
             }
         };

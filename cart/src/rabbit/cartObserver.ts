@@ -17,8 +17,7 @@ interface IRabbitMessage {
 }
 
 interface IArticleExistMessage {
-    type: string;
-    cartId: string;
+    referenceId: string;
     articleId: string;
     valid: boolean;
 }
@@ -41,7 +40,7 @@ export function init() {
  *     {
  *        "type": "article-exist",
  *        "message": {
- *             "cartId": "{cartId}",
+ *             "referenceId": "{cartId}",
  *             "articleId": "{articleId}",
  *             "valid": true|false
  *        }

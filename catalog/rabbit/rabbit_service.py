@@ -41,7 +41,7 @@ MSG_ARTICLE_EXIST = {
         "required": True,
         "type": str
     },
-    "cartId": {
+    "referenceId": {
         "required": True,
         "type": str
     }
@@ -136,7 +136,7 @@ def listenCatalog():
         "exchange" : "{Exchange name to reply}"
         "queue" : "{Queue name to reply}"
         "message" : {
-            "cartId": "{cartId}",
+            "referenceId": "{referenceId}",
             "articleId": "{articleId}",
         }
     """
@@ -167,16 +167,16 @@ def listenCatalog():
 
                 exchange = event["exchange"]
                 queue = event["queue"]
-                cartId = message["cartId"]
+                referenceId = message["referenceId"]
                 articleId = message["articleId"]
 
-                print("RabbitMQ Catalog GET article-exist catalogId:%r , articleId:%r", cartId, articleId)
+                print("RabbitMQ Catalog GET article-exist catalogId:%r , articleId:%r", referenceId, articleId)
 
                 try:
                     articleValidation.validateArticleExist(articleId)
-                    sendArticleValidToCart(exchange, queue, cartId, articleId, True)
+                    sendArticleValid(exchange, queue, referenceId, articleId, True)
                 except Exception:
-                    sendArticleValidToCart(exchange, queue, cartId, articleId, False)
+                    sendArticleValid(exchange, queue, referenceId, articleId, False)
 
         print("RabbitMQ Catalog conectado")
 
@@ -189,7 +189,7 @@ def listenCatalog():
         threading.Timer(10.0, initCatalog).start()
 
 
-def sendArticleValidToCart(exchange, queue, cartId, articleId, valid):
+def sendArticleValid(exchange, queue, referenceId, articleId, valid):
     """
     Envía eventos al Cart
 
@@ -206,7 +206,7 @@ def sendArticleValidToCart(exchange, queue, cartId, articleId, valid):
       {
         "type": "article-exist",
         "message" : {
-            "cartId": "{cartId}",
+            "referenceId": "{referenceId}",
             "articleId": "{articleId}",
             "valid": True|False
         }
@@ -222,7 +222,7 @@ def sendArticleValidToCart(exchange, queue, cartId, articleId, valid):
     message = {
         "type": "article-exist",
         "message": {
-            "cartId": cartId,
+            "referenceId": referenceId,
             "articleId": articleId,
             "valid": valid
         }
@@ -232,4 +232,4 @@ def sendArticleValidToCart(exchange, queue, cartId, articleId, valid):
 
     connection.close()
 
-    print("RabbitMQ Cart POST article-exist catalogId:%r , articleId:%r , valid:%r", cartId, articleId, valid)
+    print("RabbitMQ Cart POST article-exist catalogId:%r , articleId:%r , valid:%r", referenceId, articleId, valid)

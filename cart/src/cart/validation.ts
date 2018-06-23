@@ -6,8 +6,7 @@
 import { Cart, ICart } from "./schema";
 
 export interface IArticleExistMessage {
-    type: string;
-    cartId: string;
+    referenceId: string;
     articleId: string;
     valid: boolean;
 }
@@ -19,7 +18,7 @@ export interface IArticleExistMessage {
 export function articleValidationCheck(validation: IArticleExistMessage) {
     console.log("RabbitMQ Consume ArticleValidation : " + validation);
 
-    Cart.findById(validation.cartId, function (err: any, cart: ICart) {
+    Cart.findById(validation.referenceId, function (err: any, cart: ICart) {
         if (err) return;
 
         if (cart) {
