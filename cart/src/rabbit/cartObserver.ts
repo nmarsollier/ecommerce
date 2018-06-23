@@ -4,7 +4,8 @@
  *  Servicios de escucha de eventos rabbit
  */
 import amqp = require("amqplib");
-import * as cartService from "../cart/validation";
+import * as validation from "../cart/validation";
+import * as orderPlaced from "../cart/orderPlaced";
 import * as token from "../token";
 import * as env from "../server/environment";
 
@@ -21,63 +22,14 @@ interface IArticleExistMessage {
     articleId: string;
     valid: boolean;
 }
+interface IOrderPlacedMessage {
+    cartId: string;
+    orderId: string;
+}
 
 export function init() {
-    initAuth();
     initCart();
 }
-
-/**
- * @api {fanout} auth/logout Logout de Usuarios
- * @apiGroup RabbitMQ GET
- *
- * @apiDescription Escucha de mensajes logout desde auth.
- *
- * @apiSuccessExample {json} Mensaje
- *     {
- *        "type": "logout",
- *        "message": "{tokenId}"
- *     }
- */
-
-/**
- * Escucha el evento logout del exchange auth
- */
-async function initAuth() {
-    try {
-        const conn = await amqp.connect(conf.rabbitUrl);
-
-        const channel = await conn.createChannel();
-
-        channel.on("close", function () {
-            console.error("RabbitMQ Auth conexión cerrada, intentado reconecta en 10'");
-            setTimeout(() => initAuth(), 10000);
-        });
-
-        console.log("RabbitMQ Auth conectado");
-
-        const exchange = await channel.assertExchange("auth", "fanout", { durable: false });
-
-        const queue = await channel.assertQueue("", { exclusive: true });
-
-        channel.bindQueue(queue.queue, exchange.exchange, "");
-
-        channel.consume(queue.queue,
-            (message) => {
-                const rabbitMessage: IRabbitMessage = JSON.parse(message.content.toString());
-                switch (rabbitMessage.type) {
-                    case "logout":
-                        console.log("RabbitMQ Auth logout " + rabbitMessage.message);
-                        token.invalidate(rabbitMessage.message);
-                }
-            }, { noAck: true });
-
-    } catch (err) {
-        console.error("RabbitMQ Auth " + err.message);
-        setTimeout(() => initAuth(), 10000);
-    }
-}
-
 
 /**
  * @api {direct} cart/article-exist Validación de Artículos
@@ -92,6 +44,22 @@ async function initAuth() {
  *             "cartId": "{cartId}",
  *             "articleId": "{articleId}",
  *             "valid": true|false
+ *        }
+ *     }
+ */
+
+/**
+ * @api {direct} cart/order-placed Validación de Artículos
+ * @apiGroup RabbitMQ GET
+ *
+ * @apiDescription Escucha de mensajes order-placed desde Order.
+ *
+ * @apiSuccessExample {json} Mensaje
+ *     {
+ *        "type": "order-placed",
+ *        "message": {
+ *             "cartId": "{cartId}",
+ *             "orderId": "{orderId}"
  *        }
  *     }
  */
@@ -126,7 +94,10 @@ async function initCart() {
                 switch (rabbitMessage.type) {
                     case "article-exist":
                         const article = rabbitMessage.message as IArticleExistMessage;
-                        cartService.articleValidationCheck(article);
+                        validation.articleValidationCheck(article);
+                    case "order-placed":
+                        const placed = rabbitMessage.message as IOrderPlacedMessage;
+                        orderPlaced.orderPlaced(placed);
                 }
             }, { noAck: true });
 

@@ -6,7 +6,7 @@ export {
     decrementArticle,
     deleteArticle,
     validateCheckout,
-    postOrder
+    placeOrder
 } from "./cart";
 
 export {

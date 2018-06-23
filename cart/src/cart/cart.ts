@@ -2,7 +2,8 @@
 
 import * as async from "async";
 import { RestClient } from "typed-rest-client/RestClient";
-import * as rabbit from "../rabbit/post";
+import * as rabbitValidation from "../rabbit/articleValidationEmitter";
+import * as rabbitPlace from "../rabbit/placeOrderEmitter";
 import * as env from "../server/environment";
 import * as error from "../server/error";
 import { Cart, ICart, ICartArticle } from "./schema";
@@ -37,7 +38,7 @@ export function currentCart(userId: string): Promise<ICart> {
                 new Promise((result, reject) => {
                     cart.articles.forEach(article => {
                         if (!article.validated) {
-                            rabbit.sendArticleValidation(cart._id, article.articleId).then();
+                            rabbitValidation.sendArticleValidation(cart._id, article.articleId).then();
                         }
                     });
                 }).catch(err => console.log(err));
@@ -220,16 +221,16 @@ export function validateCheckout(userId: string, token: string): Promise<ICartVa
  * @apiUse ParamValidationErrors
  * @apiUse OtherErrors
  */
-export function postOrder(userId: string): Promise<void> {
+export function placeOrder(userId: string): Promise<void> {
     return new Promise((resolve, reject) => {
         currentCart(userId)
             .then(cart => {
-                cart.orderId = "orderID";
                 cart.enabled = false;
                 // Save the Cart
                 cart.save(function (err: any) {
                     if (err) return reject(err);
 
+                    rabbitPlace.placeOrder(cart);
                     resolve();
                 });
             }).catch(err => reject(err));

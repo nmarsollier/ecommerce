@@ -258,7 +258,7 @@ function validateCheckout(req: IUserSessionRequest, res: express.Response) {
  * @apiUse OtherErrors
  */
 function postOrder(req: IUserSessionRequest, res: express.Response) {
-  cart.postOrder(req.user.user.id)
+  cart.placeOrder(req.user.user.id)
     .then(_ => {
       res.send();
     })

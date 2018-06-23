@@ -2,10 +2,11 @@
 
 import { MongoError } from "mongodb";
 import * as mongoose from "mongoose";
-import * as rabbit from "./rabbit/listen";
 import * as env from "./server/environment";
 import { Config } from "./server/environment";
 import * as express from "./server/express";
+import * as logoutObserver from "./rabbit/logoutObserver";
+import * as cartObserver from "./rabbit/cartObserver";
 
 // Variables de entorno
 const conf: Config = env.getConfig(process.env);
@@ -29,7 +30,8 @@ mongoose.connect(conf.mongoDb, {}, function (err: MongoError) {
 // Se configura e inicia express
 const app = express.init(conf);
 
-rabbit.init();
+cartObserver.init();
+logoutObserver.init();
 
 app.listen(conf.port, () => {
   console.log(`Cart Server escuchando en puerto ${conf.port}`);
