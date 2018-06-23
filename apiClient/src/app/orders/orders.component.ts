@@ -23,6 +23,14 @@ export class OrdersComponent implements errorHandler.IErrorController, OnInit {
         this.orderService.batchPlaced()
             .catch(err => errorHandler.processRestValidations(this, err));
     }
+    batchValidated() {
+        this.orderService.batchValidated()
+            .catch(err => errorHandler.processRestValidations(this, err));
+    }
+    batchPaymentDefined() {
+        this.orderService.batchPaymentDefined()
+            .catch(err => errorHandler.processRestValidations(this, err));
+    }
 
     getOrders() {
         this.orderService.getOrders()

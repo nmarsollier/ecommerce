@@ -19,6 +19,21 @@ export class OrderService extends RestBaseService {
             .catch(this.handleError);
     }
 
+    addPayment(orderId: string, method: string, amount: string): Promise<void> {
+        return this.http
+            .post(environment.orderServerUrl + 'orders/' + orderId + '/payment',
+                {
+                    'method': method,
+                    'amount': parseFloat(amount),
+                },
+                this.getRestHeader())
+            .toPromise()
+            .then(response => {
+                return undefined;
+            })
+            .catch(this.handleError);
+    }
+
     batchPlaced(): Promise<void> {
         return this.http
             .get(environment.orderServerUrl + 'orders_batch/placed', this.getRestHeader())
@@ -29,9 +44,29 @@ export class OrderService extends RestBaseService {
             .catch(this.handleError);
     }
 
+    batchValidated(): Promise<void> {
+        return this.http
+            .get(environment.orderServerUrl + 'orders_batch/validated', this.getRestHeader())
+            .toPromise()
+            .then(response => {
+                return undefined;
+            })
+            .catch(this.handleError);
+    }
+
+    batchPaymentDefined(): Promise<void> {
+        return this.http
+            .get(environment.orderServerUrl + 'orders_batch/payment_defined', this.getRestHeader())
+            .toPromise()
+            .then(response => {
+                return undefined;
+            })
+            .catch(this.handleError);
+    }
+
     getOrders(): Promise<OrderList[]> {
         return this.http
-            .get(environment.orderServerUrl + 'orders' , this.getRestHeader())
+            .get(environment.orderServerUrl + 'orders', this.getRestHeader())
             .toPromise()
             .then(response => {
                 return response.json() as OrderList[];
@@ -48,6 +83,7 @@ export interface OrderList {
     updated: string;
     articles: number;
     totalPrice: number;
+    totalPayment: number;
 }
 
 export interface Order {
@@ -57,7 +93,9 @@ export interface Order {
     totalPrice: number;
     created: string;
     updated: string;
+    totalPayment: number;
     articles: Article[];
+    payment: Payment[];
 }
 
 export interface Article {
@@ -66,4 +104,9 @@ export interface Article {
     unitaryPrice: number;
     valid: boolean;
     validated: boolean;
+}
+
+export interface Payment {
+    method: string;
+    amount: number;
 }

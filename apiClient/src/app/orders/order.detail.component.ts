@@ -13,11 +13,16 @@ export class OrderDetailComponent implements errorHandler.IErrorController, OnIn
     errors = new Map();
 
     orderId = new FormControl('', [Validators.required]);
+    method = new FormControl('', [Validators.required]);
+    amount = new FormControl('', [Validators.required]);
+
+    payment = false;
     order: Order;
 
     constructor(private orderService: OrderService, private router: Router, private route: ActivatedRoute) { }
 
     ngOnInit(): void {
+        this.payment = false;
         this.route.params.subscribe(params => {
             this.orderId.setValue(params['id']);
             this.submitForm();
@@ -25,6 +30,7 @@ export class OrderDetailComponent implements errorHandler.IErrorController, OnIn
     }
 
     submitForm() {
+        this.payment = false;
         if (this.orderId.value) {
             this.orderService.getOrder(this.orderId.value)
                 .then(order => this.order = order)
@@ -32,5 +38,16 @@ export class OrderDetailComponent implements errorHandler.IErrorController, OnIn
         }
     }
 
+    addPayment() {
+        this.payment = true;
+    }
+
+    paymentSubmit() {
+        if (this.orderId.value) {
+            this.orderService.addPayment(this.orderId.value, this.method.value, this.amount.value)
+                .then(order => this.submitForm())
+                .catch(err => errorHandler.processRestValidations(this, err));
+        }
+    }
 
 }
