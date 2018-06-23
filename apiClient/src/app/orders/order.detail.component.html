@@ -1,0 +1,76 @@
+<h2>Detalle de Orden</h2>
+
+<form #f="ngForm" novalidate>
+    <mat-form-field>
+        <input matInput placeholder="Order Id" [formControl]="orderId" />
+
+        <mat-error *ngIf="orderId?.invalid">
+            {{ errors.get('orderId') ? errors.get('orderId') : "Valor no válido." }}
+        </mat-error>
+    </mat-form-field>
+    <div>
+        <mat-error *ngIf="errorMessage">
+            {{errorMessage}}
+            <BR>
+        </mat-error>
+        <button mat-button color="primary" (click)="submitForm()">Buscar</button>
+        <button mat-button color="disabled" [routerLink]="['/']">Cerrar</button>
+    </div>
+    <BR>
+</form>
+
+<form *ngIf="order">
+    <mat-form-field>
+        <input matInput placeholder="Id" [value]="order.id" readonly>
+    </mat-form-field>
+
+    <mat-form-field>
+        <input matInput placeholder="Cart Id" [value]="order.cartId" readonly>
+    </mat-form-field>
+
+    <mat-form-field>
+        <input matInput placeholder="Estado" [value]="order.status" readonly>
+    </mat-form-field>
+
+    <mat-form-field>
+        <input matInput placeholder="Creada" [value]="order.created" readonly>
+    </mat-form-field>
+
+    <mat-form-field>
+        <input matInput placeholder="Actualizada" [value]="order.updated" readonly>
+    </mat-form-field>
+
+    <table mat-table [dataSource]="order.articles" class="mat-elevation-z8">
+        <ng-container matColumnDef="id">
+            <th mat-header-cell *matHeaderCellDef> Id </th>
+            <td mat-cell *matCellDef="let element"> {{element.id}} </td>
+        </ng-container>
+
+        <ng-container matColumnDef="quantity">
+            <th mat-header-cell *matHeaderCellDef> Cantidad </th>
+            <td mat-cell *matCellDef="let element"> {{element.quantity}} </td>
+        </ng-container>
+
+        <ng-container matColumnDef="valid">
+            <th mat-header-cell *matHeaderCellDef> Valido </th>
+            <td mat-cell *matCellDef="let element"> {{element.valid}} </td>
+        </ng-container>
+
+        <ng-container matColumnDef="validated">
+            <th mat-header-cell *matHeaderCellDef> Validado </th>
+            <td mat-cell *matCellDef="let element"> {{element.validated}} </td>
+        </ng-container>
+
+        <tr mat-header-row *matHeaderRowDef="['id', 'quantity', 'valid', 'validated']"></tr>
+        <tr mat-row *matRowDef="let row; columns: ['id', 'quantity', 'valid', 'validated'];"></tr>
+    </table>
+
+    <BR>
+    <div>
+        <div *ngIf="errorMessage">{{errorMessage}}</div>
+        <button mat-button color="primary" (click)="submitForm()">Actualizar</button>
+        <button mat-button color="disabled" [routerLink]="['/']">Cancelar</button>
+    </div>
+</form>
+
+<div *ngIf="errorMessage">{{errorMessage}}</div>

@@ -410,7 +410,7 @@ Mensaje
 {
    "type": "article-exist",
    "message": {
-        "cartId": "{cartId}",
+        "referenceId": "{cartId}",
         "articleId": "{articleId}",
         "valid": true|false
    }
@@ -486,7 +486,7 @@ Mensaje
    "queue": "cart",
    "exchange": "cart",
     "message": {
-        "cartId": "{cartId}",
+        "referenceId": "{cartId}",
         "articleId": "{articleId}"
    }
 }

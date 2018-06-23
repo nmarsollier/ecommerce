@@ -14,6 +14,8 @@ import { AddImageComponent } from './image/new.image.component';
 import { WelcomeComponent } from './welcome/welcome.component';
 import { NewPasswordComponent } from './auth/new.password.component';
 import { UsersComponent } from './auth/users.component';
+import { OrdersComponent } from './orders/orders.component';
+import { OrderDetailComponent } from './orders/order.detail.component';
 
 
 @Injectable()
@@ -49,7 +51,10 @@ export const routes: Routes = [
     { path: 'edit_article', component: EditArticleComponent, canActivate: [LoggedIn] },
     { path: 'current_cart', component: CurrentCartComponent, canActivate: [LoggedIn] },
     { path: 'add_article_cart', component: AddArticleCartComponent, canActivate: [LoggedIn] },
-    { path: 'users', component: UsersComponent, canActivate: [LoggedIn] }
+    { path: 'users', component: UsersComponent, canActivate: [LoggedIn] },
+    { path: 'orders', component: OrdersComponent, canActivate: [LoggedIn] },
+    { path: 'order_details/:id', component: OrderDetailComponent, canActivate: [LoggedIn] },
+    { path: 'order_details', component: OrderDetailComponent, canActivate: [LoggedIn] },
 ];
 
 export const routing: ModuleWithProviders = RouterModule.forRoot(routes);

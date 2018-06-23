@@ -36,6 +36,9 @@ import { MatFileUploadComponent } from './tools/mat.file.upload.component';
 import { WelcomeComponent } from './welcome/welcome.component';
 import { NewPasswordComponent } from './auth/new.password.component';
 import { UsersComponent } from './auth/users.component';
+import { OrdersComponent } from './orders/orders.component';
+import { OrderService } from './orders/order.service';
+import { OrderDetailComponent } from './orders/order.detail.component';
 
 
 
@@ -60,6 +63,8 @@ import { UsersComponent } from './auth/users.component';
     AddArticleCartComponent,
     NewPasswordComponent,
     UsersComponent,
+    OrdersComponent,
+    OrderDetailComponent,
   ],
   imports: [
     CommonModule,
@@ -79,7 +84,7 @@ import { UsersComponent } from './auth/users.component';
     MatListModule,
     routing
   ],
-  providers: [AuthService, ImageService, LoggedIn, CatalogService, CartService],
+  providers: [AuthService, ImageService, LoggedIn, CatalogService, CartService, OrderService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
