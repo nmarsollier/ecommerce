@@ -6,6 +6,7 @@ import threading
 import utils.json_serializer as json
 import utils.config as config
 import articles.rest_validations as articleValidation
+import articles.crud_service as crud
 import utils.schema_validator as validator
 import traceback
 
@@ -140,7 +141,25 @@ def listenCatalog():
             "articleId": "{articleId}",
         }
     """
+    """
+    article-data : Es una validación solicitada por Cart para validar si el articulo puede incluirse en el cart
 
+    @api {direct} catalog/article-exist Validación de Articulos
+
+    @apiGroup RabbitMQ GET
+
+    @apiDescription Escucha de mensajes article-data desde cart. Valida articulos
+
+    @apiExample {json} Mensaje
+      {
+        "type": "article-exist",
+        "exchange" : "{Exchange name to reply}"
+        "queue" : "{Queue name to reply}"
+        "message" : {
+            "referenceId": "{referenceId}",
+            "articleId": "{articleId}",
+        }
+    """
     EXCHANGE = "catalog"
     QUEUE = "catalog"
 
@@ -177,6 +196,28 @@ def listenCatalog():
                     sendArticleValid(exchange, queue, referenceId, articleId, True)
                 except Exception:
                     sendArticleValid(exchange, queue, referenceId, articleId, False)
+
+            if (event["type"] == "article-data"):
+                message = event["message"]
+                if(len(validator.validateSchema(MSG_ARTICLE_EXIST, message)) > 0):
+                    return
+
+                exchange = event["exchange"]
+                queue = event["queue"]
+                referenceId = message["referenceId"]
+                articleId = message["articleId"]
+
+                print("RabbitMQ Catalog GET article-data catalogId:%r , articleId:%r", referenceId, articleId)
+
+                try:
+                    article = crud.getArticle(articleId)
+                    valid = ("enabled" in article and article["enabled"])
+                    stock = article["stock"]
+                    price = article["price"]
+                    articleValidation.validateArticleExist(articleId)
+                    sendArticleData(exchange, queue, referenceId, articleId, valid, stock, price)
+                except Exception:
+                    sendArticleData(exchange, queue, referenceId, articleId, False, 0, 0)
 
         print("RabbitMQ Catalog conectado")
 
@@ -233,3 +274,53 @@ def sendArticleValid(exchange, queue, referenceId, articleId, valid):
     connection.close()
 
     print("RabbitMQ Cart POST article-exist catalogId:%r , articleId:%r , valid:%r", referenceId, articleId, valid)
+
+
+def sendArticleData(exchange, queue, referenceId, articleId, valid, stock, price):
+    """
+    Envía eventos al Cart
+
+    article-data : Es una validación solicitada por Cart para validar si el articulo puede incluirse en el cart
+
+
+    @api {direct} cart/article-data Validación de Articulos
+
+    @apiGroup RabbitMQ POST
+
+    @apiDescription Enviá de mensajes article-exist desde cart. Valida articulos
+
+    @apiSuccessExample {json} Mensaje
+      {
+        "type": "article-exist",
+        "message" : {
+            "referenceId": "{referenceId}",
+            "articleId": "{articleId}",
+            "valid": True|False,
+            "stock": {stock},
+            "price": {price}
+        }
+      }
+    """
+    connection = pika.BlockingConnection(pika.ConnectionParameters(host=config.get_rabbit_server_url()))
+    channel = connection.channel()
+
+    channel.exchange_declare(exchange=exchange, exchange_type='direct')
+
+    channel.queue_declare(queue=queue)
+
+    message = {
+        "type": "article-data",
+        "message": {
+            "referenceId": referenceId,
+            "articleId": articleId,
+            "valid": valid,
+            "stock": stock,
+            "price": price,
+        }
+    }
+
+    channel.basic_publish(exchange=exchange, routing_key=queue, body=json.dic_to_json(message))
+
+    connection.close()
+
+    print("RabbitMQ Cart POST article-data catalogId:%r , articleId:%r , valid:%r", referenceId, articleId, valid)

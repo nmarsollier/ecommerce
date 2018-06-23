@@ -47,12 +47,14 @@ export interface OrderList {
     created: string;
     updated: string;
     articles: number;
+    totalPrice: number;
 }
 
 export interface Order {
     id: string;
     status: string;
     cartId: string;
+    totalPrice: number;
     created: string;
     updated: string;
     articles: Article[];
@@ -61,6 +63,7 @@ export interface Order {
 export interface Article {
     id: string;
     quantity: number;
+    unitaryPrice: number;
     valid: boolean;
     validated: boolean;
 }

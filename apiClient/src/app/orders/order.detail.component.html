@@ -33,6 +33,10 @@
     </mat-form-field>
 
     <mat-form-field>
+        <input matInput placeholder="Importe Total" [value]="order.totalPrice" readonly>
+    </mat-form-field>
+
+    <mat-form-field>
         <input matInput placeholder="Creada" [value]="order.created" readonly>
     </mat-form-field>
 
@@ -51,6 +55,11 @@
             <td mat-cell *matCellDef="let element"> {{element.quantity}} </td>
         </ng-container>
 
+        <ng-container matColumnDef="unitaryPrice">
+            <th mat-header-cell *matHeaderCellDef> Precio Unit. </th>
+            <td mat-cell *matCellDef="let element"> {{element.unitaryPrice}} </td>
+        </ng-container>
+
         <ng-container matColumnDef="valid">
             <th mat-header-cell *matHeaderCellDef> Valido </th>
             <td mat-cell *matCellDef="let element"> {{element.valid}} </td>
@@ -61,8 +70,8 @@
             <td mat-cell *matCellDef="let element"> {{element.validated}} </td>
         </ng-container>
 
-        <tr mat-header-row *matHeaderRowDef="['id', 'quantity', 'valid', 'validated']"></tr>
-        <tr mat-row *matRowDef="let row; columns: ['id', 'quantity', 'valid', 'validated'];"></tr>
+        <tr mat-header-row *matHeaderRowDef="['id', 'quantity', 'unitaryPrice', 'valid', 'validated']"></tr>
+        <tr mat-row *matRowDef="let row; columns: ['id', 'quantity', 'unitaryPrice', 'valid', 'validated'];"></tr>
     </table>
 
     <BR>
