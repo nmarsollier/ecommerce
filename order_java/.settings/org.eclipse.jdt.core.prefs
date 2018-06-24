@@ -1,0 +1,9 @@
+connection.project.dir=
+eclipse.preferences.version=1
+java.import.gradle.enabled=true
+org.eclipse.jdt.core.compiler.codegen.targetPlatform=1.8
+org.eclipse.jdt.core.compiler.compliance=1.8
+org.eclipse.jdt.core.compiler.problem.forbiddenReference=warning
+org.eclipse.jdt.core.compiler.source=1.8
+org.eclipse.jdt.core.formatter.comment.new_lines_at_javadoc_boundaries=false
+org.eclipse.jdt.core.formatter.comment.format_javadoc_comments=false

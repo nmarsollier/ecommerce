@@ -1,0 +1,25 @@
+{
+	"folders": [
+		{
+			"path": "order_java"
+		},
+		{
+			"path": "catalog_java"
+		},
+		{
+			"path": "auth_node"
+		},
+		{
+			"path": "cart_node"
+		},
+		{
+			"path": "catalog_python"
+		},
+		{
+			"path": "image_node"
+		},
+		{
+			"path": "api_client_angular"
+		}
+	]
+}

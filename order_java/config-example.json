@@ -1,0 +1,7 @@
+{
+    "serverPort": 3002,
+    "databaseUrl": "localhost",
+    "securityServerUrl": "http://localhost:3000",
+    "rabbitServerUrl": "localhost",
+    "staticLocation": "www"
+}
