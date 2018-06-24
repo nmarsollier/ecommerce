@@ -1,8 +1,8 @@
 "use strict";
 
 import { Document, model, Schema } from "mongoose";
-import * as rabbit from "../rabbit/articleValidationEmitter";
 import * as env from "../server/environment";
+import { sendArticleValidation } from "../rabbit/cartService";
 
 const conf = env.getConfig(process.env);
 
@@ -83,7 +83,7 @@ CartSchema.methods.addArticle = function (article: ICartArticle) {
   }
 
   this.articles.push(article);
-  rabbit.sendArticleValidation(this._id, article.articleId).then();
+  sendArticleValidation(this._id, article.articleId).then();
   return;
 };
 

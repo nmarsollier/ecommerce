@@ -2,11 +2,10 @@
 
 import * as async from "async";
 import { RestClient } from "typed-rest-client/RestClient";
-import * as rabbitValidation from "../rabbit/articleValidationEmitter";
-import * as rabbitPlace from "../rabbit/placeOrderEmitter";
 import * as env from "../server/environment";
 import * as error from "../server/error";
 import { Cart, ICart, ICartArticle } from "./schema";
+import { sendArticleValidation, sendPlaceOrder } from "../rabbit/cartService";
 
 const conf = env.getConfig(process.env);
 
@@ -38,7 +37,7 @@ export function currentCart(userId: string): Promise<ICart> {
                 new Promise((result, reject) => {
                     cart.articles.forEach(article => {
                         if (!article.validated) {
-                            rabbitValidation.sendArticleValidation(cart._id, article.articleId).then();
+                            sendArticleValidation(cart._id, article.articleId).then();
                         }
                     });
                 }).catch(err => console.log(err));
@@ -230,7 +229,7 @@ export function placeOrder(userId: string): Promise<void> {
                 cart.save(function (err: any) {
                     if (err) return reject(err);
 
-                    rabbitPlace.placeOrder(cart);
+                    sendPlaceOrder(cart);
                     resolve();
                 });
             }).catch(err => reject(err));

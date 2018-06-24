@@ -1,6 +1,6 @@
 "use strict";
 
-import * as rabbit from "./rabbit/rabbit";
+import * as logoutService from "./rabbit/logoutService";
 import * as env from "./server/environment";
 import { Config } from "./server/environment";
 import * as express from "./server/express";
@@ -17,7 +17,7 @@ process.on("unhandledRejection", (reason, p) => {
 // Se configura e inicia express
 const app = express.init(conf);
 
-rabbit.init();
+logoutService.init();
 
 app.listen(conf.port, () => {
   console.log(`Image Server escuchando en puerto ${conf.port}`);

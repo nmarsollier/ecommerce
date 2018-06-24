@@ -16,7 +16,7 @@ export interface IArticleExistMessage {
  * Si un articulo no es valido se elimina del cart.
  */
 export function articleValidationCheck(validation: IArticleExistMessage) {
-    console.log("RabbitMQ Consume ArticleValidation : " + validation);
+    console.log("RabbitMQ Consume ArticleValidation : " + JSON.stringify(validation));
 
     Cart.findById(validation.referenceId, function (err: any, cart: ICart) {
         if (err) return;
