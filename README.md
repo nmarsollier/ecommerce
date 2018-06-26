@@ -19,14 +19,17 @@ Existen otras versiones desarrolladas en otros lenguajes que definen los mismos 
 - [Catálogo en Java](catalog_java/README.md)
 - [Órdenes en Java](order_java/README.md)
 
-
 ## Cliente Demo
 
 Existe un proyecto en Angular6, que nos proporciona un cliente demo para la plataforma, permitiéndonos probar como interactúan los diferentes microservicios.
 
-Ver la documentación del proyecto en :
+Ver la documentación del cliente en :
 
 - [Cliente Demo](api_client_angular/README.md)
+
+## Mas información de arquitectura
+
+[Arquitectura](ARCHITECTURE.md)
 
 ## Guía de Instalación General
 
