@@ -141,7 +141,7 @@ ___Casos de estudio___
 El logout es un broadcast enviado por Auth hacia todos los clientes conectados a rabbit.
 Cuando un token se desactiva el logout envía el token, para que los otros microservicios lo quiten de su cache.
 
-<img src='https://g.gravizo.com/svg?
+![logout](<img src='https://g.gravizo.com/svg?
  digraph G {
    auth -> fanout [label=Logout];
    fanout ->image ;
@@ -149,7 +149,7 @@ Cuando un token se desactiva el logout envía el token, para que los otros micro
    fanout -> catalog;
    fanout-> "...";
  }
-'/>
+'/>)
 
 ### __"article-valid"__ de Catalog
 
@@ -157,33 +157,33 @@ Es un evento que escucha Catalog, por exchange "direct", el evento lo puede envi
 
 Por el momento solo Cart envía este tipo de mensajes, cada vez que se agrega un artículo al cart se valida si existe o no.
 
-<img src='https://g.gravizo.com/svg?
+![article-valid](<img src='https://g.gravizo.com/svg?
  digraph G {
    cart ->catalog  [label="article-valid"];
    catalog -> cart;
    }
-'/>
+'/>)
 
 ### __"article-data"__ de Catalog
 
 Es un evento que envía Catalog, en respuesta al mensaje recibido por exchange = "sell_flow"  y "topic" = "order_placed". , básicamente cuando Order realiza un place de order, envía ese evento. Catalog responde con el articulo y la información del precio y cantidad actual en stock. La comunicación es asíncrona, por lo tanto el mensaje original debe indicar a que exchange y queue se debe responder.
 
-<img src='https://g.gravizo.com/svg?
+![article-data](<img src='https://g.gravizo.com/svg?
  digraph G {
    order -> sell_flow  [label="order-placed"];
    sell_flow -> catalog  [label="order-placed"];
    catalog -> order [label="article-data"];
    }
-'/>
+'/>)
 
 Alternativamente "article-data" puede recibirse por "direct" exchange, esto puede ser util en caso que el topic no se haya recibido y se requiera una confirmación puntual.
 
-<img src='https://g.gravizo.com/svg?
+![article-data](<img src='https://g.gravizo.com/svg?
  digraph G {
    order -> catalog [label="article-data"];
    catalog -> order  ;
    }
-'/>
+'/>)
 
 ### __"order-placed"__ de Order
 
@@ -193,13 +193,13 @@ Puntualmente Cart y Catalog son los que reaccionan a este evento.
 
 Este ejemplo es clave para comprender el espíritu de los eventos en una arquitectura de microservicios.
 
-<img src='https://g.gravizo.com/svg?
+![order-placed](<img src='https://g.gravizo.com/svg?
  digraph G {
    order -> sell_flow  [label="order-placed"];
    sell_flow -> catalog  [label="order-placed"];
    sell_flow -> cart  [label="order-placed"];
    }
-'/>
+'/>)
 
 ## Casos de Estudio
 
