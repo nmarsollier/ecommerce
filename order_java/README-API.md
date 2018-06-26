@@ -417,7 +417,7 @@ HTTP/1.1 500 Server Error
 
 <p>Antes de iniciar las operaciones se validan los artículos contra el catalogo.</p>
 
-	DIRECT order/artcle-data
+	DIRECT order/article-data
 
 
 
@@ -479,7 +479,7 @@ Mensaje
 
 ```
 {
-  "type": "article-exist",
+  "type": "logout",
   "message" : "tokenId"
 }
 ```
@@ -516,9 +516,9 @@ Mensaje
 ## <a name='orden-creada'></a> Orden Creada
 [Back to top](#top)
 
-<p>Envía de mensajes order-placed desde Order. Valida artículos</p>
+<p>Envía de mensajes order-placed desde Order con el topic &quot;order_placed&quot;.</p>
 
-	DIRECT order/order-placed
+	TOPIC order/order-placed
 
 
 
@@ -533,6 +533,10 @@ Mensaje
 "message" : {
     "cartId": "{cartId}",
     "orderId": "{orderId}"
+    "articles": [{
+         "articleId": "{article id}"
+         "quantity" : {quantity}
+     }, ...]
    }
 }
 ```

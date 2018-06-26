@@ -12,6 +12,9 @@ Microservicio de Catálogo
 - [Articulos](#articulos)
 	- [Buscar Artículo](#buscar-artículo)
 	
+- [RabbitMQ](#rabbitmq)
+	- [Orden Creada](#orden-creada)
+	
 - [RabbitMQ_GET](#rabbitmq_get)
 	- [Validación de Artículos](#validación-de-artículos)
 	- [Validación de Artículos](#validación-de-artículos)
@@ -361,6 +364,37 @@ HTTP/1.1 500 Server Error
     "error" : "{Motivo del error}"
 }
 ```
+# <a name='rabbitmq'></a> RabbitMQ
+
+## <a name='orden-creada'></a> Orden Creada
+[Back to top](#top)
+
+<p>Consume de mensajes order-placed desde Order con el topic &quot;order_placed&quot;.</p>
+
+	TOPIC order/order-placed
+
+
+
+
+### Success Response
+
+Mensaje
+
+```
+{
+"type": "order-placed",
+"message" : {
+    "cartId": "{cartId}",
+    "orderId": "{orderId}"
+    "articles": [{
+         "articleId": "{article id}"
+         "quantity" : {quantity}
+     }, ...]
+   }
+}
+```
+
+
 # <a name='rabbitmq_get'></a> RabbitMQ_GET
 
 ## <a name='validación-de-artículos'></a> Validación de Artículos

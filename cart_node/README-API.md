@@ -12,8 +12,10 @@ Microservicio de Carrito
 	- [Quitar Artículo](#quitar-artículo)
 	- [Validar Carrito](#validar-carrito)
 	
+- [RabbitMQ](#rabbitmq)
+	- [Orden Creada](#orden-creada)
+	
 - [RabbitMQ_GET](#rabbitmq_get)
-	- [Validación de Artículos](#validación-de-artículos)
 	- [Validación de Artículos](#validación-de-artículos)
 	- [Logout de Usuarios](#logout-de-usuarios)
 	
@@ -390,6 +392,37 @@ HTTP/1.1 500 Internal Server Error
    "error" : "Not Found"
 }
 ```
+# <a name='rabbitmq'></a> RabbitMQ
+
+## <a name='orden-creada'></a> Orden Creada
+[Back to top](#top)
+
+<p>Consume de mensajes order-placed desde Order con el topic &quot;order_placed&quot;.</p>
+
+	TOPIC order/order-placed
+
+
+
+
+### Success Response
+
+Mensaje
+
+```
+{
+"type": "order-placed",
+"message" : {
+    "cartId": "{cartId}",
+    "orderId": "{orderId}"
+    "articles": [{
+         "articleId": "{article id}"
+         "quantity" : {quantity}
+     }, ...]
+   }
+}
+```
+
+
 # <a name='rabbitmq_get'></a> RabbitMQ_GET
 
 ## <a name='validación-de-artículos'></a> Validación de Artículos
@@ -413,31 +446,6 @@ Mensaje
         "referenceId": "{cartId}",
         "articleId": "{articleId}",
         "valid": true|false
-   }
-}
-```
-
-
-## <a name='validación-de-artículos'></a> Validación de Artículos
-[Back to top](#top)
-
-<p>Escucha de mensajes order-placed desde Order.</p>
-
-	DIRECT cart/order-placed
-
-
-
-
-### Success Response
-
-Mensaje
-
-```
-{
-   "type": "order-placed",
-   "message": {
-        "cartId": "{cartId}",
-        "orderId": "{orderId}"
    }
 }
 ```

@@ -1,5 +1,7 @@
 package application;
 
+import java.util.Arrays;
+
 import com.google.gson.annotations.SerializedName;
 
 import article.Article;
@@ -13,6 +15,7 @@ import utils.rabbit.DirectConsumer;
 import utils.rabbit.DirectPublisher;
 import utils.rabbit.FanoutConsumer;
 import utils.rabbit.RabbitEvent;
+import utils.rabbit.TopicConsumer;
 import utils.validator.Required;
 import utils.validator.Validator;
 
@@ -27,6 +30,10 @@ public class RabbitController {
         directConsumer.addProcessor("article-exist", e -> processArticleExist(e));
         directConsumer.addProcessor("article-data", e -> processArticleData(e));
         directConsumer.start();
+
+        TopicConsumer topicConsumer = new TopicConsumer("sell_flow", "topic_catalog", "order_placed");
+        topicConsumer.addProcessor("order-placed", e -> processOrderPlaced(e));
+        topicConsumer.start();
     }
 
     /**
@@ -122,6 +129,60 @@ public class RabbitController {
             data.valid = false;
             sendArticleData(event, data);
         } catch (Exception article) {
+            return;
+        }
+    }
+
+    /**
+     *
+     * @api {topic} order/order-placed Orden Creada
+     *
+     * @apiGroup RabbitMQ
+     *
+     * @apiDescription Consume de mensajes order-placed desde Order con el topic "order_placed".
+     *
+     * @apiSuccessExample {json} Mensaje
+     *     {
+     *     "type": "order-placed",
+     *     "message" : {
+     *         "cartId": "{cartId}",
+     *         "orderId": "{orderId}"
+     *         "articles": [{
+     *              "articleId": "{article id}"
+     *              "quantity" : {quantity}
+     *          }, ...]
+     *        }
+     *     }
+     */
+    static void processOrderPlaced(RabbitEvent event) {
+        try {
+            OrderPlacedEvent exist = OrderPlacedEvent.fromJson(event.message.toString());
+            System.out.println("RabbitMQ Consume order-placed : " + exist.orderId);
+
+            Validator.validate(exist);
+
+            Arrays.stream(exist.articles).forEach(a -> {
+                try {
+                    ArticleData article = ArticleRepository.getInstance().get(a.articleId).value();
+
+                    EventArticleData data = new EventArticleData();
+                    data.articleId = article.id;
+                    data.price = article.price;
+                    data.referenceId = exist.orderId;
+                    data.stock = article.stock;
+                    data.valid = article.enabled;
+
+                    sendArticleData(event, data);
+                } catch (ValidationError validation) {
+                    EventArticleData data = new EventArticleData();
+                    data.articleId = a.articleId;
+                    data.referenceId = exist.orderId;
+                    data.valid = false;
+                    sendArticleData(event, data);
+                }
+            });
+        } catch (Exception e) {
+            e.printStackTrace();
             return;
         }
     }
@@ -223,6 +284,29 @@ public class RabbitController {
         @Override
         public String toJson() {
             return Builder.gson().toJson(this);
+        }
+    }
+
+    private static class OrderPlacedEvent {
+        @SerializedName("orderId")
+        public String orderId;
+        @SerializedName("cartId")
+        public String cartId;
+        @SerializedName("articles")
+        private Article[] articles;
+
+        public static class Article {
+            @SerializedName("articleId")
+            @Required
+            private String articleId;
+
+            @SerializedName("quantity")
+            @Required
+            private int quantity;
+        }
+
+        public static OrderPlacedEvent fromJson(String json) {
+            return Builder.gson().fromJson(json, OrderPlacedEvent.class);
         }
     }
 }

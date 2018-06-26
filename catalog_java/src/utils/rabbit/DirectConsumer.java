@@ -16,7 +16,9 @@ import utils.server.Environment;
 import utils.validator.Validator;
 
 /**
- * Escucha mensajes "direct" encolados en rabbit hacia un queue y exchange específicos
+ * Escuchar en una cola direct es recibir un mensaje directo,
+ * Necesitamos un exchange y un queue especifico para enviar correctamente el mensaje.
+ * Tanto el consumer como el publisher deben compartir estos mismos datos.
  */
 public class DirectConsumer {
     private String exchange;

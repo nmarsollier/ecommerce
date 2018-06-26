@@ -16,6 +16,9 @@ import com.rabbitmq.client.Envelope;
 import utils.server.Environment;
 import utils.validator.Validator;
 
+/**
+ * Las colas fanout son un broadcast, no necesitan queue, solo exchange que es donde se publican
+ */
 public class FanoutConsumer {
     private String exchange;
     private Map<String, EventProcessor> listeners = new HashMap<>();
@@ -51,7 +54,7 @@ public class FanoutConsumer {
             Channel channel = connection.createChannel();
 
             channel.exchangeDeclare(exchange, "fanout");
-            String queueName = channel.queueDeclare("", true, true, true, null).getQueue();
+            String queueName = channel.queueDeclare("", false, false, false, null).getQueue();
 
             channel.queueBind(queueName, exchange, "");
 

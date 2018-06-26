@@ -17,14 +17,22 @@ import utils.server.Environment;
 import utils.validator.Validator;
 
 /**
- * Las colas fanout son un broadcast, no necesitan queue, solo exchange que es donde se publican
+ * La cola topic permite que varios consumidores escuchen el mismo evento
+ * topic es muy importante por es el evento que se va a escuchar
+ * Para que un consumer escuche los eventos debe estar conectado al mismo exchange y escuchar el topic adecuado
+ * queue permite distribuir la carga de los mensajes entre distintos consumers, los consumers con el mismo queue name
+ * comparten la carga de procesamiento de mensajes, es importante que se defina el queue
  */
-public class FanoutConsumer {
+public class TopicConsumer {
     private String exchange;
+    private String queue;
+    private String topic;
     private Map<String, EventProcessor> listeners = new HashMap<>();
 
-    public FanoutConsumer(String exchange) {
+    public TopicConsumer(String exchange, String queue, String topic) {
         this.exchange = exchange;
+        this.queue = queue;
+        this.topic = topic;
     }
 
     public void addProcessor(String event, EventProcessor listener) {
@@ -53,14 +61,13 @@ public class FanoutConsumer {
             Connection connection = factory.newConnection();
             Channel channel = connection.createChannel();
 
-            channel.exchangeDeclare(exchange, "fanout");
-            String queueName = channel.queueDeclare("", false, false, false, null).getQueue();
-
-            channel.queueBind(queueName, exchange, "");
+            channel.exchangeDeclare(exchange, "topic");
+            channel.queueDeclare(queue, false, false, false, null);
+            channel.queueBind(queue, exchange, topic);
 
             new Thread(() -> {
                 try {
-                    Logger.getLogger("RabbitMQ").log(Level.INFO, "RabbitMQ Fanout Conectado");
+                    Logger.getLogger("RabbitMQ").log(Level.INFO, "RabbitMQ Topic Conectado");
 
                     Consumer consumer = new DefaultConsumer(channel) {
                         @Override
@@ -83,7 +90,7 @@ public class FanoutConsumer {
                             }
                         }
                     };
-                    channel.basicConsume(queueName, true, consumer);
+                    channel.basicConsume(queue, true, consumer);
                 } catch (Exception e) {
                     Logger.getLogger("RabbitMQ").log(Level.INFO, "RabbitMQ ArticleValidation desconectado");
                     startDelayed();

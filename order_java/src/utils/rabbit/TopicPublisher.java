@@ -10,25 +10,24 @@ import com.rabbitmq.client.ConnectionFactory;
 import utils.server.Environment;
 
 /**
- * Publicar en una cola direct es enviar un mensaje directo a un destinatario en particular,
- * Necesitamos un exchange y un queue especifico para enviar correctamente el mensaje.
- * Tanto el consumer como el publisher deben compartir estos mismos datos.
+ * La cola topic permite que varios consumidores escuchen el mismo evento
+ * topic es muy importante por es el evento que se va a escuchar
+ * Para que un consumer escuche los eventos debe estar conectado al mismo exchange y escuchar el topic adecuado
+ * queue permite distribuir la carga de los mensajes entre distintos consumers, los consumers con el mismo queue name
+ * comparten la carga de procesamiento de mensajes, es importante que se defina el queue
  */
-public class DirectPublisher {
+public class TopicPublisher {
 
-    public static void publish(String exchange, String queue, RabbitEvent message) {
+    public static void publish(String exchange, String topic, RabbitEvent message) {
         try {
             ConnectionFactory factory = new ConnectionFactory();
             factory.setHost(Environment.getEnv().rabbitServerUrl);
             Connection connection = factory.newConnection();
             Channel channel = connection.createChannel();
 
-            channel.exchangeDeclare(exchange, "direct");
-            channel.queueDeclare(queue, false, false, false, null);
+            channel.exchangeDeclare(exchange, "topic");
 
-            channel.queueBind(queue, exchange, queue);
-
-            channel.basicPublish(exchange, queue, null, message.toJson().getBytes());
+            channel.basicPublish(exchange, topic, null, message.toJson().getBytes());
 
             Logger.getLogger("RabbitMQ").log(Level.INFO, "RabbitMQ Emit " + message.type);
         } catch (Exception e) {

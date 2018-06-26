@@ -1,16 +1,22 @@
 package application;
 
+import java.util.Arrays;
+import java.util.stream.Collectors;
+
 import com.google.gson.annotations.SerializedName;
 
 import events.EventService;
 import events.schema.Event;
 import events.schema.NewArticleValidationData;
 import events.schema.NewPlaceData;
+import events.schema.PlaceEvent;
+import events.schema.PlaceEvent.Article;
 import security.TokenService;
 import utils.rabbit.DirectConsumer;
 import utils.rabbit.DirectPublisher;
 import utils.rabbit.FanoutConsumer;
 import utils.rabbit.RabbitEvent;
+import utils.rabbit.TopicPublisher;
 
 public class RabbitController {
 
@@ -34,7 +40,7 @@ public class RabbitController {
      *
      * @apiExample {json} Mensaje
      *   {
-     *     "type": "article-exist",
+     *     "type": "logout",
      *     "message" : "tokenId"
      *   }
      */
@@ -64,8 +70,7 @@ public class RabbitController {
         NewPlaceData cart = NewPlaceData.fromJson(event.message.toString());
         try {
             Event data = EventService.getInstance().placeOrder(cart);
-            sendOrderPlaced(event, data.getOrderId().toHexString(),
-                    data.getPlaceEvent().getCartId());
+            sendOrderPlaced(data);
         } catch (Exception e) {
             e.printStackTrace();
             return;
@@ -74,7 +79,7 @@ public class RabbitController {
 
     /**
     *
-    * @api {direct} order/artcle-data Validar Artículos
+    * @api {direct} order/article-data Validar Artículos
     *
     * @apiGroup RabbitMQ GET
     *
@@ -102,11 +107,11 @@ public class RabbitController {
 
     /**
      *
-     * @api {direct} order/order-placed Orden Creada
+     * @api {topic} order/order-placed Orden Creada
      *
      * @apiGroup RabbitMQ POST
      *
-     * @apiDescription Envía de mensajes order-placed desde Order. Valida artículos
+     * @apiDescription Envía de mensajes order-placed desde Order con el topic "order_placed".
      *
      * @apiSuccessExample {json} Mensaje
      *     {
@@ -114,30 +119,64 @@ public class RabbitController {
      *     "message" : {
      *         "cartId": "{cartId}",
      *         "orderId": "{orderId}"
+     *         "articles": [{
+     *              "articleId": "{article id}"
+     *              "quantity" : {quantity}
+     *          }, ...]
      *        }
      *     }
      *
      */
-    public static void sendOrderPlaced(RabbitEvent event, String orderId, String cartId) {
+    public static void sendOrderPlaced(Event event) {
         RabbitEvent eventToSend = new RabbitEvent();
         eventToSend.type = "order-placed";
-        eventToSend.message = new OrderPlacedResponse(orderId, cartId);
+        eventToSend.exchange = "order";
+        eventToSend.queue = "order";
 
-        DirectPublisher.publish(event.exchange, event.queue, eventToSend);
+        eventToSend.message = new OrderPlacedResponse(event.getOrderId().toHexString(),
+                event.getPlaceEvent().getCartId(), event.getPlaceEvent().getArticles());
+
+        TopicPublisher.publish("sell_flow", "order_placed", eventToSend);
     }
 
     private static class OrderPlacedResponse {
-        OrderPlacedResponse(String orderId, String cartId) {
-            this.orderId = orderId;
-            this.cartId = cartId;
-        }
-
         @SerializedName("orderId")
         public String orderId;
         @SerializedName("cartId")
         public String cartId;
-    }
+        @SerializedName("articles")
+        private OrderPlacedResponse.Article[] articles;
 
+        OrderPlacedResponse() {
+
+        }
+
+        OrderPlacedResponse(String orderId, String cartId, PlaceEvent.Article[] articles) {
+            this.orderId = orderId;
+            this.cartId = cartId;
+            this.articles = Arrays.stream(articles) //
+                    .map(a -> new Article(a.getArticleId(), a.getQuantity())) //
+                    .collect(Collectors.toList()) //
+                    .toArray(new OrderPlacedResponse.Article[] {});
+
+        }
+
+        public static class Article {
+            @SerializedName("articleId")
+            private String articleId;
+
+            @SerializedName("quantity")
+            private int quantity;
+
+            public Article() {
+            }
+
+            public Article(String articleId, int quantity) {
+                this.articleId = articleId;
+                this.quantity = quantity;
+            }
+        }
+    }
 
     /**
      *

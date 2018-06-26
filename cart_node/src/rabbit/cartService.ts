@@ -9,6 +9,7 @@ import { RabbitDirectConsumer } from "./tools/directConsumer";
 import { RabbitDirectEmitter } from "./tools/directEmitter";
 import { IRabbitMessage } from "./tools/common";
 import { ICart } from "../cart/schema";
+import { RabbitTopicConsumer } from "./tools/topicConsumer";
 
 interface IArticleExistMessage {
     referenceId: string;
@@ -23,8 +24,11 @@ interface IOrderPlacedMessage {
 export function init() {
     const cart = new RabbitDirectConsumer("cart", "cart");
     cart.addProcessor("article-exist", processArticleExist);
-    cart.addProcessor("order-placed", processOrderPlaced);
     cart.init();
+
+    const cart2 = new RabbitTopicConsumer("topic_cart", "sell_flow", "order_placed");
+    cart2.addProcessor("order-placed", processOrderPlaced);
+    cart2.init();
 }
 
 /**
@@ -49,17 +53,23 @@ function processArticleExist(rabbitMessage: IRabbitMessage) {
 }
 
 /**
- * @api {direct} cart/order-placed Validación de Artículos
- * @apiGroup RabbitMQ GET
  *
- * @apiDescription Escucha de mensajes order-placed desde Order.
+ * @api {topic} order/order-placed Orden Creada
+ *
+ * @apiGroup RabbitMQ
+ *
+ * @apiDescription Consume de mensajes order-placed desde Order con el topic "order_placed".
  *
  * @apiSuccessExample {json} Mensaje
  *     {
- *        "type": "order-placed",
- *        "message": {
- *             "cartId": "{cartId}",
- *             "orderId": "{orderId}"
+ *     "type": "order-placed",
+ *     "message" : {
+ *         "cartId": "{cartId}",
+ *         "orderId": "{orderId}"
+ *         "articles": [{
+ *              "articleId": "{article id}"
+ *              "quantity" : {quantity}
+ *          }, ...]
  *        }
  *     }
  */

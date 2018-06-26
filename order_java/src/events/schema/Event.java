@@ -8,7 +8,7 @@ import org.mongodb.morphia.annotations.Id;
 import org.mongodb.morphia.annotations.Indexed;
 
 /**
- * Permite almcenar los eventos del event store.
+ * Permite almacenar los eventos del event store.
  */
 @Entity(value = "event", noClassnameStored = true)
 public class Event {

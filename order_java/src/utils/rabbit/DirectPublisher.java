@@ -9,6 +9,11 @@ import com.rabbitmq.client.ConnectionFactory;
 
 import utils.server.Environment;
 
+/**
+ * Publicar en una cola direct es enviar un mensaje directo a un destinatario en particular,
+ * Necesitamos un exchange y un queue especifico para enviar correctamente el mensaje.
+ * Tanto el consumer como el publisher deben compartir estos mismos datos.
+ */
 public class DirectPublisher {
 
     public static void publish(String exchange, String queue, RabbitEvent message) {

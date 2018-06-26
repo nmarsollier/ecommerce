@@ -72,7 +72,7 @@ public class BatchService {
                     stat.update(order);
 
                     if (order.getStatus() == Status.PAYMENT_DEFINED) {
-                        // A reservar articulos
+                        // A reservar artículos
 
                     }
 
