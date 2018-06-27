@@ -2,16 +2,13 @@ import { Component } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { AuthService } from '../auth/auth.service';
-import * as errorHandler from '../tools/error.handler';
+import { BasicFromGroupController } from '../tools/error.form';
 
 @Component({
     selector: 'app-auth-new-password',
     templateUrl: './new.password.component.html'
 })
-export class NewPasswordComponent implements errorHandler.IFormGroupErrorController {
-    errorMessage: string;
-    errors = new Map();
-
+export class NewPasswordComponent extends BasicFromGroupController {
     form = new FormGroup({
         login: new FormControl('', [Validators.required]),
         currentPassword: new FormControl('', [Validators.required]),
@@ -22,12 +19,13 @@ export class NewPasswordComponent implements errorHandler.IFormGroupErrorControl
     });
 
     constructor(private authService: AuthService, private router: Router) {
+        super();
         this.form.get('login').setValue(authService.usuarioLogueado.login);
     }
 
     validarPasswords(group: FormGroup) {
         if (group.controls.newPassword1.dirty && group.controls.newPassword.value !== group.controls.newPassword1.value) {
-            errorHandler.processFormGroupRestValidations(this, {
+            this.processRestValidations({
                 messages: [
                     {
                         path: 'newPassword1',
@@ -36,15 +34,13 @@ export class NewPasswordComponent implements errorHandler.IFormGroupErrorControl
                 ]
             });
             return this.errors.values;
-        } else {
-            errorHandler.cleanRestValidations(this);
         }
         // tslint:disable-next-line:no-null-keyword
         return null;
     }
 
     submitForm() {
-        errorHandler.cleanRestValidations(this);
+        this.cleanRestValidations();
 
         this.authService
             .changePassword(
@@ -53,6 +49,6 @@ export class NewPasswordComponent implements errorHandler.IFormGroupErrorControl
             ).then(principal => {
                 this.router.navigate(['/']);
             })
-            .catch(error => errorHandler.processFormGroupRestValidations(this, error));
+            .catch(error => this.processRestValidations(error));
     }
 }

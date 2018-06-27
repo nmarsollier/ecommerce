@@ -1,63 +1,64 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import * as errorHandler from '../tools/error.handler';
 import { AuthService, User } from './auth.service';
-import { FormControl, Validators } from '@angular/forms';
+import { FormControl, Validators, FormGroup } from '@angular/forms';
+import { BasicFromGroupController } from '../tools/error.form';
 
 @Component({
     selector: 'app-users',
     templateUrl: './users.component.html'
 })
-export class UsersComponent implements errorHandler.IErrorController, OnInit {
-
-    errorMessage: string;
-    errors = new Map();
-
+export class UsersComponent extends BasicFromGroupController implements OnInit {
     users: User[];
 
-    editPermisos: string;
-    permisos = new FormControl('', [Validators.required]);
+    editPermisos: User;
 
-    constructor(private authService: AuthService, private router: Router) { }
+    form = new FormGroup({
+        permisos: new FormControl('', [Validators.required]),
+    });
+
+    constructor(private authService: AuthService, private router: Router) {
+        super();
+    }
 
     ngOnInit(): void {
         this.getUsers();
     }
 
-    editarPermisos(id: string) {
-        this.permisos.setValue('');
-        this.editPermisos = id;
+    editarPermisos(user: User) {
+        this.form.get('permisos').setValue('');
+        this.editPermisos = user;
     }
     cancelarPermisos() {
         this.editPermisos = undefined;
     }
     grantPermisos() {
-        this.authService.grant(this.editPermisos, this.permisos.value.split(','))
+        this.authService.grant(this.editPermisos.id, this.form.get('permisos').value.split(','))
             .then(
                 result => this.getUsers()
-            ).catch(err => errorHandler.processRestValidations(this, err));
+            ).catch(err => this.processRestValidations(err));
     }
     revokePermisos() {
-        this.authService.revoke(this.editPermisos, this.permisos.value.split(','))
+        this.authService.revoke(this.editPermisos.id, this.form.get('permisos').value.split(','))
             .then(
                 result => this.getUsers()
-            ).catch(err => errorHandler.processRestValidations(this, err));
+            ).catch(err => this.processRestValidations(err));
     }
     enableUser(id: string) {
         this.authService.enable(id).then(
             result => this.getUsers()
-        ).catch(err => errorHandler.processRestValidations(this, err));
+        ).catch(err => this.processRestValidations(err));
     }
 
     disableUser(id: string) {
         this.authService.disable(id).then(
             result => this.getUsers()
-        ).catch(err => errorHandler.processRestValidations(this, err));
+        ).catch(err => this.processRestValidations(err));
     }
 
     getUsers() {
         this.authService.getUsers().then(
             result => this.users = result
-        ).catch(err => errorHandler.processRestValidations(this, err));
+        ).catch(err => this.processRestValidations(err));
     }
 }

@@ -1,69 +1,57 @@
 <h2>Editar Articulo</h2>
 
-<form>
-    <mat-form-field>
-        <input matInput placeholder="Id" [formControl]="articleId" />
+<form *ngIf="!articulo">
+    <div class="form-group">
+        <label for="articleId">Id Artículo</label>
+        <input class="form-control" [class.is-invalid]="hasError('articleId')" id="articleId" [formControl]="articleId">
+        <div *ngIf="hasError('articleId')" class="invalid-feedback">{{getErrorText('articleId')}}</div>
+    </div>
 
-        <mat-error *ngIf="articleId.invalid">
-            {{ errors.get('articleId') ? errors.get('articleId') : "Valor no válido." }}
-        </mat-error>
-    </mat-form-field>
-    <div>
-        <div *ngIf="errorMessage">{{errorMessage}}</div>
-        <button mat-button color="primary" (click)="buscar()">Buscar</button>
-        <button mat-button color="disabled" [routerLink]="['/']">Cancelar</button>
+    <div *ngIf="errorMessage" class="invalid-feedback">{{errorMessage}}</div>
+
+    <div class="btn-group ">
+        <button class="btn btn-primary " (click)="buscar() ">Buscar</button>
+        <button class="btn btn-light " [routerLink]="[ '/'] ">Cancelar</button>
     </div>
 </form>
 <BR>
 
 <form [formGroup]="form" *ngIf="articulo">
+    <div class="form-group">
+        <label for="name">Nombre</label>
+        <input class="form-control" [class.is-invalid]="hasError('name')" id="name" formControlName="name">
+        <div *ngIf="hasError('name')" class="invalid-feedback">{{getErrorText('name')}}</div>
+    </div>
 
-    <mat-form-field>
-        <input matInput placeholder="Nombre" formControlName="name" />
+    <div class="form-group">
+        <label for="description">Descripción</label>
+        <input class="form-control" [class.is-invalid]="hasError('description')" id="description" formControlName="description">
+        <div *ngIf="hasError('description')" class="invalid-feedback">{{getErrorText('description')}}</div>
+    </div>
 
-        <mat-error *ngIf="form.get('name')?.invalid">
-            {{ errors.get('name') ? errors.get('name') : "Valor no válido." }}
-        </mat-error>
-    </mat-form-field>
+    <div class="form-group">
+        <app-file-upload allowedTypes="image/*" uploadButtonText="Upload File" formControlName="image" (ngModelChange)="updateImage($event)">
+        </app-file-upload>
+        <div *ngIf="hasError('image')" class="invalid-feedback">{{getErrorText('image')}}</div>
+    </div>
 
-    <mat-form-field>
-        <input matInput placeholder="Descripción" formControlName="description" />
+    <div class="form-group">
+        <label for="price">Precio</label>
+        <input class="form-control" [class.is-invalid]="hasError('price')" id="price" formControlName="price">
+        <div *ngIf="hasError('price')" class="invalid-feedback">{{getErrorText('price')}}</div>
+    </div>
 
-        <mat-error *ngIf="form.get('description')?.invalid">
-            {{ errors.get('description') ? errors.get('description') : "Valor no válido." }}
-        </mat-error>
-    </mat-form-field>
+    <div class="form-group">
+        <label for="stock">Stock</label>
+        <input class="form-control" [class.is-invalid]="hasError('stock')" id="stock" formControlName="stock">
+        <div *ngIf="hasError('stock')" class="invalid-feedback">{{getErrorText('stock')}}</div>
+    </div>
 
-    <mat-form-field>
-        <app-mat-file-upload matInput placeholder="Imagen" allowedTypes="image/*" uploadButtonText="Upload File" formControlName="image"
-            (ngModelChange)="updateImage($event)">
-        </app-mat-file-upload>
+    <div *ngIf="errorMessage" class="invalid-feedback">{{errorMessage}}</div>
 
-        <mat-error *ngIf="form.get('image')?.invalid">
-            {{ errors.get('image') ? errors.get('image') : "Valor no válido." }}
-        </mat-error>
-    </mat-form-field>
-
-    <mat-form-field>
-        <input matInput placeholder="Precio" formControlName="price" />
-
-        <mat-error *ngIf="form.get('price')?.invalid">
-            {{ errors.get('price') ? errors.get('price') : "Valor no válido." }}
-        </mat-error>
-    </mat-form-field>
-
-    <mat-form-field>
-        <input matInput placeholder="Stock" formControlName="stock" />
-
-        <mat-error *ngIf="form.get('stock')?.invalid">
-            {{ errors.get('stock') ? errors.get('stock') : "Valor no válido." }}
-        </mat-error>
-    </mat-form-field>
-
-    <div>
-        <div *ngIf="errorMessage">{{errorMessage}}</div>
-        <button mat-button color="primary" (click)="submitForm()" [disabled]="form.invalid">Guardar</button>
-        <button mat-button color="warn" (click)="eliminar()">Eliminar</button>
-        <button mat-button color="disabled" [routerLink]="['/']">Cancelar</button>
+    <div class="btn-group ">
+        <button class="btn btn-primary " (click)="submitForm() " [disabled]="form.invalid ">Guardar</button>
+        <button class="btn btn-danger " (click)="eliminar() ">Eliminar</button>
+        <button class="btn btn-light " [routerLink]="[ '/'] ">Cancelar</button>
     </div>
 </form>

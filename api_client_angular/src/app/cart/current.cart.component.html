@@ -1,45 +1,47 @@
 <h2>Carrito Actual</h2>
 
 <form *ngIf="currentCart">
-    <mat-form-field>
-        <input matInput placeholder="Id" [value]="currentCart._id" readonly>
-    </mat-form-field>
+    <div class="form-group form-inline">
+        <label for="_id" class="mr-sm-2" >Id Carrito</label>
+        <input class="form-control form-control-sm" id="_id" [value]="currentCart._id" readonly>
+    </div>
 
-    <mat-form-field>
-        <input matInput placeholder="Usuario" [value]="currentCart.userId" readonly>
-    </mat-form-field>
+    <div class="form-group form-inline mr-sm-2">
+        <label for="userId" class="mr-sm-2" >Id Usuario</label>
+        <input class="form-control form-control-sm" id="userId" [value]="currentCart.userId" readonly>
+    </div>
 
+    <div class="form-group">
+        <label for="articles">Artículos</label>
 
-    <table mat-table [dataSource]="currentCart.articles" class="mat-elevation-z8">
-        <ng-container matColumnDef="id">
-            <th mat-header-cell *matHeaderCellDef> Id </th>
-            <td mat-cell *matCellDef="let element"> {{element.articleId}} </td>
-        </ng-container>
+        <table id="articles" class="table">
 
-        <ng-container matColumnDef="quantity">
-            <th mat-header-cell *matHeaderCellDef> Cantidad </th>
-            <td mat-cell *matCellDef="let element"> {{element.quantity}} </td>
-        </ng-container>
+            <head>
+                <tr>
+                    <th> Id </th>
+                    <th> Cantidad </th>
+                    <th> Validado </th>
+                </tr>
+            </head>
+            <tbody>
+                <tr *ngFor="let element of currentCart.articles">
+                    <td> {{element.articleId}} </td>
+                    <td> {{element.quantity}} </td>
+                    <td> {{element.validated}} </td>
+                </tr>
+            </tbody>
+        </table>
 
-        <ng-container matColumnDef="validated">
-            <th mat-header-cell *matHeaderCellDef> Validado </th>
-            <td mat-cell *matCellDef="let element"> {{element.validated}} </td>
-        </ng-container>
-
-        <tr mat-header-row *matHeaderRowDef="['id', 'quantity', 'validated']"></tr>
-        <tr mat-row *matRowDef="let row; columns: ['id', 'quantity', 'validated'];"></tr>
-    </table>
-
-    <BR>
-    <div>
-        <div *ngIf="errorMessage">{{errorMessage}}</div>
-        <button mat-button color="primary" (click)="validate()">Validar</button>
-        <button mat-button color="primary" (click)="checkout()">Checkout</button>
-        <button mat-button color="primary" (click)="refresh()">Refresh</button>
-        <button mat-button color="disabled" [routerLink]="['/']">Cancelar</button>
+        <div class="btn-group ">
+            <div *ngIf="errorMessage">{{errorMessage}}</div>
+            <button class="btn btn-primary " (click)="validate()">Validar</button>
+            <button class="btn btn-primary " (click)="checkout()">Checkout</button>
+            <button class="btn btn-primary " (click)="refresh()">Refresh</button>
+            <button class="btn btn-light " [routerLink]="['/']">Cancelar</button>
+        </div>
     </div>
 </form>
 
-{{validation | json}}
+{{validation | json}}
 
 <div *ngIf="errorMessage">{{errorMessage}}</div>

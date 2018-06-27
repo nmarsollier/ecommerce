@@ -1,66 +1,43 @@
 <h2>Ordenes</h2>
 
-<table mat-table [dataSource]="orders" class="mat-elevation-z8">
+<table class="table">
+    <thead>
+        <tr>
+            <th> Id </th>
+            <th> CartId </th>
+            <th> Estado </th>
+            <th> Precio Total </th>
+            <th> Pago Total </th>
+            <th> Creada </th>
+            <th> Ultima Act. </th>
+            <th> Artículos </th>
+            <th> </th>
+        </tr>
+    </thead>
 
-    <ng-container matColumnDef="id">
-        <th mat-header-cell *matHeaderCellDef> Id </th>
-        <td mat-cell *matCellDef="let element"> {{element.id}} </td>
-    </ng-container>
-
-    <ng-container matColumnDef="cartId">
-        <th mat-header-cell *matHeaderCellDef> CartId </th>
-        <td mat-cell *matCellDef="let element"> {{element.cartId}} </td>
-    </ng-container>
-
-    <ng-container matColumnDef="status">
-        <th mat-header-cell *matHeaderCellDef> Estado </th>
-        <td mat-cell *matCellDef="let element"> {{element.status}} </td>
-    </ng-container>
-
-    <ng-container matColumnDef="totalPrice">
-        <th mat-header-cell *matHeaderCellDef> Precio Total </th>
-        <td mat-cell *matCellDef="let element"> {{element.totalPrice}} </td>
-    </ng-container>
-
-    <ng-container matColumnDef="totalPayment">
-        <th mat-header-cell *matHeaderCellDef> Pago Total </th>
-        <td mat-cell *matCellDef="let element"> {{element.totalPayment}} </td>
-    </ng-container>
-
-
-    <ng-container matColumnDef="created">
-        <th mat-header-cell *matHeaderCellDef> Creada </th>
-        <td mat-cell *matCellDef="let element"> {{element.created}} </td>
-    </ng-container>
-
-    <ng-container matColumnDef="updated">
-        <th mat-header-cell *matHeaderCellDef> Ultima Act. </th>
-        <td mat-cell *matCellDef="let element"> {{element.updated}} </td>
-    </ng-container>
-
-    <ng-container matColumnDef="articles">
-        <th mat-header-cell *matHeaderCellDef> Artículos </th>
-        <td mat-cell *matCellDef="let element"> {{element.articles}} </td>
-    </ng-container>
-
-    <ng-container matColumnDef="options">
-        <th mat-header-cell *matHeaderCellDef> </th>
-        <td mat-cell *matCellDef="let element">
-            <a [routerLink]="['/order_details/'+element.id]">
-                <img src="/assets/find.png" />
-            </a>
-        </td>
-    </ng-container>
-
-    <tr mat-header-row *matHeaderRowDef="['id', 'cartId', 'status', 'totalPrice', 'totalPayment', 'created', 'updated', 'articles', 'options']"></tr>
-    <tr mat-row *matRowDef="let row; columns: ['id', 'cartId', 'status', 'totalPrice', 'totalPayment', 'created', 'updated', 'articles', 'options'];"></tr>
+    <tbody>
+        <tr *ngFor="let element of orders">
+            <td> {{element.id}} </td>
+            <td> {{element.cartId}} </td>
+            <td> {{element.status}} </td>
+            <td> {{element.totalPrice}} </td>
+            <td> {{element.totalPayment}} </td>
+            <td> {{element.created}} </td>
+            <td> {{element.updated}} </td>
+            <td> {{element.articles}} </td>
+            <td>
+                <a [routerLink]="['/order_details/'+element.id]">
+                    <img src="/assets/find.png" />
+                </a>
+            </td>
+        </tr>
+    </tbody>
 </table>
 <BR>
 
-<div>
-    <button mat-button color="primary" (click)="getOrders()">Actualizar</button>
-    <button mat-button color="primary" (click)="batchPlaced()">Batch PLACED</button>
-    <button mat-button color="primary" (click)="batchValidated()">Batch VALIDATED</button>
-    <button mat-button color="primary" (click)="batchPaymentDefined()">Batch PAYMENT_DEFINED</button>
+<div class="btn-group ">
+    <button class="btn btn-primary " (click)="getOrders()">Actualizar</button>
+    <button class="btn btn-primary " (click)="batchPlaced()">Batch PLACED</button>
+    <button class="btn btn-primary " (click)="batchValidated()">Batch VALIDATED</button>
+    <button class="btn btn-primary " (click)="batchPaymentDefined()">Batch PAYMENT_DEFINED</button>
 </div>
-<BR>

@@ -9,7 +9,7 @@ import { Calidad, Image, ImageService } from './image.service';
 })
 export class ShowImageComponent  {
     @Input()
-    calidad: Calidad;
+    quality: Calidad;
 
     @Input()
     jpeg: string;
@@ -26,7 +26,7 @@ export class ShowImageComponent  {
     getImage(image: string) {
         if (image) {
             this.imageService
-                .getImage(image, this.calidad, Boolean(this.jpeg))
+                .getImage(image, this.quality, Boolean(this.jpeg))
                 .then(result => {
                     this.image = result;
                 })

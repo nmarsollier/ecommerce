@@ -1,17 +1,18 @@
-<!-- TODO: figure out if the <nav> should go inside of a <header> element. -->
-<nav class="docs-navbar-header">
+<nav class="navbar navbar-expand-sm bg-dark navbar-dark d-flex shadow">
     <div style="font-size: larger; font-weight: bold">
         <img src="/assets/favicon.png">
     </div>
-    <div style="font-size: larger; font-weight: bold; margin-left: 10px">
+
+    <div class="navbar-brand flex-grow-1" style="margin-left: 20px">
         Microservicios
     </div>
-    <div class="flex-spacer"></div>
 
-    <div>Docs:</div>
-    <a mat-button href="http://localhost:3000/" target="auth">Auth</a>
-    <a mat-button href="http://localhost:3001/" target="image">Image</a>
-    <a mat-button href="http://localhost:3002/" target="catalog">Catalog</a>
-    <a mat-button href="http://localhost:3003/" target="cart">Cart</a>
-    <a mat-button href="http://localhost:3004/" target="cart">Order</a>
+    <div class="navbar-brand">Docs:</div>
+    <div class="btn-group navbar-nav">
+        <a href="http://localhost:3000/" target="auth" class="btn btn-outline-secondary btn-sm nav-link" style="color: white;">Auth</a>
+        <a href="http://localhost:3001/" target="image" class="btn btn-outline-secondary btn-sm nav-link" style="color: white;">Image</a>
+        <a href="http://localhost:3002/" target="catalog" class="btn btn-outline-secondary btn-sm nav-link" style="color: white;">Catalog</a>
+        <a href="http://localhost:3003/" target="cart" class="btn btn-outline-secondary btn-sm nav-link" style="color: white;">Cart</a>
+        <a href="http://localhost:3004/" target="order" class="btn btn-outline-secondary btn-sm nav-link" style="color: white;">Order</a>
+    </div>
 </nav>

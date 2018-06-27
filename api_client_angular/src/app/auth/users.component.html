@@ -1,72 +1,55 @@
 <h2>Admin. de Usuarios</h2>
 
+<table class="table">
+    <thead>
 
-<table mat-table [dataSource]="users" class="mat-elevation-z8">
+        <tr>
+            <th> Id </th>
+            <th> Login </th>
+            <th> Nombre </th>
+            <th> Permisos </th>
+            <th> Habilitado </th>
+        </tr>
+    </thead>
 
-    <ng-container matColumnDef="id">
-        <th mat-header-cell *matHeaderCellDef> Id </th>
-        <td mat-cell *matCellDef="let element"> {{element.id}} </td>
-    </ng-container>
-
-    <ng-container matColumnDef="login">
-        <th mat-header-cell *matHeaderCellDef> Login </th>
-        <td mat-cell *matCellDef="let element"> {{element.login}} </td>
-    </ng-container>
-
-    <ng-container matColumnDef="name">
-        <th mat-header-cell *matHeaderCellDef> Nombre </th>
-        <td mat-cell *matCellDef="let element"> {{element.name}} </td>
-    </ng-container>
-
-    <ng-container matColumnDef="permissions">
-        <th mat-header-cell *matHeaderCellDef> Permisos </th>
-        <td mat-cell *matCellDef="let element">
-            {{element.permissions}}
-            <a *ngIf="element.enabled" [routerLink]="" (click)="editarPermisos(element.id)">
-                <img src="/assets/edit.png"/>
-            </a>
-        </td>
-    </ng-container>
-
-    <ng-container matColumnDef="enabled">
-        <th mat-header-cell *matHeaderCellDef> Habilitado </th>
-        <td mat-cell *matCellDef="let element">
-            {{element.enabled}}
-            <a *ngIf="element.enabled" [routerLink]="" (click)="disableUser(element.id)">
-                <img src="/assets/disable.png"/>
-            </a>
-            <a *ngIf="!element.enabled" [routerLink]="" (click)="enableUser(element.id)">
-                <img src="/assets/enable.png"/>
-            </a>
-        </td>
-    </ng-container>
-
-
-    <tr mat-header-row *matHeaderRowDef="['id', 'login', 'name', 'permissions', 'enabled']"></tr>
-    <tr mat-row *matRowDef="let row; columns: ['id', 'login', 'name', 'permissions', 'enabled'];"></tr>
+    <tbody>
+        <tr *ngFor="let element of users">
+            <td> {{element.id}} </td>
+            <td> {{element.login}} </td>
+            <td> {{element.name}} </td>
+            <td>
+                {{element.permissions}}
+                <a *ngIf="element.enabled" [routerLink]="" (click)="editarPermisos(element)">
+                    <img src="/assets/edit.png" />
+                </a>
+            </td>
+            <td>
+                {{element.enabled}}
+                <a *ngIf="element.enabled" [routerLink]="" (click)="disableUser(element.id)">
+                    <img src="/assets/disable.png" />
+                </a>
+                <a *ngIf="!element.enabled" [routerLink]="" (click)="enableUser(element.id)">
+                    <img src="/assets/enable.png" />
+                </a>
+            </td>
+        </tr>
+    </tbody>
 </table>
 
 <div *ngIf="errorMessage">{{errorMessage}}</div>
-
 <BR>
 
-<form #f="ngForm" novalidate *ngIf="editPermisos">
-    <mat-form-field>
-        <input matInput placeholder="Permisos" [formControl]="permisos" />
-
-        <mat-error *ngIf="permisos?.invalid">
-            {{ errors.get('permisos') ? errors.get('permisos') : "Valor no válido." }}
-        </mat-error>
-    </mat-form-field>
-    <div>
-        <mat-error *ngIf="errorMessage">
-            {{errorMessage}}
-            <BR>
-        </mat-error>
-        <button mat-button color="primary" (click)="grantPermisos()">Asignar</button>
-        <button mat-button color="primary" (click)="revokePermisos()">Quitar</button>
-        <button mat-button color="disabled" (click)="cancelarPermisos()">Cancelar</button>
+<form [formGroup]="form" *ngIf="editPermisos">
+    <div class="form-group">
+        <label for="permisos">Permisos de {{editPermisos.login}}</label>
+        <input class="form-control" id="login" formControlName="permisos" />
     </div>
-    <BR>
+
+    <div *ngIf="errorMessage" class="invalid-feedback">{{errorMessage}}</div>
+
+    <div class="btn-group ">
+        <button class="btn btn-primary " (click)="grantPermisos()">Asignar</button>
+        <button class="btn btn-danger " (click)="revokePermisos()">Quitar</button>
+        <button class="btn btn-light " [routerLink]="[ '/'] ">Cancelar</button>
+    </div>
 </form>
-<BR>

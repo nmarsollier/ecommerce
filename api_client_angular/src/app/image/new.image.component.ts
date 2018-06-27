@@ -1,19 +1,19 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
-import * as errorHandler from '../tools/error.handler';
 import { Image, ImageService } from './image.service';
+import { BasicFromGroupController } from '../tools/error.form';
 
 @Component({
     selector: 'app-new-image',
     templateUrl: './new.image.component.html'
 })
-export class AddImageComponent implements errorHandler.IErrorController {
-    errorMessage: string;
-    errors = new Map();
+export class AddImageComponent  extends BasicFromGroupController {
     showing = '/assets/select_image.png';
     image: Image = { image: '' };
 
-    constructor(private imageService: ImageService, private router: Router) { }
+    constructor(private imageService: ImageService, private router: Router) {
+        super();
+     }
 
     updateImage(image: any) {
         this.showing = image;
@@ -21,7 +21,7 @@ export class AddImageComponent implements errorHandler.IErrorController {
     }
 
     submitForm() {
-        errorHandler.cleanRestValidations(this);
+        this.cleanRestValidations();
 
         if (this.image.image && !this.image.id) {
             this.imageService
@@ -30,7 +30,7 @@ export class AddImageComponent implements errorHandler.IErrorController {
                     this.image = image;
                 })
                 .catch(error => {
-                    errorHandler.processRestValidations(this, error);
+                    this.processRestValidations(error);
                 });
         }
     }

@@ -1,32 +1,33 @@
+<div class="navbar-nav bg-light shadow" style="height:100%; display:inline-flex; padding-top: 20px; padding-right: 30px" *ngIf="!usuarioLogueado">
+	<h6 style="padding-left: 10px;padding-top: 10px;">Sesión</h6>
+	<a [routerLink]="['/login']" class="btn btn-sm btn-link" style="text-align: left">Login</a>
+	<a [routerLink]="['/registrarse']" class="btn btn-sm btn-link" style="text-align: left">Registrarse</a>
+</div>
 
-<mat-list role="list">
-	<mat-list-item role="listitem" *ngIf="!usuarioLogueado">Sesión</mat-list-item>
-	<mat-list-item role="listitem" *ngIf="!usuarioLogueado"><a mat-button [routerLink]="['/login']">Login</a></mat-list-item>
-	<mat-list-item role="listitem" *ngIf="!usuarioLogueado"><a mat-button [routerLink]="['/registrarse']">Registrarse</a></mat-list-item>
+<div class="navbar-nav bg-light shadow" style="height:100%; display:inline-flex; padding-top: 20px; padding-right: 30px" *ngIf="usuarioLogueado">
+	<h6 style="padding-left: 10px;padding-top: 10px;">{{usuarioLogueado.name}}</h6>
+	<a [routerLink]="['/info']" class="btn btn-sm btn-link" style="text-align: left">Info</a>
+	<a [routerLink]="['/password']" class="btn btn-sm btn-link" style="text-align: left">Password</a>
+	<a [routerLink]="" (click)="logout()" class="btn btn-sm btn-link" style="text-align: left">Logout</a>
 
-	<mat-list-item role="listitem" *ngIf="usuarioLogueado">{{usuarioLogueado.name}}</mat-list-item>
-	<mat-list-item role="listitem" *ngIf="usuarioLogueado"><a mat-button [routerLink]="['/info']">Info</a></mat-list-item>
-	<mat-list-item role="listitem" *ngIf="usuarioLogueado"><a mat-button [routerLink]="['/password']">Password</a></mat-list-item>
-	<mat-list-item role="listitem" *ngIf="usuarioLogueado"><a mat-button [routerLink]="" (click)="logout()">Logout</a></mat-list-item>
+	<h6 style="padding-left: 10px;padding-top: 10px;">Adm Tools</h6>
+	<a [routerLink]="['/users']" class="btn btn-sm btn-link" style="text-align: left">Usuarios</a>
 
-	<mat-list-item role="listitem" *ngIf="usuarioLogueado">Adm Tools</mat-list-item>
-	<mat-list-item role="listitem" *ngIf="usuarioLogueado"><a mat-button [routerLink]="['/users']">Usuarios</a></mat-list-item>
+	<h6 style="padding-left: 10px;padding-top: 10px;">Imágenes</h6>
+	<a [routerLink]="['/new_image']" class="btn btn-sm btn-link" style="text-align: left">Nueva</a>
+	<a [routerLink]="['/load_image']" class="btn btn-sm btn-link" style="text-align: left">Buscar</a>
 
-	<mat-list-item role="listitem" *ngIf="usuarioLogueado">Imágenes</mat-list-item>
-	<mat-list-item role="listitem" *ngIf="usuarioLogueado"><a mat-button [routerLink]="['/new_image']">Nueva</a></mat-list-item>
-	<mat-list-item role="listitem" *ngIf="usuarioLogueado"><a mat-button [routerLink]="['/load_image']">Buscar</a></mat-list-item>
+	<h6 style="padding-left: 10px;padding-top: 10px;">Artículos</h6>
+	<a [routerLink]="['/edit_article/new']" class="btn btn-sm btn-link" style="text-align: left">Nuevo</a>
+	<a [routerLink]="['/list_articles']" class="btn btn-sm btn-link" style="text-align: left">Listado</a>
+	<a [routerLink]="['/edit_article']" class="btn btn-sm btn-link" style="text-align: left">Editar</a>
 
-	<mat-list-item role="listitem" *ngIf="usuarioLogueado">Artículos</mat-list-item>
-	<mat-list-item role="listitem" *ngIf="usuarioLogueado"><a mat-button [routerLink]="['/new_article']">Nuevo</a></mat-list-item>
-	<mat-list-item role="listitem" *ngIf="usuarioLogueado"><a mat-button [routerLink]="['/list_articles']">Listado</a></mat-list-item>
-	<mat-list-item role="listitem" *ngIf="usuarioLogueado"><a mat-button [routerLink]="['/edit_article']">Editar</a></mat-list-item>
+	<h6 style="padding-left: 10px;padding-top: 10px;">Carrito</h6>
+	<a [routerLink]="['/current_cart']" class="btn btn-sm btn-link" style="text-align: left">Carrito Actual</a>
+	<a [routerLink]="['/add_article_cart']" class="btn btn-sm btn-link" style="text-align: left">Editar Carrito</a>
 
-	<mat-list-item role="listitem" *ngIf="usuarioLogueado">Carrito</mat-list-item>
-	<mat-list-item role="listitem" *ngIf="usuarioLogueado"><a mat-button [routerLink]="['/current_cart']">Carrito Actual</a></mat-list-item>
-	<mat-list-item role="listitem" *ngIf="usuarioLogueado"><a mat-button [routerLink]="['/add_article_cart']">Editar Carrito</a></mat-list-item>
+	<h6 style="padding-left: 10px;padding-top: 10px;">Ordenes</h6>
+	<a [routerLink]="['/orders']" class="btn btn-sm btn-link" style="text-align: left">Ordenes</a>
+	<a [routerLink]="['/order_details']" class="btn btn-sm btn-link" style="text-align: left">Buscar</a>
 
-	<mat-list-item role="listitem" *ngIf="usuarioLogueado">Ordenes</mat-list-item>
-	<mat-list-item role="listitem" *ngIf="usuarioLogueado"><a mat-button [routerLink]="['/orders']">Ordenes</a></mat-list-item>
-	<mat-list-item role="listitem" *ngIf="usuarioLogueado"><a mat-button [routerLink]="['/order_details']">Buscar</a></mat-list-item>
-
-</mat-list>
+</div>

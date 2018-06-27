@@ -1,73 +1,52 @@
 <h2>Búsqueda de Artículos</h2>
 
 
-<form #f="ngForm" novalidate>
-    <mat-form-field>
-        <input matInput placeholder="Buscar" [formControl]="filter" />
-
-        <mat-error *ngIf="filter?.invalid">
-            {{ errors.get('filter') ? errors.get('filter') : "Valor no válido." }}
-        </mat-error>
-    </mat-form-field>
-    <div>
-        <mat-error *ngIf="errorMessage">
-            {{errorMessage}}
-            <BR>
-        </mat-error>
-        <button mat-button color="primary" (click)="submitForm()">Buscar</button>
-        <button mat-button color="disabled" [routerLink]="['/']">Cerrar</button>
+<form [formGroup]="form">
+    <div class="form-group">
+        <label for="filter">Buscar</label>
+        <input class="form-control" [class.is-invalid]="hasError('filter')" id="filter" formControlName="filter">
+        <div *ngIf="hasError('filter')" class="invalid-feedback">{{getErrorText('filter')}}</div>
     </div>
-    <BR>
+
+    <div *ngIf="errorMessage" class="invalid-feedback">{{errorMessage}}</div>
+
+    <div class="btn-group ">
+        <button class="btn btn-primary " (click)="submitForm() ">Buscar</button>
+        <button class="btn btn-light " [routerLink]="[ '/'] ">Cancelar</button>
+    </div>
 </form>
-
-<table mat-table [dataSource]="articles" class="mat-elevation-z8">
-
-    <ng-container matColumnDef="id">
-        <th mat-header-cell *matHeaderCellDef> Id </th>
-        <td mat-cell *matCellDef="let element"> {{element._id}} </td>
-    </ng-container>
-
-    <ng-container matColumnDef="name">
-        <th mat-header-cell *matHeaderCellDef> Nombre </th>
-        <td mat-cell *matCellDef="let element"> {{element.name}} </td>
-    </ng-container>
-
-    <ng-container matColumnDef="description">
-        <th mat-header-cell *matHeaderCellDef> Descripción </th>
-        <td mat-cell *matCellDef="let element"> {{element.description}} </td>
-    </ng-container>
-
-    <ng-container matColumnDef="image">
-        <th mat-header-cell *matHeaderCellDef> Imagen </th>
-        <td mat-cell *matCellDef="let element"> {{element.image}}
-            <a *ngIf="element.image" [routerLink]="['/load_image/'+element.image]">
-                <img src="/assets/find.png"/>
-            </a>
-        </td>
-    </ng-container>
-
-    <ng-container matColumnDef="stock">
-        <th mat-header-cell *matHeaderCellDef> Stock </th>
-        <td mat-cell *matCellDef="let element"> {{element.stock}} </td>
-    </ng-container>
-
-    <ng-container matColumnDef="price">
-        <th mat-header-cell *matHeaderCellDef> Precio </th>
-        <td mat-cell *matCellDef="let element"> {{element.price}} </td>
-    </ng-container>
-
-    <ng-container matColumnDef="options">
-        <th mat-header-cell *matHeaderCellDef> </th>
-        <td mat-cell *matCellDef="let element">
-            <a [routerLink]="['/edit_article/'+element._id]">
-                <img src="/assets/edit.png"/>
-            </a>
-        </td>
-    </ng-container>
-
-
-
-    <tr mat-header-row *matHeaderRowDef="['id', 'name', 'description', 'image', 'stock', 'price', 'options']"></tr>
-    <tr mat-row *matRowDef="let row; columns: ['id', 'name', 'description', 'image', 'stock', 'price', 'options'];"></tr>
-</table>
 <BR>
+
+<table class="table" *ngIf="articles" style="margin-top: 20px">
+    <thead>
+        <tr>
+            <th> Id </th>
+            <th> Nombre </th>
+            <th> Descripción </th>
+            <th> Imagen </th>
+            <th> Stock </th>
+            <th> Precio </th>
+            <th> </th>
+        </tr>
+    </thead>
+
+    <tbody>
+        <tr *ngFor="let element of articles">
+            <td> {{element._id}} </td>
+            <td> {{element.name}} </td>
+            <td> {{element.description}} </td>
+            <td> {{element.image}}
+                <a *ngIf="element.image" [routerLink]="['/load_image/'+element.image]">
+                    <img src="/assets/find.png" />
+                </a>
+            </td>
+            <td> {{element.stock}} </td>
+            <td> {{element.price}} </td>
+            <td>
+                <a [routerLink]="['/edit_article/'+element._id]">
+                    <img src="/assets/edit.png" />
+                </a>
+            </td>
+        </tr>
+    </tbody>
+</table>

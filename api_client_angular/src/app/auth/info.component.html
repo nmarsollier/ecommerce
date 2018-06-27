@@ -1,23 +1,23 @@
 <h2>Perfil</h2>
-
 <form>
-    <mat-form-field>
-        <input matInput placeholder="Id" [value]="loggedInUser.id" readonly>
-    </mat-form-field>
-
-    <mat-form-field>
-        <input matInput placeholder="Nombre" [value]="loggedInUser.name" readonly>
-    </mat-form-field>
-
-    <mat-form-field>
-        <input matInput placeholder="Login" [value]="loggedInUser.login" readonly>
-    </mat-form-field>
-
-    <mat-form-field>
-        <input matInput placeholder="Permisos" [value]="loggedInUser.permissions" readonly>
-    </mat-form-field>
-
-    <mat-form-field>
-        <textarea matInput placeholder="Token" [value]="token" rows="6" readonly></textarea>
-    </mat-form-field>
+    <div class="form-group">
+        <label for="id">Id</label>
+        <input class="form-control" id="id" [value]="loggedInUser.id" readonly>
+    </div>
+    <div class="form-group">
+        <label for="login">Login</label>
+        <input class="form-control" id="login" [value]="loggedInUser.login" readonly>
+    </div>
+    <div class="form-group">
+        <label for="name">Nombre</label>
+        <input class="form-control" id="name" [value]="loggedInUser.name" readonly>
+    </div>
+    <div class="form-group">
+        <label for="login">Permisos</label>
+        <input class="form-control" id="login" [value]="loggedInUser.permissions" readonly>
+    </div>
+    <div class="form-group">
+        <label for="token">Token</label>
+        <textarea class="form-control" id="token" placeholder="Token" [value]="token" rows="6" readonly></textarea>
+    </div>
 </form>

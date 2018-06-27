@@ -1,19 +1,18 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import * as errorHandler from '../tools/error.handler';
 import { OrderList, OrderService } from './order.service';
+import { BasicFromGroupController } from '../tools/error.form';
 
 @Component({
     selector: 'app-orders.component',
     templateUrl: './orders.component.html'
 })
-export class OrdersComponent implements errorHandler.IErrorController, OnInit {
-    errorMessage: string;
-    errors = new Map();
-
+export class OrdersComponent extends BasicFromGroupController implements OnInit {
     orders: OrderList[];
 
-    constructor(private orderService: OrderService, private router: Router) { }
+    constructor(private orderService: OrderService, private router: Router) {
+        super();
+    }
 
     ngOnInit(): void {
         this.getOrders();
@@ -21,21 +20,21 @@ export class OrdersComponent implements errorHandler.IErrorController, OnInit {
 
     batchPlaced() {
         this.orderService.batchPlaced()
-            .catch(err => errorHandler.processRestValidations(this, err));
+            .catch(err => this.processRestValidations(err));
     }
     batchValidated() {
         this.orderService.batchValidated()
-            .catch(err => errorHandler.processRestValidations(this, err));
+            .catch(err => this.processRestValidations(err));
     }
     batchPaymentDefined() {
         this.orderService.batchPaymentDefined()
-            .catch(err => errorHandler.processRestValidations(this, err));
+            .catch(err => this.processRestValidations(err));
     }
 
     getOrders() {
         this.orderService.getOrders()
             .then(orders => this.orders = orders)
-            .catch(err => errorHandler.processRestValidations(this, err));
+            .catch(err => this.processRestValidations(err));
     }
 
 }

@@ -2,17 +2,14 @@ import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Calidad, ImageService } from '../image/image.service';
-import * as errorHandler from '../tools/error.handler';
 import { Article, CatalogService } from './catalog.service';
+import { BasicFromGroupController } from '../tools/error.form';
 
 @Component({
     selector: 'app-catalog-edit-article',
     templateUrl: './edit.article.component.html'
 })
-export class EditArticleComponent implements errorHandler.IFormGroupErrorController, OnInit {
-    errorMessage: string;
-    errors = new Map();
-
+export class EditArticleComponent extends BasicFromGroupController implements OnInit {
     articleId = new FormControl('', [Validators.required]);
     articulo: Article;
     nuevaImagen: string;
@@ -26,10 +23,12 @@ export class EditArticleComponent implements errorHandler.IFormGroupErrorControl
     });
 
     constructor(private catalogService: CatalogService, private imageService: ImageService,
-        private router: Router, private route: ActivatedRoute) { }
+        private router: Router, private route: ActivatedRoute) {
+        super();
+    }
 
     buscar() {
-        errorHandler.cleanRestValidations(this);
+        this.cleanRestValidations();
 
         this.catalogService
             .getArticle(this.articleId.value)
@@ -50,7 +49,7 @@ export class EditArticleComponent implements errorHandler.IFormGroupErrorControl
                         .catch(error => this.form.get('image').setValue('/assets/not_found.png'));
                 }
             })
-            .catch(error => errorHandler.processFormGroupRestValidations(this, error));
+            .catch(error => this.processRestValidations(error));
     }
 
 
@@ -60,28 +59,24 @@ export class EditArticleComponent implements errorHandler.IFormGroupErrorControl
     }
 
     submitForm() {
-        errorHandler.cleanRestValidations(this);
+        this.cleanRestValidations();
 
         if (this.nuevaImagen) {
             this.imageService.saveImage({ image: this.nuevaImagen }).then(
                 imagen => {
                     this.articulo.image = imagen.id;
 
-                    this.catalogService
-                        .updateArticle(this.articulo._id, {
-                            name: this.form.get('name').value,
-                            description: this.form.get('description').value,
-                            image: this.articulo.image,
-                            price: Number(this.form.get('price').value),
-                            stock: Number(this.form.get('stock').value)
-                        }).then(articulo => {
-                            this.router.navigate(['/']);
-                        })
-                        .catch(error => errorHandler.processFormGroupRestValidations(this, error));
+                    this.uploadArticle();
                 })
-                .catch(error => errorHandler.processFormGroupRestValidations(this, error));
+                .catch(error => this.processRestValidations(error));
         } else {
+            this.uploadArticle();
+        }
+    }
 
+
+    uploadArticle() {
+        if (this.articulo._id) {
             this.catalogService
                 .updateArticle(this.articulo._id, {
                     name: this.form.get('name').value,
@@ -92,25 +87,46 @@ export class EditArticleComponent implements errorHandler.IFormGroupErrorControl
                 }).then(articulo => {
                     this.router.navigate(['/']);
                 })
-                .catch(error => errorHandler.processFormGroupRestValidations(this, error));
+                .catch(error => this.processRestValidations(error));
+        } else {
+            this.catalogService
+                .newArticle({
+                    name: this.form.get('name').value,
+                    description: this.form.get('description').value,
+                    image: this.articulo.image,
+                    price: Number(this.form.get('price').value),
+                    stock: Number(this.form.get('stock').value)
+                }).then(articulo => {
+                    this.router.navigate(['/']);
+                })
+                .catch(error => this.processRestValidations(error));
         }
     }
 
+
     eliminar() {
-        errorHandler.cleanRestValidations(this);
+        this.cleanRestValidations();
 
         this.catalogService
             .deleteArticle(this.articulo._id).then(articulo => {
                 this.router.navigate(['/']);
             })
-            .catch(error => errorHandler.processFormGroupRestValidations(this, error));
+            .catch(error => this.processRestValidations(error));
     }
 
 
     ngOnInit() {
         this.route.params.subscribe(params => {
-            this.articleId.setValue(params['id']);
-            this.buscar();
+            const _id = params['id'];
+            if (_id === 'new') {
+                this.articulo = {
+                    name: '',
+                    description: ''
+                };
+            } else {
+                this.articleId.setValue(_id);
+                this.buscar();
+            }
         });
     }
 }
