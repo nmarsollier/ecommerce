@@ -1,6 +1,13 @@
 import { FormGroup } from '@angular/forms';
-import { ValidationErrorMessage } from './error.handler';
 
+export interface ValidationErrorItem {
+    path: string;
+    message: string;
+}
+export interface ValidationErrorMessage {
+    error?: string;
+    messages?: ValidationErrorItem[];
+}
 
 export class BasicFromGroupController {
     errorMessage: string;

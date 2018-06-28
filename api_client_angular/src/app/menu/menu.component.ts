@@ -1,16 +1,12 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { AuthService, User } from '../auth/auth.service';
-import * as errorHandler from '../tools/error.handler';
 
 @Component({
   selector: 'app-menu',
   templateUrl: './menu.component.html'
 })
-export class MenuComponent implements errorHandler.IErrorController, OnInit {
-  errorMessage: string;
-  errors = new Map();
-
+export class MenuComponent implements OnInit {
   ngOnInit(): void {
     if (localStorage.getItem('auth_token')) {
       this.authService.getPrincipal();
@@ -29,6 +25,6 @@ export class MenuComponent implements errorHandler.IErrorController, OnInit {
       .then(_ => {
         this.router.navigate(['/']);
       })
-      .catch(error => errorHandler.processRestValidations(this, error));
+      .catch(error => {});
   }
 }
