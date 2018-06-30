@@ -38,3 +38,5 @@ dist/**/*
 .history
 npm-debug.log*
 package-lock.json
+
+coverage

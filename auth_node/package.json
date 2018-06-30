@@ -17,7 +17,8 @@
         "watch-ts": "tsc -w",
         "tslint": "tslint -c tslint.json -p tsconfig.json",
         "apidoc": "./node_modules/.bin/apidoc -i src -o ./dist/public",
-        "apidocmd": "./node_modules/.bin/apidoc-markdown2 -p ./dist/public -o README-API.md"
+        "apidocmd": "./node_modules/.bin/apidoc-markdown2 -p ./dist/public -o README-API.md",
+        "test": "jest --coverage --verbose"
     },
     "dependencies": {
         "body-parser": "1.18.3",
@@ -57,6 +58,10 @@
         "@types/jsonwebtoken": "7.2.7",
         "@types/winston": "2.3.9",
         "@types/amqplib": "0.5.7",
+        "ts-jest": "23.0.0",
+        "jest": "23.2.0",
+        "chai": "4.1.2",
+        "mockingoose": "2.10.1",
         "apidoc": "0.17.6",
         "apidoc-markdown2": "0.3.6",
         "concurrently": "3.5.1",

@@ -6,6 +6,7 @@ import * as passport from "passport";
 import { ExtractJwt, Strategy } from "passport-jwt";
 import * as appConfig from "../server/environment";
 import { IToken, Token } from "./token";
+import { ObjectID } from "bson";
 
 export interface Payload {
     token_id: string;
@@ -69,17 +70,21 @@ export function init() {
 /**
  * Invalida la sesión en passport. Básicamente limpia el cache
  */
-export function invalidateSessionToken(token: Payload) {
-    sessionCache.del(token.token_id);
+export function invalidateSessionToken(token_id: string) {
+    sessionCache.del(token_id);
 }
 
 /**
  * Crea un token lo pone en el cache, lo encripta y lo devuelve.
  */
-export function createSessionToken(userId: string, sessionToken: IToken): string {
-    const payload: Payload = { user_id: userId, token_id: sessionToken.id };
+export function createSessionToken(sessionToken: IToken): string {
+    const payload: Payload = { user_id: sessionToken.user.toHexString(), token_id: sessionToken.id };
     const token = jwt.sign(payload, conf.jwtSecret);
-    sessionCache.set(sessionToken.id, userId);
+    sessionCache.set(sessionToken.id, sessionToken.user.toHexString());
 
     return token;
+}
+
+export function getTokenFromCache(token_id: string): string {
+    return sessionCache.get(token_id);
 }

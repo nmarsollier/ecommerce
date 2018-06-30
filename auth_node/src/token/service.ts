@@ -17,7 +17,7 @@ export async function create(userId: string): Promise<string> {
 
         const t = await token.save();
 
-        return Promise.resolve(passport.createSessionToken(userId, token));
+        return Promise.resolve(passport.createSessionToken(token));
     } catch (err) {
         return Promise.reject(err);
     }
@@ -25,7 +25,7 @@ export async function create(userId: string): Promise<string> {
 
 export async function invalidate(payload: passport.Payload): Promise<void> {
     try {
-        passport.invalidateSessionToken(payload);
+        passport.invalidateSessionToken(payload.token_id);
         let token = await Token.findById(payload.token_id).exec();
         if (!token) {
             throw error.newError(error.ERROR_NOT_FOUND, "Token invalido.");
