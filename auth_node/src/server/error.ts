@@ -19,18 +19,20 @@ export class ValidationErrorMessage {
 }
 
 export function newArgumentError(argument: string, err: string): ValidationErrorMessage {
-  return {
-    messages: [{
-      path: argument,
-      message: err
-    }]
-  };
+  const result = new ValidationErrorMessage();
+  result.messages = [{
+    path: argument,
+    message: err
+  }];
+  return result;
 }
 
 export function newError(code: number, err: string): ValidationErrorMessage {
-  return { code: code, error: err };
+  const result = new ValidationErrorMessage();
+  result.code = code;
+  result.error = err;
+  return result;
 }
-
 
 /**
  * @apiDefine ParamValidationErrors
@@ -63,8 +65,18 @@ export function handle(res: express.Response, err: any): express.Response {
     // ValidationErrorMessage
     if (err.code) {
       res.status(err.code);
+    } else {
+      res.status(400);
     }
-    return res.send({ error: err.error, messages: err.messages });
+    const send: any = {};
+    if (err.error) {
+      send.error = err.error;
+    }
+    if (err.messages) {
+      send.messages = err.messages;
+    }
+
+    return res.send(send);
   } else if (err.code) {
     // Error de Mongo
     return res.send(sendMongoose(res, err));
@@ -80,7 +92,7 @@ export function logErrors(err: any, req: express.Request, res: express.Response,
   console.error(err.message);
 
   res.status(err.status || ERROR_INTERNAL_ERROR);
-  res.json({
+  res.send({
     error: err.message
   });
 }
@@ -88,7 +100,7 @@ export function logErrors(err: any, req: express.Request, res: express.Response,
 
 export function handle404(req: express.Request, res: express.Response) {
   res.status(ERROR_NOT_FOUND);
-  res.json({
+  res.send({
     url: req.originalUrl,
     error: "Not Found"
   });

@@ -3,7 +3,7 @@ import * as passport from "../../src/token/passport";
 import { IToken, Token } from "../../src/token/token";
 import { ObjectID } from "bson";
 
-describe("Cache de session de Passport", () => {
+describe("Test /src/token/passport", () => {
     const token: IToken = new Token();
     token.valid = true;
     token.user = new ObjectID("5b21e32e1588d73f626f5751");
