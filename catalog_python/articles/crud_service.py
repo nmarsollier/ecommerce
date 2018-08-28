@@ -178,7 +178,9 @@ def _addOrUpdateArticle(params):
     schema.validateSchema(article)
 
     if (not isNew):
-        db.articles.save(article)
+        del article["_id"]
+        r = db.articles.replace_one({"_id": bson.ObjectId(params["_id"])}, article)
+        article["_id"] = params["_id"]
     else:
         article["_id"] = db.articles.insert_one(article).inserted_id
 
