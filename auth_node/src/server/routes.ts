@@ -14,9 +14,9 @@ import * as user from "../user";
 export function init(app: express.Express) {
   app.route("/v1/user/password").post(passport.authenticate("jwt", { session: false }), changePassword);
 
-  app.route("/v1/users").post(signUp);
-  app.route("/v1/users/signin").post(login);
-  app.route("/v1/users/signout").get(passport.authenticate("jwt", { session: false }), logout);
+  app.route("/v1/user").post(signUp);
+  app.route("/v1/user/signin").post(login);
+  app.route("/v1/user/signout").get(passport.authenticate("jwt", { session: false }), logout);
   app.route("/v1/users/:userID/grant").post(passport.authenticate("jwt", { session: false }), grantPermissions);
   app.route("/v1/users/:userID/revoke").post(passport.authenticate("jwt", { session: false }), revokePermissions);
   app.route("/v1/users/:userID/enable").post(passport.authenticate("jwt", { session: false }), enableUser);

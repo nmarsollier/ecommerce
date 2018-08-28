@@ -20,7 +20,7 @@ export class AuthService extends RestBaseService {
 
         return this.http
             .post(
-                environment.authServerUrl + 'users/signin',
+                environment.authServerUrl + 'user/signin',
                 JSON.stringify(data),
                 this.getRestHeader()
             )
@@ -40,7 +40,7 @@ export class AuthService extends RestBaseService {
 
         return this.http
             .post(
-                environment.authServerUrl + 'users/password',
+                environment.authServerUrl + 'user/password',
                 JSON.stringify(data),
                 this.getRestHeader()
             )
@@ -84,7 +84,7 @@ export class AuthService extends RestBaseService {
     newUser(value: RegistrarUsuario): Promise<User> {
         return this.http
             .post(
-                environment.authServerUrl + 'users',
+                environment.authServerUrl + 'user',
                 JSON.stringify(value),
                 this.getRestHeader()
             )
