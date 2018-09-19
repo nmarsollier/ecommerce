@@ -82,6 +82,9 @@ public class TokenService {
     }
 
     private static boolean contains(String[] permissions, String permission) {
+        if (permissions == null) {
+            return false;
+        }
         for (String s : permissions) {
             if (s.equals(permission)) {
                 return true;
