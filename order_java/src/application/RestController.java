@@ -193,15 +193,14 @@ public class RestController {
     }
 
     /**
-    * @api {post} /v1/articles/ Crear Artículo
-    * @apiName Crear Artículo
-    * @apiGroup Artículos
+    * @api {post} /v1/orders/:orderId/payment Add Payment
+    * @apiName Agrega un Pago
+    * @apiGroup Pagos
     *
     * @apiUse AuthHeader
     *
     * @apiExample {json} Body
     *   {
-    *       "orderId": "{orderId}",
     *       "paymentMethod": "CASH | CREDIT | DEBIT",
     *       "amount": "{amount}"
     *   }
