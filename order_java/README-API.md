@@ -11,7 +11,7 @@ Microservicio de Ordenes
 	- [Ordenes de Usuario](#ordenes-de-usuario)
 	
 - [Pagos](#pagos)
-	- [Add Payment](#add-payment)
+	- [Agregar Pago](#agregar-pago)
 	
 - [RabbitMQ_GET](#rabbitmq_get)
 	- [Validar Artículos](#validar-artículos)
@@ -42,6 +42,7 @@ Header Autorización
 ```
 Authorization=bearer {token}
 ```
+
 
 ### Success Response
 
@@ -101,6 +102,7 @@ Header Autorización
 Authorization=bearer {token}
 ```
 
+
 ### Success Response
 
 Respuesta
@@ -159,6 +161,7 @@ Header Autorización
 Authorization=bearer {token}
 ```
 
+
 ### Success Response
 
 Respuesta
@@ -216,6 +219,7 @@ Header Autorización
 ```
 Authorization=bearer {token}
 ```
+
 
 ### Success Response
 
@@ -290,6 +294,7 @@ Header Autorización
 Authorization=bearer {token}
 ```
 
+
 ### Success Response
 
 Respuesta
@@ -343,7 +348,7 @@ HTTP/1.1 500 Server Error
 ```
 # <a name='pagos'></a> Pagos
 
-## <a name='add-payment'></a> Add Payment
+## <a name='agregar-pago'></a> Agregar Pago
 [Back to top](#top)
 
 
@@ -358,7 +363,6 @@ Body
 
 ```
 {
-    "orderId": "{orderId}",
     "paymentMethod": "CASH | CREDIT | DEBIT",
     "amount": "{amount}"
 }
@@ -368,6 +372,7 @@ Header Autorización
 ```
 Authorization=bearer {token}
 ```
+
 
 ### Success Response
 
@@ -438,6 +443,7 @@ Mensaje
 
 
 
+
 ## <a name='crear-orden'></a> Crear Orden
 [Back to top](#top)
 
@@ -464,6 +470,7 @@ Mensaje
 
 
 
+
 ## <a name='logout'></a> Logout
 [Back to top](#top)
 
@@ -486,6 +493,7 @@ Mensaje
 
 
 
+
 # <a name='rabbitmq_post'></a> RabbitMQ_POST
 
 ## <a name='validación-de-artículos'></a> Validación de Artículos
@@ -494,6 +502,7 @@ Mensaje
 <p>Antes de iniciar las operaciones se validan los artículos contra el catalogo.</p>
 
 	DIRECT cart/article-data
+
 
 
 
@@ -519,6 +528,7 @@ Mensaje
 <p>Envía de mensajes order-placed desde Order con el topic &quot;order_placed&quot;.</p>
 
 	TOPIC order/order-placed
+
 
 
 

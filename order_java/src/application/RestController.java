@@ -193,7 +193,7 @@ public class RestController {
     }
 
     /**
-    * @api {post} /v1/orders/:orderId/payment Add Payment
+    * @api {post} /v1/orders/:orderId/payment Agregar Pago
     * @apiName Agrega un Pago
     * @apiGroup Pagos
     *
