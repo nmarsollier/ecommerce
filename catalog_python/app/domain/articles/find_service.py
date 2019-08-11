@@ -1,8 +1,9 @@
 # coding=utf_8
 
-import utils.mongo as db
-import utils.errors as error
 import re
+
+import app.utils.errors as error
+import app.utils.mongo as db
 
 
 def searchArticles(text):

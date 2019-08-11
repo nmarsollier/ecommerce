@@ -1,11 +1,11 @@
 # coding=utf_8
 # Son las validaciones de los servicios rest, se validan los parametros obtenidos desde las llamadas externas rest
 
-import utils.errors as error
-import articles.crud_service as crud
-import utils.schema_validator as schemaValidator
 import numbers
 
+import app.domain.articles.crud_service as crud
+import app.utils.errors as error
+import app.utils.schema_validator as schemaValidator
 
 # Son validaciones sobre las propiedades que pueden actualizarse desde REST
 ARTICLE_UPDATE_SCHEMA = {

@@ -2,10 +2,12 @@
 
 import http.client
 import socket
-import utils.json_serializer as json
-import utils.errors as errors
+
 import memoize
-import utils.config as config
+
+import app.utils.config as config
+import app.utils.errors as errors
+import app.utils.json_serializer as json
 
 memoKeys = {}
 

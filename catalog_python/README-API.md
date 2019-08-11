@@ -15,6 +15,7 @@ Microservicio de Catálogo
 	
 - [RabbitMQ_POST](#rabbitmq_post)
 	- [Validación de Articulos](#validación-de-articulos)
+	- [Validación de Articulos](#validación-de-articulos)
 	
 
 
@@ -47,6 +48,7 @@ Header Autorización
 ```
 Authorization=bearer {token}
 ```
+
 
 ### Success Response
 
@@ -106,6 +108,7 @@ HTTP/1.1 500 Server Error
 
 
 	GET /v1/articles/:articleId
+
 
 
 
@@ -185,6 +188,7 @@ Header Autorización
 Authorization=bearer {token}
 ```
 
+
 ### Success Response
 
 Respuesta
@@ -254,6 +258,7 @@ Header Autorización
 Authorization=bearer {token}
 ```
 
+
 ### Success Response
 
 200 Respuesta
@@ -316,10 +321,11 @@ Mensaje
   "exchange" : "{Exchange name to reply}"
   "queue" : "{Queue name to reply}"
   "message" : {
-      "cartId": "{cartId}",
+      "referenceId": "{referenceId}",
       "articleId": "{articleId}",
   }
 ```
+
 
 
 
@@ -345,6 +351,7 @@ Mensaje
 
 
 
+
 # <a name='rabbitmq_post'></a> RabbitMQ_POST
 
 ## <a name='validación-de-articulos'></a> Validación de Articulos
@@ -352,7 +359,8 @@ Mensaje
 
 <p>Enviá de mensajes article-exist desde cart. Valida articulos</p>
 
-	DIRECT cart/article-exist
+	DIRECT cart/article-data
+
 
 
 
@@ -365,7 +373,36 @@ Mensaje
 {
   "type": "article-exist",
   "message" : {
-      "cartId": "{cartId}",
+      "referenceId": "{referenceId}",
+      "articleId": "{articleId}",
+      "valid": True|False,
+      "stock": {stock},
+      "price": {price}
+  }
+}
+```
+
+
+## <a name='validación-de-articulos'></a> Validación de Articulos
+[Back to top](#top)
+
+<p>Enviá de mensajes article-exist desde cart. Valida articulos</p>
+
+	DIRECT cart/article-exist
+
+
+
+
+
+### Success Response
+
+Mensaje
+
+```
+{
+  "type": "article-exist",
+  "message" : {
+      "referenceId": "{referenceId}",
       "articleId": "{articleId}",
       "valid": True|False
   }

@@ -1,9 +1,10 @@
 # coding=utf_8
 
-import numbers
 import datetime
-import utils.schema_validator as validator
-import utils.errors as errors
+import numbers
+
+import app.utils.errors as errors
+import app.utils.schema_validator as validator
 
 # Validaciones generales del esquema, se valida solo lo que el usuario puede cambiar
 ARTICLE_DB_SCHEMA = {

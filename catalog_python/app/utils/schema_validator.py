@@ -1,4 +1,4 @@
-import utils.errors as errors
+import app.utils.errors as errors
 
 
 def validateSchema(schema, document):

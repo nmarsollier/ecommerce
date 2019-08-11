@@ -1,14 +1,16 @@
 # coding=utf_8
 
-import pika
-import utils.security as security
 import threading
-import utils.json_serializer as json
-import utils.config as config
-import articles.rest_validations as articleValidation
-import articles.crud_service as crud
-import utils.schema_validator as validator
 import traceback
+
+import pika
+
+import app.domain.articles.crud_service as crud
+import app.domain.articles.rest_validations as articleValidation
+import app.utils.config as config
+import app.utils.json_serializer as json
+import app.utils.schema_validator as validator
+import app.utils.security as security
 
 EVENT = {
     "type": {
@@ -93,12 +95,13 @@ def listenAuth():
 
     try:
         connection = pika.BlockingConnection(
-            pika.ConnectionParameters(host=config.get_rabbit_server_url()))
+            pika.ConnectionParameters(host=config.get_rabbit_server_url())
+        )
         channel = connection.channel()
 
         channel.exchange_declare(exchange=EXCHANGE, exchange_type='fanout')
 
-        result = channel.queue_declare(exclusive=True)
+        result = channel.queue_declare('', exclusive=True)
         queue_name = result.method.queue
 
         channel.queue_bind(exchange=EXCHANGE, queue=queue_name)
@@ -113,7 +116,7 @@ def listenAuth():
 
         print("RabbitMQ Auth conectado")
 
-        channel.basic_consume(callback, queue=queue_name, no_ack=True)
+        channel.basic_consume(queue_name, callback, auto_ack=True)
 
         channel.start_consuming()
     except Exception:
@@ -164,8 +167,7 @@ def listenCatalog():
     QUEUE = "catalog"
 
     try:
-        connection = pika.BlockingConnection(
-            pika.ConnectionParameters(host=config.get_rabbit_server_url()))
+        connection = pika.BlockingConnection(pika.ConnectionParameters(host=config.get_rabbit_server_url()))
         channel = connection.channel()
 
         channel.exchange_declare(exchange=EXCHANGE, exchange_type='direct')
@@ -221,7 +223,7 @@ def listenCatalog():
 
         print("RabbitMQ Catalog conectado")
 
-        channel.basic_consume(callback, queue=QUEUE, consumer_tag=QUEUE, no_ack=True)
+        channel.basic_consume(QUEUE, callback, consumer_tag=QUEUE, auto_ack=True)
 
         channel.start_consuming()
     except Exception:

@@ -1,9 +1,11 @@
-import flask
-import articles.route as articlesRoutes
-import rabbit.rabbit_service as rabbitService
-import utils.config as config
 import os.path
+
+import flask
 from flask_cors import CORS
+
+import app.domain.articles.route as articlesRoutes
+import app.gateways.rabbit_service as rabbitService
+import app.utils.config as config
 
 
 class MainApp:

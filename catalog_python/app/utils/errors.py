@@ -23,7 +23,8 @@
     }
 """
 import traceback
-import utils.json_serializer as json
+
+import app.utils.json_serializer as json
 
 
 class InvalidRequest(Exception):

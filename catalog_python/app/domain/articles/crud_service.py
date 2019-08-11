@@ -1,10 +1,12 @@
 # coding=utf_8
 
-import utils.mongo as db
-import utils.errors as error
-import bson.objectid as bson
 import datetime
-import articles.article_schema as schema
+
+import bson.objectid as bson
+
+import app.domain.articles.article_schema as schema
+import app.utils.errors as error
+import app.utils.mongo as db
 
 
 def getArticle(articleId):

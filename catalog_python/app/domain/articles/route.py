@@ -1,12 +1,13 @@
 # coding=utf_8
 
 import flask
-import articles.crud_service as crud
-import articles.find_service as find
-import utils.json_serializer as json
-import utils.errors as errors
-import utils.security as security
-import articles.rest_validations as restValidator
+
+import app.domain.articles.crud_service as crud
+import app.domain.articles.find_service as find
+import app.domain.articles.rest_validations as restValidator
+import app.utils.errors as errors
+import app.utils.json_serializer as json
+import app.utils.security as security
 
 
 def init(app):

@@ -64,12 +64,12 @@ pyenv install 2.7.6
 pyenv global 2.7.6
 ```
 
-### Python 3.6.5
+### Python 3.7.4
 
 A partir de ahora todo lo que ejecutamos, va a ser dentro de la carpeta catalog
 
 ```bash
-pyenv install 3.6.5
+pyenv install 3.7.4
 python --version
 ```
 
