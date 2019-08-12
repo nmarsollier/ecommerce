@@ -121,8 +121,8 @@ CartSchema.methods.decrementArticle = function (article: ICartArticle) {
 /**
  * Trigger antes de guardar
  */
-CartSchema.pre("save", next => {
-  this.updated = Date.now();
+CartSchema.pre("save", function (this: ICart, next) {
+  this.updated = new Date();
 
   next();
 });

@@ -20,6 +20,9 @@
 		},
 		{
 			"path": "api_client_angular"
+		},
+		{
+			"path": "api_client_react"
 		}
 	]
 }

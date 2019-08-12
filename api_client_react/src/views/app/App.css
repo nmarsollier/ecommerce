@@ -1,0 +1,23 @@
+.app_table {
+  height: 100vh;
+  width: 100%;
+}
+
+.app_content {
+  width: 100%;
+  height: 100%;
+  padding-left: 60px;
+  padding-top: 20px;
+  padding-bottom: 20px;
+  padding-right: 20px;
+  overflow-y: scroll;
+  vertical-align: top;
+}
+
+.app_toolbar {
+  height: 0%;
+}
+
+.app_menu {
+  width: 150px;
+}

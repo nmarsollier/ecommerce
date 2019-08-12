@@ -39,6 +39,7 @@ Header Autorización
 Authorization=bearer {token}
 ```
 
+
 ### Success Response
 
 Respuesta
@@ -101,6 +102,7 @@ Header Autorización
 ```
 Authorization=bearer {token}
 ```
+
 
 ### Success Response
 
@@ -165,6 +167,7 @@ Header Autorización
 Authorization=bearer {token}
 ```
 
+
 ### Success Response
 
 Respuesta
@@ -211,6 +214,7 @@ HTTP/1.1 500 Internal Server Error
 <p>Escucha de mensajes logout desde auth.</p>
 
 	FANOUT auth/logout
+
 
 
 

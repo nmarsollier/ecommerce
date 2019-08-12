@@ -47,6 +47,7 @@ Body
 }
 ```
 
+
 ### Success Response
 
 Body
@@ -97,6 +98,7 @@ HTTP/1.1 500 Internal Server Error
 
 
 
+
 ### Success Response
 
 Body
@@ -136,6 +138,7 @@ HTTP/1.1 500 Internal Server Error
 <p>Decrementa la cantidad de artículos en el cart.</p>
 
 	POST /v1/cart/article/:articleId/decrement
+
 
 
 
@@ -194,6 +197,7 @@ HTTP/1.1 500 Internal Server Error
 <p>Incrementa la cantidad de artículos en el cart.</p>
 
 	POST /v1/cart/article/:articleId/increment
+
 
 
 
@@ -257,6 +261,7 @@ HTTP/1.1 500 Internal Server Error
 
 
 
+
 ### Success Response
 
 Body
@@ -307,6 +312,7 @@ HTTP/1.1 500 Internal Server Error
 
 
 
+
 ### Success Response
 
 Body
@@ -346,6 +352,7 @@ HTTP/1.1 500 Internal Server Error
 <p>Realiza una validación completa del cart, para realizar el checkout.</p>
 
 	POST /v1/cart/validate
+
 
 
 
@@ -404,6 +411,7 @@ HTTP/1.1 500 Internal Server Error
 
 
 
+
 ### Success Response
 
 Mensaje
@@ -435,6 +443,7 @@ Mensaje
 
 
 
+
 ### Success Response
 
 Mensaje
@@ -457,6 +466,7 @@ Mensaje
 <p>Escucha de mensajes logout desde auth.</p>
 
 	FANOUT auth/logout
+
 
 
 
@@ -502,6 +512,7 @@ Mensaje
 
 
 
+
 ## <a name='crear-ordern'></a> Crear Ordern
 [Back to top](#top)
 
@@ -531,6 +542,7 @@ Mensaje
    }
 }
 ```
+
 
 
 

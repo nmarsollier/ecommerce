@@ -1,0 +1,14 @@
+.menu_div {
+  height: 100%;
+  padding-top: 20px;
+  padding-right: 30px;
+}
+
+.menu_section {
+  padding-left: 10px;
+  padding-top: 10px;
+}
+
+.menu_item {
+  text-align: left;
+}
