@@ -3,9 +3,9 @@
 import * as express from "express";
 import * as passport from "passport";
 import * as rabbit from "../rabbit";
-import { Payload } from "../token";
-import * as token from "../token";
 import * as error from "../server/error";
+import * as token from "../token";
+import { Payload } from "../token";
 import * as user from "../user";
 
 /**

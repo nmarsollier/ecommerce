@@ -1,15 +1,16 @@
 import React from "react";
 import { HashRouter, Route } from "react-router-dom";
-import Menu from "../../app/Menu";
-import Toolbar from "../../app/Toolbar";
-import CurrentCart from "../../cart/CurrentCart";
-import Info from "../../info/Info";
-import LoggedInRoute from "../../system/tools/LoggedInRoute";
-import Login from "../../users/Login";
-import Password from "../../users/Password";
-import Register from "../../users/Register";
-import Welcome from "../../welcome/Welcome";
+import CurrentCart from "../cart/CurrentCart";
+import UploadPicture from "../image/UploadPicture";
+import Info from "../info/Info";
+import LoggedInRoute from "../system/tools/LoggedInRoute";
+import Login from "../users/Login";
+import Password from "../users/Password";
+import Register from "../users/Register";
+import Welcome from "../welcome/Welcome";
 import "./App.css";
+import Menu from "./Menu";
+import Toolbar from "./Toolbar";
 
 export default class App extends React.Component<{}, {}> {
   public render() {
@@ -33,6 +34,7 @@ export default class App extends React.Component<{}, {}> {
                 <Route exact path="/login" component={Login} />
                 <Route path="/newUser" component={Register} />
                 <Route path="/cart" component={CurrentCart} />
+                <Route path="/uploadPicture" component={UploadPicture} />
                 <LoggedInRoute path="/info" component={Info} />
                 <LoggedInRoute path="/password" component={Password} />
               </td>

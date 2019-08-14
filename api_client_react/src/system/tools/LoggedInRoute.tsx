@@ -1,8 +1,8 @@
 import React from "react";
 import { connect } from "react-redux";
 import { Route } from "react-router-dom";
-import { IStoredState } from "../store/sessionStore";
-import Welcome from "../views/welcome/Welcome";
+import Welcome from "../../welcome/Welcome";
+import { IStoredState } from "../store/SessionStore";
 
 interface IProps extends IStoredState {
   path: string;

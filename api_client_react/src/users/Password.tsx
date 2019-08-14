@@ -1,8 +1,8 @@
 import React from "react";
-import { changePassword } from "../../api/userApi";
-import "../../styles.css";
-import CommonComponent, { ICommonProps } from "../../tools/CommonComponent";
-import ErrorLabel from "../../tools/ErrorLabel";
+import "../styles.css";
+import CommonComponent, { ICommonProps } from "../system/tools/CommonComponent";
+import ErrorLabel from "../system/tools/ErrorLabel";
+import { changePassword } from "./UserApi";
 
 interface IState {
     currentPassword: string;

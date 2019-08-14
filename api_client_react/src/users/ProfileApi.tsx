@@ -1,5 +1,5 @@
 import axios, { AxiosError } from "axios";
-import { logout } from "../store/sessionStore";
+import { logout } from "../system/store/SessionStore";
 
 axios.defaults.headers.common["Content-Type"] = "application/json";
 
@@ -63,7 +63,7 @@ export async function getCurrentProfile(): Promise<IProfile> {
     }
 }
 
-export function getPictureUrl(id: string) {
+export function getPictureUrl(id: string | undefined) {
     if (id && id.length > 0) {
         return "http://localhost:3000/v1/image/" + id;
     } else {

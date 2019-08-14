@@ -1,6 +1,6 @@
 import React from "react";
 import { connect } from "react-redux";
-import { IStoredState } from "../../store/sessionStore";
+import { IStoredState } from "../system/store/SessionStore";
 import "./Toolbar.css";
 
 class StateToolbar extends React.Component<IStoredState, {}> {

@@ -2,9 +2,9 @@ import "bootstrap/dist/css/bootstrap.css";
 import React from "react";
 import ReactDOM from "react-dom";
 import { Provider } from "react-redux";
-import sessionStore from "./store/sessionStore";
+import App from "./app/App";
 import "./styles.css";
-import App from "./views/app/App";
+import sessionStore from "./system/store/SessionStore";
 
 ReactDOM.render(
     <Provider store={sessionStore}>

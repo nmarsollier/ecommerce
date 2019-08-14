@@ -1,7 +1,7 @@
 import React from "react";
 import { connect } from "react-redux";
-import { IUser } from "../../api/userApi";
-import { IStoredState } from "../../store/sessionStore";
+import { IStoredState } from "../system/store/SessionStore";
+import { IUser } from "../users/UserApi";
 
 class StateInfo extends React.Component<IStoredState, any> {
     public render() {

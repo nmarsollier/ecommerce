@@ -1,8 +1,8 @@
 import React from "react";
-import { newUser } from "../../store/sessionStore";
-import "../../styles.css";
-import CommonComponent, { ICommonProps } from "../../tools/CommonComponent";
-import ErrorLabel from "../../tools/ErrorLabel";
+import "../styles.css";
+import { newUser } from "../system/store/SessionStore";
+import CommonComponent, { ICommonProps } from "../system/tools/CommonComponent";
+import ErrorLabel from "../system/tools/ErrorLabel";
 
 interface IState {
     login: string;

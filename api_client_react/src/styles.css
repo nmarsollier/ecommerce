@@ -4,3 +4,7 @@
 .global_content {
   max-width: 400px;
 }
+
+.hide {
+  visibility: hidden;
+}
