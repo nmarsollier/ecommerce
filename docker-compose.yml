@@ -66,8 +66,11 @@ services:
       - redis
 
   rabbitmq:
-    image: rabbitmq
+    image: rabbitmq:3.7-management
     restart: always
+    ports:
+      - "${RABBITMQ_PORT:-5672}:5672"
+      - "${RABBITMQ_MANAGEMENT_PORT:-8082}:15672"
     networks:
       - rabbitmq
 
