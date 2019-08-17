@@ -14,13 +14,25 @@ export default class SearchPicture extends CommonComponent<ICommonProps, IState>
         super(props);
 
         this.state = {
-            tmpId: "b3547cd5-c19a-4e52-8b06-a2dffe65e5a5",
+            tmpId: "",
         };
     }
 
     public searchImage = () => {
-        const imageId = this.state.tmpId;
-        this.setState({ imageId });
+        const id = this.state.tmpId;
+        if (id) {
+            this.setState({
+                imageId: id,
+                tmpId: id,
+            });
+        }
+    }
+
+    public componentDidMount() {
+        const imageId = this.props.match.params.imageId;
+        if (imageId) {
+            this.setState({ imageId });
+        }
     }
 
     public render() {
@@ -48,6 +60,7 @@ export default class SearchPicture extends CommonComponent<ICommonProps, IState>
                     <div className="form-group">
                         <label>Id Imagen</label>
                         <input id="tmpId" type="text"
+                            value={this.state.imageId}
                             onChange={this.updateState}
                             className={this.getErrorClass("tmpId", "form-control")}>
                         </input>

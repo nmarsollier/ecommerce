@@ -62,7 +62,7 @@ export default class UserList extends CommonComponent<ICommonProps, IState> {
             <div className="global_content">
                 <h2 className="global_title">Users</h2>
                 <table id="users" className="table">
-                    <head>
+                    <thead>
                         <tr>
                             <th> Id </th>
                             <th> Login </th>
@@ -70,7 +70,7 @@ export default class UserList extends CommonComponent<ICommonProps, IState> {
                             <th> Permisos </th>
                             <th> Habilitado </th>
                         </tr>
-                    </head>
+                    </thead>
                     <tbody>
                         {this.state.users.map((user, i) => {
                             return (

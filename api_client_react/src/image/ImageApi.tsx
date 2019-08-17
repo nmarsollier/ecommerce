@@ -60,7 +60,7 @@ export function getPictureUrl(id: string | undefined) {
         if (id.length > 100) {
             return id;
         } else {
-            return environment.imageServerUrl + "image/" + id;
+            return environment.imageServerUrl + "image/" + id + "/jpeg?Size=160";
         }
     } else {
         return "/assets/select_image.png";
