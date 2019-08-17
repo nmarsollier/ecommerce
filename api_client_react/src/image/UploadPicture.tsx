@@ -25,6 +25,7 @@ export default class UploadPicture extends CommonComponent<ICommonProps, IState>
 
     public saveImage = async () => {
         try {
+            this.cleanRestValidations();
             const image = this.state.image;
             if (!image) {
                 return;

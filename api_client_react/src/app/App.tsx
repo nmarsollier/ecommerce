@@ -1,6 +1,7 @@
 import React from "react";
 import { HashRouter, Route } from "react-router-dom";
 import CurrentCart from "../cart/CurrentCart";
+import SearchPicture from "../image/SearchPicture";
 import UploadPicture from "../image/UploadPicture";
 import Info from "../info/Info";
 import LoggedInRoute from "../system/tools/LoggedInRoute";
@@ -35,6 +36,7 @@ export default class App extends React.Component<{}, {}> {
                 <Route path="/newUser" component={Register} />
                 <Route path="/cart" component={CurrentCart} />
                 <Route path="/uploadPicture" component={UploadPicture} />
+                <Route path="/searchPicture" component={SearchPicture} />
                 <LoggedInRoute path="/info" component={Info} />
                 <LoggedInRoute path="/password" component={Password} />
               </td>

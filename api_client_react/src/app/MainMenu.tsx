@@ -18,6 +18,7 @@ class StateMainMenu extends React.Component<IStoredState, any> {
         <NavLink to="" onClick={this.logout} className="menu_item btn btn-sm btn-link">Logout</NavLink><br />
         <h6 className="menu_section">Imágenes</h6>
         <NavLink to="/uploadPicture" className="menu_item btn btn-sm btn-link">Subir Imagen</NavLink><br />
+        <NavLink to="/searchPicture" className="menu_item btn btn-sm btn-link">Buscar Imagen</NavLink><br />
         <h6 className="menu_section">Carrito</h6>
         <NavLink to="/cart" className="menu_item btn btn-sm btn-link">Carrito Actual</NavLink><br />
       </div>
