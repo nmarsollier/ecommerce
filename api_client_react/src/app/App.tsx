@@ -12,6 +12,7 @@ import Welcome from "../welcome/Welcome";
 import "./App.css";
 import Menu from "./Menu";
 import Toolbar from "./Toolbar";
+import UserList from "../users/UserList";
 
 export default class App extends React.Component<{}, {}> {
   public render() {
@@ -37,6 +38,7 @@ export default class App extends React.Component<{}, {}> {
                 <Route path="/cart" component={CurrentCart} />
                 <Route path="/uploadPicture" component={UploadPicture} />
                 <Route path="/searchPicture" component={SearchPicture} />
+                <Route path="/userList" component={UserList} />
                 <LoggedInRoute path="/info" component={Info} />
                 <LoggedInRoute path="/password" component={Password} />
               </td>

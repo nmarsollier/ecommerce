@@ -16,6 +16,8 @@ class StateMainMenu extends React.Component<IStoredState, any> {
         <NavLink to="/info" className="menu_item btn btn-sm btn-link">Sesión</NavLink><br />
         <NavLink to="/password" className="menu_item btn btn-sm btn-link">Password</NavLink><br />
         <NavLink to="" onClick={this.logout} className="menu_item btn btn-sm btn-link">Logout</NavLink><br />
+        <h6 className="menu_section">Admin</h6>
+        <NavLink to="/userList" className="menu_item btn btn-sm btn-link">Usuarios</NavLink><br />
         <h6 className="menu_section">Imágenes</h6>
         <NavLink to="/uploadPicture" className="menu_item btn btn-sm btn-link">Subir Imagen</NavLink><br />
         <NavLink to="/searchPicture" className="menu_item btn btn-sm btn-link">Buscar Imagen</NavLink><br />
