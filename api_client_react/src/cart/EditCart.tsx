@@ -85,13 +85,16 @@ export default class EditCart extends CommonComponent<ICommonProps, IState> {
     public render() {
         return (
             <div className="global_content">
-                <h2 className="global_title">Opciones de Carrito</h2>
+                <CurrentCart ref={this.currentCart} />
+                <br />
+
+                <h2 className="global_title">Artículos</h2>
 
                 <form onSubmit={(e) => e.preventDefault()}>
                     <div className="form-group">
                         <label>Id Artículo</label>
                         <input id="articleId" type="text"
-                            onChange={this.updateState}
+                            onChange={this.onInputChange}
                             value={this.state.articleId}
                             className={this.getErrorClass("articleId", "form-control")}>
                         </input>
@@ -100,7 +103,7 @@ export default class EditCart extends CommonComponent<ICommonProps, IState> {
                     <div className="form-group">
                         <label>Cantidad</label>
                         <input id="quantity" type="text"
-                            onChange={this.updateState}
+                            onChange={this.onInputChange}
                             value={this.state.quantity}
                             className={this.getErrorClass("quantity", "form-control")}>
                         </input>
@@ -120,9 +123,6 @@ export default class EditCart extends CommonComponent<ICommonProps, IState> {
                     role="alert">
                     {this.errorMessage}
                 </div>
-
-                <br />
-                <CurrentCart ref={this.currentCart} />
             </div>
         );
     }

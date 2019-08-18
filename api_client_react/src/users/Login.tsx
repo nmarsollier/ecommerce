@@ -50,7 +50,7 @@ export default class Login extends CommonComponent<ICommonProps, IState> {
                     <div className="form-group">
                         <label>Usuario</label>
                         <input id="login" type="text"
-                            onChange={this.updateState}
+                            onChange={this.onInputChange}
                             className={this.getErrorClass("login", "form-control")}>
                         </input>
                         <ErrorLabel error={this.getErrorText("login")} />
@@ -59,7 +59,7 @@ export default class Login extends CommonComponent<ICommonProps, IState> {
                     <div className="form-group">
                         <label>Password</label>
                         <input id="password" type="password"
-                            onChange={this.updateState}
+                            onChange={this.onInputChange}
                             className={this.getErrorClass("password", "form-control")}>
                         </input>
                         <ErrorLabel error={this.getErrorText("password")} />

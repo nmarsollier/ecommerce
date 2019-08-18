@@ -46,7 +46,7 @@ export default class UserPermission extends CommonComponent<IProps, IState> {
                 <form onSubmit={(e) => e.preventDefault()}>
                     <div className="form-group">
                         <input id="permissions" type="text"
-                            onChange={this.updateState}
+                            onChange={this.onInputChange}
                             className={this.getErrorClass("permissions", "form-control")}>
                         </input>
                     </div>

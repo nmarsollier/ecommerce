@@ -98,7 +98,7 @@ export default class SearchArticle extends CommonComponent<ICommonProps, IState>
                     <div className="form-group">
                         <label>Buscar Artículos</label>
                         <input id="text" type="text"
-                            onChange={this.updateState}
+                            onChange={this.onInputChange}
                             className={this.getErrorClass("text", "form-control")}>
                         </input>
                     </div>

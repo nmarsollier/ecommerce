@@ -44,7 +44,7 @@ export default class SearchOrder extends CommonComponent<ICommonProps, IState> {
                         <label>Numero Orden</label>
                         <input id="text" type="text"
                             value={this.state.orderId}
-                            onChange={this.updateState}
+                            onChange={this.onInputChange}
                             className={this.getErrorClass("text", "form-control")}>
                         </input>
                     </div>

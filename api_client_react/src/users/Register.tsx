@@ -60,7 +60,7 @@ export default class Register extends CommonComponent<ICommonProps, IState> {
                     <div className="form-group">
                         <label>Login</label>
                         <input id="login" type="text"
-                            onChange={this.updateState}
+                            onChange={this.onInputChange}
                             className={this.getErrorClass("login", "form-control")}>
                         </input>
                         <ErrorLabel error={this.getErrorText("login")} />
@@ -69,7 +69,7 @@ export default class Register extends CommonComponent<ICommonProps, IState> {
                     <div className="form-group">
                         <label>Usuario</label>
                         <input id="name" type="text"
-                            onChange={this.updateState}
+                            onChange={this.onInputChange}
                             className={this.getErrorClass("name", "form-control")}>
                         </input>
                         <ErrorLabel error={this.getErrorText("name")} />
@@ -78,7 +78,7 @@ export default class Register extends CommonComponent<ICommonProps, IState> {
                     <div className="form-group">
                         <label>Password</label>
                         <input id="password" type="password"
-                            onChange={this.updateState}
+                            onChange={this.onInputChange}
                             className={this.getErrorClass("password", "form-control")}>
                         </input>
                         <ErrorLabel error={this.getErrorText("password")} />
@@ -87,7 +87,7 @@ export default class Register extends CommonComponent<ICommonProps, IState> {
                     <div className="form-group">
                         <label>Repetir Password</label>
                         <input id="password2" type="password"
-                            onChange={this.updateState}
+                            onChange={this.onInputChange}
                             className={this.getErrorClass("password2", "form-control")}>
                         </input>
                         <ErrorLabel error={this.getErrorText("password2")} />

@@ -69,7 +69,7 @@ export default class CommonComponent<P extends ICommonProps, S> extends React.Co
         return this.errors.size > 0 && !this.errorMessage;
     }
 
-    protected updateState = (event: React.ChangeEvent<HTMLInputElement>) => {
+    protected onInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         const update: any = {};
         update[event.target.id] = event.target.value;
         this.setState(update);

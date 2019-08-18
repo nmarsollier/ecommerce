@@ -101,8 +101,8 @@ export default class CurrentCart extends CommonComponent<ICommonProps, IState> {
                 </div>
 
                 <div className="form-group" hidden={!this.state.validation}>
-                    <br/>
-                    <label>Token</label>
+                    <br />
+                    <label>Validación</label>
                     <input className="form-control"
                         id="validation"
                         value={JSON.stringify(this.state.validation)}

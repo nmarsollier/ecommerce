@@ -59,7 +59,7 @@ export default class AddPayment extends CommonComponent<IAddPaymentProps, IState
                     <div className="form-group">
                         <label>Importe</label>
                         <input id="amount" type="text"
-                            onChange={this.updateState}
+                            onChange={this.onInputChange}
                             className={this.getErrorClass("amount", "form-control")}>
                         </input>
                         <ErrorLabel error={this.getErrorText("amount")} />

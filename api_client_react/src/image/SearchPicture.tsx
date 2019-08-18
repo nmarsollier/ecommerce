@@ -61,7 +61,7 @@ export default class SearchPicture extends CommonComponent<ICommonProps, IState>
                         <label>Id Imagen</label>
                         <input id="tmpId" type="text"
                             value={this.state.imageId}
-                            onChange={this.updateState}
+                            onChange={this.onInputChange}
                             className={this.getErrorClass("tmpId", "form-control")}>
                         </input>
                     </div>

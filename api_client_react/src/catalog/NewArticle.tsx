@@ -109,7 +109,7 @@ export default class NewArticle extends CommonComponent<ICommonProps, IState> {
                     <div className="form-group">
                         <label>Nombre</label>
                         <input id="name" type="text"
-                            onChange={this.updateState}
+                            onChange={this.onInputChange}
                             value={this.state.name}
                             className={this.getErrorClass("name", "form-control")}>
                         </input>
@@ -120,7 +120,7 @@ export default class NewArticle extends CommonComponent<ICommonProps, IState> {
                         <label>Descripción</label>
                         <input id="description" type="text"
                             value={this.state.description}
-                            onChange={this.updateState}
+                            onChange={this.onInputChange}
                             className={this.getErrorClass("description", "form-control")}>
                         </input>
                         <ErrorLabel error={this.getErrorText("description")} />
@@ -138,7 +138,7 @@ export default class NewArticle extends CommonComponent<ICommonProps, IState> {
                         <label>Precio</label>
                         <input id="price" type="text"
                             value={this.state.price}
-                            onChange={this.updateState}
+                            onChange={this.onInputChange}
                             className={this.getErrorClass("price", "form-control")}>
                         </input>
                         <ErrorLabel error={this.getErrorText("price")} />
@@ -148,7 +148,7 @@ export default class NewArticle extends CommonComponent<ICommonProps, IState> {
                         <label>Stock</label>
                         <input id="stock" type="text"
                             value={this.state.stock}
-                            onChange={this.updateState}
+                            onChange={this.onInputChange}
                             className={this.getErrorClass("stock", "form-control")}>
                         </input>
                         <ErrorLabel error={this.getErrorText("stock")} />
