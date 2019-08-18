@@ -1,6 +1,4 @@
 import React from "react";
-import { Quality } from "../image/ImageApi";
-import ShowImage from "../image/ShowImage";
 import "../styles.css";
 import CommonComponent, { ICommonProps } from "../system/tools/CommonComponent";
 import { findArticles, IArticle } from "./CatalogApi";

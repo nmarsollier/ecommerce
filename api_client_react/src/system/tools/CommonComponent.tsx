@@ -75,6 +75,12 @@ export default class CommonComponent<P extends ICommonProps, S> extends React.Co
         this.setState(update);
     }
 
+    protected onSelectChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
+        const update: any = {};
+        update[event.target.id] = event.target.value;
+        this.setState(update);
+    }
+
     protected goHome = () => {
         this.props.history.push("/");
     }

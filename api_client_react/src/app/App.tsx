@@ -7,6 +7,8 @@ import SearchArticle from "../catalog/SearchArticle";
 import SearchPicture from "../image/SearchPicture";
 import UploadPicture from "../image/UploadPicture";
 import Info from "../info/Info";
+import OrdersList from "../orders/OrdersList";
+import SearchOrder from "../orders/SearchOrder";
 import LoggedInRoute from "../system/tools/LoggedInRoute";
 import Login from "../users/Login";
 import Password from "../users/Password";
@@ -47,6 +49,9 @@ export default class App extends React.Component<{}, {}> {
                 <Route path="/editArticle/:id" component={NewArticle} />
                 <Route path="/searchArticle" component={SearchArticle} />
                 <Route path="/editCart" component={EditCart} />
+                <Route path="/orders" component={OrdersList} />
+                <Route path="/searchOrder" component={SearchOrder} />
+                <Route path="/showOrder/:orderId" component={SearchOrder} />
                 <LoggedInRoute path="/info" component={Info} />
                 <LoggedInRoute path="/password" component={Password} />
               </td>
