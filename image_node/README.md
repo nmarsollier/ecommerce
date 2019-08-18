@@ -19,7 +19,7 @@ que una vez levantado el servidor se puede navegar en [localhost:3001](http://lo
 
 Las imágenes solo pueden subirse y descargarse por usuarios autenticados, ver la arquitectura de microservicios de [ecommerce](https://github.com/nmarsollier/ecommerce).
 
-### Node 8
+### Node 10.15
 
 Seguir los pasos de instalación del sitio oficial [nodejs.org](https://nodejs.org/en/)
 

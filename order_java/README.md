@@ -85,6 +85,6 @@ apidoc-markdown2 -p www -o README-API.md
 
 Esto nos genera una carpeta www con la documentación, esta carpeta debe estar presente desde donde se ejecute el proyecto, aunque se puede configurar desde el archivo de properties.
 
-## Archivo config.json
+## Archivo config.json
 
 Este archivo permite configurar parámetros del servidor, ver ejemplos en config-example.json.

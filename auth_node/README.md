@@ -13,7 +13,7 @@ que una vez levantado el servidor se puede navegar en [localhost:3000](http://lo
 
 ## Dependencias
 
-### Node 8
+### Node 10.15
 
 Seguir los pasos de instalación del sitio oficial [nodejs.org](https://nodejs.org/en/)
 
