@@ -1,6 +1,7 @@
 import React from "react";
 import { HashRouter, Route } from "react-router-dom";
 import CurrentCart from "../cart/CurrentCart";
+import EditCart from "../cart/EditCart";
 import NewArticle from "../catalog/NewArticle";
 import SearchArticle from "../catalog/SearchArticle";
 import SearchPicture from "../image/SearchPicture";
@@ -45,6 +46,7 @@ export default class App extends React.Component<{}, {}> {
                 <Route path="/newArticle" component={NewArticle} />
                 <Route path="/editArticle/:id" component={NewArticle} />
                 <Route path="/searchArticle" component={SearchArticle} />
+                <Route path="/editCart" component={EditCart} />
                 <LoggedInRoute path="/info" component={Info} />
                 <LoggedInRoute path="/password" component={Password} />
               </td>

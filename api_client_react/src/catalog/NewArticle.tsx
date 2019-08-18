@@ -4,7 +4,7 @@ import "../styles.css";
 import CommonComponent, { ICommonProps } from "../system/tools/CommonComponent";
 import ErrorLabel from "../system/tools/ErrorLabel";
 import ImageUpload from "../system/tools/ImageUpload";
-import { deleteArticle, getArticle, newArticle } from "./CatalogApi";
+import { deleteArticle, getArticle, newArticle, updateArticle } from "./CatalogApi";
 
 interface IState {
     _id?: string;
@@ -58,7 +58,11 @@ export default class NewArticle extends CommonComponent<ICommonProps, IState> {
         this.cleanRestValidations();
 
         try {
-            await newArticle(this.state);
+            if (this.state._id) {
+                await updateArticle(this.state._id, this.state);
+            } else {
+                await newArticle(this.state);
+            }
             this.goHome();
         } catch (error) {
             this.processRestValidations(error);
@@ -157,7 +161,9 @@ export default class NewArticle extends CommonComponent<ICommonProps, IState> {
                     </div>
 
                     <div className="btn-group ">
-                        <button className="btn btn-primary" onClick={this.addArticle}>Agregar</button>
+                        <button className="btn btn-primary" onClick={this.addArticle}>
+                            {this.state._id ? "Actualizar" : "Agregar"}
+                        </button>
                         <button className="btn btn-danger" onClick={this.delArticle} >Eliminar</button >
                         <button className="btn btn-light" onClick={this.goHome} >Cancelar</button >
                     </div >

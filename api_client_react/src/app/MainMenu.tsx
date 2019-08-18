@@ -26,6 +26,7 @@ class StateMainMenu extends React.Component<IStoredState, any> {
         <NavLink to="/searchArticle" className="menu_item btn btn-sm btn-link">Buscar</NavLink><br />
         <h6 className="menu_section">Carrito</h6>
         <NavLink to="/cart" className="menu_item btn btn-sm btn-link">Carrito Actual</NavLink><br />
+        <NavLink to="/editCart" className="menu_item btn btn-sm btn-link">Editar Carrito</NavLink><br />
       </div>
     );
   }
