@@ -21,11 +21,11 @@ Existen otras versiones desarrolladas en otros lenguajes que definen los mismos 
 
 ## Cliente Demo
 
-Existe un proyecto en Angular6, que nos proporciona un cliente demo para la plataforma, permitiéndonos probar como interactúan los diferentes microservicios.
+Existe un proyecto en React, que nos proporciona un cliente demo para la plataforma, permitiéndonos probar como interactúan los diferentes microservicios.
 
 Ver la documentación del cliente en :
 
-- [Cliente Demo](api_client_angular/README.md)
+- [Cliente Demo](api_client_react/README.md)
 
 ## Mas información de arquitectura
 
@@ -49,7 +49,11 @@ El proyecto se desarrollo con [Visual Studio Code](https://code.visualstudio.com
 
 Los plugins configurados en el momento de desarrollo en VSCode son los siguientes :
 
-- __Angular v6 Snippets__ by John Papa
+- __ES7 React/Redux/GraphQL React-Native snippets__ by dsznajder
+- __React Native Tools__ by Microsoft
+- __TSLint__ by egamma
+- __Typescript React code snippets__ by infeng
+- __ESLint__ by Dirk Baeumer
 - __Go__ by Microsoft
 - __JavasScript (ES6) code snippets__ by charlampos karypidis
 - __Language Support for Java(TM)__ by Red Hat

@@ -93,16 +93,16 @@ export default class CurrentCart extends CommonComponent<ICommonProps, IState> {
                     </table>
 
                     <div className="btn-group ">
-                        <button className="btn btn-success" onClick={this.validate} >Validar</button >
-                        <button className="btn btn-success" onClick={this.checkout} >Check out</button >
-                        <button className="btn btn-success" onClick={this.refresh} >Refresh</button >
+                        <button className="btn btn-primary" onClick={this.validate} >Validar</button >
+                        <button className="btn btn-primary" onClick={this.checkout} >Check out</button >
+                        <button className="btn btn-primary" onClick={this.refresh} >Refresh</button >
                         <button className="btn btn-light" onClick={this.goHome} >Cancelar</button >
                     </div >
                 </div>
 
                 <div className="form-group" hidden={!this.state.validation}>
-                    <br/>
-                    <label>Token</label>
+                    <br />
+                    <label>Validación</label>
                     <input className="form-control"
                         id="validation"
                         value={JSON.stringify(this.state.validation)}

@@ -85,7 +85,6 @@ Ahora deberíamos ser capaces de ejecutar el proyecto
 python run.py
 ```
 
-
 ## Apidoc
 
 Apidoc es una herramienta que genera documentación de apis para proyectos node (ver [Apidoc](http://apidocjs.com/)).

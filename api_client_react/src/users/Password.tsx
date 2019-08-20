@@ -55,7 +55,7 @@ export default class Password extends CommonComponent<ICommonProps, IState> {
                     <div className="form-group">
                         <label>Password Actual</label>
                         <input id="currentPassword" type="password"
-                            onChange={this.updateState}
+                            onChange={this.onInputChange}
                             className={this.getErrorClass("currentPassword", "form-control")}>
                         </input>
                         <ErrorLabel error={this.getErrorText("currentPassword")} />
@@ -64,7 +64,7 @@ export default class Password extends CommonComponent<ICommonProps, IState> {
                     <div className="form-group">
                         <label>Nuevo Password</label>
                         <input id="newPassword" type="password"
-                            onChange={this.updateState}
+                            onChange={this.onInputChange}
                             className={this.getErrorClass("newPassword", "form-control")}>
                         </input>
                         <ErrorLabel error={this.getErrorText("newPassword")} />
@@ -73,7 +73,7 @@ export default class Password extends CommonComponent<ICommonProps, IState> {
                     <div className="form-group">
                         <label>Repetir Password</label>
                         <input id="newPassword2" type="password"
-                            onChange={this.updateState}
+                            onChange={this.onInputChange}
                             className={this.getErrorClass("newPassword2", "form-control")}>
                         </input>
                         <ErrorLabel error={this.getErrorText("newPassword2")} />
