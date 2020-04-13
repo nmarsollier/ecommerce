@@ -1,3 +1,6 @@
+### Si queres sabes mas sobre mi:
+[Nestor Marsollier](https://github.com/nmarsollier/profile)
+
 # Microservicio de Carrito
 
 Este microservicio gestiona los artículos en el carrito por usuario.

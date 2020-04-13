@@ -1,3 +1,6 @@
+### Si queres sabes mas sobre mi:
+[Nestor Marsollier](https://github.com/nmarsollier/profile)
+
 # Catalog Service en Java
 
 Catalo Service en Java reemplaza la version realizada en Python del proyecto  [ecommerce](https://github.com/nmarsollier/ecommerce).

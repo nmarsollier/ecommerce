@@ -1,3 +1,6 @@
+### Si queres sabes mas sobre mi:
+[Nestor Marsollier](https://github.com/nmarsollier/profile)
+
 # Microservicio de Catalogo de Productos
 
 Es un microservicio que permite manejar el catalogo de artículos, precios y stock, es un proyecto académico, esta simplificado al máximo; que en un ambiente de microservicios, tanto precios como stock deberian llevarse en un microservicio separado.

@@ -1,3 +1,6 @@
+### Si queres sabes mas sobre mi:
+[Nestor Marsollier](https://github.com/nmarsollier/profile)
+
 # Es un cliente simple para probar la plataforma
 
 Con este cliente se pueden probar los diferentes microservicios.

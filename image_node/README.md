@@ -1,3 +1,6 @@
+### Si queres sabes mas sobre mi:
+[Nestor Marsollier](https://github.com/nmarsollier/profile)
+
 # Microservicio de Imágenes
 
 Este microservicio recibe y almacena imágenes en formato base64 en una base de datos redis.
