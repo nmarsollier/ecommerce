@@ -1,3 +1,6 @@
+### Si queres sabes mas sobre mi:
+[Nestor Marsollier](https://github.com/nmarsollier/profile)
+
 # Arquitectura de Microservicios
 
 Este es un proyecto académico para explicar arquitectura de microservicios, implementando un carrito virtual o eCommerce.
