@@ -1,34 +1,37 @@
-import React from "react";
+import { useForceUpdate } from "./Tools";
+import { useState } from "react";
 
-export interface IError {
+interface IError {
     response?: {
         data?: {
             error?: string;
-            messages?: Array<{
+            messages?: {
                 path: string;
                 message: string;
-            }>;
+            }[];
         };
     };
 }
 
-export interface ICommonProps {
-    history?: any;
-    match?: any;
-}
+class ErrorHandler {
+    constructor(forceUpdate: () => any) {
+        this.forceUpdate = forceUpdate
+    }
 
-export default class CommonComponent<P extends ICommonProps, S> extends React.Component<P, S> {
+    private forceUpdate: () => any
+
     // Es un error genérico en el form, no asociado a ningún componente visual
-    protected errorMessage?: string = undefined;
+    public errorMessage?: string = undefined;
 
     // Son errores de los componentes visuales, es un map
     // la clave es el campo con error, el contenido es el mensaje
-    protected errors: Map<string, string> = new Map();
+    public errors: Map<string, string> = new Map();
 
     // Procesa errores rest y llena errors de acuerdo a los resultados
-    protected processRestValidations(data: IError) {
+    public processRestValidations(data: IError) {
         if (this.errors && this.errors.size > 0) {
             this.cleanRestValidations();
+            this.forceUpdate()
         }
         if (!data.response || !data.response.data) {
             this.errorMessage = "Problemas de conexión, verifique conexión a internet.";
@@ -39,49 +42,44 @@ export default class CommonComponent<P extends ICommonProps, S> extends React.Co
             for (const error of data.response.data.messages) {
                 this.errors.set(error.path, error.message);
             }
-        } else {
+        } else if ((typeof data.response.data.error) === "string") {
             this.errorMessage = data.response.data.error;
+        } else {
+            this.errorMessage = "Problemas internos del servidor";
         }
         this.forceUpdate();
     }
 
-    protected addError(component: string, message: string) {
+    public addError(component: string, message: string) {
         this.errors.set(component, message);
+        this.forceUpdate()
     }
 
     // Limpia las validaciones actuales de errores
-    protected cleanRestValidations() {
+    public cleanRestValidations() {
         this.errorMessage = undefined;
         this.errors.clear();
         this.forceUpdate();
     }
 
     // Devuelve el texto del error de un elemento
-    protected getErrorText(item: string) {
+    public getErrorText(item: string) {
         return this.errors.get(item);
     }
 
-    protected getErrorClass(component: string, baseClass: string) {
+    public getErrorClass(component: string, baseClass: string) {
         return baseClass + (this.getErrorText(component) ? " is-invalid" : "");
     }
 
-    protected hasErrors() {
+    public hasErrors() {
         return this.errors.size > 0 && !this.errorMessage;
     }
-
-    protected onInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-        const update: any = {};
-        update[event.target.id] = event.target.value;
-        this.setState(update);
-    }
-
-    protected onSelectChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
-        const update: any = {};
-        update[event.target.id] = event.target.value;
-        this.setState(update);
-    }
-
-    protected goHome = () => {
-        this.props.history.push("/");
-    }
 }
+
+function useErrorHandler(): ErrorHandler {
+    const forceUpdate = useForceUpdate();
+    const handler = useState(new ErrorHandler(forceUpdate))[0]
+    return handler
+}
+
+export { ErrorHandler, useErrorHandler }

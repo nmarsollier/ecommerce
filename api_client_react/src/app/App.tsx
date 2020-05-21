@@ -9,7 +9,7 @@ import UploadPicture from "../image/UploadPicture";
 import Info from "../info/Info";
 import OrdersList from "../orders/OrdersList";
 import SearchOrder from "../orders/SearchOrder";
-import LoggedInRoute from "../system/tools/LoggedInRoute";
+import LoggedInRoute from "../system/utils/LoggedInRoute";
 import Login from "../users/Login";
 import Password from "../users/Password";
 import Register from "../users/Register";

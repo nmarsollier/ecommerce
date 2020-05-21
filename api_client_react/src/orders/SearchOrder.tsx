@@ -1,70 +1,65 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import "../styles.css";
-import CommonComponent, { ICommonProps } from "../system/tools/CommonComponent";
 import OrderDetail from "./OrderDetail";
+import { DefaultProps, goHome } from "../system/utils/Tools";
+import { useErrorHandler } from "../system/utils/ErrorHandler";
+import FormTitle from "../system/components/FormTitle";
+import FormInput from "../system/components/FormInput";
+import Form from "../system/components/Form";
+import DangerLabel from "../system/components/DangerLabel";
+import FormButtonBar from "../system/components/FormButtonBar";
+import FormButton from "../system/components/FormButton";
+import FormAcceptButton from "../system/components/FormAcceptButton";
 
 interface IState {
     text?: string;
     orderId?: string;
 }
 
-export default class SearchOrder extends CommonComponent<ICommonProps, IState> {
-    constructor(props: ICommonProps) {
-        super(props);
+export default function SearchOrder(props: DefaultProps) {
+    const [text, setText] = useState("")
+    const [orderId, setOrderId] = useState<string>()
 
-        this.state = {
-            text: "",
-        };
-    }
+    const errorHandler = useErrorHandler()
 
-    public componentDidMount() {
-        const orderId = this.props.match.params.orderId;
-        if (orderId) {
-            this.setState({ orderId });
-        }
-    }
-
-    public search = async () => {
+    const search = () => {
         try {
-            this.setState({
-                orderId: this.state.text,
-            });
+            setOrderId(text);
         } catch (error) {
-            this.processRestValidations(error);
+            errorHandler.processRestValidations(error);
         }
     }
 
-    public render() {
-        return (
-            <div className="global_content" >
-                <h2 className="global_title">Buscar Orden</h2>
+    useEffect(() => {
+        const id = props.match.params.orderId;
+        if (id) {
+            setOrderId(id);
+        }
+    }, [])
 
-                <form onSubmit={(e) => e.preventDefault()}>
-                    <div className="form-group">
-                        <label>Numero Orden</label>
-                        <input id="text" type="text"
-                            value={this.state.orderId}
-                            onChange={this.onInputChange}
-                            className={this.getErrorClass("text", "form-control")}>
-                        </input>
-                    </div>
+    return (
+        <div className="global_content" >
+            <FormTitle>Buscar Orden</FormTitle>
 
-                    <div hidden={!this.errorMessage}
-                        className="alert alert-danger"
-                        role="alert">{this.errorMessage}
-                    </div>
+            <Form>
+                <FormInput
+                    label="Numero Orden"
+                    name="text"
+                    value={orderId}
+                    onChange={e => setText(e.target.value)}
+                    errorHandler={errorHandler} />
 
-                    <div className="btn-group ">
-                        <button className="btn btn-primary" onClick={this.search}>Buscar</button>
-                        <button className="btn btn-light" onClick={this.goHome} >Cancelar</button >
-                    </div >
-                </form >
-                <br />
-                {this.state.orderId ?
-                    <OrderDetail orderId={this.state.orderId} />
-                    : ""
-                }
-            </div>
-        );
-    }
+                <DangerLabel message={errorHandler.errorMessage} />
+
+                <FormButtonBar>
+                    <FormAcceptButton label="Buscar" onClick={search} />
+                    <FormButton label="Cancelar" onClick={() => goHome(props)} />
+                </FormButtonBar>
+            </Form>
+
+            <br />
+
+            <OrderDetail orderId={orderId} />
+        </div>
+    );
 }

@@ -1,110 +1,90 @@
-import React from "react";
+import React, { useState } from "react";
 import "../styles.css";
 import { newUser } from "../system/store/SessionStore";
-import CommonComponent, { ICommonProps } from "../system/tools/CommonComponent";
-import ErrorLabel from "../system/tools/ErrorLabel";
+import { DefaultProps, goHome } from "../system/utils/Tools";
+import { useErrorHandler } from "../system/utils/ErrorHandler";
+import FormTitle from "../system/components/FormTitle";
+import Form from "../system/components/Form";
+import FormInput from "../system/components/FormInput";
+import FormPassword from "../system/components/FormPassword";
+import DangerLabel from "../system/components/DangerLabel";
+import FormButtonBar from "../system/components/FormButtonBar";
+import FormAcceptButton from "../system/components/FormAcceptButton";
+import FormButton from "../system/components/FormButton";
 
-interface IState {
-    login: string;
-    name: string;
-    password: string;
-    password2: string;
-}
+export default function Register(props: DefaultProps) {
+    const [login, setLogin] = useState("")
+    const [name, setName] = useState("")
+    const [password, setPassword] = useState("")
+    const [password2, setPassword2] = useState("")
 
-export default class Register extends CommonComponent<ICommonProps, IState> {
-    constructor(props: ICommonProps) {
-        super(props);
+    const errorHandler = useErrorHandler()
 
-        this.state = {
-            login: "",
-            name: "",
-            password: "",
-            password2: "",
-        };
-    }
-
-    public registerClick = async () => {
-        this.cleanRestValidations();
-        if (!this.state.login) {
-            this.addError("login", "No puede estar vacío");
+    const registerClick = async () => {
+        errorHandler.cleanRestValidations();
+        if (!login) {
+            errorHandler.addError("login", "No puede estar vacío");
         }
-        if (!this.state.name) {
-            this.addError("name", "No puede estar vacío");
+        if (!name) {
+            errorHandler.addError("name", "No puede estar vacío");
         }
-        if (!this.state.password) {
-            this.addError("password", "No puede estar vacío");
+        if (!password) {
+            errorHandler.addError("password", "No puede estar vacío");
         }
-        if (this.state.password !== this.state.password2) {
-            this.addError("password2", "Las contraseñas no coinciden");
+        if (password !== password2) {
+            errorHandler.addError("password2", "Las contraseñas no coinciden");
         }
 
-        if (this.hasErrors()) {
-            this.forceUpdate();
+        if (errorHandler.hasErrors()) {
             return;
         }
 
         try {
-            await newUser(this.state);
-            this.props.history.push("/");
+            await newUser({
+                login, name, password
+            });
+            goHome(props);
         } catch (error) {
-            this.processRestValidations(error);
+            errorHandler.processRestValidations(error);
         }
     }
 
-    public render() {
-        return (
-            <div className="global_content">
-                <h2 className="global_title">Registrar Usuario</h2>
+    return (
+        <div className="global_content">
+            <FormTitle>Registrar Usuario</FormTitle>
 
-                <form onSubmit={(e) => e.preventDefault()}>
-                    <div className="form-group">
-                        <label>Login</label>
-                        <input id="login" type="text"
-                            onChange={this.onInputChange}
-                            className={this.getErrorClass("login", "form-control")}>
-                        </input>
-                        <ErrorLabel error={this.getErrorText("login")} />
-                    </div>
+            <Form>
+                <FormInput
+                    label="Login"
+                    name="login"
+                    onChange={e => setLogin(e.target.value)}
+                    errorHandler={errorHandler} />
 
-                    <div className="form-group">
-                        <label>Usuario</label>
-                        <input id="name" type="text"
-                            onChange={this.onInputChange}
-                            className={this.getErrorClass("name", "form-control")}>
-                        </input>
-                        <ErrorLabel error={this.getErrorText("name")} />
-                    </div>
+                <FormInput
+                    label="Usuario"
+                    name="name"
+                    onChange={e => setName(e.target.value)}
+                    errorHandler={errorHandler} />
 
-                    <div className="form-group">
-                        <label>Password</label>
-                        <input id="password" type="password"
-                            onChange={this.onInputChange}
-                            className={this.getErrorClass("password", "form-control")}>
-                        </input>
-                        <ErrorLabel error={this.getErrorText("password")} />
-                    </div>
+                <FormPassword
+                    label="Password"
+                    name="password"
+                    onChange={e => setPassword(e.target.value)}
+                    errorHandler={errorHandler} />
 
-                    <div className="form-group">
-                        <label>Repetir Password</label>
-                        <input id="password2" type="password"
-                            onChange={this.onInputChange}
-                            className={this.getErrorClass("password2", "form-control")}>
-                        </input>
-                        <ErrorLabel error={this.getErrorText("password2")} />
-                    </div>
+                <FormPassword
+                    label="Repetir Password"
+                    name="password2"
+                    onChange={e => setPassword2(e.target.value)}
+                    errorHandler={errorHandler} />
 
-                    <div hidden={!this.errorMessage}
-                        className="alert alert-danger"
-                        role="alert">
-                        {this.errorMessage}
-                    </div>
+                <DangerLabel message={errorHandler.errorMessage} />
 
-                    <div className="btn-group ">
-                        <button className="btn btn-primary" onClick={this.registerClick}>Registrarse</button>
-                        <button className="btn btn-light" onClick={this.goHome} >Cancelar</button >
-                    </div >
-                </form >
-            </div>
-        );
-    }
+                <FormButtonBar>
+                    <FormAcceptButton label="Registrarse" onClick={registerClick} />
+                    <FormButton label="Cancelar" onClick={() => goHome(props)} />
+                </FormButtonBar>
+            </Form>
+        </div>
+    );
 }

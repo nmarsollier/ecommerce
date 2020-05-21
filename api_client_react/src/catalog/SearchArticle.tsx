@@ -1,121 +1,119 @@
-import React from "react";
+import React, { useState } from "react";
 import "../styles.css";
-import CommonComponent, { ICommonProps } from "../system/tools/CommonComponent";
+import DangerLabel from "../system/components/DangerLabel";
+import Form from "../system/components/Form";
+import FormAcceptButton from "../system/components/FormAcceptButton";
+import FormButton from "../system/components/FormButton";
+import FormButtonBar from "../system/components/FormButtonBar";
+import FormInput from "../system/components/FormInput";
+import FormTitle from "../system/components/FormTitle";
+import { useErrorHandler } from "../system/utils/ErrorHandler";
+import { DefaultProps, goHome } from "../system/utils/Tools";
 import { findArticles, IArticle } from "./CatalogApi";
 
-interface IState {
-    text?: string;
-    articles?: IArticle[];
-}
+export default function SearchArticle(props: DefaultProps) {
+    const [text, setText] = useState("")
+    const [articles, setArticles] = useState(new Array<IArticle>())
 
-export default class SearchArticle extends CommonComponent<ICommonProps, IState> {
-    constructor(props: ICommonProps) {
-        super(props);
+    const errorHandler = useErrorHandler()
 
-        this.state = {
-            text: "",
-        };
-    }
-
-    public search = async () => {
+    const search = async () => {
         try {
-            const text = this.state.text;
             if (text) {
-                const articles = await findArticles(text);
-                this.setState({
-                    articles,
-                });
+                const articleResult = await findArticles(text);
+                setArticles(articleResult);
             }
         } catch (error) {
-            this.processRestValidations(error);
+            errorHandler.processRestValidations(error);
         }
     }
 
-    public showImage = (imageId: string | undefined) => {
+    const showImage = (imageId: string | undefined) => {
         if (imageId !== undefined) {
-            this.props.history.push("/showPicture/" + imageId);
+            props.history.push("/showPicture/" + imageId);
         }
     }
 
-    public editArticle = (id: string | undefined) => {
+    const editArticle = (id: string | undefined) => {
         if (id !== undefined) {
-            this.props.history.push("/editArticle/" + id);
+            props.history.push("/editArticle/" + id);
         }
     }
 
-    public render() {
-        let articles;
-        if (this.state.articles) {
-            articles = (
-                <div>
-                    <br />
-                    <table id="articles" className="table">
-                        <thead>
-                            <tr>
-                                <th> Id </th>
-                                <th> Nombre </th>
-                                <th> Descripción </th>
-                                <th> Imagen </th>
-                                <th> Stock </th>
-                                <th> Precio </th>
-                                <th> </th>
+    return (
+        <div className="global_content" >
+            <FormTitle>Buscar Artículos</FormTitle>
+
+            <Form>
+                <FormInput
+                    label="Buscar Artículos"
+                    name="text"
+                    onChange={e => setText(e.target.value)}
+                    errorHandler={errorHandler} />
+
+                <DangerLabel message={errorHandler.errorMessage} />
+
+                <FormButtonBar>
+                    <FormAcceptButton label="Buscar" onClick={search} />
+                    <FormButton label="Cancelar" onClick={() => goHome(props)} />
+                </FormButtonBar>
+            </Form>
+
+            <ArticlesList articles={articles} onEditClick={editArticle} onShowImage={showImage} />
+        </div>
+    );
+}
+
+interface ArticlesListProps extends DefaultProps {
+    articles?: IArticle[],
+    onShowImage: (imageId: string | undefined) => any,
+    onEditClick: (id: string | undefined) => any
+}
+
+function ArticlesList(props: ArticlesListProps) {
+    if (!props.articles) {
+        return null
+    }
+    return (
+        <div>
+            <br />
+            <table id="articles" className="table">
+                <thead>
+                    <tr>
+                        <th> Id </th>
+                        <th> Nombre </th>
+                        <th> Descripción </th>
+                        <th> Imagen </th>
+                        <th> Stock </th>
+                        <th> Precio </th>
+                        <th> </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {props.articles.map((article, i) => {
+                        return (
+                            <tr key={i}>
+                                <td>{article._id}</td>
+                                <td>{article.name}</td>
+                                <td>{article.description}</td>
+                                <td>
+                                    {article.image}&nbsp;
+                                                <a hidden={!article.image} onClick={() => props.onShowImage(article.image)} >
+                                        <img src="/assets/find.png" />
+                                    </a>
+                                </td>
+                                <td>{article.stock}</td>
+                                <td>{article.price}</td>
+                                <td>
+                                    <a onClick={() => props.onEditClick(article._id)} >
+                                        <img src="/assets/edit.png" />
+                                    </a>
+                                </td>
                             </tr>
-                        </thead>
-                        <tbody>
-                            {this.state.articles.map((article, i) => {
-                                return (
-                                    <tr key={i}>
-                                        <td>{article._id}</td>
-                                        <td>{article.name}</td>
-                                        <td>{article.description}</td>
-                                        <td>
-                                            {article.image}&nbsp;
-                                            <a hidden={!article.image} onClick={() => this.showImage(article.image)} >
-                                                <img src="/assets/find.png" />
-                                            </a>
-                                        </td>
-                                        <td>{article.stock}</td>
-                                        <td>{article.price}</td>
-                                        <td>
-                                            <a onClick={() => this.editArticle(article._id)} >
-                                                <img src="/assets/edit.png" />
-                                            </a>
-                                        </td>
-                                    </tr>
-                                );
-                            })}
-                        </tbody>
-                    </table>
-                </div>
-            );
-        }
-
-        return (
-            <div className="global_content" >
-                <h2 className="global_title">Buscar Artículos</h2>
-
-                <form onSubmit={(e) => e.preventDefault()}>
-                    <div className="form-group">
-                        <label>Buscar Artículos</label>
-                        <input id="text" type="text"
-                            onChange={this.onInputChange}
-                            className={this.getErrorClass("text", "form-control")}>
-                        </input>
-                    </div>
-
-                    <div hidden={!this.errorMessage}
-                        className="alert alert-danger"
-                        role="alert">{this.errorMessage}
-                    </div>
-
-                    <div className="btn-group ">
-                        <button className="btn btn-primary" onClick={this.search}>Buscar</button>
-                        <button className="btn btn-light" onClick={this.goHome} >Cancelar</button >
-                    </div >
-                </form >
-
-                {articles}
-            </div>
-        );
-    }
+                        );
+                    })}
+                </tbody>
+            </table>
+        </div >
+    )
 }

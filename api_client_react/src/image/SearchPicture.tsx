@@ -1,84 +1,80 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import "../styles.css";
-import CommonComponent, { ICommonProps } from "../system/tools/CommonComponent";
+import DangerLabel from "../system/components/DangerLabel";
+import Form from "../system/components/Form";
+import FormAcceptButton from "../system/components/FormAcceptButton";
+import FormButton from "../system/components/FormButton";
+import FormButtonBar from "../system/components/FormButtonBar";
+import FormInput from "../system/components/FormInput";
+import FormTitle from "../system/components/FormTitle";
+import { useErrorHandler } from "../system/utils/ErrorHandler";
+import { DefaultProps, goHome } from "../system/utils/Tools";
 import { Quality } from "./ImageApi";
 import ShowImage from "./ShowImage";
 
-interface IState {
-    tmpId?: string;
-    imageId?: string;
+export default function SearchPicture(props: DefaultProps) {
+    const [tmpId, setTmpId] = useState("")
+    const [imageId, setImageId] = useState<string>()
+
+    const errorHandler = useErrorHandler()
+
+    const searchImage = () => {
+        if (tmpId) {
+            setImageId(tmpId);
+        }
+    }
+
+    useEffect(() => {
+        const id = props.match.params.imageId;
+        if (id) {
+            setTmpId(id)
+            setImageId(id);
+        }
+    }, [])
+
+
+    return (
+        <div className="global_content" >
+            <FormTitle>Buscar Imagen</FormTitle>
+
+            <Form>
+                <FormInput
+                    label="Id Imagen"
+                    name="tmpId"
+                    onChange={e => setTmpId(e.target.value)}
+                    errorHandler={errorHandler} />
+
+                <DangerLabel message={errorHandler.errorMessage} />
+
+                <FormButtonBar>
+                    <FormAcceptButton label="Buscar" onClick={searchImage} />
+                    <FormButton label="Cancelar" onClick={() => goHome(props)} />
+                </FormButtonBar>
+
+                <ShowImages imageId={imageId} />ºº
+            </Form>
+        </div >
+    );
 }
 
-export default class SearchPicture extends CommonComponent<ICommonProps, IState> {
-    constructor(props: ICommonProps) {
-        super(props);
+interface ShowImagesProps extends DefaultProps {
+    imageId?: string
+}
 
-        this.state = {
-            tmpId: "",
-        };
+function ShowImages(props: ShowImagesProps) {
+    if (!props.imageId) {
+        return null
     }
-
-    public searchImage = () => {
-        const id = this.state.tmpId;
-        if (id) {
-            this.setState({
-                imageId: id,
-                tmpId: id,
-            });
-        }
-    }
-
-    public componentDidMount() {
-        const imageId = this.props.match.params.imageId;
-        if (imageId) {
-            this.setState({ imageId });
-        }
-    }
-
-    public render() {
-        let images;
-        if (this.state.imageId) {
-            images = (
-                <div hidden={!this.state.imageId}>
-                    <br />
-                    <ShowImage imageId={this.state.imageId} quality={Quality.Q160} jpeg={true} />
-                    <ShowImage imageId={this.state.imageId} quality={Quality.Q320} jpeg={true} />
-                    <ShowImage imageId={this.state.imageId} quality={Quality.Q640} />
-                    <ShowImage imageId={this.state.imageId} quality={Quality.Q800} />
-                    <ShowImage imageId={this.state.imageId} quality={Quality.Q1024} />
-                    <ShowImage imageId={this.state.imageId} quality={Quality.Q1200} />
-                    <ShowImage imageId={this.state.imageId} />
-                </div>
-            );
-        }
-
-        return (
-            <div className="global_content" >
-                <h2 className="global_title">Buscar Imagen</h2>
-
-                <form onSubmit={(e) => e.preventDefault()}>
-                    <div className="form-group">
-                        <label>Id Imagen</label>
-                        <input id="tmpId" type="text"
-                            value={this.state.imageId}
-                            onChange={this.onInputChange}
-                            className={this.getErrorClass("tmpId", "form-control")}>
-                        </input>
-                    </div>
-
-                    <div hidden={!this.errorMessage}
-                        className="alert alert-danger"
-                        role="alert">{this.errorMessage}
-                    </div>
-
-                    <div className="btn-group ">
-                        <button className="btn btn-primary" onClick={this.searchImage}>Buscar</button>
-                        <button className="btn btn-light" onClick={this.goHome} >Cancelar</button >
-                    </div >
-
-                    {images}
-                </form >
-            </div>
-        );
-    }
+    return (
+        <div>
+            <br />
+            <ShowImage imageId={props.imageId} quality={Quality.Q160} jpeg={true} />
+            <ShowImage imageId={props.imageId} quality={Quality.Q320} jpeg={true} />
+            <ShowImage imageId={props.imageId} quality={Quality.Q640} />
+            <ShowImage imageId={props.imageId} quality={Quality.Q800} />
+            <ShowImage imageId={props.imageId} quality={Quality.Q1024} />
+            <ShowImage imageId={props.imageId} quality={Quality.Q1200} />
+            <ShowImage imageId={props.imageId} />
+        </div>
+    )
 }

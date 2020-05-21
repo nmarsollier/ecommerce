@@ -1,174 +1,160 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { getPictureUrl, saveImage } from "../image/ImageApi";
 import "../styles.css";
-import CommonComponent, { ICommonProps } from "../system/tools/CommonComponent";
-import ErrorLabel from "../system/tools/ErrorLabel";
-import ImageUpload from "../system/tools/ImageUpload";
+import DangerLabel from "../system/components/DangerLabel";
+import ErrorLabel from "../system/components/ErrorLabel";
+import Form from "../system/components/Form";
+import FormAcceptButton from "../system/components/FormAcceptButton";
+import FormButton from "../system/components/FormButton";
+import FormButtonBar from "../system/components/FormButtonBar";
+import FormInput from "../system/components/FormInput";
+import FormTitle from "../system/components/FormTitle";
+import FormWarnButton from "../system/components/FormWarnButton";
+import ImageUpload from "../system/components/ImageUpload";
+import { useErrorHandler } from "../system/utils/ErrorHandler";
+import { DefaultProps, goHome, useForceUpdate } from "../system/utils/Tools";
 import { deleteArticle, getArticle, newArticle, updateArticle } from "./CatalogApi";
 
-interface IState {
-    _id?: string;
-    name: string;
-    description?: string;
-    image?: string;
-    price?: number;
-    stock?: number;
-}
+export default function NewArticle(props: DefaultProps) {
+    const [id, setId] = useState<string>()
+    const [name, setName] = useState("")
+    const [description, setDescription] = useState<string | undefined>("")
+    const [image, setImage] = useState<string | undefined>("")
+    const [price, setPrice] = useState<string | undefined>("0")
+    const [stock, setStock] = useState<string | undefined>("0")
 
-export default class NewArticle extends CommonComponent<ICommonProps, IState> {
-    constructor(props: ICommonProps) {
-        super(props);
+    const errorHandler = useErrorHandler()
 
-        this.state = {
-            description: "",
-            image: "",
-            name: "",
-            price: 0,
-            stock: 0,
-        };
-    }
-
-    public componentDidMount() {
-        const id = this.props.match.params.id;
-        if (id) {
-            this.loadArticle(id);
-        }
-    }
-
-    public loadArticle = async (id: string) => {
-        this.cleanRestValidations();
+    const loadArticle = async (articleId: string) => {
+        errorHandler.cleanRestValidations();
 
         try {
-            const article = await getArticle(id);
-
-            this.setState({
-                _id: article._id,
-                description: article.description,
-                image: article.image,
-                name: article.name,
-                price: article.price,
-                stock: article.stock,
-            });
+            const article = await getArticle(articleId);
+            setId(article._id)
+            setDescription(article.description)
+            setImage(article.image)
+            setName(article.name)
+            setPrice(article.price?.toFixed(2))
+            setStock(article.stock?.toFixed(0))
         } catch (error) {
-            this.processRestValidations(error);
+            errorHandler.processRestValidations(error);
         }
     }
 
-    public addArticle = async () => {
-        this.cleanRestValidations();
+    const addArticle = async () => {
+        errorHandler.cleanRestValidations();
 
         try {
-            if (this.state._id) {
-                await updateArticle(this.state._id, this.state);
+            if (id) {
+                await updateArticle(id, {
+                    _id: id,
+                    name,
+                    description,
+                    image,
+                    price: parseFloat(price ? price : "0"),
+                    stock: parseInt(stock ? stock : "0", 10)
+                });
             } else {
-                await newArticle(this.state);
+                await newArticle({
+                    _id: id,
+                    name,
+                    description,
+                    image,
+                    price: parseFloat(price ? price : "0"),
+                    stock: parseInt(stock ? stock : "0", 10)
+                });
             }
-            this.goHome();
+            goHome(props);
         } catch (error) {
-            this.processRestValidations(error);
+            errorHandler.processRestValidations(error);
         }
     }
 
-    public delArticle = async () => {
-        this.cleanRestValidations();
+    const delArticle = async () => {
+        errorHandler.cleanRestValidations();
 
         try {
-            const id = this.state._id;
             if (id) {
                 await deleteArticle(id);
-                this.goHome();
+                goHome(props);
             }
         } catch (error) {
-            this.processRestValidations(error);
+            errorHandler.processRestValidations(error);
         }
     }
 
-    public saveImage = async (image: string) => {
+    const saveImageClick = async (img: string) => {
         try {
-            this.cleanRestValidations();
-            if (!image) {
+            errorHandler.cleanRestValidations();
+            if (!img) {
                 return;
             }
             const result = await saveImage({
-                image,
+                image: img,
             });
-            this.setState({
-                image: result.id,
-            });
+
+            setImage(result.id);
         } catch (error) {
-            this.processRestValidations(error);
+            errorHandler.processRestValidations(error);
         }
     }
 
-    public render() {
-        return (
-            <div className="global_content">
-                <h2 className="global_title">Detalle del Articulo</h2>
+    useEffect(() => {
+        const paramId = props.match.params.id;
+        if (paramId) {
+            loadArticle(paramId);
+        }
+    }, [])
 
-                <form onSubmit={(e) => e.preventDefault()}>
-                    <div className="form-group">
-                        <label>Nombre</label>
-                        <input id="name" type="text"
-                            onChange={this.onInputChange}
-                            value={this.state.name}
-                            className={this.getErrorClass("name", "form-control")}>
-                        </input>
-                        <ErrorLabel error={this.getErrorText("name")} />
-                    </div>
+    return (
+        <div className="global_content">
+            <FormTitle>Detalle del Articulo</FormTitle>
 
-                    <div className="form-group">
-                        <label>Descripción</label>
-                        <input id="description" type="text"
-                            value={this.state.description}
-                            onChange={this.onInputChange}
-                            className={this.getErrorClass("description", "form-control")}>
-                        </input>
-                        <ErrorLabel error={this.getErrorText("description")} />
-                    </div>
+            <Form>
+                <FormInput
+                    label="Nombre"
+                    value={name}
+                    name="name"
+                    onChange={e => setName(e.target.value)}
+                    errorHandler={errorHandler} />
 
-                    <div className="form-group">
-                        <label>Imagen</label>
-                        <ImageUpload
-                            src={getPictureUrl(this.state.image)}
-                            onChange={this.saveImage} />
-                        <ErrorLabel error={this.getErrorText("image")} />
-                    </div>
+                <FormInput
+                    label="Descripción"
+                    value={description}
+                    name="description"
+                    onChange={e => setDescription(e.target.value)}
+                    errorHandler={errorHandler} />
 
-                    <div className="form-group">
-                        <label>Precio</label>
-                        <input id="price" type="text"
-                            value={this.state.price}
-                            onChange={this.onInputChange}
-                            className={this.getErrorClass("price", "form-control")}>
-                        </input>
-                        <ErrorLabel error={this.getErrorText("price")} />
-                    </div>
+                <div className="form-group">
+                    <label>Imagen</label>
+                    <ImageUpload
+                        src={getPictureUrl(image)}
+                        onChange={saveImageClick} />
+                    <ErrorLabel message={errorHandler.getErrorText("image")} />
+                </div>
 
-                    <div className="form-group">
-                        <label>Stock</label>
-                        <input id="stock" type="text"
-                            value={this.state.stock}
-                            onChange={this.onInputChange}
-                            className={this.getErrorClass("stock", "form-control")}>
-                        </input>
-                        <ErrorLabel error={this.getErrorText("stock")} />
-                    </div>
+                <FormInput
+                    label="Precio"
+                    value={price}
+                    name="price"
+                    onChange={e => setPrice(e.target.value)}
+                    errorHandler={errorHandler} />
 
-                    <div hidden={!this.errorMessage}
-                        className="alert alert-danger"
-                        role="alert">
-                        {this.errorMessage}
-                    </div>
+                <FormInput
+                    label="Stock"
+                    value={stock}
+                    name="stock"
+                    onChange={e => setStock(e.target.value)}
+                    errorHandler={errorHandler} />
 
-                    <div className="btn-group ">
-                        <button className="btn btn-primary" onClick={this.addArticle}>
-                            {this.state._id ? "Actualizar" : "Agregar"}
-                        </button>
-                        <button className="btn btn-danger" onClick={this.delArticle} >Eliminar</button >
-                        <button className="btn btn-light" onClick={this.goHome} >Cancelar</button >
-                    </div >
-                </form >
-            </div>
-        );
-    }
+                <DangerLabel message={errorHandler.errorMessage} />
+
+                <FormButtonBar>
+                    <FormAcceptButton label={id ? "Actualizar" : "Agregar"} onClick={addArticle} />
+                    <FormWarnButton label="Eliminar" onClick={delArticle} />
+                    <FormButton label="Cancelar" onClick={() => goHome(props)} />
+                </FormButtonBar>
+            </Form>
+        </div>
+    );
 }

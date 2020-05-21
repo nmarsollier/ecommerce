@@ -1,68 +1,62 @@
-import React from "react";
+import React, { useState } from "react";
 import "../styles.css";
-import CommonComponent, { ICommonProps } from "../system/tools/CommonComponent";
 import { grant, IUser, revoke } from "./UserApi";
+import { DefaultProps } from "../system/utils/Tools";
+import FormInput from "../system/components/FormInput";
+import { useErrorHandler } from "../system/utils/ErrorHandler";
+import DangerLabel from "../system/components/DangerLabel";
+import FormButtonBar from "../system/components/FormButtonBar";
+import FormAcceptButton from "../system/components/FormAcceptButton";
+import FormWarnButton from "../system/components/FormWarnButton";
+import FormButton from "../system/components/FormButton";
+import Form from "../system/components/Form";
+import FormTitle from "../system/components/FormTitle";
 
-interface IState {
-    permissions: string;
-}
-
-interface IProps extends ICommonProps {
+interface UserPermissionProps extends DefaultProps {
     user: IUser;
     onUpdate: () => any;
     onClose: () => any;
 }
 
-export default class UserPermission extends CommonComponent<IProps, IState> {
-    constructor(props: IProps) {
-        super(props);
+export default function UserPermission(props: UserPermissionProps) {
+    const [permissions, setPermissions] = useState("")
+    const errorHandler = useErrorHandler()
 
-        this.state = {
-            permissions: "",
-        };
+    const enablePermissions = async () => {
+        const perm = permissions.split(",");
+        await grant(props.user.id, perm);
+        props.onUpdate();
     }
 
-    public enablePermissions = async () => {
-        const perm = this.state.permissions.split(",");
-        await grant(this.props.user.id, perm);
-        this.props.onUpdate();
+    const disablePermissions = async () => {
+        const perm = permissions.split(",");
+        await revoke(props.user.id, perm);
+        props.onUpdate();
     }
 
-    public disablePermissions = async () => {
-        const perm = this.state.permissions.split(",");
-        await revoke(this.props.user.id, perm);
-        this.props.onUpdate();
+    const stopEditing = async () => {
+        props.onClose();
     }
 
-    public stopEditing = async () => {
-        this.props.onClose();
-    }
+    return (
+        <div className="global_content" >
+            <FormTitle>Permisos ({props.user.login})</FormTitle>
 
-    public render() {
-        return (
-            <div className="global_content" >
-                <h3>Permisos ({this.props.user.login})</h3>
+            <Form>
+                <FormInput
+                    label=""
+                    name="permissions"
+                    onChange={e => setPermissions(e.target.value)}
+                    errorHandler={errorHandler} />
 
-                <form onSubmit={(e) => e.preventDefault()}>
-                    <div className="form-group">
-                        <input id="permissions" type="text"
-                            onChange={this.onInputChange}
-                            className={this.getErrorClass("permissions", "form-control")}>
-                        </input>
-                    </div>
+                <DangerLabel message={errorHandler.errorMessage} />
 
-                    <div hidden={!this.errorMessage}
-                        className="alert alert-danger"
-                        role="alert">{this.errorMessage}
-                    </div>
-
-                    <div className="btn-group ">
-                        <button className="btn btn-primary" onClick={this.enablePermissions}>Habilitar</button>
-                        <button className="btn btn-warning" onClick={this.disablePermissions}>Deshabilitar</button>
-                        <button className="btn btn-light" onClick={this.stopEditing}>Cerrar</button>
-                    </div >
-                </form >
-            </div>
-        );
-    }
+                <FormButtonBar>
+                    <FormAcceptButton label="Habilitar" onClick={enablePermissions} />
+                    <FormWarnButton label="Deshabilitar" onClick={disablePermissions} />
+                    <FormButton label="Cerrar" onClick={stopEditing} />
+                </FormButtonBar>
+            </Form >
+        </div>
+    );
 }

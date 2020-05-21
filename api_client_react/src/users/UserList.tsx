@@ -1,113 +1,105 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import "../styles.css";
-import CommonComponent, { ICommonProps } from "../system/tools/CommonComponent";
+import FormButton from "../system/components/FormButton";
+import FormButtonBar from "../system/components/FormButtonBar";
+import FormTitle from "../system/components/FormTitle";
+import { useErrorHandler } from "../system/utils/ErrorHandler";
+import { DefaultProps, goHome } from "../system/utils/Tools";
 import { disableUser, enableUser, getUsers, IUser } from "./UserApi";
 import UserPermission from "./UserPermission";
 
-interface IState {
-    users: IUser[];
-    editUser?: IUser;
-}
+export default function UserList(props: DefaultProps) {
+    const [users, setUsers] = useState(Array<IUser>())
+    const [editUser, setEditUser] = useState<IUser | undefined>()
 
-export default class UserList extends CommonComponent<ICommonProps, IState> {
-    constructor(props: ICommonProps) {
-        super(props);
+    const errorHandler = useErrorHandler()
 
-        this.state = {
-            users: [],
-        };
-    }
-
-    public componentDidMount() {
-        this.loadUsers();
-    }
-
-    public loadUsers = async () => {
+    const loadUsers = async () => {
         try {
             const result = await getUsers();
-            this.setState({
-                users: result,
-            });
+            setUsers(result);
         } catch (error) {
-            this.processRestValidations(error);
+            errorHandler.processRestValidations(error);
         }
     }
 
-    public editPermissionsClick = (user: IUser | undefined) => {
-        this.setState({
-            editUser: user,
-        });
+    const editPermissionsClick = (user?: IUser) => {
+        setEditUser(user);
     }
 
-    public enableUser = async (user: IUser) => {
+    const enableThisUser = async (user: IUser) => {
         await enableUser(user.id);
-        this.loadUsers();
+        loadUsers();
     }
 
-    public disableUser = async (user: IUser) => {
+    const disableThisUser = async (user: IUser) => {
         await disableUser(user.id);
-        this.loadUsers();
+        loadUsers();
     }
 
-    public render() {
-        let permEdit;
-        if (this.state.editUser) {
-            permEdit = <UserPermission
-                user={this.state.editUser}
-                onUpdate={this.loadUsers}
-                onClose={() => this.editPermissionsClick(undefined)} />;
-        }
+    useEffect(() => {
+        loadUsers()
+    }, [])
 
-        return (
-            <div className="global_content">
-                <h2 className="global_title">Users</h2>
-                <table id="users" className="table">
-                    <thead>
-                        <tr>
-                            <th> Id </th>
-                            <th> Login </th>
-                            <th> Nombre </th>
-                            <th> Permisos </th>
-                            <th> Habilitado </th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {this.state.users.map((user, i) => {
-                            return (
-                                <tr key={i}>
-                                    <td>{user.id}</td>
-                                    <td>{user.login}</td>
-                                    <td>{user.name}</td>
-                                    <td>
-                                        {user.permissions.join(", ")}
-                                        <a hidden={!user.enabled}
-                                            onClick={() => this.editPermissionsClick(user)}>
-                                            <img src="/assets/edit.png" />
-                                        </a>
-                                    </td>
-                                    <td>
-                                        <a hidden={!user.enabled}
-                                            onClick={() => this.disableUser(user)}>
-                                            <img src="/assets/enable.png" />
-                                        </a>
-                                        <a hidden={user.enabled}
-                                            onClick={() => this.enableUser(user)}>
-                                            <img src="/assets/disable.png" />
-                                        </a>
-                                        {user.enabled ? "Deshabilitar" : "Habilitar"}&nbsp;
-                                    </td>
-                                </tr>
-                            );
-                        })}
-                    </tbody>
-                </table>
 
-                {permEdit}
-
-                <div className="btn-group ">
-                    <button className="btn btn-light" onClick={this.goHome} >Cancelar</button >
-                </div >
-            </div>
-        );
+    let permEdit;
+    if (editUser) {
+        permEdit = <UserPermission
+            user={editUser}
+            onUpdate={loadUsers}
+            onClose={editPermissionsClick} />;
     }
+
+    return (
+        <div className="global_content">
+            <FormTitle>Users</FormTitle>
+
+            <table id="users" className="table">
+                <thead>
+                    <tr>
+                        <th> Id </th>
+                        <th> Login </th>
+                        <th> Nombre </th>
+                        <th> Permisos </th>
+                        <th> Habilitado </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {users.map((user, i) => {
+                        return (
+                            <tr key={i}>
+                                <td>{user.id}</td>
+                                <td>{user.login}</td>
+                                <td>{user.name}</td>
+                                <td>
+                                    {user.permissions.join(", ")}
+                                    <a hidden={!user.enabled}
+                                        onClick={() => editPermissionsClick(user)}>
+                                        <img src="/assets/edit.png" />
+                                    </a>
+                                </td>
+                                <td>
+                                    <a hidden={!user.enabled}
+                                        onClick={() => disableThisUser(user)}>
+                                        <img src="/assets/enable.png" />
+                                    </a>
+                                    <a hidden={user.enabled}
+                                        onClick={() => enableThisUser(user)}>
+                                        <img src="/assets/disable.png" />
+                                    </a>
+                                    {user.enabled ? "Deshabilitar" : "Habilitar"}&nbsp;
+                                    </td>
+                            </tr>
+                        );
+                    })}
+                </tbody>
+            </table>
+
+            {permEdit}
+
+            <FormButtonBar>
+                <FormButton onClick={() => goHome(props)} label="Cancelar" />
+            </FormButtonBar>
+        </div>
+    );
 }

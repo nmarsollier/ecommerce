@@ -1,31 +1,25 @@
-import React from "react";
-import CommonComponent, { ICommonProps } from "../system/tools/CommonComponent";
-import ErrorLabel from "../system/tools/ErrorLabel";
+import React, { useState } from "react";
+import DangerLabel from "../system/components/DangerLabel";
+import Form from "../system/components/Form";
+import FormAcceptButton from "../system/components/FormAcceptButton";
+import FormButton from "../system/components/FormButton";
+import FormButtonBar from "../system/components/FormButtonBar";
+import FormInput from "../system/components/FormInput";
+import FormTitle from "../system/components/FormTitle";
+import FormWarnButton from "../system/components/FormWarnButton";
+import { useErrorHandler } from "../system/utils/ErrorHandler";
+import { DefaultProps, goHome, useForceUpdate } from "../system/utils/Tools";
 import { addArticle, decrementArticle, deleteArticle, incrementArticle } from "./CartApi";
 import CurrentCart from "./CurrentCart";
 
-interface IState {
-    articleId?: string;
-    quantity?: number;
-}
+export default function EditCart(props: DefaultProps) {
+    const [articleId, setArticleId] = useState("")
+    const [quantity, setQuantity] = useState(0)
+    const forceUpdate = useForceUpdate();
+    const errorHandler = useErrorHandler()
 
-export default class EditCart extends CommonComponent<ICommonProps, IState> {
-    private currentCart = React.createRef<CurrentCart>();
-
-    constructor(props: ICommonProps) {
-        super(props);
-
-        this.state = {
-            articleId: "",
-            quantity: 0,
-        };
-
-    }
-
-    public addArticle = async () => {
+    const onAddArticle = async () => {
         try {
-            const articleId = this.state.articleId;
-            const quantity = this.state.quantity;
             if (!articleId || !quantity) {
                 return;
             }
@@ -34,96 +28,78 @@ export default class EditCart extends CommonComponent<ICommonProps, IState> {
                 articleId,
                 quantity,
             });
-
-            if (this.currentCart.current) {
-                this.currentCart.current.refresh();
-            }
+            forceUpdate()
         } catch (error) {
-            this.processRestValidations(error);
+            errorHandler.processRestValidations(error);
         }
     }
 
-    public increment = async () => {
+    const onIncrement = async () => {
         try {
-            if (this.state.articleId) {
-                await incrementArticle(this.state.articleId);
-                if (this.currentCart.current) {
-                    this.currentCart.current.refresh();
-                }
+            if (articleId) {
+                await incrementArticle(articleId);
+                forceUpdate()
             }
         } catch (error) {
-            this.processRestValidations(error);
+            errorHandler.processRestValidations(error);
         }
     }
 
-    public decrement = async () => {
+    const onDecrement = async () => {
         try {
-            if (this.state.articleId) {
-                await decrementArticle(this.state.articleId);
-                if (this.currentCart.current) {
-                    this.currentCart.current.refresh();
-                }
+            if (articleId) {
+                await decrementArticle(articleId);
+                forceUpdate()
             }
         } catch (error) {
-            this.processRestValidations(error);
+            errorHandler.processRestValidations(error);
         }
     }
 
-    public delete = async () => {
+    const onDelete = async () => {
         try {
-            if (this.state.articleId) {
-                await deleteArticle(this.state.articleId);
-                if (this.currentCart.current) {
-                    this.currentCart.current.refresh();
-                }
+            if (articleId) {
+                await deleteArticle(articleId);
+                forceUpdate()
             }
         } catch (error) {
-            this.processRestValidations(error);
+            errorHandler.processRestValidations(error);
         }
     }
 
-    public render() {
-        return (
-            <div className="global_content">
-                <CurrentCart ref={this.currentCart} />
-                <br />
+    return (
+        <div className="global_content">
+            <CurrentCart />
+            <br />
 
-                <h2 className="global_title">Artículos</h2>
+            <FormTitle>Artículos</FormTitle>
 
-                <form onSubmit={(e) => e.preventDefault()}>
-                    <div className="form-group">
-                        <label>Id Artículo</label>
-                        <input id="articleId" type="text"
-                            onChange={this.onInputChange}
-                            value={this.state.articleId}
-                            className={this.getErrorClass("articleId", "form-control")}>
-                        </input>
-                        <ErrorLabel error={this.getErrorText("articleId")} />
-                    </div>
-                    <div className="form-group">
-                        <label>Cantidad</label>
-                        <input id="quantity" type="text"
-                            onChange={this.onInputChange}
-                            value={this.state.quantity}
-                            className={this.getErrorClass("quantity", "form-control")}>
-                        </input>
-                        <ErrorLabel error={this.getErrorText("quantity")} />
-                    </div>
-                    <div className="btn-group ">
-                        <button className="btn btn-primary" onClick={this.addArticle} >Agregar</button >
-                        <button className="btn btn-primary" onClick={this.increment} >Incrementar</button >
-                        <button className="btn btn-primary" onClick={this.decrement} >Decrementar</button >
-                        <button className="btn btn-danger" onClick={this.delete} >Eliminar</button >
-                        <button className="btn btn-light" onClick={this.goHome} >Cancelar</button >
-                    </div >
-                </form>
+            <Form>
+                <FormInput
+                    label="Id Artículo"
+                    value={articleId}
+                    name="articleId"
+                    onChange={e => { setArticleId(e.target.value) }}
+                    errorHandler={errorHandler} />
 
-                <div hidden={!this.errorMessage}
-                    className="alert alert-danger"
-                    role="alert">
-                    {this.errorMessage}
-                </div>
-            </div>
-        );
-    }
+                <FormInput
+                    label="Cantidad"
+                    value={quantity.toFixed(0)}
+                    name="quantity"
+                    onChange={e => { setQuantity(parseInt(e.target.value, 10)) }}
+                    errorHandler={errorHandler} />
+
+
+                <FormButtonBar>
+                    <FormAcceptButton onClick={onAddArticle} label="Agregar" />
+                    <FormAcceptButton onClick={onIncrement} label="Incrementar" />
+                    <FormAcceptButton onClick={onDecrement} label="Decrementar" />
+                    <FormWarnButton onClick={onDecrement} label="Eliminar" />
+                    <FormButton onClick={() => goHome(props)} label="Cancelar" />
+                </FormButtonBar>
+
+                <DangerLabel message={errorHandler.errorMessage} />
+            </Form>
+        </div>
+    );
 }

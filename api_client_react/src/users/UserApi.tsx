@@ -1,6 +1,5 @@
-import axios, { AxiosError } from "axios";
+import axios from "axios";
 import { environment } from "../system/environment/environment";
-import { logout as sessionLogout } from "../system/store/SessionStore";
 
 axios.defaults.headers.common["Content-Type"] = "application/json";
 
@@ -64,9 +63,6 @@ export async function reloadCurrentUser(): Promise<IUser> {
         localStorage.setItem("user", res.data);
         return Promise.resolve(res.data);
     } catch (err) {
-        if ((err as AxiosError) && err.response && err.response.status === 401) {
-            sessionLogout();
-        }
         return Promise.reject(err);
     }
 }
@@ -97,9 +93,6 @@ export async function changePassword(payload: IChangePassword): Promise<void> {
         const res = await axios.post("http://localhost:3000/v1/user/password", payload);
         return Promise.resolve(res.data);
     } catch (err) {
-        if ((err as AxiosError) && err.response && err.response.status === 401) {
-            sessionLogout();
-        }
         return Promise.reject(err);
     }
 }
@@ -109,9 +102,6 @@ export async function getUsers(): Promise<IUser[]> {
         const res = await axios.get(environment.authServerUrl + "users");
         return Promise.resolve(res.data);
     } catch (err) {
-        if ((err as AxiosError) && err.response && err.response.status === 401) {
-            sessionLogout();
-        }
         return Promise.reject(err);
     }
 }
@@ -121,9 +111,6 @@ export async function enableUser(id: string): Promise<void> {
         const res = await axios.post(environment.authServerUrl + "users/" + id + "/enable");
         return Promise.resolve(res.data);
     } catch (err) {
-        if ((err as AxiosError) && err.response && err.response.status === 401) {
-            sessionLogout();
-        }
         return Promise.reject(err);
     }
 }
@@ -133,9 +120,6 @@ export async function disableUser(id: string): Promise<void> {
         const res = await axios.post(environment.authServerUrl + "users/" + id + "/disable");
         return Promise.resolve(res.data);
     } catch (err) {
-        if ((err as AxiosError) && err.response && err.response.status === 401) {
-            sessionLogout();
-        }
         return Promise.reject(err);
     }
 }
@@ -145,9 +129,6 @@ export async function grant(id: string, permissions: string[]): Promise<void> {
         const res = await axios.post(environment.authServerUrl + "users/" + id + "/grant", { permissions });
         return Promise.resolve(res.data);
     } catch (err) {
-        if ((err as AxiosError) && err.response && err.response.status === 401) {
-            sessionLogout();
-        }
         return Promise.reject(err);
     }
 }
@@ -157,9 +138,6 @@ export async function revoke(id: string, permissions: string[]): Promise<void> {
         const res = await axios.post(environment.authServerUrl + "users/" + id + "/revoke", { permissions });
         return Promise.resolve(res.data);
     } catch (err) {
-        if ((err as AxiosError) && err.response && err.response.status === 401) {
-            sessionLogout();
-        }
         return Promise.reject(err);
     }
 }

@@ -1,82 +1,69 @@
-import React from "react";
+import React, { useState } from "react";
 import "../styles.css";
 import { login } from "../system/store/SessionStore";
-import CommonComponent, { ICommonProps } from "../system/tools/CommonComponent";
-import ErrorLabel from "../system/tools/ErrorLabel";
+import { DefaultProps, goHome } from "../system/utils/Tools";
+import { useErrorHandler } from "../system/utils/ErrorHandler";
+import FormTitle from "../system/components/FormTitle";
+import Form from "../system/components/Form";
+import FormInput from "../system/components/FormInput";
+import FormPassword from "../system/components/FormPassword";
+import DangerLabel from "../system/components/DangerLabel";
+import FormButtonBar from "../system/components/FormButtonBar";
+import FormAcceptButton from "../system/components/FormAcceptButton";
+import FormButton from "../system/components/FormButton";
 
-interface IState {
-    login: string;
-    password: string;
-}
 
-export default class Login extends CommonComponent<ICommonProps, IState> {
-    constructor(props: ICommonProps) {
-        super(props);
+export default function Login(props: DefaultProps) {
+    const [userName, setUsername] = useState("")
+    const [password, setPassword] = useState("")
 
-        this.state = {
-            login: "",
-            password: "",
-        };
-    }
+    const errorHandler = useErrorHandler()
 
-    public loginClick = async () => {
-        this.cleanRestValidations();
-        if (!this.state.login) {
-            this.addError("login", "No puede estar vacío");
+    const loginClick = async () => {
+        errorHandler.cleanRestValidations();
+        if (!login) {
+            errorHandler.addError("login", "No puede estar vacío");
         }
-        if (!this.state.password) {
-            this.addError("password", "No puede estar vacío");
+        if (!password) {
+            errorHandler.addError("password", "No puede estar vacío");
         }
 
-        if (this.hasErrors()) {
-            this.forceUpdate();
+        if (errorHandler.hasErrors()) {
             return;
         }
 
         try {
-            await login(this.state);
-            this.props.history.push("/");
+            await login({ login: userName, password });
+            props.history.push("/");
         } catch (error) {
-            this.processRestValidations(error);
+            errorHandler.processRestValidations(error);
         }
     }
 
-    public render() {
-        return (
-            <div className="global_content">
-                <h2 className="global_title">Login</h2>
+    return (
+        <div className="global_content">
+            <FormTitle>Login</FormTitle>
 
-                <form onSubmit={(e) => e.preventDefault()}>
-                    <div className="form-group">
-                        <label>Usuario</label>
-                        <input id="login" type="text"
-                            onChange={this.onInputChange}
-                            className={this.getErrorClass("login", "form-control")}>
-                        </input>
-                        <ErrorLabel error={this.getErrorText("login")} />
-                    </div>
+            <Form>
+                <FormInput
+                    label="Usuario"
+                    name="login"
+                    onChange={e => setUsername(e.target.value)}
+                    errorHandler={errorHandler} />
 
-                    <div className="form-group">
-                        <label>Password</label>
-                        <input id="password" type="password"
-                            onChange={this.onInputChange}
-                            className={this.getErrorClass("password", "form-control")}>
-                        </input>
-                        <ErrorLabel error={this.getErrorText("password")} />
-                    </div>
+                <FormPassword
+                    label="Password"
+                    name="password"
+                    onChange={e => setPassword(e.target.value)}
+                    errorHandler={errorHandler} />
 
-                    <div hidden={!this.errorMessage}
-                        className="alert alert-danger"
-                        role="alert">
-                        {this.errorMessage}
-                    </div>
+                <DangerLabel message={errorHandler.errorMessage} />
 
-                    <div className="btn-group ">
-                        <button className="btn btn-primary" onClick={this.loginClick}>Login</button>
-                        <button className="btn btn-light" onClick={this.goHome} >Cancelar</button >
-                    </div >
-                </form >
-            </div >
-        );
-    }
+                <FormButtonBar>
+                    <FormAcceptButton label="Login" onClick={loginClick} />
+                    <FormButton label="Cancelar" onClick={() => goHome(props)} />
+                </FormButtonBar>
+            </Form>
+        </div >
+    );
 }

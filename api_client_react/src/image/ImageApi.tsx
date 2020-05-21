@@ -1,6 +1,5 @@
-import axios, { AxiosError } from "axios";
+import axios from "axios";
 import { environment } from "../system/environment/environment";
-import { logout } from "../system/store/SessionStore";
 
 axios.defaults.headers.common["Content-Type"] = "application/json";
 
@@ -36,9 +35,6 @@ export async function getImage(id: string, quality?: Quality, jpeg: boolean = fa
         const res = await axios.get(url, headers);
         return Promise.resolve(res.data);
     } catch (err) {
-        if ((err as AxiosError).response != null && err.response.status === 401) {
-            logout();
-        }
         return Promise.reject(err);
     }
 }
@@ -48,9 +44,6 @@ export async function saveImage(value: IImage): Promise<IImage> {
         const res = await axios.post(environment.imageServerUrl + "image", value);
         return Promise.resolve(res.data);
     } catch (err) {
-        if ((err as AxiosError).response != null && err.response.status === 401) {
-            logout();
-        }
         return Promise.reject(err);
     }
 }

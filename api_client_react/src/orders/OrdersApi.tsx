@@ -1,6 +1,5 @@
-import axios, { AxiosError } from "axios";
+import axios from "axios";
 import { environment } from "../system/environment/environment";
-import { logout } from "../system/store/SessionStore";
 
 axios.defaults.headers.common["Content-Type"] = "application/json";
 
@@ -45,9 +44,6 @@ export async function getOrder(orderId: string): Promise<IOrder> {
         const res = await axios.get(environment.orderServerUrl + "orders/" + orderId);
         return Promise.resolve(res.data);
     } catch (err) {
-        if ((err as AxiosError).response != null && err.response.status === 401) {
-            logout();
-        }
         return Promise.reject(err);
     }
 }
@@ -61,9 +57,6 @@ export async function addPayment(orderId: string, method: string, amount: number
             });
         return Promise.resolve(res.data);
     } catch (err) {
-        if ((err as AxiosError).response != null && err.response.status === 401) {
-            logout();
-        }
         return Promise.reject(err);
     }
 }
@@ -73,9 +66,6 @@ export async function batchPlaced(): Promise<void> {
         const res = await axios.get(environment.orderServerUrl + "orders_batch/placed");
         return Promise.resolve(res.data);
     } catch (err) {
-        if ((err as AxiosError).response != null && err.response.status === 401) {
-            logout();
-        }
         return Promise.reject(err);
     }
 }
@@ -85,9 +75,6 @@ export async function batchValidated(): Promise<void> {
         const res = await axios.get(environment.orderServerUrl + "orders_batch/validated");
         return Promise.resolve(res.data);
     } catch (err) {
-        if ((err as AxiosError).response != null && err.response.status === 401) {
-            logout();
-        }
         return Promise.reject(err);
     }
 }
@@ -97,9 +84,6 @@ export async function batchPaymentDefined(): Promise<void> {
         const res = await axios.get(environment.orderServerUrl + "orders_batch/payment_defined");
         return Promise.resolve(res.data);
     } catch (err) {
-        if ((err as AxiosError).response != null && err.response.status === 401) {
-            logout();
-        }
         return Promise.reject(err);
     }
 }
@@ -109,9 +93,6 @@ export async function getOrders(): Promise<IOrderList[]> {
         const res = await axios.get(environment.orderServerUrl + "orders");
         return Promise.resolve(res.data);
     } catch (err) {
-        if ((err as AxiosError).response != null && err.response.status === 401) {
-            logout();
-        }
         return Promise.reject(err);
     }
 }

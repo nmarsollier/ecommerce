@@ -1,78 +1,64 @@
-import React from "react";
+import React, { useState } from "react";
 import "../styles.css";
-import CommonComponent, { ICommonProps } from "../system/tools/CommonComponent";
-import ErrorLabel from "../system/tools/ErrorLabel";
-import ImageUpload from "../system/tools/ImageUpload";
+import DangerLabel from "../system/components/DangerLabel";
+import ErrorLabel from "../system/components/ErrorLabel";
+import Form from "../system/components/Form";
+import FormAcceptButton from "../system/components/FormAcceptButton";
+import FormButton from "../system/components/FormButton";
+import FormButtonBar from "../system/components/FormButtonBar";
+import FormLabel from "../system/components/FormLabel";
+import FormTitle from "../system/components/FormTitle";
+import ImageUpload from "../system/components/ImageUpload";
+import { useErrorHandler } from "../system/utils/ErrorHandler";
+import { DefaultProps, goHome } from "../system/utils/Tools";
 import { getPictureUrl, saveImage } from "./ImageApi";
 
-interface IState {
-    imageId?: string;
-    image?: string;
-}
+export default function UploadPicture(props: DefaultProps) {
+    const [imageId, setImageId] = useState<string>()
+    const [image, setImage] = useState<string>()
 
-export default class UploadPicture extends CommonComponent<ICommonProps, IState> {
-    constructor(props: ICommonProps) {
-        super(props);
+    const errorHandler = useErrorHandler()
 
-        this.state = {};
+    const updateImageState = (img: string) => {
+        setImage(img);
     }
 
-    public updateImageState = (image: string) => {
-        this.setState({
-            image,
-        });
-    }
-
-    public saveImage = async () => {
+    const saveImageClick = async () => {
         try {
-            this.cleanRestValidations();
-            const image = this.state.image;
+            errorHandler.cleanRestValidations();
             if (!image) {
                 return;
             }
             const result = await saveImage({
-                image,
+                image
             });
-            this.setState({
-                imageId: result.id,
-            });
+            setImageId(result.id);
         } catch (error) {
-            this.processRestValidations(error);
+            errorHandler.processRestValidations(error);
         }
     }
 
-    public render() {
-        return (
-            <div className="global_content">
-                <h2 className="global_title">Agregar Imagen</h2>
+    return (
+        <div className="global_content">
+            <FormTitle>Agregar Imagen</FormTitle>
 
-                <form onSubmit={(e) => e.preventDefault()}>
+            <Form>
+                <div className="form-group">
+                    <ImageUpload src={getPictureUrl(image)}
+                        onChange={updateImageState} />
+                    <ErrorLabel message={errorHandler.getErrorText("name")} />
+                </div>
 
-                    <div className="form-group">
-                        <ImageUpload src={getPictureUrl(this.state.image)}
-                            onChange={this.updateImageState} />
-                        <ErrorLabel error={this.getErrorText("name")} />
-                    </div>
+                <FormLabel label="Id Imagen" text={imageId} />
 
-                    <div className="form-group" hidden={!this.state.imageId}>
-                        <label>Id Imagen</label>
-                        <input className="form-control" id="imageId" value={this.state.imageId} disabled />
-                    </div>
+                <DangerLabel message={errorHandler.errorMessage} />
 
-                    <div hidden={!this.errorMessage}
-                        className="alert alert-danger"
-                        role="alert">{this.errorMessage}
-                    </div>
+                <FormButtonBar>
+                    <FormAcceptButton hidden={imageId !== undefined} label="Subir" onClick={saveImageClick} />
+                    <FormButton label="Cancelar" onClick={() => goHome(props)} />
+                </FormButtonBar>
 
-                    <div className="btn-group ">
-                        <button
-                            className="btn btn-primary"
-                            onClick={this.saveImage}
-                            hidden={this.state.imageId !== undefined}>Subir</button>
-                        <button className="btn btn-light" onClick={this.goHome} >Cancelar</button >
-                    </div >
-                </form >
-            </div>
-        );
-    }
+            </Form>
+        </div>
+    );
 }

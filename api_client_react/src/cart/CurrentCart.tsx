@@ -1,121 +1,124 @@
-import React from "react";
-import CommonComponent, { ICommonProps } from "../system/tools/CommonComponent";
+import React, { useEffect, useState } from "react";
+import DangerLabel from "../system/components/DangerLabel";
+import FormAcceptButton from "../system/components/FormAcceptButton";
+import FormButton from "../system/components/FormButton";
+import FormButtonBar from "../system/components/FormButtonBar";
+import FormLabel from "../system/components/FormLabel";
+import FormTitle from "../system/components/FormTitle";
+import { useErrorHandler } from "../system/utils/ErrorHandler";
+import { DefaultProps, goHome } from "../system/utils/Tools";
 import { checkout, getCurrentCart, ICart, ICartValidation, validate } from "./CartApi";
 
-interface IState {
-    currentCart?: ICart;
-    validation?: ICartValidation;
-}
+export default function CurrentCart(props: DefaultProps) {
+    const [currentCart, setCurrentCart] = useState<ICart>()
+    const [validation, setValidation] = useState<ICartValidation | undefined>()
 
-export default class CurrentCart extends CommonComponent<ICommonProps, IState> {
-    constructor(props: ICommonProps) {
-        super(props);
+    const errorHandler = useErrorHandler()
 
-        this.state = {};
-
-        this.loadCurrentCart();
-    }
-
-    public loadCurrentCart = async () => {
+    const loadCurrentCart = async () => {
         try {
             const result = await getCurrentCart();
-            this.setState({
-                currentCart: result,
-            });
+            setCurrentCart(result);
+
         } catch (error) {
-            this.processRestValidations(error);
+            errorHandler.processRestValidations(error);
         }
     }
 
-    public refresh = () => {
-        this.loadCurrentCart();
+    const refresh = () => {
+        loadCurrentCart();
     }
 
-    public validate = async () => {
+    const onValidate = async () => {
         try {
             const result = await validate();
-            this.setState({
-                validation: result,
-            });
+            setValidation(result);
         } catch (error) {
-            this.processRestValidations(error);
+            errorHandler.processRestValidations(error);
         }
     }
 
-    public checkout = async () => {
+    const onCheckout = async () => {
         try {
             await checkout();
-            this.loadCurrentCart();
+            loadCurrentCart();
         } catch (error) {
-            this.processRestValidations(error);
+            errorHandler.processRestValidations(error);
         }
     }
 
-    public render() {
-        const cart = this.state.currentCart;
-        return (
-            <div className="global_content">
-                <h2 className="global_title">Carrito Actual</h2>
+    useEffect(() => {
+        loadCurrentCart()
+    }, [])
 
-                <div hidden={!cart}>
-                    <div className="form-group">
-                        <label>Id Carrito</label>
-                        <input className="form-control" id="cartId" value={cart ? cart._id : ""} disabled />
-                    </div>
+    return (
+        <div className="global_content">
+            <FormTitle>Carrito Actual</FormTitle>
 
-                    <div className="form-group">
-                        <label>Id Usuario</label>
-                        <input className="form-control" id="userId" value={cart ? cart.userId : ""} disabled />
-                    </div>
+            <CurrentCartDetails
+                cart={currentCart}
+                onValidate={onValidate}
+                onCheckout={onCheckout}
+                onRefresh={refresh}
+            />
 
-                    <table id="articles" className="table">
-                        <thead>
-                            <tr>
-                                <th>Id</th>
-                                <th>Cantidad</th>
-                                <th>Validado</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            {(cart && cart.articles) ?
-                                cart.articles!.map((article, i) => {
-                                    return (
-                                        <tr key={i}>
-                                            <td>{article.articleId}</td>
-                                            <td>{article.quantity}</td>
-                                            <td>{article.validated}</td>
-                                        </tr>
-                                    );
+            <br />
 
-                                }) : null
-                            }
-                        </tbody>
-                    </table>
+            <FormLabel label="Validación" text={JSON.stringify(validation)} />
 
-                    <div className="btn-group ">
-                        <button className="btn btn-primary" onClick={this.validate} >Validar</button >
-                        <button className="btn btn-primary" onClick={this.checkout} >Check out</button >
-                        <button className="btn btn-primary" onClick={this.refresh} >Refresh</button >
-                        <button className="btn btn-light" onClick={this.goHome} >Cancelar</button >
-                    </div >
-                </div>
+            <DangerLabel message={errorHandler.errorMessage} />
+        </div>
+    );
 
-                <div className="form-group" hidden={!this.state.validation}>
-                    <br />
-                    <label>Validación</label>
-                    <input className="form-control"
-                        id="validation"
-                        value={JSON.stringify(this.state.validation)}
-                        disabled
-                    />
-                </div>
+}
 
-                <div hidden={!this.errorMessage}
-                    className="alert alert-danger"
-                    role="alert">
-                    {this.errorMessage}
-                </div>
-            </div>
-        );
+
+interface CurrentCartDetailsProps extends DefaultProps {
+    cart?: ICart,
+    onValidate: () => any,
+    onCheckout: () => any,
+    onRefresh: () => any
+}
+
+function CurrentCartDetails(props: CurrentCartDetailsProps) {
+    if (!props.cart) {
+        return null
     }
+
+    return (
+        <div className="global_content">
+            <div>
+                <FormLabel label="Id Carrito" text={props.cart._id} />
+                <FormLabel label="Id Usuario" text={props.cart.userId} />
+
+                <table id="articles" className="table">
+                    <thead>
+                        <tr>
+                            <th>Id</th>
+                            <th>Cantidad</th>
+                            <th>Validado</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {props.cart.articles?.map((article, i) => {
+                            return (
+                                <tr key={i}>
+                                    <td>{article.articleId}</td>
+                                    <td>{article.quantity}</td>
+                                    <td>{article.validated}</td>
+                                </tr>
+                            );
+                        })}
+                    </tbody>
+                </table>
+
+                <FormButtonBar>
+                    <FormAcceptButton label="Validar" onClick={props.onValidate} />
+                    <FormAcceptButton label="Checkout" onClick={props.onCheckout} />
+                    <FormAcceptButton label="Refresh" onClick={props.onRefresh} />
+                    <FormButton label="Cancelar" onClick={() => goHome(props)} />
+                </FormButtonBar>
+            </div>
+        </div>
+    );
 }
