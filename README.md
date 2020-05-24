@@ -158,7 +158,9 @@ docker run -it -d --name prod-auth-go --network host prod-auth-go
 [Test](http://localhost:3000/) 
 
 
-### Imagenes en Node
+### Imagenes 
+
+_Version Node_
 
 ```bash
 docker build --no-cache -t prod-image-node https://github.com/nmarsollier/ecommerce/raw/master/docker/image-node/Dockerfile
@@ -167,6 +169,18 @@ docker run -d --name prod-image-node --network host -it  prod-image-node
 ```
 
 [Test](http://localhost:3001/) 
+
+_Version Go_
+
+```bash
+docker build --no-cache -t prod-image-go https://github.com/nmarsollier/ecommerce/raw/master/docker/image-go/Dockerfile
+
+docker run -it -d --name prod-image-go --network host prod-image-go
+```
+
+[Test](http://localhost:3001/) 
+
+
 
 ### Catalogo en Java
 
