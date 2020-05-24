@@ -134,15 +134,29 @@ El contenedor se crea con
 docker run -d --name ec-redis --network host -d redis:5.0.9-buster
 ```
  
-### Auth en Node
+### Auth 
+
+_Version Node_
 
 ```bash
-docker build -t prod-auth-node https://github.com/nmarsollier/ecommerce/raw/master/docker/auth-node/Dockerfile
+docker build --no-cache -t prod-auth-node https://github.com/nmarsollier/ecommerce/raw/master/docker/auth-node/Dockerfile
 
 docker run -d --name prod-auth-node --network host -it prod-auth-node
 ```
 
 [Test](http://localhost:3000/) 
+
+
+_Version Go_
+
+```bash
+docker build --no-cache -t prod-auth-go https://github.com/nmarsollier/ecommerce/raw/master/docker/auth-go/Dockerfile
+
+docker run -it -d --name prod-auth-go --network host prod-auth-go
+```
+
+[Test](http://localhost:3000/) 
+
 
 ### Imagenes en Node
 
