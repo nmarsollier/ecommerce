@@ -9,18 +9,18 @@ Se utilizan varios patrones de arquitectura y cada microservicios posee tecnolog
 
 Este documento describe la configuracion y uso de los siguientes repositorios :
 
-- [Seguridad en Node](https://github.com/nmarsollier/ecommerce_auth_node/README.md)
-- [Imágenes en Node](https://github.com/nmarsollier/ecommerce_image_node/README.md)
-- [Catálogo en Python](https://github.com/nmarsollier/ecommerce_catalog_python/README.md)
-- [Carrito en Node](https://github.com/nmarsollier/ecommerce_cart_node/README.md)
+- [Seguridad en Node](https://github.com/nmarsollier/ecommerce_auth_node)
+- [Imágenes en Node](https://github.com/nmarsollier/ecommerce_image_node)
+- [Catálogo en Python](https://github.com/nmarsollier/ecommerce_catalog_python)
+- [Carrito en Node](https://github.com/nmarsollier/ecommerce_cart_node)
 - Orders en Python (Pendiente)
 
 Existen otras versiones desarrolladas en otros lenguajes que definen los mismos microservicios con diversos paradigmas y patrones de desarrollo :
 
 - [Seguridad en Go](https://github.com/nmarsollier/authgo)
 - [Imágenes en Go](https://github.com/nmarsollier/imagego)
-- [Catálogo en Java](https://github.com/nmarsollier/ecommerce_catalog_java/README.md)
-- [Órdenes en Java](https://github.com/nmarsollier/ecommerce_order_java/README.md)
+- [Catálogo en Java](https://github.com/nmarsollier/ecommerce_catalog_java)
+- [Órdenes en Java](https://github.com/nmarsollier/ecommerce_order_java)
 
 ## Cliente Demo
 
@@ -28,7 +28,7 @@ Existe un proyecto en React, que nos proporciona un cliente demo para la platafo
 
 Ver la documentación del cliente en :
 
-- [Cliente Demo](https://github.com/nmarsollier/ecommerce_api_client_react/README.md)
+- [Cliente Demo](https://github.com/nmarsollier/ecommerce_api_client_react)
 
 ## Mas información de arquitectura
 
