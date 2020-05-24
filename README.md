@@ -157,7 +157,7 @@ docker run -d --name prod-image-node --network host -it  prod-image-node
 ### Catalogo en Java
 
 ```bash
-docker build -t prod-catalog-java https://github.com/nmarsollier/ecommerce/raw/master/docker/catalog-java/Dockerfile
+docker build --no-cache  -t prod-catalog-java https://github.com/nmarsollier/ecommerce/raw/master/docker/catalog-java/Dockerfile
 
 docker run -d --name prod-catalog-java --network host -it  prod-catalog-java
 ```
@@ -167,7 +167,7 @@ docker run -d --name prod-catalog-java --network host -it  prod-catalog-java
 ### Carrito en Node
 
 ```bash
-docker build -t prod-cart-node https://github.com/nmarsollier/ecommerce/raw/master/docker/cart-node/Dockerfile
+docker build --no-cache  -t prod-cart-node https://github.com/nmarsollier/ecommerce/raw/master/docker/cart-node/Dockerfile
 
 docker run -d --name prod-cart-node --network host -it  prod-cart-node
 ```
@@ -177,7 +177,7 @@ docker run -d --name prod-cart-node --network host -it  prod-cart-node
 ### Order en Java
 
 ```bash
-docker build -t prod-order-java https://github.com/nmarsollier/ecommerce/raw/master/docker/order-java/Dockerfile
+docker build --no-cache  -t prod-order-java https://github.com/nmarsollier/ecommerce/raw/master/docker/order-java/Dockerfile
 
 docker run -d --name prod-order-java --network host -it  prod-order-java
 ```
@@ -187,11 +187,22 @@ docker run -d --name prod-order-java --network host -it  prod-order-java
 ### Cliente en React
 
 ```bash
-docker build -t prod-api-cli https://github.com/nmarsollier/ecommerce/raw/master/docker/api-cli/Dockerfile
+docker build --no-cache -t prod-api-cli https://github.com/nmarsollier/ecommerce/raw/master/docker/api-cli/Dockerfile
 
 docker run -d --name prod-api-cli --network host -it  prod-api-cli
 ```
 
 [Test](http://localhost:4200/) 
 
+
+### Notas generales
+
+Para actualizar cualquier imagen
+
+```bash
+docker stop [IMAGE]
+docker rm [IMAGE]
+```
+
+Y ejecutamos nuevamenete los comandos necesarios
 
