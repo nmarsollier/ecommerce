@@ -13,7 +13,6 @@ Este documento describe la configuracion y uso de los siguientes repositorios :
 - [Imágenes en Node](https://github.com/nmarsollier/ecommerce_image_node)
 - [Catálogo en Python](https://github.com/nmarsollier/ecommerce_catalog_python)
 - [Carrito en Node](https://github.com/nmarsollier/ecommerce_cart_node)
-- Orders en Python (Pendiente)
 
 Existen otras versiones desarrolladas en otros lenguajes que definen los mismos microservicios con diversos paradigmas y patrones de desarrollo :
 
