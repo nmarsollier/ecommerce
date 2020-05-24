@@ -9,4 +9,4 @@ RUN npm install --silent
 # Puerto para acceder al Cliente
 EXPOSE 4200
 
-CMD ["npm","run", "serve"]
+CMD ["npm","start"]
