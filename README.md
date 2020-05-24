@@ -107,20 +107,15 @@ No se requiere ninguna configuración adicional, solo levantarlo luego de instal
 
 ## Instalación usando Docker
 
-Una vez creado los contenedores se paran y se levantan con  :
-
-```bash
-docker stop contenedor
-docker start contenedor 
-```
-usando name como contenedor
+Esta instalacion y ejecucion es muy sencilla, solo pretende permitir la ejecucion
+de todos los contenedores para probarlos.
 
 ### Rabbit
 
 El contenedor se crea con
 
 ```bash
-docker run -d --name ecommerce-rabbitmq --network host -d rabbitmq:3.8.3-management
+docker run -d --name ec-rabbitmq --network host -d rabbitmq:3.8.3-management
 ```
 
 ### Mongo
@@ -128,7 +123,7 @@ docker run -d --name ecommerce-rabbitmq --network host -d rabbitmq:3.8.3-managem
 El contenedor se crea con
 
 ```bash
-docker run -d --name ecommerce-mongo --network host -d mongo:4.0-xenial
+docker run -d --name ec-mongo --network host -d mongo:4.0-xenial
 ```
 
 ### Redis
@@ -136,6 +131,67 @@ docker run -d --name ecommerce-mongo --network host -d mongo:4.0-xenial
 El contenedor se crea con
 
 ```bash
-docker run -d --name ecommerce-redis --network host -d redis:5.0.9-buster
+docker run -d --name ec-redis --network host -d redis:5.0.9-buster
 ```
  
+### Auth en Node
+
+```bash
+docker build -t prod-auth-node https://github.com/nmarsollier/ecommerce/raw/master/docker/auth-node/Dockerfile
+
+docker run -d --name prod-auth-node --network host -it prod-auth-node
+```
+
+[Test](http://localhost:3000/) 
+
+### Imagenes en Node
+
+```bash
+docker build -t prod-image-node https://github.com/nmarsollier/ecommerce/raw/master/docker/image-node/Dockerfile
+
+docker run -d --name prod-image-node --network host -it  prod-image-node
+```
+
+[Test](http://localhost:3001/) 
+
+### Catalogo en Java
+
+```bash
+docker build -t prod-catalog-java https://github.com/nmarsollier/ecommerce/raw/master/docker/catalog-java/Dockerfile
+
+docker run -d --name prod-catalog-java --network host -it  prod-catalog-java
+```
+
+[Test](http://localhost:3002/) 
+
+### Carrito en Node
+
+```bash
+docker build -t prod-cart-node https://github.com/nmarsollier/ecommerce/raw/master/docker/cart-node/Dockerfile
+
+docker run -d --name prod-cart-node --network host -it  prod-cart-node
+```
+
+[Test](http://localhost:3003/) 
+
+### Order en Java
+
+```bash
+docker build -t prod-order-java https://github.com/nmarsollier/ecommerce/raw/master/docker/order-java/Dockerfile
+
+docker run -d --name prod-order-java --network host -it  prod-order-java
+```
+
+[Test](http://localhost:3004/) 
+
+### Cliente en React
+
+```bash
+docker build -t prod-api-cli https://github.com/nmarsollier/ecommerce/raw/master/docker/api-cli/Dockerfile
+
+docker run -d --name prod-api-cli --network host -it  prod-api-cli
+```
+
+[Test](http://localhost:3004/) 
+
+

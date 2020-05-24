@@ -1,18 +1,12 @@
-# Servidores produccion o stage
+# Docker para produccion o stage
 FROM node:14.3.0
 
-# Directorio app
 WORKDIR /app
-
-# Bajamos solamente un snapshot de master
 RUN curl -L https://github.com/nmarsollier/ecommerce_image_node/tarball/master | tar xz --strip=1
-
-# Instalamos dependencias y compilamos
-RUN npm install
+RUN npm install --silent
 RUN npm run build
 
-# Puerto 
+# Puerto para image service
 EXPOSE 3001
 
-# Launch application
 CMD ["npm","run", "serve"]
