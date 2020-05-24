@@ -192,6 +192,6 @@ docker build -t prod-api-cli https://github.com/nmarsollier/ecommerce/raw/master
 docker run -d --name prod-api-cli --network host -it  prod-api-cli
 ```
 
-[Test](http://localhost:3004/) 
+[Test](http://localhost:4200/) 
 
 
