@@ -7,20 +7,20 @@ Este es un proyecto académico para explicar arquitectura de microservicios, imp
 
 Se utilizan varios patrones de arquitectura y cada microservicios posee tecnologías y bases de datos diferentes.
 
-Cada directorio dentro de la raíz de este repositorio  es un microservicio, cada microservicios posee documentación importante que debe ser leída con atención:
+Este documento describe la configuracion y uso de los siguientes repositorios :
 
-- [Seguridad en Node](auth_node/README.md)
-- [Imágenes en Node](image_node/README.md)
-- [Catálogo en Python](catalog_python/README.md)
-- [Carrito en Node](cart_node/README.md)
+- [Seguridad en Node](https://github.com/nmarsollier/ecommerce_auth_node/README.md)
+- [Imágenes en Node](https://github.com/nmarsollier/ecommerce_image_node/README.md)
+- [Catálogo en Python](https://github.com/nmarsollier/ecommerce_catalog_python/README.md)
+- [Carrito en Node](https://github.com/nmarsollier/ecommerce_cart_node/README.md)
 - Orders en Python (Pendiente)
 
 Existen otras versiones desarrolladas en otros lenguajes que definen los mismos microservicios con diversos paradigmas y patrones de desarrollo :
 
 - [Seguridad en Go](https://github.com/nmarsollier/authgo)
 - [Imágenes en Go](https://github.com/nmarsollier/imagego)
-- [Catálogo en Java](catalog_java/README.md)
-- [Órdenes en Java](order_java/README.md)
+- [Catálogo en Java](https://github.com/nmarsollier/ecommerce_catalog_java/README.md)
+- [Órdenes en Java](https://github.com/nmarsollier/ecommerce_order_java/README.md)
 
 ## Cliente Demo
 
@@ -28,7 +28,7 @@ Existe un proyecto en React, que nos proporciona un cliente demo para la platafo
 
 Ver la documentación del cliente en :
 
-- [Cliente Demo](api_client_react/README.md)
+- [Cliente Demo](https://github.com/nmarsollier/ecommerce_api_client_react/README.md)
 
 ## Mas información de arquitectura
 
@@ -104,3 +104,39 @@ Seguir los pasos de instalación en la pagina oficial
 [rabbitmq.com](https://www.rabbitmq.com/)
 
 No se requiere ninguna configuración adicional, solo levantarlo luego de instalarlo.
+
+
+## Instalación usando Docker
+
+Una vez creado los contenedores se paran y se levantan con  :
+
+```bash
+docker stop contenedor
+docker start contenedor 
+```
+usando name como contenedor
+
+### Rabbit
+
+El contenedor se crea con
+
+```bash
+docker run -d --name ecommerce-rabbitmq --network host -d rabbitmq:3.8.3-management
+```
+
+### Mongo
+
+El contenedor se crea con
+
+```bash
+docker run -d --name ecommerce-mongo --network host -d mongo:4.0-xenial
+```
+
+### Redis
+
+El contenedor se crea con
+
+```bash
+docker run -d --name ecommerce-redis --network host -d redis:5.0.9-buster
+```
+ 

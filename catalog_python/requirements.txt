@@ -1,6 +1,0 @@
-pymongo==3.8.0
-flask==1.1.1
-pika==1.1.0
-PyMemoize==1.0.3
-flask-cors==3.0.8
-pytest==5.0.1
