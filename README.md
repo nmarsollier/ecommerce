@@ -147,7 +147,7 @@ docker run -d --name prod-auth-node --network host -it prod-auth-node
 ### Imagenes en Node
 
 ```bash
-docker build -t prod-image-node https://github.com/nmarsollier/ecommerce/raw/master/docker/image-node/Dockerfile
+docker build --no-cache -t prod-image-node https://github.com/nmarsollier/ecommerce/raw/master/docker/image-node/Dockerfile
 
 docker run -d --name prod-image-node --network host -it  prod-image-node
 ```
@@ -157,7 +157,7 @@ docker run -d --name prod-image-node --network host -it  prod-image-node
 ### Catalogo en Java
 
 ```bash
-docker build --no-cache  -t prod-catalog-java https://github.com/nmarsollier/ecommerce/raw/master/docker/catalog-java/Dockerfile
+docker build --no-cache -t prod-catalog-java https://github.com/nmarsollier/ecommerce/raw/master/docker/catalog-java/Dockerfile
 
 docker run -d --name prod-catalog-java --network host -it  prod-catalog-java
 ```
@@ -167,7 +167,7 @@ docker run -d --name prod-catalog-java --network host -it  prod-catalog-java
 ### Carrito en Node
 
 ```bash
-docker build --no-cache  -t prod-cart-node https://github.com/nmarsollier/ecommerce/raw/master/docker/cart-node/Dockerfile
+docker build --no-cache -t prod-cart-node https://github.com/nmarsollier/ecommerce/raw/master/docker/cart-node/Dockerfile
 
 docker run -d --name prod-cart-node --network host -it  prod-cart-node
 ```
@@ -177,7 +177,7 @@ docker run -d --name prod-cart-node --network host -it  prod-cart-node
 ### Order en Java
 
 ```bash
-docker build --no-cache  -t prod-order-java https://github.com/nmarsollier/ecommerce/raw/master/docker/order-java/Dockerfile
+docker build --no-cache -t prod-order-java https://github.com/nmarsollier/ecommerce/raw/master/docker/order-java/Dockerfile
 
 docker run -d --name prod-order-java --network host -it  prod-order-java
 ```
