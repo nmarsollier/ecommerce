@@ -139,7 +139,7 @@ docker run -d --name ec-redis --network host -d redis:5.0.9-buster
 _Version Node_
 
 ```bash
-docker build --no-cache -t prod-auth-node https://github.com/nmarsollier/ecommerce/raw/master/docker/auth-node/Dockerfile
+docker build --no-cache -t prod-auth-node https://github.com/nmarsollier/ecommerce_auth_node/raw/master/Dockerfile.prod
 
 docker run -d --name prod-auth-node --network host -it prod-auth-node
 ```
@@ -150,7 +150,7 @@ docker run -d --name prod-auth-node --network host -it prod-auth-node
 _Version Go_
 
 ```bash
-docker build --no-cache -t prod-auth-go https://github.com/nmarsollier/ecommerce/raw/master/docker/auth-go/Dockerfile
+docker build --no-cache -t prod-auth-go https://raw.githubusercontent.com/nmarsollier/authgo/master/Dockerfile.prod
 
 docker run -it -d --name prod-auth-go --network host prod-auth-go
 ```
@@ -163,7 +163,7 @@ docker run -it -d --name prod-auth-go --network host prod-auth-go
 _Version Node_
 
 ```bash
-docker build --no-cache -t prod-image-node https://github.com/nmarsollier/ecommerce/raw/master/docker/image-node/Dockerfile
+docker build --no-cache -t prod-image-node https://raw.githubusercontent.com/nmarsollier/ecommerce_image_node/master/Dockerfile.prod
 
 docker run -d --name prod-image-node --network host -it  prod-image-node
 ```
@@ -173,7 +173,7 @@ docker run -d --name prod-image-node --network host -it  prod-image-node
 _Version Go_
 
 ```bash
-docker build --no-cache -t prod-image-go https://github.com/nmarsollier/ecommerce/raw/master/docker/image-go/Dockerfile
+docker build --no-cache -t prod-image-go https://raw.githubusercontent.com/nmarsollier/imagego/master/Dockerfile.prod
 
 docker run -it -d --name prod-image-go --network host prod-image-go
 ```
@@ -185,7 +185,7 @@ docker run -it -d --name prod-image-go --network host prod-image-go
 ### Catalogo en Java
 
 ```bash
-docker build --no-cache -t prod-catalog-java https://github.com/nmarsollier/ecommerce/raw/master/docker/catalog-java/Dockerfile
+docker build --no-cache -t prod-catalog-java https://raw.githubusercontent.com/nmarsollier/ecommerce_catalog_java/master/Dockerfile.prod
 
 docker run -d --name prod-catalog-java --network host -it  prod-catalog-java
 ```
@@ -195,7 +195,7 @@ docker run -d --name prod-catalog-java --network host -it  prod-catalog-java
 ### Carrito en Node
 
 ```bash
-docker build --no-cache -t prod-cart-node https://github.com/nmarsollier/ecommerce/raw/master/docker/cart-node/Dockerfile
+docker build --no-cache -t prod-cart-node https://raw.githubusercontent.com/nmarsollier/ecommerce_cart_node/master/Dockerfile.prod
 
 docker run -d --name prod-cart-node --network host -it  prod-cart-node
 ```
@@ -205,7 +205,7 @@ docker run -d --name prod-cart-node --network host -it  prod-cart-node
 ### Order en Java
 
 ```bash
-docker build --no-cache -t prod-order-java https://github.com/nmarsollier/ecommerce/raw/master/docker/order-java/Dockerfile
+docker build --no-cache -t prod-order-java https://raw.githubusercontent.com/nmarsollier/ecommerce_order_java/master/Dockerfile.prod
 
 docker run -d --name prod-order-java --network host -it  prod-order-java
 ```
@@ -215,7 +215,7 @@ docker run -d --name prod-order-java --network host -it  prod-order-java
 ### Cliente en React
 
 ```bash
-docker build --no-cache -t prod-api-cli https://github.com/nmarsollier/ecommerce/raw/master/docker/api-cli/Dockerfile
+docker build --no-cache -t prod-api-cli https://raw.githubusercontent.com/nmarsollier/ecommerce_api_client_react/master/Dockerfile.prod
 
 docker run -d --name prod-api-cli --network host -it  prod-api-cli
 ```
@@ -232,5 +232,5 @@ docker stop [IMAGE]
 docker rm [IMAGE]
 ```
 
-Y ejecutamos nuevamenete los comandos necesarios
+Y ejecutamos nuevamenete los comandos nuevamente
 
