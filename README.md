@@ -125,7 +125,7 @@ docker run -d --name ec-rabbitmq --network host -d rabbitmq:3.8.3-management
 El contenedor se crea con
 
 ```bash
-docker run -d --name ec-mongo --network host -d mongo:4.0-xenial
+docker run -d --name ec-mongo --network host -d mongo:4.0.18-xenial
 ```
 
 ### Redis con Docker
