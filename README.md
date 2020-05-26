@@ -1,13 +1,16 @@
-### Si queres sabes mas sobre mi:
+# Arquitectura de Microservicios
+
+## Si querés saber mas sobre mi:
+
 [Nestor Marsollier](https://github.com/nmarsollier/profile)
 
-# Arquitectura de Microservicios
+## Sobre este proyecto
 
 Este es un proyecto académico para explicar arquitectura de microservicios, implementando un carrito virtual o eCommerce.
 
 Se utilizan varios patrones de arquitectura y cada microservicios posee tecnologías y bases de datos diferentes.
 
-Este documento describe la configuracion y uso de los siguientes repositorios :
+Este documento describe la configuración y uso de los siguientes repositorios :
 
 - [Seguridad en Node](https://github.com/nmarsollier/ecommerce_auth_node)
 - [Imágenes en Node](https://github.com/nmarsollier/ecommerce_image_node)
@@ -104,13 +107,12 @@ Seguir los pasos de instalación en la pagina oficial
 
 No se requiere ninguna configuración adicional, solo levantarlo luego de instalarlo.
 
-
 ## Instalación usando Docker
 
-Esta instalacion y ejecucion es muy sencilla, solo pretende permitir la ejecucion
+Esta instalación y ejecución es muy sencilla, solo pretende permitir la ejecución
 de todos los contenedores para probarlos.
 
-### Rabbit
+### Rabbit con Docker
 
 El contenedor se crea con
 
@@ -118,7 +120,7 @@ El contenedor se crea con
 docker run -d --name ec-rabbitmq --network host -d rabbitmq:3.8.3-management
 ```
 
-### Mongo
+### Mongo con Docker
 
 El contenedor se crea con
 
@@ -126,17 +128,17 @@ El contenedor se crea con
 docker run -d --name ec-mongo --network host -d mongo:4.0-xenial
 ```
 
-### Redis
+### Redis con Docker
 
 El contenedor se crea con
 
 ```bash
 docker run -d --name ec-redis --network host -d redis:5.0.9-buster
 ```
- 
-### Auth 
 
-_Version Node_
+### Auth con Docker
+
+#### Auth version Node
 
 ```bash
 docker build --no-cache -t prod-auth-node https://github.com/nmarsollier/ecommerce_auth_node/raw/master/Dockerfile.prod
@@ -144,10 +146,9 @@ docker build --no-cache -t prod-auth-node https://github.com/nmarsollier/ecommer
 docker run -d --name prod-auth-node --network host -it prod-auth-node
 ```
 
-[Test](http://localhost:3000/) 
+[Test](http://localhost:3000/)
 
-
-_Version Go_
+#### Auth version Go
 
 ```bash
 docker build --no-cache -t prod-auth-go https://raw.githubusercontent.com/nmarsollier/authgo/master/Dockerfile.prod
@@ -155,12 +156,11 @@ docker build --no-cache -t prod-auth-go https://raw.githubusercontent.com/nmarso
 docker run -it -d --name prod-auth-go --network host prod-auth-go
 ```
 
-[Test](http://localhost:3000/) 
+[Test](http://localhost:3000/)
 
+### Imágenes con Docker
 
-### Imagenes 
-
-_Version Node_
+#### Imágenes version Node
 
 ```bash
 docker build --no-cache -t prod-image-node https://raw.githubusercontent.com/nmarsollier/ecommerce_image_node/master/Dockerfile.prod
@@ -168,9 +168,9 @@ docker build --no-cache -t prod-image-node https://raw.githubusercontent.com/nma
 docker run -d --name prod-image-node --network host -it  prod-image-node
 ```
 
-[Test](http://localhost:3001/) 
+[Test](http://localhost:3001/)
 
-_Version Go_
+#### Imágenes version Go
 
 ```bash
 docker build --no-cache -t prod-image-go https://raw.githubusercontent.com/nmarsollier/imagego/master/Dockerfile.prod
@@ -178,11 +178,9 @@ docker build --no-cache -t prod-image-go https://raw.githubusercontent.com/nmars
 docker run -it -d --name prod-image-go --network host prod-image-go
 ```
 
-[Test](http://localhost:3001/) 
+[Test](http://localhost:3001/)
 
-
-
-### Catalogo en Java
+### Catálogo en Java con Docker
 
 ```bash
 docker build --no-cache -t prod-catalog-java https://raw.githubusercontent.com/nmarsollier/ecommerce_catalog_java/master/Dockerfile.prod
@@ -190,9 +188,9 @@ docker build --no-cache -t prod-catalog-java https://raw.githubusercontent.com/n
 docker run -d --name prod-catalog-java --network host -it  prod-catalog-java
 ```
 
-[Test](http://localhost:3002/) 
+[Test](http://localhost:3002/)
 
-### Carrito en Node
+### Carrito en Node con Docker
 
 ```bash
 docker build --no-cache -t prod-cart-node https://raw.githubusercontent.com/nmarsollier/ecommerce_cart_node/master/Dockerfile.prod
@@ -200,9 +198,9 @@ docker build --no-cache -t prod-cart-node https://raw.githubusercontent.com/nmar
 docker run -d --name prod-cart-node --network host -it  prod-cart-node
 ```
 
-[Test](http://localhost:3003/) 
+[Test](http://localhost:3003/)
 
-### Order en Java
+### Order en Java con Docker
 
 ```bash
 docker build --no-cache -t prod-order-java https://raw.githubusercontent.com/nmarsollier/ecommerce_order_java/master/Dockerfile.prod
@@ -210,9 +208,9 @@ docker build --no-cache -t prod-order-java https://raw.githubusercontent.com/nma
 docker run -d --name prod-order-java --network host -it  prod-order-java
 ```
 
-[Test](http://localhost:3004/) 
+[Test](http://localhost:3004/)
 
-### Cliente en React
+### Cliente en React con Docker
 
 ```bash
 docker build --no-cache -t prod-api-cli https://raw.githubusercontent.com/nmarsollier/ecommerce_api_client_react/master/Dockerfile.prod
@@ -220,8 +218,7 @@ docker build --no-cache -t prod-api-cli https://raw.githubusercontent.com/nmarso
 docker run -d --name prod-api-cli --network host -it  prod-api-cli
 ```
 
-[Test](http://localhost:4200/) 
-
+[Test](http://localhost:4200/)
 
 ### Notas generales
 
@@ -232,5 +229,4 @@ docker stop [IMAGE]
 docker rm [IMAGE]
 ```
 
-Y ejecutamos nuevamenete los comandos nuevamente
-
+Y ejecutamos nuevamente los comandos nuevamente
