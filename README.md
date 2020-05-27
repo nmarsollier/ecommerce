@@ -117,7 +117,7 @@ de todos los contenedores para probarlos.
 El contenedor se crea con
 
 ```bash
-docker run -d --name ec-rabbitmq --network host -d rabbitmq:3.8.3-management
+docker run -d --name ec-rabbitmq -d -p 15672:15672 -p 5672:5672 rabbitmq:3.8.3-management
 ```
 
 ### Mongo con Docker
@@ -125,7 +125,7 @@ docker run -d --name ec-rabbitmq --network host -d rabbitmq:3.8.3-management
 El contenedor se crea con
 
 ```bash
-docker run -d --name ec-mongo --network host -d mongo:4.0.18-xenial
+docker run -d --name ec-mongo -d -p 27017:27017 mongo:4.0.18-xenial
 ```
 
 ### Redis con Docker
@@ -133,7 +133,7 @@ docker run -d --name ec-mongo --network host -d mongo:4.0.18-xenial
 El contenedor se crea con
 
 ```bash
-docker run -d --name ec-redis --network host -d redis:5.0.9-buster
+docker run -d --name ec-redis -d -p 6379:6379 redis:5.0.9-buster
 ```
 
 ### Auth con Docker
@@ -143,7 +143,7 @@ docker run -d --name ec-redis --network host -d redis:5.0.9-buster
 ```bash
 docker build --no-cache -t prod-auth-node https://github.com/nmarsollier/ecommerce_auth_node/raw/master/Dockerfile.prod
 
-docker run -d --name prod-auth-node --network host -it prod-auth-node
+docker run -d --name prod-auth-node -p 3000:3000 prod-auth-node
 ```
 
 [Test](http://localhost:3000/)
@@ -153,7 +153,7 @@ docker run -d --name prod-auth-node --network host -it prod-auth-node
 ```bash
 docker build --no-cache -t prod-auth-go https://raw.githubusercontent.com/nmarsollier/authgo/master/Dockerfile.prod
 
-docker run -it -d --name prod-auth-go --network host prod-auth-go
+docker run -it -d --name prod-auth-go -p 3000:3000 prod-auth-go
 ```
 
 [Test](http://localhost:3000/)
@@ -165,7 +165,7 @@ docker run -it -d --name prod-auth-go --network host prod-auth-go
 ```bash
 docker build --no-cache -t prod-image-node https://raw.githubusercontent.com/nmarsollier/ecommerce_image_node/master/Dockerfile.prod
 
-docker run -d --name prod-image-node --network host -it  prod-image-node
+docker run -d --name prod-image-node -p 3001:3001 host -it  prod-image-node
 ```
 
 [Test](http://localhost:3001/)
@@ -175,7 +175,7 @@ docker run -d --name prod-image-node --network host -it  prod-image-node
 ```bash
 docker build --no-cache -t prod-image-go https://raw.githubusercontent.com/nmarsollier/imagego/master/Dockerfile.prod
 
-docker run -it -d --name prod-image-go --network host prod-image-go
+docker run -it -d --name prod-image-go -p 3001:3001 prod-image-go
 ```
 
 [Test](http://localhost:3001/)
@@ -185,7 +185,7 @@ docker run -it -d --name prod-image-go --network host prod-image-go
 ```bash
 docker build --no-cache -t prod-catalog-java https://raw.githubusercontent.com/nmarsollier/ecommerce_catalog_java/master/Dockerfile.prod
 
-docker run -d --name prod-catalog-java --network host -it  prod-catalog-java
+docker run -d --name prod-catalog-java -p 3002:3002 -it  prod-catalog-java
 ```
 
 [Test](http://localhost:3002/)
@@ -195,7 +195,7 @@ docker run -d --name prod-catalog-java --network host -it  prod-catalog-java
 ```bash
 docker build --no-cache -t prod-cart-node https://raw.githubusercontent.com/nmarsollier/ecommerce_cart_node/master/Dockerfile.prod
 
-docker run -d --name prod-cart-node --network host -it  prod-cart-node
+docker run -d --name prod-cart-node -e 3003:3003 -it  prod-cart-node
 ```
 
 [Test](http://localhost:3003/)
@@ -205,7 +205,7 @@ docker run -d --name prod-cart-node --network host -it  prod-cart-node
 ```bash
 docker build --no-cache -t prod-order-java https://raw.githubusercontent.com/nmarsollier/ecommerce_order_java/master/Dockerfile.prod
 
-docker run -d --name prod-order-java --network host -it  prod-order-java
+docker run -d --name prod-order-java -p 3004:3004 -it  prod-order-java
 ```
 
 [Test](http://localhost:3004/)
@@ -215,7 +215,7 @@ docker run -d --name prod-order-java --network host -it  prod-order-java
 ```bash
 docker build --no-cache -t prod-api-cli https://raw.githubusercontent.com/nmarsollier/ecommerce_api_client_react/master/Dockerfile.prod
 
-docker run -d --name prod-api-cli --network host -it  prod-api-cli
+docker run -d --name prod-api-cli -p 4200:4200 -it  prod-api-cli
 ```
 
 [Test](http://localhost:4200/)
