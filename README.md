@@ -196,7 +196,9 @@ docker run --add-host host.docker.internal:172.17.0.1 -it -d --name prod-image-g
 
 [Test](http://localhost:3001/)
 
-### Catálogo en Java con Docker
+### Catálogo
+
+#### en Java con Docker
 
 ```bash
 docker build --no-cache -t prod-catalog-java https://raw.githubusercontent.com/nmarsollier/ecommerce_catalog_java/master/Dockerfile.prod
@@ -206,6 +208,18 @@ docker run -d --name prod-catalog-java -p 3002:3002 -it  prod-catalog-java
 
 # Linux
 docker run --add-host host.docker.internal:172.17.0.1 -d --name prod-catalog-java -p 3002:3002 -it  prod-catalog-java
+ ```
+
+#### en Java con Python
+
+```bash
+docker build --no-cache -t prod-catalog-python https://raw.githubusercontent.com/nmarsollier/ecommerce_catalog_python/master/Dockerfile.prod
+
+# Mac || Windows
+docker run -d --name prod-catalog-python -p 3002:3002 -it  prod-catalog-python
+
+# Linux
+docker run --add-host host.docker.internal:172.17.0.1 -d --name prod-catalog-python -p 3002:3002 -it  prod-catalog-python
  ```
 
 [Test](http://localhost:3002/)
