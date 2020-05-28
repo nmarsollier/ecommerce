@@ -1,6 +1,6 @@
 # Arquitectura de Microservicios
 
-## Si querés saber mas sobre mi:
+## Si querés saber mas sobre mí
 
 [Nestor Marsollier](https://github.com/nmarsollier/profile)
 
@@ -234,7 +234,6 @@ docker run -d --name prod-order-java -p 3004:3004 -it  prod-order-java
 
 # Linux
 docker run --add-host host.docker.internal:172.17.0.1 -d --name prod-order-java -p 3004:3004 -it  prod-order-java
-
 ```
 
 [Test](http://localhost:3004/)
