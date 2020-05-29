@@ -58,7 +58,7 @@ Algunos plugins interesantes, depende del lenguaje que usemos :
 - __ES7 React/Redux/GraphQL React-Native snippets__ by dsznajder
 - __ESLint__ by Dirk Baeumer
 - __Go__ by Microsoft
-- __Java Extension Pack__ by Microsoft 
+- __Java Extension Pack__ by Microsoft
 - __JavaScript and Typescript Nightly__ by Microsoft
 - __Live Server__ by Titwick Day
 - __Markdown All in One__ by Yu Zhang
@@ -75,13 +75,13 @@ Algunos plugins interesantes, depende del lenguaje que usemos :
 
 ### Docker y Docker Compose
 
-Simplifica la configuracion de todos los servidores. Hay que seguir las guias de instalación y dejar las ultimas versiones configuradas correctamente.
+Simplifica la configuración de todos los servidores. Hay que seguir las guias de instalación y dejar las ultimas versiones configuradas correctamente.
 
 ### MongoDB
 
 Para simplificar la configuración, se han tomado decisiones similares de arquitectura, de modo que todos los microservicios pueden utilizar el mismo servidor de base de datos local, aunque cada microservicio utiliza esquemas de datos totalmente independientes.
 
-Podemos usar la versio docker, o instalarlo localmente.
+Podemos usar la version docker, o instalarlo localmente.
 
 Sugiero instalar Mongodb Compass para poder navegar la base de datos en forma visual [mongodb.com](https://www.mongodb.com/products/compass)
 
@@ -89,7 +89,7 @@ Sugiero instalar Mongodb Compass para poder navegar la base de datos en forma vi
 
 Redis es una segunda opción de almacenamiento de datos. El microservicio de imágenes hace uso de Redis.
 
-Podemos usar la versio docker, o instalarlo localmente.
+Podemos usar la version docker, o instalarlo localmente.
 
 Recomiendo instalar FastoRedis para navegar la base de datos [fastoredis.com](https://fastoredis.com/)
 
@@ -97,24 +97,24 @@ Recomiendo instalar FastoRedis para navegar la base de datos [fastoredis.com](ht
 
 La comunicación asíncrona entre microservicios se lleva a cabo a través de la mensajería de Rabbit.
 
-Podemos usar la versio docker, o instalarlo localmente.
+Podemos usar la versión docker, o instalarlo localmente.
 
-#### Lenguajes de programacion
+#### Lenguajes de programación
 
-Para desarrollar, es necesario tener instalado el lenguaje que corresponda localmente. 
-Cada proyecto tiene sus propios tutoriales de instalacion y configuracion para desarrollo.
+Para desarrollar, es necesario tener instalado el lenguaje que corresponda localmente.
+Cada proyecto tiene sus propios tutoriales de instalación y configuración para desarrollo.
 
-## Instalación rapida usando Docker
+## Instalación rápida usando Docker
 
 Existe una configuración completa de todos los microservicios con builds de producción usando docker-compose.
 
 Esta instalación y ejecución es muy sencilla, solo pretende permitir la ejecución de todos los contenedores para probarlos.
 
-Sin embargo nos vamos a basar en esta configuracion para desarrollar, por lo que es necesario isntalarlos.
+Sin embargo nos vamos a basar en esta configuración para desarrollar, por lo que es necesario instalarlos.
 
 Una vez levantados los servicios se puede acceder al cliente usando [localhost:4200](http://localhost:4200)
 
-Descarlar los archivo yml provistos en este proyecto. Se puede clonar el proyecto o bien descargar el zip.
+Descargar los archivo yml provistos en este proyecto. Se puede clonar el proyecto o bien descargar el zip.
 
 
 Existen varios yml de compose, luego de clonar el repo hay que ver cual nos conviene.
