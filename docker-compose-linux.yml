@@ -1,3 +1,6 @@
+# Este es un compose que trae desde github el Dockerfile, compila y crea la imagen.
+# Util para devs porque estamos haciendo build directamente desde el codigo fuente de github.
+# la version linux nos crea una interfaz de red host.docker.internal apuntando a la ip de docker0
 version: "3"
 services:
     rabbitmq:

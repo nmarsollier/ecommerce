@@ -117,17 +117,22 @@ Una vez levantados los servicios se puede acceder al cliente usando [localhost:4
 Descarlar los archivo yml provistos en este proyecto. Se puede clonar el proyecto o bien descargar el zip.
 
 
-__Mac o Windows__
+Existen varios yml de compose, luego de clonar el repo hay que ver cual nos conviene.
 
-```bash
-docker-compose up -d
-```
-
-__Linux__
+Podemos levantar los contenedores usando el comando :
 
 ```bash
 docker-compose -f docker-compose-linux.yml up -d
 ```
+
+Las opciones son las siguientes:
+
+- docker-compose.yml : Para windows y mac, baja y compila todo desde github
+- docker-compose-linux.yml : Para linux, baja y compila todo desde github
+- docker-compose-prod.yml : Para windows y mac, baja una imagen pre-compilada de docker hub
+- docker-compose-prod-linux.yml : Para linux, baja una imagen pre-compilada de docker hub
+
+### Notas sobre Linux
 
 En linux es necesario agregar una referencia al host host.docker.internal.
 La ip default es 172.17.0.1, y corresponde a la ip de la interfaz de red docker0.

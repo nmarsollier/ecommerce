@@ -1,3 +1,5 @@
+# Este es un compose que trae desde github el Dockerfile, compila y crea la imagen.
+# Util para devs porque estamos haciendo build directamente desde el codigo fuente de github.
 version: "3"
 services:
     rabbitmq:
