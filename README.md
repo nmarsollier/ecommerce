@@ -109,170 +109,31 @@ No se requiere ninguna configuración adicional, solo levantarlo luego de instal
 
 ## Instalación usando Docker
 
+Existe una configuración completa de todos los microservicios con builds de producción usando docker-compose.
+
 Esta instalación y ejecución es muy sencilla, solo pretende permitir la ejecución
 de todos los contenedores para probarlos.`
 
-### Rabbit con Docker
-
-El contenedor se crea con
+__Mac o Windows__
 
 ```bash
-docker run -d --name ec-rabbitmq -d -p 15672:15672 -p 5672:5672 rabbitmq:3.8.3-management
+docker-compose up -d
 ```
 
-### Mongo con Docker
-
-El contenedor se crea con
+__Linux__
 
 ```bash
-docker run -d --name ec-mongo -d -p 27017:27017 mongo:4.0.18-xenial
+docker-compose -f docker-compose-linux.yml up -d
 ```
 
-### Redis con Docker
+En linux es necesario agregar una referencia al host host.docker.internal.
+La ip default es 172.17.0.1, y corresponde a la ip de la interfaz de red docker0.
+Si no funciona asi como está el archivo, hay que ver que ip tiene esa interfaz y cambiar el archivo.
 
-El contenedor se crea con
+## Configuraciones de desarrollo con docker
 
-```bash
-docker run -d --name ec-redis -d -p 6379:6379 redis:5.0.9-buster
-```
+Cuando queramos desarrollar en forma mas especifica con un proyecto en particular, necesitaremos crear las imágenes fuera del contexto de docker-compose, y bajar ciertos contenedores de compose para levantar otros contenedores docker alternativos.
 
-### Auth con Docker
+O simplemente, bajar el contenedor del proyecto y ejecutar en el host local, esta configuración esta preparada para que lo podamos hacer.
 
-#### Auth version Node
-
-```bash
-docker build --no-cache -t prod-auth-node https://github.com/nmarsollier/ecommerce_auth_node/raw/master/Dockerfile.prod
-
-# Mac || Windows
-docker run -d --name prod-auth-node -p 3000:3000 prod-auth-node
-
-# Linux
-docker run --add-host host.docker.internal:172.17.0.1 -d --name prod-auth-node -p 3000:3000 prod-auth-node
-```
-
-[Test](http://localhost:3000/)
-
-#### Auth version Go
-
-```bash
-docker build --no-cache -t prod-auth-go https://raw.githubusercontent.com/nmarsollier/authgo/master/Dockerfile.prod
-
-# Mac || Windows
-docker run -it -d --name prod-auth-go -p 3000:3000 prod-auth-go
-
-# Linux
-docker run --add-host host.docker.internal:172.17.0.1 -it -d --name prod-auth-go -p 3000:3000 prod-auth-go
-```
-
-[Test](http://localhost:3000/)
-
-### Imágenes con Docker
-
-#### Imágenes version Node
-
-```bash
-docker build --no-cache -t prod-image-node https://raw.githubusercontent.com/nmarsollier/ecommerce_image_node/master/Dockerfile.prod
-
-# Mac || Windows
-docker run -d --name prod-image-node -p 3001:3001 -it  prod-image-node
-
-# Linux
-docker run --add-host host.docker.internal:172.17.0.1 -d --name prod-image-node -p 3001:3001 -it  prod-image-node
-```
-
-[Test](http://localhost:3001/)
-
-#### Imágenes version Go
-
-```bash
-docker build --no-cache -t prod-image-go https://raw.githubusercontent.com/nmarsollier/imagego/master/Dockerfile.prod
-
-# Mac || Windows
-docker run -it -d --name prod-image-go -p 3001:3001 prod-image-go
-
-# Linux
-docker run --add-host host.docker.internal:172.17.0.1 -it -d --name prod-image-go -p 3001:3001 prod-image-go
- ```
-
-[Test](http://localhost:3001/)
-
-### Catálogo
-
-#### en Java con Docker
-
-```bash
-docker build --no-cache -t prod-catalog-java https://raw.githubusercontent.com/nmarsollier/ecommerce_catalog_java/master/Dockerfile.prod
-
-# Mac || Windows
-docker run -d --name prod-catalog-java -p 3002:3002 -it  prod-catalog-java
-
-# Linux
-docker run --add-host host.docker.internal:172.17.0.1 -d --name prod-catalog-java -p 3002:3002 -it  prod-catalog-java
- ```
-
-#### en Java con Python
-
-```bash
-docker build --no-cache -t prod-catalog-python https://raw.githubusercontent.com/nmarsollier/ecommerce_catalog_python/master/Dockerfile.prod
-
-# Mac || Windows
-docker run -d --name prod-catalog-python -p 3002:3002 -it  prod-catalog-python
-
-# Linux
-docker run --add-host host.docker.internal:172.17.0.1 -d --name prod-catalog-python -p 3002:3002 -it  prod-catalog-python
- ```
-
-[Test](http://localhost:3002/)
-
-### Carrito en Node con Docker
-
-```bash
-docker build --no-cache -t prod-cart-node https://raw.githubusercontent.com/nmarsollier/ecommerce_cart_node/master/Dockerfile.prod
-
-# Mac || Windows
-docker run -d --name prod-cart-node -e 3003:3003 -it  prod-cart-node
-
-# Linux
-docker run --add-host host.docker.internal:172.17.0.1 -d --name prod-cart-node -e 3003:3003 -it  prod-cart-node
- ```
-
-[Test](http://localhost:3003/)
-
-### Order en Java con Docker
-
-```bash
-docker build --no-cache -t prod-order-java https://raw.githubusercontent.com/nmarsollier/ecommerce_order_java/master/Dockerfile.prod
-
-# Mac || Windows
-docker run -d --name prod-order-java -p 3004:3004 -it  prod-order-java
-
-# Linux
-docker run --add-host host.docker.internal:172.17.0.1 -d --name prod-order-java -p 3004:3004 -it  prod-order-java
-```
-
-[Test](http://localhost:3004/)
-
-### Cliente en React con Docker
-
-```bash
-docker build --no-cache -t prod-api-cli https://raw.githubusercontent.com/nmarsollier/ecommerce_api_client_react/master/Dockerfile.prod
-
-# Mac || Windows
-docker run -d --name prod-api-cli -p 4200:4200 -it  prod-api-cli
-
-# Linux
-docker run --add-host host.docker.internal:172.17.0.1 -d --name prod-api-cli -p 4200:4200 -it  prod-api-cli
- ```
-
-[Test](http://localhost:4200/)
-
-### Notas generales
-
-Para actualizar cualquier imagen
-
-```bash
-docker stop [IMAGE]
-docker rm [IMAGE]
-```
-
-Y ejecutamos nuevamente los comandos nuevamente
+Cada proyecto proporciona información sobre como hacer build y run de los contenedores específicos de desarrollo.
