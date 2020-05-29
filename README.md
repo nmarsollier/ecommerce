@@ -52,36 +52,36 @@ Alternativamente tenemos versiones de Imágenes y Auth en Go. Los proyectos Go s
 
 El proyecto se desarrollo con [Visual Studio Code](https://code.visualstudio.com/download), Si bien podrían utilizarse alternativas como [Atom](https://atom.io/), [Sublime](https://www.sublimetext.com/download), [Eclipse](http://www.eclipse.org/downloads/), la variedad de plugins en VSCode hacen que el desarrollo sea 'amigable' para la variedad de lenguajes que estamos manejando en el proyecto.
 
-Los plugins configurados en el momento de desarrollo en VSCode son los siguientes :
+Algunos plugins interesantes, depende del lenguaje que usemos :
 
+- __Docker__ by Microsoft
 - __ES7 React/Redux/GraphQL React-Native snippets__ by dsznajder
-- __React Native Tools__ by Microsoft
-- __TSLint__ by egamma
-- __Typescript React code snippets__ by infeng
 - __ESLint__ by Dirk Baeumer
 - __Go__ by Microsoft
-- __JavasScript (ES6) code snippets__ by charlampos karypidis
-- __Language Support for Java(TM)__ by Red Hat
+- __Java Extension Pack__ by Microsoft 
+- __JavaScript and Typescript Nightly__ by Microsoft
+- __Live Server__ by Titwick Day
+- __Markdown All in One__ by Yu Zhang
 - __Python__ by Microsoft
-- __Python for VSCode__ by Thomas Haakon Townsend
-- __Python-autopep8__ by himanoa
+- __React Native Tools__ by Microsoft
+- __Simple React Snippets__ by Burke Holland
+- __Typescript React code snippets__ by infeng
+- __Visual Studio IntelliCode__ by Microsoft
 - __TSLint__ by egamma
+- __JavasScript (ES6) code snippets__ by charlampos karypidis
 
-Existe un Workspace configurado para VSCode en la raíz del proyecto :
-
-```bash
-Microservicios.code-workspace
-```
 
 ## Dependencias globales
+
+### Docker y Docker Compose
+
+Simplifica la configuracion de todos los servidores. Hay que seguir las guias de instalación y dejar las ultimas versiones configuradas correctamente.
 
 ### MongoDB
 
 Para simplificar la configuración, se han tomado decisiones similares de arquitectura, de modo que todos los microservicios pueden utilizar el mismo servidor de base de datos local, aunque cada microservicio utiliza esquemas de datos totalmente independientes.
 
-Seguir las guías de instalación de mongo desde el sitio oficial [mongodb.com](https://www.mongodb.com/download-center#community)
-
-No se requiere ninguna configuración adicional, solo levantarlo luego de instalarlo.
+Podemos usar la versio docker, o instalarlo localmente.
 
 Sugiero instalar Mongodb Compass para poder navegar la base de datos en forma visual [mongodb.com](https://www.mongodb.com/products/compass)
 
@@ -89,11 +89,7 @@ Sugiero instalar Mongodb Compass para poder navegar la base de datos en forma vi
 
 Redis es una segunda opción de almacenamiento de datos. El microservicio de imágenes hace uso de Redis.
 
-Seguir los pasos de instalación desde la pagina oficial [redis.io](https://redis.io/download)
-
-No se requiere ninguna configuración adicional, solo levantarlo luego de instalarlo.
-
-Para windows se puede descargar el paquete sin instalación : [Instalación](https://sourceforge.net/projects/redis/)
+Podemos usar la versio docker, o instalarlo localmente.
 
 Recomiendo instalar FastoRedis para navegar la base de datos [fastoredis.com](https://fastoredis.com/)
 
@@ -101,18 +97,25 @@ Recomiendo instalar FastoRedis para navegar la base de datos [fastoredis.com](ht
 
 La comunicación asíncrona entre microservicios se lleva a cabo a través de la mensajería de Rabbit.
 
-Seguir los pasos de instalación en la pagina oficial
+Podemos usar la versio docker, o instalarlo localmente.
 
-[rabbitmq.com](https://www.rabbitmq.com/)
+#### Lenguajes de programacion
 
-No se requiere ninguna configuración adicional, solo levantarlo luego de instalarlo.
+Para desarrollar, es necesario tener instalado el lenguaje que corresponda localmente. 
+Cada proyecto tiene sus propios tutoriales de instalacion y configuracion para desarrollo.
 
-## Instalación usando Docker
+## Instalación rapida usando Docker
 
 Existe una configuración completa de todos los microservicios con builds de producción usando docker-compose.
 
-Esta instalación y ejecución es muy sencilla, solo pretende permitir la ejecución
-de todos los contenedores para probarlos.`
+Esta instalación y ejecución es muy sencilla, solo pretende permitir la ejecución de todos los contenedores para probarlos.
+
+Sin embargo nos vamos a basar en esta configuracion para desarrollar, por lo que es necesario isntalarlos.
+
+Una vez levantados los servicios se puede acceder al cliente usando [localhost:4200](http://localhost:4200)
+
+Descarlar los archivo yml provistos en este proyecto. Se puede clonar el proyecto o bien descargar el zip.
+
 
 __Mac o Windows__
 
