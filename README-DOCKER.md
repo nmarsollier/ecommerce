@@ -5,19 +5,19 @@ Instalación de los contenedores "de producción" individuales.
 ## RabbitMQ
 
 ```bash
-docker run -d --name ec-rabbitmq -d -p 15672:15672 -p 5672:5672 rabbitmq:3.8.3-management
+docker run -d --name ec-rabbitmq -p 15672:15672 -p 5672:5672 rabbitmq:3.8.3-management
 ```
 
 ## MongoDB
 
 ```bash
-docker run -d --name ec-mongo -d -p 27017:27017 mongo:4.0.18-xenial
+docker run -d --name ec-mongo -p 27017:27017 mongo:4.0.18-xenial
 ```
 
 ## Redis
 
 ```bash
-docker run -d --name ec-redis -d -p 6379:6379 redis:5.0.9-buster
+docker run -d --name ec-redis -p 6379:6379 redis:5.0.9-buster
 ```
 
 ## Auth - Node
@@ -108,7 +108,7 @@ docker run --add-host host.docker.internal:172.17.0.1 -d --name prod-catalog-pyt
 docker build --no-cache -t prod-cart-node https://raw.githubusercontent.com/nmarsollier/ecommerce_cart_node/master/Dockerfile.prod
 
 # Mac || Windows
-docker run -d --name prod-cart-node -e 3003:3003 -it  prod-cart-node
+docker run -d --name prod-cart-node -e 3003:3003 -it prod-cart-node
 
 # Linux
 docker run --add-host host.docker.internal:172.17.0.1 -d --name prod-cart-node -e 3003:3003 -it  prod-cart-node
@@ -122,7 +122,7 @@ docker run --add-host host.docker.internal:172.17.0.1 -d --name prod-cart-node -
 docker build --no-cache -t prod-order-java https://raw.githubusercontent.com/nmarsollier/ecommerce_order_java/master/Dockerfile.prod
 
 # Mac || Windows
-docker run -d --name prod-order-java -p 3004:3004 -it  prod-order-java
+docker run -d --name prod-order-java -p 3004:3004 -it prod-order-java
 
 # Linux
 docker run --add-host host.docker.internal:172.17.0.1 -d --name prod-order-java -p 3004:3004 -it  prod-order-java
@@ -136,7 +136,7 @@ docker run --add-host host.docker.internal:172.17.0.1 -d --name prod-order-java 
 docker build --no-cache -t prod-api-cli https://raw.githubusercontent.com/nmarsollier/ecommerce_api_client_react/master/Dockerfile.prod
 
 # Mac || Windows
-docker run -d --name prod-api-cli -p 4200:80 -it  prod-api-cli
+docker run -d --name prod-api-cli -p 4200:80 -it prod-api-cli
 
 # Linux
 docker run --add-host host.docker.internal:172.17.0.1 -d --name prod-api-cli -p 4200:80 -it  prod-api-cli
