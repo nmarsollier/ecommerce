@@ -50,7 +50,11 @@ Alternativamente tenemos versiones de Imágenes y Auth en Go. Los proyectos Go s
 
 ## Entorno de Desarrollo
 
-El proyecto se desarrollo con [Visual Studio Code](https://code.visualstudio.com/download), Si bien podrían utilizarse alternativas como [Atom](https://atom.io/), [Sublime](https://www.sublimetext.com/download), [Eclipse](http://www.eclipse.org/downloads/), la variedad de plugins en VSCode hacen que el desarrollo sea 'amigable' para la variedad de lenguajes que estamos manejando en el proyecto.
+El proyecto se desarrollo con [Visual Studio Code](https://code.visualstudio.com/download)
+
+Si bien podrían utilizarse alternativas como [Atom](https://atom.io/), [Sublime](https://www.sublimetext.com/download), [Eclipse](http://www.eclipse.org/downloads/), la variedad de plugins en VSCode hacen que el desarrollo sea 'amigable' para la variedad de lenguajes que estamos manejando en el proyecto.
+
+Si lo que se desea es utiliza java, [IntelliJ](https://www.jetbrains.com/idea/) es una muy buena opción.
 
 Algunos plugins interesantes, depende del lenguaje que usemos :
 
@@ -70,12 +74,11 @@ Algunos plugins interesantes, depende del lenguaje que usemos :
 - __TSLint__ by egamma
 - __JavasScript (ES6) code snippets__ by charlampos karypidis
 
-
 ## Dependencias globales
 
 ### Docker y Docker Compose
 
-Simplifica la configuración de todos los servidores. Hay que seguir las guias de instalación y dejar las ultimas versiones configuradas correctamente.
+Simplifica la configuración de todos los servidores. Hay que seguir las guías de instalación y dejar las ultimas versiones configuradas correctamente.
 
 ### MongoDB
 
@@ -83,7 +86,7 @@ Para simplificar la configuración, se han tomado decisiones similares de arquit
 
 Podemos usar la version docker, o instalarlo localmente.
 
-Sugiero instalar Mongodb Compass para poder navegar la base de datos en forma visual [mongodb.com](https://www.mongodb.com/products/compass)
+Sugiero instalar Mongodb Compass para poder gestionar la base de datos en forma visual [mongodb.com](https://www.mongodb.com/products/compass)
 
 ### Redis
 
@@ -91,7 +94,7 @@ Redis es una segunda opción de almacenamiento de datos. El microservicio de im�
 
 Podemos usar la version docker, o instalarlo localmente.
 
-Recomiendo instalar FastoRedis para navegar la base de datos [fastoredis.com](https://fastoredis.com/)
+Recomiendo instalar FastoRedis para acceder a la base de datos [fastoredis.com](https://fastoredis.com/)
 
 ### RabbitMQ
 
@@ -99,12 +102,16 @@ La comunicación asíncrona entre microservicios se lleva a cabo a través de la
 
 Podemos usar la versión docker, o instalarlo localmente.
 
+Tiene un cliente WEB [http://localhost:15672/](http://localhost:15672/)
+
 #### Lenguajes de programación
 
 Para desarrollar, es necesario tener instalado el lenguaje que corresponda localmente.
+Si bien con docker no necesitamos todos los lenguajes de programación, si es necesario que en los lenguajes que vamos a desarrollar microservicios esté instalado.
+Para una mejor comprensión de la cátedra recomiendo instalarlos a todos.
 Cada proyecto tiene sus propios tutoriales de instalación y configuración para desarrollo.
 
-## Instalación rápida usando Docker
+## Instalación rápida usando Docker Compose
 
 Existe una configuración completa de todos los microservicios con builds de producción usando docker-compose.
 
@@ -114,16 +121,7 @@ Sin embargo nos vamos a basar en esta configuración para desarrollar, por lo qu
 
 Una vez levantados los servicios se puede acceder al cliente usando [localhost:4200](http://localhost:4200)
 
-Descargar los archivo yml provistos en este proyecto. Se puede clonar el proyecto o bien descargar el zip.
-
-
-Existen varios yml de compose, luego de clonar el repo hay que ver cual nos conviene.
-
-Podemos levantar los contenedores usando el comando :
-
-```bash
-docker-compose -f docker-compose-linux.yml up -d
-```
+Existen varios yml de compose, hay que bajar y usar el que corresponda desde el repositorio.
 
 Las opciones son las siguientes:
 
@@ -131,6 +129,12 @@ Las opciones son las siguientes:
 - docker-compose-linux.yml : Para linux, baja y compila todo desde github
 - docker-compose-prod.yml : Para windows y mac, baja una imagen pre-compilada de docker hub
 - docker-compose-prod-linux.yml : Para linux, baja una imagen pre-compilada de docker hub
+
+Levantamos los contenedores usando el comando :
+
+```bash
+docker-compose -f docker-XXX.yml up -d
+```
 
 ### Notas sobre Linux
 
@@ -145,3 +149,9 @@ Cuando queramos desarrollar en forma mas especifica con un proyecto en particula
 O simplemente, bajar el contenedor del proyecto y ejecutar en el host local, esta configuración esta preparada para que lo podamos hacer.
 
 Cada proyecto proporciona información sobre como hacer build y run de los contenedores específicos de desarrollo.
+
+## Instalación mas detallada usando solo Docker
+
+No es necesario con compose, pero si queremos ponernos a probar, hay un instructivo :
+
+[Contenedores Docker](READEME-DOCKER.md)
