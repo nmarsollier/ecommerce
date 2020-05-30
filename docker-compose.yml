@@ -73,7 +73,7 @@ services:
         build:
             context: https://raw.githubusercontent.com/nmarsollier/ecommerce_api_client_react/master/Dockerfile.prod
         ports:
-            - '4200:4200'
+            - '4200:80'
         image: prod-api-cli
         stdin_open: true
         depends_on:

@@ -61,8 +61,8 @@ services:
   prod-api-cli:
     container_name: prod-api-cli
     ports:
-      - "4200:4200"
-    image: nmarsollier/prod-api-cli:v1.0
+      - '4200:80'
+    image: nmarsollier/prod-api-cli:v1.1
     stdin_open: true
     depends_on:
       - "prod-order-java"
