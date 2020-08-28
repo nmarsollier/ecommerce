@@ -53,7 +53,7 @@ services:
     container_name: prod-cart-node
     extra_hosts:
       - "host.docker.internal:172.17.0.1"
-    environment:
+    ports:
       - "3003:3003"
     image: nmarsollier/prod-cart-node:v1.0
     depends_on:
