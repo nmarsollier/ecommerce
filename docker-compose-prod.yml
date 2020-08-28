@@ -44,7 +44,7 @@ services:
       - "mongo"
   prod-cart-node:
     container_name: prod-cart-node
-    environment:
+    ports:
       - "3003:3003"
     image: nmarsollier/prod-cart-node:v1.0
     depends_on:
