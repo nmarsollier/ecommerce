@@ -12,18 +12,19 @@ Se utilizan varios patrones de arquitectura y cada microservicios posee tecnolog
 
 Este documento describe la configuración y uso de los siguientes repositorios :
 
-- [Seguridad en Node](https://github.com/nmarsollier/ecommerce_auth_node)
-- [Imágenes en Node](https://github.com/nmarsollier/ecommerce_image_node)
-- [Catálogo en Python](https://github.com/nmarsollier/ecommerce_catalog_python)
-- [Carrito en Node](https://github.com/nmarsollier/ecommerce_cart_node)
-
-Existen otras versiones desarrolladas en otros lenguajes que definen los mismos microservicios con diversos paradigmas y patrones de desarrollo :
-
 - [Seguridad en Go](https://github.com/nmarsollier/authgo)
 - [Imágenes en Go](https://github.com/nmarsollier/imagego)
-- [Catálogo en Java](https://github.com/nmarsollier/ecommerce_catalog_java)
+- [Carrito en Node](https://github.com/nmarsollier/ecommerce_cart_node)
 - [Catálogo en Kotlin](https://github.com/nmarsollier/ecommerce_catalog_kotlin)
+- [Órdenes en Kotlin](https://github.com/nmarsollier/ecommerce_order_kotlin)
+
+Existen otras versiones desarrolladas en otros lenguajes que definen los mismos microservicios con diversos paradigmas y patrones de desarrollo, aunque pueden estar desmantenidos, podrían ser funcionales :
+
+- [Seguridad en Node](https://github.com/nmarsollier/ecommerce_auth_node)
+- [Imágenes en Node](https://github.com/nmarsollier/ecommerce_image_node)
+- [Catálogo en Java](https://github.com/nmarsollier/ecommerce_catalog_java)
 - [Órdenes en Java](https://github.com/nmarsollier/ecommerce_order_java)
+- [Catálogo en Python](https://github.com/nmarsollier/ecommerce_catalog_python)
 
 ## Cliente Demo
 
