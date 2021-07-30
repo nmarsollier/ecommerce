@@ -61,7 +61,7 @@ services:
             context: https://raw.githubusercontent.com/nmarsollier/ecommerce_cart_node/master/Dockerfile.prod
         extra_hosts:
             - "host.docker.internal:172.17.0.1"
-        environment:
+        ports:
             - '3003:3003'
         image: prod-cart-node
         depends_on:
