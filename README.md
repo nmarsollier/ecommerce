@@ -54,126 +54,126 @@ La comunicación asíncrona entre microservicios se lleva a cabo a través de la
 
 Tiene un cliente WEB [http://localhost:15672/](http://localhost:15672/)
 
-## Docker
+# Docker
 
 Para ejecutar los diversos microservicios es conveniente usar docker, ya que simplifica todo.
 
-### RabbitMQ
+## RabbitMQ
 
 ```bash
 docker run -d --name ec-rabbitmq -p 15672:15672 -p 5672:5672 rabbitmq:3.8.3-management
 ```
 
-### MongoDB
+## MongoDB
 
 ```bash
 docker run -d --name ec-mongo -p 27017:27017 mongo:4.0.18-xenial
 ```
 
-### Redis
+## Redis
 
 ```bash
 docker run -d --name ec-redis -p 6379:6379 redis:5.0.9-buster
 ```
 
-### Auth - Go
+## Auth - Go
 
 ```bash
 docker build --no-cache -t prod-auth-go https://raw.githubusercontent.com/nmarsollier/authgo/master/Dockerfile.prod
  ```
 
-# Mac || Windows
+Mac || Windows
 ```bash
 docker run -it -d --name prod-auth-go -p 3000:3000 prod-auth-go
  ```
 
-# Linux
+Linux
 ```bash
 docker run --add-host host.docker.internal:172.17.0.1 -it -d --name prod-auth-go -p 3000:3000 prod-auth-go
 ```
 
 [Test](http://localhost:3000/)
 
-### Imágenes - Go
+## Imágenes - Go
 
 ```bash
 docker build --no-cache -t prod-image-go https://raw.githubusercontent.com/nmarsollier/imagego/master/Dockerfile.prod
  ```
 
-# Mac || Windows
+Mac || Windows
 ```bash
 docker run -it -d --name prod-image-go -p 3001:3001 prod-image-go
  ```
 
-# Linux
+Linux
 ```bash
 docker run --add-host host.docker.internal:172.17.0.1 -it -d --name prod-image-go -p 3001:3001 prod-image-go
  ```
 
-### Orders - Go
+## Orders - Go
 
 ```bash
 docker build --no-cache -t prod-orders-go https://raw.githubusercontent.com/nmarsollier/ordersgo/master/Dockerfile.prod
  ```
 
-# Mac || Windows
+Mac || Windows
 ```bash
 docker run -it -d --name prod-orders-go -p 3004:3004 prod-orders-go
  ```
 
-# Linux
+Linux
 ```bash
 docker run --add-host host.docker.internal:172.17.0.1 -it -d --name prod-orders-go -p 3004:3004 prod-orders-go
  ```
 
 [Test](http://localhost:3001/)
 
-### Catálogo - Kotlin
+## Catálogo - Kotlin
 
 ```bash
 docker build --no-cache -t prod-catalog-kotlin https://raw.githubusercontent.com/nmarsollier/ecommerce_catalog_kotlin/main/Dockerfile.prod
  ```
 
-# Mac || Windows
+Mac || Windows
 ```bash
 docker run -d --name prod-catalog-kotlin -p 3002:3002 -it  prod-catalog-kotlin
  ```
 
-# Linux
+Linux
 ```bash
 docker run --add-host host.docker.internal:172.17.0.1 -d --name prod-catalog-kotlin -p 3002:3002 -it  prod-catalog-kotlin
  ```
 
-### Carrito - Node
+## Carrito - Node
 
 ```bash
 docker build --no-cache -t prod-cart-node https://raw.githubusercontent.com/nmarsollier/ecommerce_cart_node/master/Dockerfile.prod
  ```
 
-# Mac || Windows
+Mac || Windows
 ```bash
 docker run -d --name prod-cart-node -e 3003:3003 -it prod-cart-node
  ```
 
-# Linux
+Linux
 ```bash
 docker run --add-host host.docker.internal:172.17.0.1 -d --name prod-cart-node -p 3003:3003 -it  prod-cart-node
  ```
 
 [Test](http://localhost:3003/)
 
-### Cliente - React
+## Cliente - React
 
 ```bash
 docker build --no-cache -t prod-api-cli https://raw.githubusercontent.com/nmarsollier/ecommerce_api_client_react/master/Dockerfile.prod
  ```
 
-# Mac || Windows
+Mac || Windows
 ```bash
 docker run -d --name prod-api-cli -p 4200:80 -it prod-api-cli
  ```
 
-# Linux
+Linux
 ```bash
 docker run --add-host host.docker.internal:172.17.0.1 -d --name prod-api-cli -p 4200:80 -it  prod-api-cli
  ```
