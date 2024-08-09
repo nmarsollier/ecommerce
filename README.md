@@ -60,6 +60,8 @@ Para ejecutar los diversos microservicios es conveniente usar docker, ya que sim
 
 ## RabbitMQ
 
+[http://localhost:15672/](http://localhost:15672/)
+
 ```bash
 docker run -d --name ec-rabbitmq -p 15672:15672 -p 5672:5672 rabbitmq:3.8.3-management
 ```
@@ -78,6 +80,8 @@ docker run -d --name ec-redis -p 6379:6379 redis:5.0.9-buster
 
 ## Auth - Go
 
+[http://localhost:3000/docs/index.html](http://localhost:3000/docs/index.html)
+
 ```bash
 docker build --no-cache -t prod-auth-go https://raw.githubusercontent.com/nmarsollier/authgo/master/Dockerfile.prod
  ```
@@ -92,9 +96,9 @@ Linux
 docker run --add-host host.docker.internal:172.17.0.1 -it -d --name prod-auth-go -p 3000:3000 prod-auth-go
 ```
 
-[Test](http://localhost:3000/)
-
 ## Imágenes - Go
+
+[http://localhost:3001/docs/index.html](http://localhost:3001/docs/index.html)
 
 ```bash
 docker build --no-cache -t prod-image-go https://raw.githubusercontent.com/nmarsollier/imagego/master/Dockerfile.prod
@@ -112,6 +116,8 @@ docker run --add-host host.docker.internal:172.17.0.1 -it -d --name prod-image-g
 
 ## Orders - Go
 
+[http://localhost:3004/docs/index.html](http://localhost:3004/docs/index.html)
+
 ```bash
 docker build --no-cache -t prod-orders-go https://raw.githubusercontent.com/nmarsollier/ordersgo/master/Dockerfile.prod
  ```
@@ -126,9 +132,9 @@ Linux
 docker run --add-host host.docker.internal:172.17.0.1 -it -d --name prod-orders-go -p 3004:3004 prod-orders-go
  ```
 
-[Test](http://localhost:3001/)
-
 ## Catálogo - Kotlin
+
+[http://localhost:3002/](http://localhost:3002/)
 
 ```bash
 docker build --no-cache -t prod-catalog-kotlin https://raw.githubusercontent.com/nmarsollier/ecommerce_catalog_kotlin/main/Dockerfile.prod
@@ -146,6 +152,8 @@ docker run --add-host host.docker.internal:172.17.0.1 -d --name prod-catalog-kot
 
 ## Carrito - Node
 
+[http://localhost:3003/](http://localhost:3003/)
+
 ```bash
 docker build --no-cache -t prod-cart-node https://raw.githubusercontent.com/nmarsollier/ecommerce_cart_node/master/Dockerfile.prod
  ```
@@ -160,9 +168,9 @@ Linux
 docker run --add-host host.docker.internal:172.17.0.1 -d --name prod-cart-node -p 3003:3003 -it  prod-cart-node
  ```
 
-[Test](http://localhost:3003/)
-
 ## Cliente - React
+
+[http://localhost:4200/](http://localhost:4200/)
 
 ```bash
 docker build --no-cache -t prod-api-cli https://raw.githubusercontent.com/nmarsollier/ecommerce_api_client_react/master/Dockerfile.prod
@@ -177,9 +185,6 @@ Linux
 ```bash
 docker run --add-host host.docker.internal:172.17.0.1 -d --name prod-api-cli -p 4200:80 -it  prod-api-cli
  ```
-
-[Test](http://localhost:4200/)
-
 
 ### Notas sobre Linux
 
