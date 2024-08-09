@@ -16,14 +16,16 @@ Este documento describe la configuración y uso de los siguientes repositorios :
 - [Imágenes en Go](https://github.com/nmarsollier/imagego)
 - [Carrito en Node](https://github.com/nmarsollier/ecommerce_cart_node)
 - [Catálogo en Kotlin](https://github.com/nmarsollier/ecommerce_catalog_kotlin)
+- [Órdenes en Go](https://github.com/nmarsollier/ordersgo)
+
+Existen otras versiones desarrolladas en otros lenguajes que definen los mismos microservicios con diversos paradigmas y patrones de desarrollo, aunque estan desmantenidos, podrían ser utiles para tomar algunos ejemplos de codigo :
+
 - [Órdenes en Kotlin](https://github.com/nmarsollier/ecommerce_order_kotlin)
-
-Existen otras versiones desarrolladas en otros lenguajes que definen los mismos microservicios con diversos paradigmas y patrones de desarrollo, aunque pueden estar desmantenidos, podrían ser funcionales :
-
 - [Seguridad en Node](https://github.com/nmarsollier/ecommerce_auth_node)
 - [Imágenes en Node](https://github.com/nmarsollier/ecommerce_image_node)
 - [Catálogo en Java](https://github.com/nmarsollier/ecommerce_catalog_java)
 - [Órdenes en Java](https://github.com/nmarsollier/ecommerce_order_java)
+- [Órdenes en Kotlin](https://github.com/nmarsollier/ecommerce_order_kotlin)
 - [Catálogo en Python](https://github.com/nmarsollier/ecommerce_catalog_python)
 
 ## Cliente Demo
