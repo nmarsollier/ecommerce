@@ -30,13 +30,11 @@ Existe un proyecto visual en React probar como interactúan los diferentes micro
 
 # Guía de Instalación General
 
-## Entorno de Desarrollo
+## Integraciones
 
-El proyecto se desarrolló con [Visual Studio Code](https://code.visualstudio.com/download)
+### Docker
 
-Y para los proyectos kotlin, [IntelliJ](https://www.jetbrains.com/idea/)
-
-## Dependencias globales
+Conviene instalar docker para instalar todo sin mayores inconvenientes 
 
 Podemos usar las version docker, o instalarlos localmente.
 
@@ -54,9 +52,7 @@ La comunicación asíncrona entre microservicios se lleva a cabo a través de la
 
 Tiene un cliente WEB [http://localhost:15672/](http://localhost:15672/)
 
-# Docker
-
-Para ejecutar los diversos microservicios es conveniente usar docker, ya que simplifica todo.
+# Configuracion de contenedores Docker
 
 ## RabbitMQ
 
@@ -186,21 +182,7 @@ Linux
 docker run --add-host host.docker.internal:172.17.0.1 -d --name prod-api-cli -p 4200:80 -it  prod-api-cli
  ```
 
-### Notas sobre Linux
-
-En linux es necesario agregar una referencia al host host.docker.internal.
-La ip default es 172.17.0.1, y corresponde a la ip de la interfaz de red docker0.
-Si no funciona asi como está el archivo, hay que ver que ip tiene esa interfaz y cambiar el archivo.
-
-## Configuraciones de desarrollo con docker
-
-Cuando queramos desarrollar en forma mas especifica con un proyecto en particular, necesitaremos crear las imágenes fuera del contexto de docker-compose, y bajar ciertos contenedores de compose para levantar otros contenedores docker alternativos.
-
-O simplemente, bajar el contenedor del proyecto y ejecutar en el host local, esta configuración esta preparada para que lo podamos hacer.
-
-Cada proyecto proporciona información sobre como hacer build y run de los contenedores específicos de desarrollo.
-
-## Mas ejemplos de codigo
+## Codigo desmantenido
 
 Existen otras versiones desarrolladas en otros lenguajes que definen los mismos microservicios con diversos paradigmas y patrones de desarrollo, aunque estan desmantenidos, podrían ser utiles para tomar algunos ejemplos de codigo :
 
