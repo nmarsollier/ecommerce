@@ -14,7 +14,7 @@ Estos documento describen la configuración y uso de los repositorios que vamos 
 
 - [Seguridad en Go](https://github.com/nmarsollier/authgo)
 - [Imágenes en Go](https://github.com/nmarsollier/imagego)
-- [Carrito en Node](https://github.com/nmarsollier/ecommerce_cart_node)
+- [Carrito en Go](https://github.com/nmarsollier/cartgo)
 - [Catálogo en Kotlin](https://github.com/nmarsollier/ecommerce_catalog_kotlin)
 - [Órdenes en Go](https://github.com/nmarsollier/ordersgo)
 
@@ -150,22 +150,22 @@ Linux
 docker run --add-host host.docker.internal:172.17.0.1 -d --name prod-catalog-kotlin -p 3002:3002 -it  prod-catalog-kotlin
  ```
 
-## Carrito - Node
+## Carrito - Go
 
-[http://localhost:3003/](http://localhost:3003/)
+[http://localhost:3003/docs/index.html](http://localhost:3003/docs/index.html)
 
 ```bash
-docker build --no-cache -t prod-cart-node https://raw.githubusercontent.com/nmarsollier/ecommerce_cart_node/master/Dockerfile.prod
+docker build --no-cache -t prod-cartgo-go https://raw.githubusercontent.com/nmarsollier/cartgo/master/Dockerfile.prod
  ```
 
 Mac || Windows
 ```bash
-docker run -d --name prod-cart-node -e 3003:3003 -it prod-cart-node
+docker run -it -d --name prod-cartgo-go -p 3003:3003 prod-cartgo-go
  ```
 
 Linux
 ```bash
-docker run --add-host host.docker.internal:172.17.0.1 -d --name prod-cart-node -p 3003:3003 -it  prod-cart-node
+docker run --add-host host.docker.internal:172.17.0.1 -it -d --name prod-cartgo-go -p 3003:3003 prod-cartgo-go
  ```
 
 ## Cliente - React
@@ -211,3 +211,4 @@ Existen otras versiones desarrolladas en otros lenguajes que definen los mismos 
 - [Órdenes en Java](https://github.com/nmarsollier/ecommerce_order_java)
 - [Órdenes en Kotlin](https://github.com/nmarsollier/ecommerce_order_kotlin)
 - [Catálogo en Python](https://github.com/nmarsollier/ecommerce_catalog_python)
+- [Carrito en Node](https://github.com/nmarsollier/ecommerce_cart_node)
