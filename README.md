@@ -15,7 +15,7 @@ Estos documento describen la configuración y uso de los repositorios que vamos 
 - [Seguridad en Go](https://github.com/nmarsollier/authgo)
 - [Imágenes en Go](https://github.com/nmarsollier/imagego)
 - [Carrito en Go](https://github.com/nmarsollier/cartgo)
-- [Catálogo en Kotlin](https://github.com/nmarsollier/ecommerce_catalog_kotlin)
+- [Catálogo en Go](https://github.com/nmarsollier/ecommerce_cataloggo)
 - [Órdenes en Go](https://github.com/nmarsollier/ordersgo)
 
 ### Cliente Demo
@@ -130,20 +130,20 @@ docker run --add-host host.docker.internal:172.17.0.1 -it -d --name prod-orders-
 
 ## Catálogo - Kotlin
 
-[http://localhost:3002/](http://localhost:3002/)
+[http://localhost:3002/docs/index.html](http://localhost:3002/docs/index.html)
 
 ```bash
-docker build --no-cache -t prod-catalog-kotlin https://raw.githubusercontent.com/nmarsollier/ecommerce_catalog_kotlin/main/Dockerfile.prod
+docker build --no-cache -t prod-cataloggo-go https://raw.githubusercontent.com/nmarsollier/cataloggo/master/Dockerfile.prod
  ```
 
 Mac || Windows
 ```bash
-docker run -d --name prod-catalog-kotlin -p 3002:3002 -it  prod-catalog-kotlin
+docker run -it -d --name prod-cataloggo-go -p 3002:3002 prod-cataloggo-go
  ```
 
 Linux
 ```bash
-docker run --add-host host.docker.internal:172.17.0.1 -d --name prod-catalog-kotlin -p 3002:3002 -it  prod-catalog-kotlin
+docker run --add-host host.docker.internal:172.17.0.1 -it -d --name prod-cataloggo-go -p 3002:3002 prod-cataloggo-go
  ```
 
 ## Carrito - Go
@@ -186,11 +186,12 @@ docker run --add-host host.docker.internal:172.17.0.1 -d --name prod-api-cli -p 
 
 Existen otras versiones desarrolladas en otros lenguajes que definen los mismos microservicios con diversos paradigmas y patrones de desarrollo, aunque estan desmantenidos, podrían ser utiles para tomar algunos ejemplos de codigo :
 
-- [Órdenes en Kotlin](https://github.com/nmarsollier/ecommerce_order_kotlin)
-- [Seguridad en Node](https://github.com/nmarsollier/ecommerce_auth_node)
-- [Imágenes en Node](https://github.com/nmarsollier/ecommerce_image_node)
+- [Carrito en Node](https://github.com/nmarsollier/ecommerce_cart_node)
 - [Catálogo en Java](https://github.com/nmarsollier/ecommerce_catalog_java)
+- [Catálogo en Kotlin](https://github.com/nmarsollier/ecommerce_catalog_kotlin)
+- [Catálogo en Python](https://github.com/nmarsollier/ecommerce_catalog_python)
+- [Imágenes en Node](https://github.com/nmarsollier/ecommerce_image_node)
 - [Órdenes en Java](https://github.com/nmarsollier/ecommerce_order_java)
 - [Órdenes en Kotlin](https://github.com/nmarsollier/ecommerce_order_kotlin)
-- [Catálogo en Python](https://github.com/nmarsollier/ecommerce_catalog_python)
-- [Carrito en Node](https://github.com/nmarsollier/ecommerce_cart_node)
+- [Órdenes en Kotlin](https://github.com/nmarsollier/ecommerce_order_kotlin)
+- [Seguridad en Node](https://github.com/nmarsollier/ecommerce_auth_node)
