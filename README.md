@@ -128,7 +128,7 @@ Linux
 docker run --add-host host.docker.internal:172.17.0.1 -it -d --name prod-orders-go -p 3004:3004 prod-orders-go
  ```
 
-## Catálogo - Kotlin
+## Catálogo - Go
 
 [http://localhost:3002/docs/index.html](http://localhost:3002/docs/index.html)
 
