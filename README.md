@@ -15,7 +15,7 @@ Estos documento describen la configuración y uso de los repositorios que vamos 
 - [Seguridad en Go](https://github.com/nmarsollier/authgo)
 - [Imágenes en Go](https://github.com/nmarsollier/imagego)
 - [Carrito en Go](https://github.com/nmarsollier/cartgo)
-- [Catálogo en Go](https://github.com/nmarsollier/ecommerce_cataloggo)
+- [Catálogo en Go](https://github.com/nmarsollier/cataloggo)
 - [Órdenes en Go](https://github.com/nmarsollier/ordersgo)
 
 ### Cliente Demo
