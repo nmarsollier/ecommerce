@@ -195,3 +195,22 @@ Existen otras versiones desarrolladas en otros lenguajes que definen los mismos 
 - [Órdenes en Kotlin](https://github.com/nmarsollier/ecommerce_order_kotlin)
 - [Órdenes en Kotlin](https://github.com/nmarsollier/ecommerce_order_kotlin)
 - [Seguridad en Node](https://github.com/nmarsollier/ecommerce_auth_node)
+
+## Happy Docker
+
+Un script que con mucha suerte nos deja todo dockerizado en linux
+
+```
+docker build --no-cache -t prod-auth-go https://raw.githubusercontent.com/nmarsollier/authgo/master/Dockerfile.prod
+docker run --add-host host.docker.internal:172.17.0.1 -it -d --name prod-auth-go -p 3000:3000 prod-auth-go
+docker build --no-cache -t prod-image-go https://raw.githubusercontent.com/nmarsollier/imagego/master/Dockerfile.prod
+docker run --add-host host.docker.internal:172.17.0.1 -it -d --name prod-image-go -p 3001:3001 prod-image-go
+docker build --no-cache -t prod-orders-go https://raw.githubusercontent.com/nmarsollier/ordersgo/master/Dockerfile.prod
+docker run --add-host host.docker.internal:172.17.0.1 -it -d --name prod-orders-go -p 3004:3004 prod-orders-go
+docker build --no-cache -t prod-cataloggo-go https://raw.githubusercontent.com/nmarsollier/cataloggo/master/Dockerfile.prod
+docker run --add-host host.docker.internal:172.17.0.1 -it -d --name prod-cataloggo-go -p 3002:3002 prod-cataloggo-go
+docker build --no-cache -t prod-cartgo-go https://raw.githubusercontent.com/nmarsollier/cartgo/master/Dockerfile.prod
+docker run --add-host host.docker.internal:172.17.0.1 -it -d --name prod-cartgo-go -p 3003:3003 prod-cartgo-go
+docker build --no-cache -t prod-api-cli https://raw.githubusercontent.com/nmarsollier/ecommerce_api_client_react/master/Dockerfile.prod
+docker run --add-host host.docker.internal:172.17.0.1 -d --name prod-api-cli -p 4200:80 -it  prod-api-cli
+```
