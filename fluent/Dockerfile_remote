@@ -7,6 +7,8 @@ RUN gem install fluent-plugin-mongo
 
 USER fluent
 
+RUN apt-get install -y curl
+
 RUN curl -o /fluentd/etc/fluent.conf https://raw.githubusercontent.com/nmarsollier/ecommerce/master/fluent/fluent.conf
 
 RUN mkdir -p /fluentd/log
