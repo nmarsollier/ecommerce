@@ -38,33 +38,33 @@ services:
         depends_on:
             - "rabbitmq"
             - "redis"
-    prod-catalog-java:
-        container_name: prod-catalog-java
+    prod-cataloggo-go:
+        container_name: prod-cataloggo-go
         build:
-            context: https://raw.githubusercontent.com/nmarsollier/ecommerce_catalog_java/master/Dockerfile.prod
+            context: https://raw.githubusercontent.com/nmarsollier/cataloggo/master/Dockerfile.prod
         ports:
             - '3002:3002'
-        image: prod-catalog-java
+        image: prod-cataloggo-go
         depends_on:
             - "rabbitmq"
             - "mongo"
-    prod-cart-node:
-        container_name: prod-cart-node
+    prod-cartgo-go:
+        container_name: prod-cartgo-go
         build:
-            context: https://raw.githubusercontent.com/nmarsollier/ecommerce_cart_node/master/Dockerfile.prod
+            context: https://raw.githubusercontent.com/nmarsollier/cartgo/master/Dockerfile.prod
         environment:
             - '3003:3003'
-        image: prod-cart-node
+        image: prod-cartgo-go
         depends_on:
             - "rabbitmq"
             - "mongo"
-    prod-order-java:
-        container_name: prod-order-java
+    prod-orders-go:
+        container_name: prod-orders-go
         build:
-            context: https://raw.githubusercontent.com/nmarsollier/ecommerce_order_java/master/Dockerfile.prod
+            context: https://raw.githubusercontent.com/nmarsollier/ordersgo/master/Dockerfile.prod
         ports:
             - '3004:3004'
-        image: prod-order-java
+        image: prod-orders-go
         depends_on:
             - "rabbitmq"
             - "mongo"
