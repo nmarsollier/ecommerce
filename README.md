@@ -52,6 +52,10 @@ La comunicación asíncrona entre microservicios se lleva a cabo a través de la
 
 Tiene un cliente WEB [http://localhost:15672/](http://localhost:15672/)
 
+### Fluent
+
+Es opcional, pero si se configura colecta los logs de los microservicios y los mete en Mongo en una base llamada fluentd.
+
 # Configuracion de contenedores Docker
 
 ## RabbitMQ
@@ -72,6 +76,13 @@ docker run -d --name ec-mongo -p 27017:27017 mongo:4.0.18-xenial
 
 ```bash
 docker run -d --name ec-redis -p 6379:6379 redis:5.0.9-buster
+```
+
+## Fluent
+
+```bash
+docker build --no-cache -t fluent https://raw.githubusercontent.com/nmarsollier/ecommerce/master/fluent/Dockerfile
+docker run --add-host host.docker.internal:172.17.0.1 -it -d --name fluent -p 24224:24224 fluent
 ```
 
 ## Auth - Go
