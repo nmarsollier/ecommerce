@@ -121,7 +121,7 @@ ___Order___
 - PAYMENT_DEFINED es un estado que se obtiene cuando el pago se definió.
 - Quedan muchos estados mas por resolver, e interacciones con otros microservicios, como caso de estudio.
 
-___Order_Status___
+___Status___
 
 - Es un estado global de las ordenes.
 - Indica por cada orden cual es el estado actual en que se encuentra
@@ -134,7 +134,7 @@ ___Casos de estudio___
 
 - Muchas proyecciones pueden realizarse a partir de los eventos. Muchas proyecciones podrían almacenarse en diferentes bases de datos.
 
-## Diagrama de comunicación asíncrona con RabbitMQ
+## Algunos diagramas de comunicación asíncrona con RabbitMQ
 
 ### __"logout"__ de Auth
 
@@ -151,7 +151,7 @@ Cuando un token se desactiva el logout envía el token, para que los otros micro
  }
 '/>
 
-### __"article-valid"__ de Catalog
+### __"article_exist"__ de Catalog
 
 Es un evento que escucha Catalog, por exchange "direct", el evento lo puede enviar cualquier microservicio y catalog responde con el articulo y un flag si es valido o no. La comunicación es asíncrona, por lo tanto el mensaje debe indicar a que exchange y queue se debe responder.
 
@@ -159,33 +159,33 @@ Por el momento solo Cart envía este tipo de mensajes, cada vez que se agrega un
 
 <img src='https://g.gravizo.com/svg?
  digraph G {
-   cart ->catalog  [label="article-valid"];
+   cart ->catalog  [label="article_exist"];
    catalog -> cart;
    }
 '/>
 
-### __"article-data"__ de Catalog
-
-Es un evento que envía Catalog, en respuesta al mensaje recibido por exchange = "sell_flow"  y "topic" = "order_placed". , básicamente cuando Order realiza un place de order, envía ese evento. Catalog responde con el articulo y la información del precio y cantidad actual en stock. La comunicación es asíncrona, por lo tanto el mensaje original debe indicar a que exchange y queue se debe responder.
 
 <img src='https://g.gravizo.com/svg?
  digraph G {
-   order -> sell_flow  [label="order-placed"];
-   sell_flow -> catalog  [label="order-placed"];
-   catalog -> order [label="article-data"];
+   order ->catalog  [label="article_exist"];
+   catalog -> order;
    }
 '/>
 
-Alternativamente "article-data" puede recibirse por "direct" exchange, esto puede ser util en caso que el topic no se haya recibido y se requiera una confirmación puntual.
+### __"place_order"__ de Catalog
+
+Es un evento que escucha Catalog, por exchange "direct", el evento lo puede enviar cualquier microservicio y catalog responde con el articulo y un flag si es valido o no. La comunicación es asíncrona, por lo tanto el mensaje debe indicar a que exchange y queue se debe responder.
+
+Por el momento solo Cart envía este tipo de mensajes, cada vez que se agrega un artículo al cart se valida si existe o no.
 
 <img src='https://g.gravizo.com/svg?
  digraph G {
-   order -> catalog [label="article-data"];
-   catalog -> order  ;
+   cart ->orders  [label="place_order"];
+   cart -> order;
    }
 '/>
 
-### __"order-placed"__ de Order
+### __"order_placed"__ de Order
 
 Cuando una orden se recibe por Order Service, order envía "order-placed" al exchange = "sell_flow"  y "topic" = "order_placed".
 En este caso vemos en acción el patron ___inversion de control___, por lo tanto los microservicios que deban hacer algo con este evento deben reaccionar.
@@ -195,15 +195,15 @@ Este ejemplo es clave para comprender el espíritu de los eventos en una arquite
 
 <img src='https://g.gravizo.com/svg?
  digraph G {
-   order -> sell_flow  [label="order-placed"];
-   sell_flow -> catalog  [label="order-placed"];
-   sell_flow -> cart  [label="order-placed"];
-   }
+   auth -> fanout [label=order_placed];
+   fanout -> cart;
+   fanout -> catalog;
+ }
 '/>
 
 ## Casos de Estudio
 
-Lo siguientes microservicios complementan el sistema:
+Lo siguientes microservicios complementarían el sistema:
 
 ### Stock
 
