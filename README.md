@@ -64,7 +64,7 @@ Fluent colecta y envia los logs de los microservicios a MongoDB, es opcional.
 
 ```bash
 # Rabbit - Mongo - Redis
-docker run -d --name ec-rabbitmq -p 15672:15672 -p 5672:5672 rabbitmq:3.8.3-management
+docker run -d --name ec-rabbitmq -p 15672:15672 -p 5672:5672 rabbitmq:3.13.6-management
 docker run -d --name ec-mongo -p 27017:27017 mongo:4.0.18-xenial
 docker run -d --name ec-redis -p 6379:6379 redis:5.0.9-buster
 # Fluent
@@ -85,7 +85,7 @@ docker run --add-host host.docker.internal:172.17.0.1 -it -d --name prod-catalog
 # Cart
 docker build --no-cache -t prod-cartgo-go https://raw.githubusercontent.com/nmarsollier/cartgo/master/Dockerfile.prod
 docker run --add-host host.docker.internal:172.17.0.1 -it -d --name prod-cartgo-go -p 3003:3003 prod-cartgo-go
-# Client React
+# Cliente React
 docker build --no-cache -t prod-api-cli https://raw.githubusercontent.com/nmarsollier/ecommerce_api_client_react/master/Dockerfile.prod
 docker run --add-host host.docker.internal:172.17.0.1 -d --name prod-api-cli -p 4200:80 -it  prod-api-cli
 ```
@@ -94,7 +94,7 @@ docker run --add-host host.docker.internal:172.17.0.1 -d --name prod-api-cli -p 
 
 ```bash
 # Rabbit - Mongo - Redis
-docker run -d --name ec-rabbitmq -p 15672:15672 -p 5672:5672 rabbitmq:3.8.3-management
+docker run -d --name ec-rabbitmq -p 15672:15672 -p 5672:5672 rabbitmq:3.13.6-management
 docker run -d --name ec-mongo -p 27017:27017 mongo:4.0.18-xenial
 docker run -d --name ec-redis -p 6379:6379 redis:5.0.9-buster
 # Fluent
