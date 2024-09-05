@@ -156,13 +156,13 @@ Es un evento que escucha Catalog, por exchange "direct", el evento lo puede envi
 
 Por el momento solo Cart envía este tipo de mensajes, cada vez que se agrega un artículo al cart se valida si existe o no.
 
-[https://g.gravizo.com/svg?
+![https://g.gravizo.com/svg?
  digraph G {
    cart ->catalog  [label="article_exist"];
    catalog -> cart;
    }](https://g.gravizo.com/svg?%20digraph%20G%20{%20cart%20-%3Ecatalog%20%20[label=%22article_exist%22];%20catalog%20-%3E%20cart;%20})
 
-[https://g.gravizo.com/svg?
+![https://g.gravizo.com/svg?
  digraph G {
    order ->catalog  [label="article_exist"];
    catalog -> order;
@@ -174,7 +174,7 @@ Es un evento que escucha Catalog, por exchange "direct", el evento lo puede envi
 
 Por el momento solo Cart envía este tipo de mensajes, cada vez que se agrega un artículo al cart se valida si existe o no.
 
-[https://g.gravizo.com/svg?
+![https://g.gravizo.com/svg?
  digraph G {
    cart ->orders  [label="place_order"];
    cart -> order;
@@ -188,7 +188,7 @@ Puntualmente Cart y Catalog son los que reaccionan a este evento.
 
 Este ejemplo es clave para comprender el espíritu de los eventos en una arquitectura de microservicios.
 
-[https://g.gravizo.com/svg?
+![https://g.gravizo.com/svg?
  digraph G {
    auth -> fanout [label=order_placed];
    fanout -> cart;
