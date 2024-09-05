@@ -141,15 +141,14 @@ ___Casos de estudio___
 El logout es un broadcast enviado por Auth hacia todos los clientes conectados a rabbit.
 Cuando un token se desactiva el logout envía el token, para que los otros microservicios lo quiten de su cache.
 
-<img src='https://g.gravizo.com/svg?
+![https://g.gravizo.com/svg?
  digraph G {
    auth -> fanout [label=Logout];
    fanout ->image ;
    fanout -> cart;
    fanout -> catalog;
    fanout-> "...";
- }
-'/>
+ }](https://g.gravizo.com/svg?%20digraph%20G%20{%20auth%20-%3E%20fanout%20[label=Logout];%20fanout%20-%3Eimage%20;%20fanout%20-%3E%20cart;%20fanout%20-%3E%20catalog;%20fanout-%3E%20%22...%22;%20})
 
 ### __"article_exist"__ de Catalog
 
