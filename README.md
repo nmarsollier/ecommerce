@@ -36,7 +36,7 @@ Existe una UI en React probar como interactúan los diferentes microservicios.
 
 ### Docker
 
-Conviene instalar docker para instalar todo sin mayores inconvenientes 
+Conviene instalar docker para instalar todo sin mayores inconvenientes
 
 Podemos usar las version docker, o instalarlos localmente.
 
@@ -72,7 +72,7 @@ docker build --no-cache -t fluent https://raw.githubusercontent.com/nmarsollier/
 docker run --add-host host.docker.internal:172.17.0.1 -it -d --name fluent -p 24224:24224 fluent
 # Auth
 docker build --no-cache -t prod-auth-go https://raw.githubusercontent.com/nmarsollier/authgo/master/Dockerfile.prod
-docker run --add-host host.docker.internal:172.17.0.1 -it -d --name prod-auth-go -p 3000:3000 prod-auth-go
+docker run --add-host host.docker.internal:172.17.0.1 -it -d --name prod-auth-go -p 3000:3000 -p 4000:4000  prod-auth-go
 # Image
 docker build --no-cache -t prod-image-go https://raw.githubusercontent.com/nmarsollier/imagego/master/Dockerfile.prod
 docker run --add-host host.docker.internal:172.17.0.1 -it -d --name prod-image-go -p 3001:3001 prod-image-go
@@ -84,7 +84,7 @@ docker build --no-cache -t prod-cataloggo-go https://raw.githubusercontent.com/n
 docker run --add-host host.docker.internal:172.17.0.1 -it -d --name prod-cataloggo-go -p 3002:3002 prod-cataloggo-go
 # Cart
 docker build --no-cache -t prod-cartgo-go https://raw.githubusercontent.com/nmarsollier/cartgo/master/Dockerfile.prod
-docker run --add-host host.docker.internal:172.17.0.1 -it -d --name prod-cartgo-go -p 3003:3003 prod-cartgo-go
+docker run --add-host host.docker.internal:172.17.0.1 -it -d --name prod-cartgo-go -p 3003:3003 -p 4003:4003 prod-cartgo-go
 # Cliente React
 docker build --no-cache -t prod-api-cli https://raw.githubusercontent.com/nmarsollier/ecommerce_api_client_react/master/Dockerfile.prod
 docker run --add-host host.docker.internal:172.17.0.1 -d --name prod-api-cli -p 4200:80 -it  prod-api-cli
@@ -102,7 +102,7 @@ docker build --no-cache -t fluent https://raw.githubusercontent.com/nmarsollier/
 docker run -it -d --name fluent -p 24224:24224 fluent
 # Auth
 docker build --no-cache -t prod-auth-go https://raw.githubusercontent.com/nmarsollier/authgo/master/Dockerfile.prod
-docker run -it -d --name prod-auth-go -p 3000:3000 prod-auth-go
+docker run -it -d --name prod-auth-go -p 3000:3000 -p 4000:4000 prod-auth-go
 # Image
 docker build --no-cache -t prod-image-go https://raw.githubusercontent.com/nmarsollier/imagego/master/Dockerfile.prod
 docker run -it -d --name prod-image-go -p 3001:3001 prod-image-go
@@ -114,11 +114,11 @@ docker build --no-cache -t prod-cataloggo-go https://raw.githubusercontent.com/n
 docker run -it -d --name prod-cataloggo-go -p 3002:3002 prod-cataloggo-go
 # Cart
 docker build --no-cache -t prod-cartgo-go https://raw.githubusercontent.com/nmarsollier/cartgo/master/Dockerfile.prod
-docker run -it -d --name prod-cartgo-go -p 3003:3003 prod-cartgo-go
+docker run -it -d --name prod-cartgo-go -p 3003:3003 -p 4003:4003 prod-cartgo-go
 # Cliente React
 docker build --no-cache -t prod-api-cli https://raw.githubusercontent.com/nmarsollier/ecommerce_api_client_react/master/Dockerfile.prod
 docker run -d --name prod-api-cli -p 4200:80 -it prod-api-cli
- ```
+```
 
 ## Codigo desmantenido
 
