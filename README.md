@@ -1,8 +1,6 @@
+<!-- cSpell:language es -->
+
 # Arquitectura de Microservicios
-
-## Si querés saber mas sobre mí
-
-[Nestor Marsollier](https://github.com/nmarsollier/profile)
 
 ## Sobre este proyecto
 
