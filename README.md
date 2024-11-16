@@ -75,13 +75,13 @@ docker build --no-cache -t prod-auth-go https://raw.githubusercontent.com/nmarso
 docker run --add-host host.docker.internal:172.17.0.1 -it -d --name prod-auth-go -p 3000:3000 -p 4000:4000  prod-auth-go
 # Image
 docker build --no-cache -t prod-image-go https://raw.githubusercontent.com/nmarsollier/imagego/master/Dockerfile.prod
-docker run --add-host host.docker.internal:172.17.0.1 -it -d --name prod-image-go -p 3001:3001 prod-image-go
+docker run --add-host host.docker.internal:172.17.0.1 -it -d --name prod-image-go -p 3001:3001 -p 4001:4001 prod-image-go
 # Orders
 docker build --no-cache -t prod-orders-go https://raw.githubusercontent.com/nmarsollier/ordersgo/master/Dockerfile.prod
-docker run --add-host host.docker.internal:172.17.0.1 -it -d --name prod-orders-go -p 3004:3004 prod-orders-go
+docker run --add-host host.docker.internal:172.17.0.1 -it -d --name prod-orders-go -p 3004:3004 -p 4004:4004 prod-orders-go
 # Catalog
 docker build --no-cache -t prod-cataloggo-go https://raw.githubusercontent.com/nmarsollier/cataloggo/master/Dockerfile.prod
-docker run --add-host host.docker.internal:172.17.0.1 -it -d --name prod-cataloggo-go -p 3002:3002 prod-cataloggo-go
+docker run --add-host host.docker.internal:172.17.0.1 -it -d --name prod-cataloggo-go -p 3002:3002 -p 4002:4002 prod-cataloggo-go
 # Cart
 docker build --no-cache -t prod-cartgo-go https://raw.githubusercontent.com/nmarsollier/cartgo/master/Dockerfile.prod
 docker run --add-host host.docker.internal:172.17.0.1 -it -d --name prod-cartgo-go -p 3003:3003 -p 4003:4003 prod-cartgo-go
@@ -105,13 +105,13 @@ docker build --no-cache -t prod-auth-go https://raw.githubusercontent.com/nmarso
 docker run -it -d --name prod-auth-go -p 3000:3000 -p 4000:4000 prod-auth-go
 # Image
 docker build --no-cache -t prod-image-go https://raw.githubusercontent.com/nmarsollier/imagego/master/Dockerfile.prod
-docker run -it -d --name prod-image-go -p 3001:3001 prod-image-go
+docker run -it -d --name prod-image-go -p 3001:3001 -p 4001:4001 prod-image-go
 # Orders
 docker build --no-cache -t prod-orders-go https://raw.githubusercontent.com/nmarsollier/ordersgo/master/Dockerfile.prod
-docker run -it -d --name prod-orders-go -p 3004:3004 prod-orders-go
+docker run -it -d --name prod-orders-go -p 3004:3004 -p 4004:4004 prod-orders-go
 # Catalog
 docker build --no-cache -t prod-cataloggo-go https://raw.githubusercontent.com/nmarsollier/cataloggo/master/Dockerfile.prod
-docker run -it -d --name prod-cataloggo-go -p 3002:3002 prod-cataloggo-go
+docker run -it -d --name prod-cataloggo-go -p 3002:3002 -p 4002:4002 prod-cataloggo-go
 # Cart
 docker build --no-cache -t prod-cartgo-go https://raw.githubusercontent.com/nmarsollier/cartgo/master/Dockerfile.prod
 docker run -it -d --name prod-cartgo-go -p 3003:3003 -p 4003:4003 prod-cartgo-go
