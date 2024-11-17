@@ -8,9 +8,9 @@ Este es un proyecto académico para explicar arquitectura de microservicios, imp
 
 Se utilizan varios patrones de arquitectura y cada microservicios posee tecnologías y bases de datos diferentes.
 
-Estos son los microservicios que utilizamos en la catedra :
+Estos son los microservicios que utilizamos en la cátedra :
 
-### Microservicios
+## Microservicios
 
 - [Seguridad en Go](https://github.com/nmarsollier/authgo)
 - [Imágenes en Go](https://github.com/nmarsollier/imagego)
@@ -18,17 +18,23 @@ Estos son los microservicios que utilizamos en la catedra :
 - [Catálogo en Go](https://github.com/nmarsollier/cataloggo)
 - [Órdenes en Go](https://github.com/nmarsollier/ordersgo)
 
-### Cliente Demo
+## Cliente Demo
 
 Existe una UI en React probar como interactúan los diferentes microservicios.
 
 - [Cliente Demo](https://github.com/nmarsollier/ecommerce_api_client_react)
 
+## GraphQL Federation
+
+Existe una consola para ser utilizado el ciente GraphQL Federation.
+
+- [GraphQL Server](https://github.com/nmarsollier/ecommerce_gql)
+
 ## Mas información de arquitectura
 
 [Arquitectura](ARCHITECTURE.md)
 
-# Instalación Basica
+# Instalación Básica
 
 ## Requisitos
 
@@ -54,9 +60,9 @@ Tiene un cliente WEB [http://localhost:15672/](http://localhost:15672/)
 
 ### Fluent
 
-Fluent colecta y envia los logs de los microservicios a MongoDB, es opcional.
+Fluent colecta y envía los logs de los microservicios a MongoDB, es opcional.
 
-# Configuracion de contenedores Docker
+# Configuración de contenedores Docker
 
 ## Linux
 
@@ -86,6 +92,23 @@ docker run --add-host host.docker.internal:172.17.0.1 -it -d --name prod-cartgo-
 # Cliente React
 docker build --no-cache -t prod-api-cli https://raw.githubusercontent.com/nmarsollier/ecommerce_api_client_react/master/Dockerfile.prod
 docker run --add-host host.docker.internal:172.17.0.1 -d --name prod-api-cli -p 4200:80 -it  prod-api-cli
+# Cliente GQL Federation
+docker build --no-cache -t prod-gql_gateway https://raw.githubusercontent.com/nmarsollier/ecommerce_gql/refs/heads/main/Dockerfile.prod
+docker run --add-host host.docker.internal:172.17.0.1 -d --name prod-gql_gateway -p 4080:4080 -it  prod-gql_gateway
+```
+
+### El contenedor
+
+Mac | Windows
+
+```bash
+docker run -it --name gql_gateway -p 4080:4080 gql_gateway
+```
+
+Linux
+
+```bash
+docker run --add-host host.docker.internal:172.17.0.1 -it -d --name gql_gateway -p 4080:4080  gql_gateway
 ```
 
 ## Windows, Mac
@@ -116,11 +139,14 @@ docker run -it -d --name prod-cartgo-go -p 3003:3003 -p 4003:4003 prod-cartgo-go
 # Cliente React
 docker build --no-cache -t prod-api-cli https://raw.githubusercontent.com/nmarsollier/ecommerce_api_client_react/master/Dockerfile.prod
 docker run -d --name prod-api-cli -p 4200:80 -it prod-api-cli
+# Cliente GQL Federation
+docker build --no-cache -t prod-gql_gateway https://raw.githubusercontent.com/nmarsollier/ecommerce_gql/refs/heads/main/Dockerfile.prod
+docker run -d --name prod-gql_gateway -p 4080:4080 -it  prod-gql_gateway
 ```
 
-## Codigo desmantenido
+## Código desmantenido
 
-Existen otras versiones desarrolladas en otros lenguajes que definen los mismos microservicios con diversos paradigmas y patrones de desarrollo, aunque estan desmantenidos, podrían ser utiles para tomar algunos ejemplos de codigo :
+Existen otras versiones desarrolladas en otros lenguajes que definen los mismos microservicios con diversos paradigmas y patrones de desarrollo, aunque están desmantenidos, podrían ser útiles para tomar algunos ejemplos de código :
 
 - [Carrito en Node](https://github.com/nmarsollier/ecommerce_cart_node)
 - [Catálogo en Java](https://github.com/nmarsollier/ecommerce_catalog_java)

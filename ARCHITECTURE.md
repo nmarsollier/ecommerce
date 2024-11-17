@@ -1,10 +1,12 @@
+<!-- cSpell:language es -->
+
 # ecommerce
 
 ## Casos de Uso
 
 Es un ecommerce, o carrito de compras online.
 
-__El usuario__ :
+**El usuario** :
 
 - se registra.
 - se loguea en el sistema
@@ -19,7 +21,7 @@ __El usuario__ :
 
 El resto son casos de estudio
 
-Como __usuario administrador__:
+Como **usuario administrador**:
 
 - crea nuevos artículos
 - elimina artículos
@@ -35,7 +37,7 @@ Por lo tanto los microservicios necesitan un trabajo mas refinado de framework p
 
 Se compone de los siguientes microservicios :
 
-__Auth__
+**Auth**
 
 - Controla la seguridad del sistema.
 - Los usuarios se registran utilizando REST signup.
@@ -45,14 +47,14 @@ __Auth__
 - Los usuarios se loguean utilizando REST.
 - Utiliza JWT, tanto el signin como signup devuelven el token para utilizar el sistema.
 - JWT esta compuesto por
-- El token debe pasarse siempre a todos los microservicios a través del header "Authorization": "bearer __token__"
+- El token debe pasarse siempre a todos los microservicios a través del header "Authorization": "bearer **token**"
 - Los tokens nunca caducan, los usuarios puede utilizar el token todo el tiempo que quieran.
 - Los token se invalidan en el signout. Desde el servidor se podría invalidar los tokens a demanda.
 - Los demás microservicios utilizan REST /current para obtener los datos del usuario logueado, utilizando el token pasado en el header. (queda en estudio realizar un protocolo binario para este caso)
 - La autorización anterior es una consulta costosa, para evitar consultas repetitivas los microservicios deben almacenar los datos del token y usuario en un cache local.
 - Cuando se invalida un token, auth envía un broadcast con rabbit a todos los microservicios para que se invaliden los caches locales para ese token.
 
-__Image__
+**Image**
 
 - Image almacena imágenes en una base de datos redis.
 - Es un microservicio que se realiza por cuestiones técnicas
@@ -67,7 +69,7 @@ __Image__
 - Las imágenes nunca se borran de la db, solo se suben y se leen.
 - Utiliza rabbit para leer broadcasts de logout.
 
-__Catalog__
+**Catalog**
 
 - El catalogo es el encargado de mantener un listado de artículos.
 - Ademas de el listado de artículos mantiene el precio y el stock, dos cosas que no deben ser responsabilidad de este microservicio, pero simplifican los ejemplos en la cátedra.
@@ -81,7 +83,7 @@ __Catalog__
 - El catalogo se une a la cola de rabbit "topic" para "order_placed" de modo que cuando se hace un place de una orden automáticamente procede a validar los artículos e informar a orders que el los artículos son validos o no.
 - Ademas, utiliza rabbit para leer broadcasts de logout.
 
-__Cart__
+**Cart**
 
 - Es el carrito del sistema
 - Solo hay un carrito vigente en todo momento para un usuario logueado.
@@ -97,12 +99,12 @@ __Cart__
 - Queda pendiente que se reenvíen los "place_order" en caso que el "order_placed" no se haya recibido.
 - Ademas, utiliza rabbit para leer broadcasts de logout.
 
-__Orders__
+**Orders**
 
 - Es el encargado de procesar la orden.
 - Se maneja con CQRS. Esto quiere decir que se guardan solo eventos, no existe una entidad que sea el estado actual de la orden. Dicho estado se recupera desde los eventos.
 - Desde el cart se recibe un "place_order", si todo esta bien se guarda el evento y se envía un mensaje a rabbit con el topic "order_placed".
-- El mensaje topic "order_placed" lo escuchan Cart y Catalog. Catalog va a responder con el estado de los  artículos "article-data".
+- El mensaje topic "order_placed" lo escuchan Cart y Catalog. Catalog va a responder con el estado de los artículos "article-data".
 - Orders escucha "article-data" porque es una validación de artículos, que indica que los artículos de la orden son validos. Dicho evento se guarda.
 - Orders posee una interfaz rest que permite cargar la forma de pago con que se realizara la orden. El pago de la orden es algo que debería registrarse en Payments, pero para simplificar los ejemplos se decidió así.
 
@@ -110,7 +112,7 @@ Las proyecciones de Orders:
 
 En CQRS se manejan proyecciones para facilitar el acceso a datos
 
-___Order___
+**_Order_**
 
 - Se genera una orden, virtual, a partir de los eventos guardados.
 - A medida que se van generando eventos, se va completando la Orden con la información adecuada.
@@ -121,7 +123,7 @@ ___Order___
 - PAYMENT_DEFINED es un estado que se obtiene cuando el pago se definió.
 - Quedan muchos estados mas por resolver, e interacciones con otros microservicios, como caso de estudio.
 
-___Status___
+**_Status_**
 
 - Es un estado global de las ordenes.
 - Indica por cada orden cual es el estado actual en que se encuentra
@@ -130,13 +132,13 @@ ___Status___
 - Los procesos batch de actualizaciones podrían encolarse en rabbit para distribuir la carga entre varios servidores.
 - A su vez cada estado debe desencadenar los controles necesarios del seguimiento de la orden. Dado que es factible que queden estados inconsistentes, los procesos batch deben encargarse de resolver estos inconvenientes de la cola de rabbit.
 
-___Casos de estudio___
+**_Casos de estudio_**
 
 - Muchas proyecciones pueden realizarse a partir de los eventos. Muchas proyecciones podrían almacenarse en diferentes bases de datos.
 
 ## Algunos diagramas de comunicación asíncrona con RabbitMQ
 
-### __"logout"__ de Auth
+### **"logout"** de Auth
 
 El logout es un broadcast enviado por Auth hacia todos los clientes conectados a rabbit.
 Cuando un token se desactiva el logout envía el token, para que los otros microservicios lo quiten de su cache.
@@ -150,7 +152,7 @@ Cuando un token se desactiva el logout envía el token, para que los otros micro
    fanout-> "...";
  }](https://g.gravizo.com/svg?%20digraph%20G%20{%20auth%20-%3E%20fanout%20[label=Logout];%20fanout%20-%3Eimage%20;%20fanout%20-%3E%20cart;%20fanout%20-%3E%20catalog;%20fanout-%3E%20%22...%22;%20})
 
-### __"article_exist"__ de Catalog
+### **"article_exist"** de Catalog
 
 Es un evento que escucha Catalog, por exchange "direct", el evento lo puede enviar cualquier microservicio y catalog responde con el articulo y un flag si es valido o no. La comunicación es asíncrona, por lo tanto el mensaje debe indicar a que exchange y queue se debe responder.
 
@@ -168,7 +170,7 @@ Por el momento solo Cart envía este tipo de mensajes, cada vez que se agrega un
    catalog -> order;
    }](https://g.gravizo.com/svg?%20digraph%20G%20{%20order%20-%3Ecatalog%20%20[label=%22article_exist%22];%20catalog%20-%3E%20order;%20})
 
-### __"place_order"__ de Catalog
+### **"place_order"** de Catalog
 
 Es un evento que escucha Catalog, por exchange "direct", el evento lo puede enviar cualquier microservicio y catalog responde con el articulo y un flag si es valido o no. La comunicación es asíncrona, por lo tanto el mensaje debe indicar a que exchange y queue se debe responder.
 
@@ -180,10 +182,10 @@ Por el momento solo Cart envía este tipo de mensajes, cada vez que se agrega un
    cart -> order;
    }](https://g.gravizo.com/svg?%20digraph%20G%20{%20cart%20-%3Eorders%20%20[label=%22place_order%22];%20cart%20-%3E%20order;%20})
 
-### __"order_placed"__ de Order
+### **"order_placed"** de Order
 
-Cuando una orden se recibe por Order Service, order envía "order-placed" al exchange = "sell_flow"  y "topic" = "order_placed".
-En este caso vemos en acción el patron ___inversion de control___, por lo tanto los microservicios que deban hacer algo con este evento deben reaccionar.
+Cuando una orden se recibe por Order Service, order envía "order-placed" al exchange = "sell_flow" y "topic" = "order_placed".
+En este caso vemos en acción el patron **_inversion de control_**, por lo tanto los microservicios que deban hacer algo con este evento deben reaccionar.
 Puntualmente Cart y Catalog son los que reaccionan a este evento.
 
 Este ejemplo es clave para comprender el espíritu de los eventos en una arquitectura de microservicios.
@@ -293,4 +295,3 @@ Lo siguientes microservicios complementarían el sistema:
 ### Audit
 
 - Permite realizar auditorías
-
