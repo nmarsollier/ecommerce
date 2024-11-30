@@ -116,8 +116,8 @@ docker run --add-host host.docker.internal:172.17.0.1 -it -d --name gql_gateway 
 ```bash
 # Rabbit - Mongo - Redis
 docker run -d --name ec-rabbitmq -p 15672:15672 -p 5672:5672 rabbitmq:3.13.6-management
-docker run -d --name ec-mongo -p 27017:27017 mongo:4.0.18-xenial
-docker run -d --name ec-redis -p 6379:6379 redis:5.0.9-buster
+docker run -d --name ec-mongo -p 27017:27017 mongo:6.0
+docker run -d --name ec-redis -p 6379:6379 redis:7
 # Fluent
 docker build --no-cache -t fluent https://raw.githubusercontent.com/nmarsollier/ecommerce/master/fluent/Dockerfile
 docker run -it -d --name fluent -p 24224:24224 fluent
