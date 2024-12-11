@@ -44,13 +44,9 @@ Conviene instalar docker para instalar todo sin mayores inconvenientes
 
 Podemos usar las version docker, o instalarlos localmente.
 
-### MongoDB
+### Postgresql
 
 Para simplificar la configuración, se han tomado decisiones similares de arquitectura, de modo que todos los microservicios pueden utilizar el mismo servidor de base de datos local, aunque cada microservicio utiliza esquemas de datos totalmente independientes.
-
-### Redis
-
-Redis es una segunda opción de almacenamiento de datos. El microservicio de imágenes hace uso de Redis.
 
 ### RabbitMQ
 
@@ -67,10 +63,9 @@ Fluent colecta y envía los logs de los microservicios a MongoDB, es opcional.
 ## Linux
 
 ```bash
-# Rabbit - Mongo - Redis
+# Rabbit - Postgresql
 docker run -d --name ec-rabbitmq -p 15672:15672 -p 5672:5672 rabbitmq:3.13.6-management
-docker run -d --name ec-mongo -p 27017:27017 mongo:4.0.18-xenial
-docker run -d --name ec-redis -p 6379:6379 redis:5.0.9-buster
+docker run -d --name ec-postgres -e POSTGRES_HOST_AUTH_METHOD=trust -p 5432:5432 postgres:17.2
 # Fluent
 docker build --no-cache -t fluent https://raw.githubusercontent.com/nmarsollier/ecommerce/master/fluent/Dockerfile
 docker run --add-host host.docker.internal:172.17.0.1 -it -d --name fluent -p 24224:24224 fluent
@@ -116,8 +111,7 @@ docker run --add-host host.docker.internal:172.17.0.1 -it -d --name gql_gateway 
 ```bash
 # Rabbit - Mongo - Redis
 docker run -d --name ec-rabbitmq -p 15672:15672 -p 5672:5672 rabbitmq:3.13.6-management
-docker run -d --name ec-mongo -p 27017:27017 mongo:6.0
-docker run -d --name ec-redis -p 6379:6379 redis:7
+docker run -d --name ec-postgres -e POSTGRES_HOST_AUTH_METHOD=trust -p 5432:5432 postgres:17.2
 # Fluent
 docker build --no-cache -t fluent https://raw.githubusercontent.com/nmarsollier/ecommerce/master/fluent/Dockerfile
 docker run -it -d --name fluent -p 24224:24224 fluent
