@@ -1,3 +1,5 @@
+-- Active: 1734267664842@@127.0.0.1@5432@postgres@public
+CREATE SCHEMA fluent;
 
 CREATE SCHEMA authgo;
 
